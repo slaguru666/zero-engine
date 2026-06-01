@@ -1,0 +1,43 @@
+<div class="item-modifiers-list">
+	{{#each system.modifiers as | modifier |}}
+		<select name="system.modifiers.{{@key}}.name">
+			{{#select modifier.name}}
+				<optgroup label="{{localize "FLBR.Attributes"}}">
+					{{#each @root.config.attributes}}
+						<option value="attribute.{{.}}">{{localize (concat "FLBR.ATTRIBUTE." (toUpperCase .))}}</option>
+					{{/each}}
+				</optgroup>
+				<optgroup label="{{localize "FLBR.Skills"}}">
+					{{#each @root.config.skills}}
+						<option value="skill.{{.}}">{{localize (concat "FLBR.SKILL." (capitalize .))}}</option>
+					{{/each}}
+				</optgroup>
+				<optgroup label="{{localize "FLBR.Capacities"}}">
+					{{#each @root.config.capacitiesMap as | v cap |}}
+						<option value="capacity.{{cap}}">{{localize (concat "FLBR.HEADER." (capitalize cap))}}</option>
+					{{/each}}
+				</optgroup>
+				<optgroup label="{{localize "FLBR.COMBAT.Combat"}}">
+					<option value="combat.drawSize">{{localize "FLBR.COMBAT.DrawSize"}}</option>
+				</optgroup>
+			{{/select}}
+		</select>
+		<select name="system.modifiers.{{@key}}.value" value="{{modifier.value}}">
+			{{#select modifier.value}}
+				<option value="0">{{localize "FLBR.NO_VALUE"}}</option>
+				{{#if (or (eq modifier.name "capacity.health") (eq modifier.name "capacity.resolve") (eq modifier.name "combat.drawSize"))}}
+					<option value="+1">+1</option>
+					<option value="-1">−1</option>
+				{{else}}
+					<option value="+1">{{localize "FLBR.Advantage"}}</option>
+					<option value="-1">{{localize "FLBR.Disadvantage"}}</option>
+				{{/if}}
+			{{/select}}
+		</select>
+		<a class="button delete-modifier" data-modifier-id="{{@key}}" data-tooltip="{{localize 'FLBR.ItemDeleteModifier'}}">
+			{{{@root.config.Icons.buttons.delete}}}
+		</a>
+	{{else}}
+		<div class="item-modifier empty">{{localize "FLBR.ItemNoModifier"}}</div>
+	{{/each}}
+</div>

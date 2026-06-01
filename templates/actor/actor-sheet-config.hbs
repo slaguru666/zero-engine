@@ -1,0 +1,56 @@
+<section data-application-part="character" class="standard-form">
+  {{#if (eq document.type "character")}}
+    <fieldset>
+      <legend>{{localize "FLBR.SHEET_CONFIG.CharacterConfiguration"}}</legend>
+      <div class="form-group">
+        <label>{{localize "FLBR.SHEET_CONFIG.CharacterSubtype"}}</label>
+        <select name="system.subtype">
+          {{selectOptions types selected=document.system.subtype localize=true}}
+        </select>
+        <p class="hint">{{localize "FLBR.SHEET_CONFIG.CharacterSubtypeHint"}}</p>
+      </div>
+
+      <hr/>
+
+      <div class="form-group">
+        <label>{{localize "FLBR.SHEET_CONFIG.HealthMaxModifier"}}</label>
+        <input type="text" name="system.health.mod" value="{{numberFormat document.system.health.mod sign=true}}" data-dtype="Number"{{#unless isGM}} disabled{{/unless}}/>
+        <p class="hint">{{localize "FLBR.SHEET_CONFIG.HealthMaxModifierHint"}}</p>
+      </div>
+      {{!-- <div class="form-group">
+        <label>{{localize "FLBR.SHEET_CONFIG.HealthPermanentLoss"}}</label>
+        <input type="number" name="system.health.permanentLoss" value="{{document.system.health.permanentLoss}}" max="0"{{#unless isGM}} disabled{{/unless}}/>
+        <p class="hint">{{localize "FLBR.SHEET_CONFIG.HealthPermanentLossHint"}}</p>
+      </div> --}}
+
+      {{#if (eq document.system.subtype "pc")}}
+        <div class="form-group">
+          <label>{{localize "FLBR.SHEET_CONFIG.ResolveMaxModifier"}}</label>
+          <input type="text" name="system.resolve.mod" value="{{numberFormat document.system.resolve.mod sign=true}}" data-dtype="Number"{{#unless isGM}} disabled{{/unless}}/>
+          <p class="hint">{{localize "FLBR.SHEET_CONFIG.ResolveMaxModifierHint"}}</p>
+        </div>
+        <div class="form-group">
+          <label>{{localize "FLBR.SHEET_CONFIG.ResolvePermanentLoss"}}</label>
+          <input type="number" name="system.resolve.permanentLoss" value="{{document.system.resolve.permanentLoss}}" max="0"{{#unless isGM}} disabled{{/unless}}/>
+          <p class="hint">{{localize "FLBR.SHEET_CONFIG.ResolvePermanentLossHint"}}</p>
+        </div>
+      {{/if}}
+
+      <hr/>
+
+      <div class="form-group">
+        <label>{{localize "FLBR.SHEET_CONFIG.Maneuverability"}}</label>
+        {{scoreSelector "system.attributes.mvr.value" selected=document.system.attributes.mvr.value}}
+        <p class="hint">{{localize "FLBR.SHEET_CONFIG.ManeuverabilityHint"}}</p>
+      </div>
+
+      <hr/>
+
+      <div class="form-group">
+        <label>{{localize "FLBR.SHEET_CONFIG.UnlimitedPush"}}</label>
+        <input type="checkbox" name="flags.bladerunner.unlimitedPush" {{checked document.flags.bladerunner.unlimitedPush}} />
+        <p class="hint">{{localize "FLBR.SHEET_CONFIG.UnlimitedPushHint"}}</p>
+      </div>
+    </fieldset>
+  {{/if}}
+</section>

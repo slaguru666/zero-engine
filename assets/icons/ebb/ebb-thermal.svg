@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Flame silhouette -->
+  <path d="M50,94
+           Q22,80 22,56
+           Q22,38 34,24
+           Q30,40 42,46
+           Q36,28 46,8
+           Q56,28 60,38
+           Q68,28 66,16
+           Q80,32 80,54
+           Q80,78 50,94 Z"
+        fill="white"/>
+  <!-- Inner lighter flame core -->
+  <path d="M50,85
+           Q34,74 34,56
+           Q34,46 42,38
+           Q40,50 50,56
+           Q56,48 54,36
+           Q62,44 64,56
+           Q64,74 50,85 Z"
+        fill="black"/>
+</svg>

@@ -1,0 +1,985 @@
+<form class="{{cssClass}} zero-engine" autocomplete="off">
+
+	{{!-- SHEET HEADER --}}
+	<div class="sheet-header"
+    >
+		{{#if drugAlerts.length}}
+			<div class="drug-alerts">
+				{{#each drugAlerts}}
+					<div class="drug-alert {{this.state}}">
+						<div class="drug-alert-main">
+							<span class="drug-alert-title">{{this.name}}</span>
+							<span class="drug-alert-duration">{{this.duration}}</span>
+						</div>
+						<div class="drug-alert-meta">{{this.summary}}</div>
+						<div class="drug-alert-actions">
+							<button type="button" class="drug-off-btn" data-item-id="{{this.itemId}}" title="Stop Drug Effect">
+								<i class="fas fa-power-off"></i> Off
+							</button>
+						</div>
+					</div>
+				{{/each}}
+			</div>
+		{{/if}}
+
+		{{!-- TOP ROW: Portrait + Name + Key Stats --}}
+		<div class="header-top-row">
+			<div class="avatar">
+				<img class="profile" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}"/>
+			</div>
+			<div class="header-top-info">
+				<div class="actor-name">
+					<input type="text" name="name" value="{{actor.name}}" placeholder="Character Name"/>
+				</div>
+				<div class="header-top-stats">
+					<div class="mini-stat">
+						<span class="mini-stat-label">SCL</span>
+						<input type="number" name="system.details.scl" value="{{system.details.scl}}" placeholder="10" />
+					</div>
+					<div class="mini-stat">
+						<span class="mini-stat-label">Credits</span>
+						<input type="number" name="system.details.credits" value="{{system.details.credits}}" placeholder="500" />
+					</div>
+					<div class="init-buttons-inline">
+						<button type="button" class="init-agi" title="Initiative: AGI + Mobility (base score) + roll successes">⚡ AGI+MOB</button>
+						<button type="button" class="init-wit" title="Initiative: WIT + Observation (base score) + roll successes">⚡ WIT+OBS</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{{!-- CHARACTER DETAILS ROW --}}
+		<div class="header-details-row">
+			<div class="detail-field">
+				<label>Race/Species</label>
+				<select name="system.race">
+					<option value="">-- Select --</option>
+					<option value="human"      {{#if (eq raceStr "human")}}selected{{/if}}>Human</option>
+					<option value="ebon"       {{#if (eq raceStr "ebon")}}selected{{/if}}>Ebon</option>
+					<option value="brainwaster"{{#if (eq raceStr "brainwaster")}}selected{{/if}}>Brain Waster</option>
+					<option value="stormer"    {{#if (eq raceStr "stormer")}}selected{{/if}}>Stormer (313 Malice)</option>
+					<option value="shaktar"    {{#if (eq raceStr "shaktar")}}selected{{/if}}>Shaktar</option>
+					<option value="wraith"     {{#if (eq raceStr "wraith")}}selected{{/if}}>Wraith Raider</option>
+					<option value="frother"    {{#if (eq raceStr "frother")}}selected{{/if}}>Frother</option>
+					<option value="vevaphon"   {{#if (eq raceStr "vevaphon")}}selected{{/if}}>Stormer Vevaphon</option>
+				</select>
+			</div>
+			<div class="detail-field">
+				<label>Training Package</label>
+				<select name="system.training">
+					<option value="">-- Select --</option>
+					<option value="soldier"              {{#if (eq trainingStr "soldier")}}selected{{/if}}>Soldier</option>
+					<option value="scout"                {{#if (eq trainingStr "scout")}}selected{{/if}}>Scout</option>
+					<option value="medic"                {{#if (eq trainingStr "medic")}}selected{{/if}}>Combat Medic</option>
+					<option value="tech"                 {{#if (eq trainingStr "tech")}}selected{{/if}}>Tech Operative</option>
+					<option value="negotiator"           {{#if (eq trainingStr "negotiator")}}selected{{/if}}>Negotiator</option>
+					<option value="hunter"               {{#if (eq trainingStr "hunter")}}selected{{/if}}>Hunter</option>
+					<option value="brawler"              {{#if (eq trainingStr "brawler")}}selected{{/if}}>Brawler</option>
+					<option value="investigator"         {{#if (eq trainingStr "investigator")}}selected{{/if}}>Investigator</option>
+					<option value="corporate"            {{#if (eq trainingStr "corporate")}}selected{{/if}}>Corporate</option>
+					<option value="ebb_user"             {{#if (eq trainingStr "ebb_user")}}selected{{/if}}>Ebb Channeller</option>
+					<option value="ebon-investigator"    {{#if (eq trainingStr "ebon-investigator")}}selected{{/if}}>Ebon - Investigator</option>
+					<option value="brainwaster-operative"{{#if (eq trainingStr "brainwaster-operative")}}selected{{/if}}>Brain Waster - Operative</option>
+				</select>
+			</div>
+			<div class="detail-field">
+				<label>Archetype</label>
+				<input list="list-of-archetypes" type="text" name="system.archetype" value="{{system.archetype}}" placeholder="Investigator"/>
+				<datalist id="list-of-archetypes">
+					<option value="Operative">
+					<option value="Investigator">
+					<option value="Scout">
+					<option value="Medic">
+					<option value="Tech Specialist">
+					<option value="Corporate Agent">
+				</datalist>
+			</div>
+			<div class="detail-field armor-roll-field">
+				<label>Armour</label>
+				<div class="armor-name-display">
+					{{#each armors}}{{#if @first}}<span class="equipped-armor-name">{{this.name}}</span>{{/if}}{{/each}}
+					{{#unless armors.length}}<span class="equipped-armor-name none">None</span>{{/unless}}
+				</div>
+				<button type="button" class="manual-armor-button header-armor-roll-btn" data-actor-id="{{actor._id}}" title="Run Armor Check">
+					<i class="fas fa-shield-alt"></i> Armour Roll
+				</button>
+			</div>
+		</div>
+
+		{{!-- VITALS ROW: Health, Resolve, Stress, Ebb --}}
+		<div class="header-vitals-row">
+			<div class="vital-box health-box">
+				<label>Health</label>
+				<div class="vital-values">
+					<input type="number" name="system.derivedStats.health.value" value="{{system.derivedStats.health.value}}" />
+					<span class="vital-separator">/</span>
+					<input type="number" name="system.derivedStats.health.max" value="{{system.derivedStats.health.max}}" />
+				</div>
+			</div>
+			<div class="vital-box resolve-box">
+				<label>Resolve</label>
+				<div class="vital-values">
+					<input type="number" name="system.derivedStats.resolve.value" value="{{system.derivedStats.resolve.value}}" />
+					<span class="vital-separator">/</span>
+					<input type="number" name="system.derivedStats.resolve.max" value="{{system.derivedStats.resolve.max}}" />
+				</div>
+			</div>
+			<div class="vital-box stress-vital">
+				<label>Stress</label>
+				<div class="stress-group">
+					<input type="number" class="stress-value" name="system.derivedStats.stress" value="{{system.derivedStats.stress}}" />
+					<span class="stress-max-display">/ {{stressMax}}</span>
+					<button type="button" class="manual-panic-button" data-actor-id="{{actor._id}}" title="Roll Panic Check (1d6 + Stress)">
+						<i class="fas fa-skull"></i> Panic
+					</button>
+				</div>
+			</div>
+			<div class="vital-box rest-vital">
+				<button type="button" class="rest-btn" data-actor-id="{{actor._id}}" title="Rest: clear weapon lockouts and restore ammo">
+					<i class="fas fa-bed"></i> REST
+				</button>
+			</div>
+			{{#if isEbbUser}}
+			<div class="vital-box flux-vital">
+				<label>Flux</label>
+				<div class="vital-values">
+					<input type="number" name="system.flux.value" value="{{system.flux.value}}" min="0" max="{{computedFluxMax}}" class="flux-current" />
+					<span class="vital-separator">/</span>
+					<span class="flux-max-display">{{computedFluxMax}}</span>
+				</div>
+			</div>
+			{{/if}}
+			{{#if isVevaphon}}
+			<div class="vital-box vevaphon-vital">
+				<label>Instability</label>
+				<div class="vital-values">
+					<input type="number" name="system.vevaphon.instability" value="{{system.vevaphon.instability}}" class="instability-value" min="0" max="12" />
+					<span class="vital-separator">/</span>
+					<span class="instability-max">12</span>
+				</div>
+			</div>
+			{{/if}}
+		</div>
+
+		{{!-- CRITICAL INJURIES ROW --}}
+		<div class="header-crits-row">
+			<div class="crit-buttons">
+				<button type="button" class="roll-physical-crit-btn" data-actor-id="{{actor._id}}" title="Roll Physical Critical (D66) - When Health = 0">
+					<i class="fas fa-heart-broken"></i> Physical Critical
+				</button>
+				<button type="button" class="roll-mental-crit-btn" data-actor-id="{{actor._id}}" title="Roll Mental Critical (D66) - When Resolve = 0">
+					<i class="fas fa-brain"></i> Mental Critical
+				</button>
+			</div>
+
+			{{!-- Active injuries display --}}
+			{{#if system.criticalInjuries.physical.length}}
+				<div class="active-injuries physical-injuries">
+					<h4><i class="fas fa-heart-broken"></i> Physical Injuries</h4>
+					{{#each system.criticalInjuries.physical}}
+						<div class="injury-item {{#if this.lethal}}lethal-injury{{/if}}">
+							<div class="injury-header">
+								<strong>{{this.name}}</strong>
+								{{#if this.lethal}}<span class="lethal-tag">LETHAL</span>{{/if}}
+								<button type="button" class="delete-injury-btn" data-injury-type="physical" data-injury-index="{{@index}}" title="Remove Injury">
+									<i class="fas fa-times"></i>
+								</button>
+							</div>
+							<p class="injury-effects">{{this.effects}}</p>
+						</div>
+					{{/each}}
+				</div>
+			{{/if}}
+
+			{{#if system.criticalInjuries.mental.length}}
+				<div class="active-injuries mental-injuries">
+					<h4><i class="fas fa-brain"></i> Mental Injuries</h4>
+					{{#each system.criticalInjuries.mental}}
+						<div class="injury-item {{#if this.lethal}}lethal-injury{{/if}}">
+							<div class="injury-header">
+								<strong>{{this.name}}</strong>
+								{{#if this.lethal}}<span class="lethal-tag">LETHAL</span>{{/if}}
+								<button type="button" class="delete-injury-btn" data-injury-type="mental" data-injury-index="{{@index}}" title="Remove Injury">
+									<i class="fas fa-times"></i>
+								</button>
+							</div>
+							<p class="injury-effects">{{this.effects}}</p>
+						</div>
+					{{/each}}
+				</div>
+			{{/if}}
+
+			{{!-- Active conditions from SLA status effects --}}
+			{{#if activeConditions.length}}
+			<div class="active-conditions-row">
+				{{#each activeConditions}}
+				<div class="condition-tag {{this.id}}" title="{{this.description}}">
+					<i class="{{this.icon}}"></i>
+					<span class="condition-label">{{this.label}}</span>
+					<button type="button" class="condition-clear-btn" data-condition-id="{{this.id}}" title="Clear condition">✕</button>
+				</div>
+				{{/each}}
+			</div>
+			{{/if}}
+		</div>
+
+	</div>
+
+	{{!-- SHEET TABS --}}
+	<div class="sheet-tabs">
+		<a class="item" data-tab="stats">
+			<i class="fas fa-chart-bar"></i> Stats & Skills
+		</a>
+		<a class="item" data-tab="equipment">
+			<i class="fas fa-briefcase"></i> Equipment
+		</a>
+		{{#if isEbbUser}}
+		<a class="item" data-tab="ebb">
+			<i class="fas fa-bolt"></i> Ebb
+		</a>
+		{{/if}}
+		<a class="item" data-tab="finances">
+			<i class="fas fa-credit-card"></i> Finances
+		</a>
+		<a class="item" data-tab="bio">
+			<i class="fas fa-user"></i> Biography
+		</a>
+	</div>
+
+	{{!-- SHEET BODY --}}
+	<div class="sheet-body">
+
+		{{!-- STATS TAB --}}
+		<div class="tab" data-tab="stats">
+			<div class="section-header">Attributes & Skills</div>
+
+			<div class="attr-skill-table">
+				{{!-- STRENGTH COLUMN --}}
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Strength</div>
+						<div class="attr-value-row">
+							<button type="button" class="attr-btn" data-action="decrement" data-attribute="strength">−</button>
+							<div class="attr-value">{{system.attributes.strength.value}}</div>
+							<button type="button" class="attr-btn" data-action="increment" data-attribute="strength">+</button>
+							<button type="button" class="attr-roll-btn" data-attribute="strength" title="Roll Strength"><i class="fas fa-dice-d6"></i></button>
+						</div>
+						<input type="hidden" name="system.attributes.strength.value" value="{{system.attributes.strength.value}}" />
+					</div>
+
+					<div class="skill-row">
+						<label>Force</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="force" data-attribute="strength"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="force">−</button>
+							<div class="skill-value">{{system.skills.force.value}}</div>
+							<button type="button" class="skill-increment" data-skill="force">+</button>
+							<input type="hidden" name="system.skills.force.value" value="{{system.skills.force.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Melee</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="melee" data-attribute="strength"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="melee">−</button>
+							<div class="skill-value">{{system.skills.melee.value}}</div>
+							<button type="button" class="skill-increment" data-skill="melee">+</button>
+							<input type="hidden" name="system.skills.melee.value" value="{{system.skills.melee.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Stamina</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="stamina" data-attribute="strength"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="stamina">−</button>
+							<div class="skill-value">{{system.skills.stamina.value}}</div>
+							<button type="button" class="skill-increment" data-skill="stamina">+</button>
+							<input type="hidden" name="system.skills.stamina.value" value="{{system.skills.stamina.value}}" />
+						</div>
+					</div>
+				</div>
+
+				{{!-- AGILITY COLUMN --}}
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Agility</div>
+						<div class="attr-value-row">
+							<button type="button" class="attr-btn" data-action="decrement" data-attribute="agility">−</button>
+							<div class="attr-value">{{system.attributes.agility.value}}</div>
+							<button type="button" class="attr-btn" data-action="increment" data-attribute="agility">+</button>
+							<button type="button" class="attr-roll-btn" data-attribute="agility" title="Roll Agility"><i class="fas fa-dice-d6"></i></button>
+						</div>
+						<input type="hidden" name="system.attributes.agility.value" value="{{system.attributes.agility.value}}" />
+					</div>
+
+					<div class="skill-row">
+						<label>Marksmanship</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="marksmanship" data-attribute="agility"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="marksmanship">−</button>
+							<div class="skill-value">{{system.skills.marksmanship.value}}</div>
+							<button type="button" class="skill-increment" data-skill="marksmanship">+</button>
+							<input type="hidden" name="system.skills.marksmanship.value" value="{{system.skills.marksmanship.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Mobility</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="mobility" data-attribute="agility"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="mobility">−</button>
+							<div class="skill-value">{{system.skills.mobility.value}}</div>
+							<button type="button" class="skill-increment" data-skill="mobility">+</button>
+							<input type="hidden" name="system.skills.mobility.value" value="{{system.skills.mobility.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Stealth</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="stealth" data-attribute="agility"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="stealth">−</button>
+							<div class="skill-value">{{system.skills.stealth.value}}</div>
+							<button type="button" class="skill-increment" data-skill="stealth">+</button>
+							<input type="hidden" name="system.skills.stealth.value" value="{{system.skills.stealth.value}}" />
+						</div>
+					</div>
+				</div>
+
+				{{!-- WITS COLUMN --}}
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Wits</div>
+						<div class="attr-value-row">
+							<button type="button" class="attr-btn" data-action="decrement" data-attribute="wits">−</button>
+							<div class="attr-value">{{system.attributes.wits.value}}</div>
+							<button type="button" class="attr-btn" data-action="increment" data-attribute="wits">+</button>
+							<button type="button" class="attr-roll-btn" data-attribute="wits" title="Roll Wits"><i class="fas fa-dice-d6"></i></button>
+						</div>
+						<input type="hidden" name="system.attributes.wits.value" value="{{system.attributes.wits.value}}" />
+					</div>
+
+					<div class="skill-row">
+						<label>Crafting</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="crafting" data-attribute="wits"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="crafting">−</button>
+							<div class="skill-value">{{system.skills.crafting.value}}</div>
+							<button type="button" class="skill-increment" data-skill="crafting">+</button>
+							<input type="hidden" name="system.skills.crafting.value" value="{{system.skills.crafting.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Observation</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="observation" data-attribute="wits"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="observation">−</button>
+							<div class="skill-value">{{system.skills.observation.value}}</div>
+							<button type="button" class="skill-increment" data-skill="observation">+</button>
+							<input type="hidden" name="system.skills.observation.value" value="{{system.skills.observation.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Survival</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="survival" data-attribute="wits"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="survival">−</button>
+							<div class="skill-value">{{system.skills.survival.value}}</div>
+							<button type="button" class="skill-increment" data-skill="survival">+</button>
+							<input type="hidden" name="system.skills.survival.value" value="{{system.skills.survival.value}}" />
+						</div>
+					</div>
+				</div>
+
+				{{!-- EMPATHY COLUMN --}}
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Empathy</div>
+						<div class="attr-value-row">
+							<button type="button" class="attr-btn" data-action="decrement" data-attribute="empathy">−</button>
+							<div class="attr-value">{{system.attributes.empathy.value}}</div>
+							<button type="button" class="attr-btn" data-action="increment" data-attribute="empathy">+</button>
+							<button type="button" class="attr-roll-btn" data-attribute="empathy" title="Roll Empathy"><i class="fas fa-dice-d6"></i></button>
+						</div>
+						<input type="hidden" name="system.attributes.empathy.value" value="{{system.attributes.empathy.value}}" />
+					</div>
+
+					<div class="skill-row">
+						<label>Healing</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="healing" data-attribute="empathy"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="healing">−</button>
+							<div class="skill-value">{{system.skills.healing.value}}</div>
+							<button type="button" class="skill-increment" data-skill="healing">+</button>
+							<input type="hidden" name="system.skills.healing.value" value="{{system.skills.healing.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Insight</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="insight" data-attribute="empathy"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="insight">−</button>
+							<div class="skill-value">{{system.skills.insight.value}}</div>
+							<button type="button" class="skill-increment" data-skill="insight">+</button>
+							<input type="hidden" name="system.skills.insight.value" value="{{system.skills.insight.value}}" />
+						</div>
+					</div>
+
+					<div class="skill-row">
+						<label>Persuasion</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="persuasion" data-attribute="empathy"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="persuasion">−</button>
+							<div class="skill-value">{{system.skills.persuasion.value}}</div>
+							<button type="button" class="skill-increment" data-skill="persuasion">+</button>
+							<input type="hidden" name="system.skills.persuasion.value" value="{{system.skills.persuasion.value}}" />
+						</div>
+					</div>
+					{{#if isEbbUser}}
+					<div class="skill-row ebb-skill-row">
+						<label><i class="fas fa-bolt"></i> Ebb</label>
+						<div class="skill-controls">
+							<button type="button" class="skill-roll" data-skill="ebb" data-attribute="empathy" title="Roll Ebb (Empathy + Ebb)"><i class="fas fa-dice-d6"></i></button>
+							<button type="button" class="skill-decrement" data-skill="ebb">−</button>
+							<div class="skill-value">{{system.skills.ebb.value}}</div>
+							<button type="button" class="skill-increment" data-skill="ebb">+</button>
+							<input type="hidden" name="system.skills.ebb.value" value="{{system.skills.ebb.value}}" />
+						</div>
+					</div>
+					{{/if}}
+				</div>
+
+			</div>
+
+			{{!-- Specialties Section --}}
+			<div class="specialties-section">
+				<h2 class="section-header">
+					<i class="fas fa-star"></i> Specialties & Talents
+				</h2>
+				<div class="specialty-list">
+					{{#each specialties}}
+						<div class="specialty-item" data-item-id="{{this._id}}">
+							<img class="specialty-img" src="{{this.img}}" width="32" height="32"/>
+							<div class="specialty-info">
+								<div class="specialty-name-row">
+									<span class="specialty-name">{{this.name}}</span>
+									<span class="specialty-package">{{this.system.package}}</span>
+									{{!-- Morph form SHIFT button for Vevaphon forms --}}
+									{{#if (eq this.system.prerequisites "Vevaphon")}}
+										{{#unless (eq this.name "Morphic Strike")}}
+										{{#if (eq this.name "Brute Form")}}
+										<button type="button" class="morph-shift-btn {{#if (eq ../system.vevaphon.activeMorphForm 'brute')}}morph-shift-active{{/if}}"
+												data-form="brute" title="Shift to Brute Form (costs 1 Instability)">
+											{{#if (eq ../system.vevaphon.activeMorphForm 'brute')}}<i class="fas fa-check-circle"></i> ACTIVE{{else}}<i class="fas fa-sync-alt"></i> SHIFT{{/if}}
+										</button>
+										{{else if (eq this.name "Stalker Form")}}
+										<button type="button" class="morph-shift-btn {{#if (eq ../system.vevaphon.activeMorphForm 'stalker')}}morph-shift-active{{/if}}"
+												data-form="stalker" title="Shift to Stalker Form (costs 1 Instability)">
+											{{#if (eq ../system.vevaphon.activeMorphForm 'stalker')}}<i class="fas fa-check-circle"></i> ACTIVE{{else}}<i class="fas fa-sync-alt"></i> SHIFT{{/if}}
+										</button>
+										{{else if (eq this.name "Raptor Form")}}
+										<button type="button" class="morph-shift-btn {{#if (eq ../system.vevaphon.activeMorphForm 'raptor')}}morph-shift-active{{/if}}"
+												data-form="raptor" title="Shift to Raptor Form (costs 1 Instability)">
+											{{#if (eq ../system.vevaphon.activeMorphForm 'raptor')}}<i class="fas fa-check-circle"></i> ACTIVE{{else}}<i class="fas fa-sync-alt"></i> SHIFT{{/if}}
+										</button>
+										{{/if}}
+										{{/unless}}
+									{{/if}}
+									<button type="button" class="delete-specialty-btn" data-item-id="{{this._id}}" title="Remove Specialty">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+								<div class="specialty-effects">{{this.system.effects}}</div>
+							</div>
+						</div>
+					{{/each}}
+					{{#unless specialties.length}}
+						<div class="specialty-empty">
+							<em>Drag specialties from the compendium to add them here.</em>
+						</div>
+					{{/unless}}
+				</div>
+			</div>
+
+		</div>
+
+		{{!-- EQUIPMENT TAB --}}
+		<div class="tab" data-tab="equipment">
+
+			{{#if isVevaphon}}
+			<div class="morph-form-panel">
+				<div class="section-header"><i class="fas fa-sync-alt"></i> Morph Form
+					<span class="instability-warning {{#if (gte system.vevaphon.instability 6)}}active{{/if}}">
+						{{#if (gte system.vevaphon.instability 10)}}⚠ MORPH PANIC RISK{{else if (gte system.vevaphon.instability 6)}}⚠ INSTABILITY EFFECTS ACTIVE{{/if}}
+					</span>
+				</div>
+				<div class="morph-form-buttons">
+					<button type="button" class="morph-form-btn {{#if (eq system.vevaphon.activeMorphForm 'brute')}}morph-active{{/if}}" data-form="brute">
+						<i class="fas fa-shield-alt"></i> BRUTE<br><small>+Force +Melee +2HP</small>
+					</button>
+					<button type="button" class="morph-form-btn {{#if (eq system.vevaphon.activeMorphForm 'stalker')}}morph-active{{/if}}" data-form="stalker">
+						<i class="fas fa-eye-slash"></i> STALKER<br><small>+Stealth +Mobility</small>
+					</button>
+					<button type="button" class="morph-form-btn {{#if (eq system.vevaphon.activeMorphForm 'raptor')}}morph-active{{/if}}" data-form="raptor">
+						<i class="fas fa-bolt"></i> RAPTOR<br><small>+Melee +Marks</small>
+					</button>
+					<button type="button" class="morph-form-btn {{#if (eq system.vevaphon.activeMorphForm 'none')}}morph-active{{/if}}" data-form="none">
+						<i class="fas fa-circle"></i> BASE<br><small>No bonuses</small>
+					</button>
+				</div>
+				<div class="morph-instability-bar">
+					<div class="instability-track">
+						{{#each instabilityPips}}<span class="instability-pip {{#if this.filled}}pip-filled {{#if this.danger}}pip-danger{{/if}}{{/if}}"></span>{{/each}}
+					</div>
+					<button type="button" class="instability-roll-btn" title="Roll Instability effect (6+ minor, 10+ panic)">
+						<i class="fas fa-random"></i> Roll Instability
+					</button>
+				</div>
+			</div>
+			{{/if}}
+
+			{{!-- RANGED WEAPONS --}}
+			<div class="weapons-section">
+				<h2 class="section-header"><i class="fas fa-crosshairs"></i> Ranged Weapons</h2>
+				<div class="weapon-list">
+					{{#each rangedWeapons}}
+						<div class="weapon-item {{#if this.system.ammoEmpty}}weapon-ammo-empty{{/if}}" data-item-id="{{this._id}}">
+							<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+							<div class="weapon-info">
+								<div class="weapon-name-row">
+									<span class="weapon-name">{{this.name}}</span>
+									<span class="weapon-type-badge ranged">{{this.system.weaponType}}</span>
+									{{#if this.system.ammoEmpty}}<span class="ammo-empty-badge"><i class="fas fa-lock"></i> EMPTY</span>{{/if}}
+								</div>
+								<div class="weapon-stats-row">
+									<span class="weapon-stat"><strong>DMG</strong> {{this.system.damage}}</span>
+									<span class="weapon-stat"><strong>Range</strong> {{this.system.range}}</span>
+									<span class="weapon-stat"><strong>ROF</strong> {{this.system.rof}}</span>
+									<span class="weapon-stat"><strong>AP</strong> {{this.system.ap}}</span>
+									<span class="weapon-stat"><strong>Gear</strong> +{{this.system.gearBonus}}</span>
+								</div>
+							</div>
+							<div class="weapon-actions">
+								<button type="button" class="weapon-roll-btn {{#if this.system.ammoEmpty}}btn-locked{{/if}}"
+										data-item-id="{{this._id}}" data-weapon-category="ranged"
+										title="{{#if this.system.ammoEmpty}}EMPTY — rest to restore ammo{{else}}Roll Marksmanship attack{{/if}}"
+										{{#if this.system.ammoEmpty}}disabled{{/if}}>
+									<i class="fas fa-dice-d6"></i> ATTACK
+								</button>
+								<div class="weapon-aux-actions">
+									<button type="button" class="toggle-equip-btn {{#if this.system.equipped}}equipped{{/if}}" data-item-id="{{this._id}}" title="Toggle Equipped">
+										<i class="fas fa-hand-paper"></i>
+									</button>
+									<button type="button" class="delete-weapon-btn" data-item-id="{{this._id}}" title="Remove Weapon">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					{{/each}}
+					{{#unless rangedWeapons.length}}
+						<div class="weapon-empty"><em>Drag ranged weapons from the compendium.</em></div>
+					{{/unless}}
+				</div>
+			</div>
+
+				{{!-- MELEE WEAPONS --}}
+				<div class="weapons-section">
+					<h2 class="section-header"><i class="fas fa-fist-raised"></i> Melee Weapons</h2>
+				<div class="weapon-list">
+					{{#each meleeWeapons}}
+						<div class="weapon-item" data-item-id="{{this._id}}">
+							<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+							<div class="weapon-info">
+								<div class="weapon-name-row">
+									<span class="weapon-name">{{this.name}}</span>
+									<span class="weapon-type-badge melee">{{this.system.weaponType}}</span>
+								</div>
+								<div class="weapon-stats-row">
+									<span class="weapon-stat"><strong>DMG</strong> {{this.system.damage}}</span>
+									<span class="weapon-stat"><strong>AP</strong> {{this.system.ap}}</span>
+									<span class="weapon-stat"><strong>Gear</strong> +{{this.system.gearBonus}}</span>
+								</div>
+							</div>
+							<div class="weapon-actions">
+								<button type="button" class="weapon-roll-btn"
+										data-item-id="{{this._id}}" data-weapon-category="melee"
+										title="Roll Melee attack">
+									<i class="fas fa-fist-raised"></i> ATTACK
+								</button>
+								<div class="weapon-aux-actions">
+									<button type="button" class="toggle-equip-btn {{#if this.system.equipped}}equipped{{/if}}" data-item-id="{{this._id}}" title="Toggle Equipped">
+										<i class="fas fa-hand-paper"></i>
+									</button>
+									<button type="button" class="delete-weapon-btn" data-item-id="{{this._id}}" title="Remove Weapon">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+							</div>
+						</div>
+					{{/each}}
+					{{#unless meleeWeapons.length}}
+						<div class="weapon-empty"><em>Drag melee weapons from the compendium.</em></div>
+					{{/unless}}
+					</div>
+				</div>
+
+				{{!-- ARMOUR --}}
+				<div class="weapons-section">
+					<h2 class="section-header"><i class="fas fa-shield-alt"></i> Armour</h2>
+					<div class="weapon-list">
+						{{#each armors}}
+							<div class="weapon-item armor-item" data-item-id="{{this._id}}">
+								<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+								<div class="weapon-info">
+									<div class="weapon-name-row">
+										<span class="weapon-name armor-name">{{this.name}}</span>
+										<span class="weapon-type-badge">{{this.system.armorDice}}({{this.system.armorAuto}})</span>
+									</div>
+									<div class="weapon-stats-row">
+										<span class="weapon-stat"><strong>Armor</strong> {{this.system.armorDice}}({{this.system.armorAuto}})</span>
+										<span class="weapon-stat"><strong>Stat</strong> {{#if (gt this.system.statMod 0)}}+{{/if}}{{this.system.statMod}}</span>
+										<span class="weapon-stat"><strong>Skill</strong> {{#if (gt this.system.skillMod 0)}}+{{/if}}{{this.system.skillMod}}</span>
+										<span class="weapon-stat"><strong>INIT</strong> {{#if (gt this.system.initiativeMod 0)}}+{{/if}}{{this.system.initiativeMod}}</span>
+									</div>
+									<div class="weapon-stats-row">
+										<span class="weapon-stat"><strong>Stat Ref</strong> {{#if this.system.statModTarget}}{{capitalize this.system.statModTarget}}{{else}}—{{/if}}</span>
+										<span class="weapon-stat"><strong>Skill Ref</strong> {{#if this.system.skillModTarget}}{{capitalize this.system.skillModTarget}}{{else}}—{{/if}}</span>
+									</div>
+								</div>
+								<div class="weapon-actions">
+									<button type="button" class="toggle-equip-btn {{#if this.system.equipped}}equipped{{/if}}" data-item-id="{{this._id}}" title="Toggle Equipped">
+										<i class="fas fa-hand-paper"></i>
+									</button>
+									<button type="button" class="armor-roll-btn" data-item-id="{{this._id}}" title="Roll Armor Check for this armour">
+										<i class="fas fa-shield-alt"></i>
+									</button>
+									<button type="button" class="delete-armor-btn" data-item-id="{{this._id}}" title="Remove Armour">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+							</div>
+						{{/each}}
+						{{#unless armors.length}}
+							<div class="weapon-empty"><em>Drag armor items here.</em></div>
+						{{/unless}}
+					</div>
+				</div>
+
+				{{!-- GEAR ITEMS --}}
+				<div class="weapons-section">
+					<h2 class="section-header"><i class="fas fa-toolbox"></i> Gear Items</h2>
+					<div class="weapon-list">
+						{{#each gearItems}}
+							<div class="weapon-item gear-item" data-item-id="{{this._id}}">
+								<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+								<div class="weapon-info">
+									<div class="weapon-name-row">
+										<span class="weapon-name gear-name">{{this.name}}</span>
+										<span class="weapon-type-badge">{{#if this.system.quantity}}{{this.system.quantity}}{{else}}1{{/if}}x</span>
+									</div>
+									<div class="weapon-stats-row">
+										<span class="weapon-stat"><strong>Weight</strong> {{#if this.system.weight}}{{this.system.weight}}{{else}}0{{/if}}</span>
+										<span class="weapon-stat"><strong>INIT</strong> {{#if (gt this.system.initiativeMod 0)}}+{{/if}}{{this.system.initiativeMod}}</span>
+									</div>
+								</div>
+								<div class="weapon-actions">
+									<button type="button" class="toggle-equip-btn {{#if this.system.equipped}}equipped{{/if}}" data-item-id="{{this._id}}" title="Toggle Equipped">
+										<i class="fas fa-hand-paper"></i>
+									</button>
+									<button type="button" class="delete-gear-btn" data-item-id="{{this._id}}" title="Remove Gear">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+							</div>
+						{{/each}}
+						{{#unless gearItems.length}}
+							<div class="weapon-empty"><em>Drag equipment items here.</em></div>
+						{{/unless}}
+					</div>
+				</div>
+
+				{{!-- DRUGS --}}
+				<div class="weapons-section">
+					<h2 class="section-header"><i class="fas fa-pills"></i> Drugs</h2>
+					<div class="weapon-list">
+						{{#if drugWithdrawal}}
+						<div class="drug-withdrawal-warning">
+							<i class="fas fa-exclamation-triangle"></i>
+							<strong>DRUG WITHDRAWAL</strong> — −1 die to all rolls until a drug is activated
+						</div>
+						{{/if}}
+						{{#each drugs}}
+							<div class="weapon-item drug-item {{#if this.system.active}}drug-active{{/if}} {{#if this.system.withdrawalActive}}drug-withdrawal{{/if}}" data-item-id="{{this._id}}">
+								<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+								<div class="weapon-info">
+									<div class="weapon-name-row">
+										<span class="weapon-name drug-name">{{this.name}}</span>
+										<span class="weapon-type-badge">{{#if this.system.quantity}}{{this.system.quantity}}{{else}}0{{/if}}x</span>
+									</div>
+									<div class="weapon-stats-row">
+										{{#if this.system.active}}
+											<span class="weapon-stat"><strong>ACTIVE</strong> {{#if this.system.activeDuration}}{{this.system.activeDuration}}{{else}}—{{/if}}</span>
+										{{/if}}
+										{{#if this.system.withdrawalActive}}
+											<span class="weapon-stat"><strong>WITHDRAWAL</strong> {{#if this.system.withdrawalDuration}}{{this.system.withdrawalDuration}}{{else}}—{{/if}}</span>
+										{{/if}}
+										{{#unless this.system.active}}
+											{{#unless this.system.withdrawalActive}}
+												<span class="weapon-stat"><strong>Status</strong> Inactive</span>
+											{{/unless}}
+										{{/unless}}
+									</div>
+								</div>
+								<div class="weapon-actions">
+									{{#if this.system.active}}
+										<button type="button" class="drug-off-btn" data-item-id="{{this._id}}" title="Stop Drug and begin withdrawal">
+											<i class="fas fa-power-off"></i>
+										</button>
+									{{else}}
+										{{#if this.system.withdrawalActive}}
+											<button type="button" class="drug-clear-withdrawal-btn" data-item-id="{{this._id}}" title="Clear Withdrawal Effect">
+												<i class="fas fa-ban"></i>
+											</button>
+										{{else}}
+											<button type="button" class="drug-activate-btn" data-item-id="{{this._id}}" title="Activate Drug (consumes 1 dose)">
+												<i class="fas fa-bolt"></i>
+											</button>
+										{{/if}}
+									{{/if}}
+									<button type="button" class="delete-drug-btn" data-item-id="{{this._id}}" title="Remove Drug">
+										<i class="fas fa-times"></i>
+									</button>
+								</div>
+							</div>
+						{{/each}}
+						{{#unless drugs.length}}
+							<div class="weapon-empty"><em>Drag drug items here.</em></div>
+						{{/unless}}
+					</div>
+				</div>
+
+				{{!-- GENERAL EQUIPMENT NOTES --}}
+				<div class="equipment-section">
+					<h2 class="section-header"><i class="fas fa-briefcase"></i> Equipment Notes</h2>
+					<div class="editor">
+						<textarea name="system.equipment" rows="10" placeholder="List armor, gear, consumables, etc...">{{system.equipment}}</textarea>
+					</div>
+			</div>
+		</div>
+
+		{{!-- EBB TAB (Ebon / Brain Waster only) --}}
+		{{#if isEbbUser}}
+		<div class="tab" data-tab="ebb">
+
+			{{!-- FLUX STATUS BAR --}}
+			<div class="ebb-tab-header">
+				<div class="ebb-flux-status">
+					<div class="ebb-flux-label"><i class="fas fa-bolt"></i> FLUX</div>
+					<div class="ebb-flux-track">
+						{{!-- NO name attr here — system.flux.value is bound once in Stats tab; duplicate causes "X,X" corruption --}}
+						<input type="number" value="{{system.flux.value}}" min="0" max="{{computedFluxMax}}" class="ebb-flux-input ebb-flux-mirror"
+						       data-mirrors="system.flux.value" />
+						<span class="ebb-flux-sep">/</span>
+						<span class="ebb-flux-max">{{computedFluxMax}}</span>
+					</div>
+					<div class="ebb-flux-actions">
+						<button type="button" class="ebb-flux-recover-btn" title="Recover 1 Flux (stretch rest)">
+							<i class="fas fa-plus-circle"></i> +1 Flux
+						</button>
+						<button type="button" class="ebb-flux-full-btn" title="Restore full Flux (shift rest)">
+							<i class="fas fa-battery-full"></i> Full Rest
+						</button>
+					</div>
+				</div>
+
+				{{!-- EBB SKILL --}}
+				<div class="ebb-skill-panel">
+					<div class="ebb-skill-label"><i class="fas fa-dice-d6"></i> Ebb Skill</div>
+					<div class="ebb-skill-controls">
+						<button type="button" class="skill-roll ebb-tab-skill-roll" data-skill="ebb" data-attribute="empathy" title="Roll Empathy + Ebb">
+							<i class="fas fa-dice-d6"></i> Roll
+						</button>
+						<button type="button" class="skill-decrement" data-skill="ebb">−</button>
+						<div class="ebb-skill-value skill-value">{{system.skills.ebb.value}}</div>
+						<button type="button" class="skill-increment" data-skill="ebb">+</button>
+						{{!-- NO hidden input here — the Stats tab already binds system.skills.ebb.value --}}
+					</div>
+					<div class="ebb-dice-summary">Pool: Empathy {{system.attributes.empathy.value}} + Ebb {{system.skills.ebb.value}}</div>
+				</div>
+			</div>
+
+			{{!-- FORMULAE LIST --}}
+			<div class="ebb-formulae-section">
+				<h2 class="section-header"><i class="fas fa-scroll"></i> Known Formulae
+					<span class="ebb-formula-count">{{ebbFormulae.length}} known</span>
+				</h2>
+
+				{{!-- Group formulae by discipline --}}
+				<div class="ebb-formulae-list">
+					{{#each ebbFormulae}}
+					<div class="ebb-formula-item" data-item-id="{{this._id}}">
+						<img class="ebb-formula-icon" src="{{this.img}}" width="40" height="40" title="{{this.system.discipline}}"/>
+						<div class="weapon-info">
+							<div class="weapon-name-row">
+								<span class="weapon-name">{{this.name}}</span>
+								<span class="weapon-type-badge ebb-discipline-badge ebb-disc-{{this.system.discipline}}">{{this.system.discipline}}</span>
+							</div>
+							<div class="weapon-stats-row">
+								<span class="weapon-stat ebb-flux-cost"><i class="fas fa-bolt"></i> {{this.system.fluxCost}}</span>
+								<span class="weapon-stat"><strong>SUC</strong> {{this.system.successes}}</span>
+								{{#if this.system.range}}<span class="weapon-stat"><strong>Range</strong> {{this.system.range}}</span>{{/if}}
+								{{#if this.system.duration}}<span class="weapon-stat"><strong>Dur</strong> {{this.system.duration}}</span>{{/if}}
+							</div>
+							{{#if this.system.effect}}
+							<div class="ebb-effect-row">
+								<span class="ebb-effect-text">{{this.system.effect}}</span>
+							</div>
+							{{/if}}
+						</div>
+						<div class="weapon-actions">
+							<button type="button" class="ebb-formula-roll-btn" data-item-id="{{this._id}}" title="Use {{this.name}} (costs {{this.system.fluxCost}} Flux)">
+								<i class="fas fa-bolt"></i>
+							</button>
+							<button type="button" class="ebb-formula-edit-btn" data-item-id="{{this._id}}" title="Edit Formula">
+								<i class="fas fa-edit"></i>
+							</button>
+							<button type="button" class="ebb-formula-delete-btn" data-item-id="{{this._id}}" title="Remove Formula">
+								<i class="fas fa-times"></i>
+							</button>
+						</div>
+					</div>
+					{{/each}}
+					{{#unless ebbFormulae.length}}
+					<div class="weapon-empty">
+						<em>No formulae known. Drag Ebb items from the world item list.</em>
+					</div>
+					{{/unless}}
+				</div>
+			</div>
+
+		</div>
+		{{/if}}
+
+		{{!-- BIO TAB --}}
+		{{!-- ══ FINANCES TAB ══ --}}
+		<div class="tab" data-tab="finances">
+			<div class="finances-section">
+
+				<div class="finances-credits-hero">
+					<span class="fin-credit-label">CURRENT BALANCE</span>
+					<span class="fin-credit-value"><input type="number" name="system.details.credits" value="{{system.details.credits}}" /> c</span>
+					{{#if system.finances.debt}}<span class="fin-debt-badge">⚠ DEBT {{system.finances.debt}}c</span>{{/if}}
+				</div>
+
+				<div class="finances-grid">
+					<div class="fin-panel income-panel">
+						<div class="fin-panel-title"><i class="fas fa-arrow-up"></i> Weekly Income</div>
+						<div class="fin-row"><label>Base Salary</label><div class="fin-amount"><input type="number" name="system.finances.income.salary" value="{{system.finances.income.salary}}" /><span>c</span></div></div>
+						<div class="fin-row"><label>BPN Reward</label><div class="fin-amount"><input type="number" name="system.finances.income.bpnReward" value="{{system.finances.income.bpnReward}}" /><span>c</span></div></div>
+						<div class="fin-row"><label>Other Income</label><div class="fin-amount"><input type="number" name="system.finances.income.other" value="{{system.finances.income.other}}" /><span>c</span></div></div>
+						<div class="fin-row fin-total income-total"><label>Total</label><span class="fin-total-val">{{weeklyIncome}}c</span></div>
+					</div>
+					<div class="fin-panel expense-panel">
+						<div class="fin-panel-title"><i class="fas fa-arrow-down"></i> Weekly Expenses</div>
+						<div class="fin-row"><label>Accommodation</label><div class="fin-amount"><input type="number" name="system.finances.expenses.accommodation" value="{{system.finances.expenses.accommodation}}" /><span>c</span></div></div>
+						<div class="fin-row"><label>Drug Costs</label><div class="fin-amount"><input type="number" name="system.finances.expenses.drugs" value="{{system.finances.expenses.drugs}}" /><span>c</span></div></div>
+						<div class="fin-row"><label>Subscriptions</label><div class="fin-amount"><input type="number" name="system.finances.expenses.subscriptions" value="{{system.finances.expenses.subscriptions}}" /><span>c</span></div></div>
+						<div class="fin-row"><label>Other</label><div class="fin-amount"><input type="number" name="system.finances.expenses.other" value="{{system.finances.expenses.other}}" /><span>c</span></div></div>
+						<div class="fin-row"><label>💸 Bullet Tax (session)</label><span class="fin-btax">{{system.finances.expenses.bulletTax}}c</span></div>
+						<div class="fin-row"><label>Debt</label><div class="fin-amount"><input type="number" name="system.finances.debt" value="{{system.finances.debt}}" /><span>c</span></div></div>
+						<div class="fin-row fin-total expense-total"><label>Total</label><span class="fin-total-val">{{weeklyExpenses}}c</span></div>
+					</div>
+				</div>
+
+				<div class="fin-net-bar">
+					<span class="fin-net-label">Net Weekly Income</span>
+					<span class="fin-net-val {{#if (gte weeklyNet 0)}}net-positive{{else}}net-negative{{/if}}">{{weeklyNetSign}}{{weeklyNet}}c</span>
+				</div>
+
+				{{!-- ══ BPN PANEL ══ --}}
+				<div class="bpn-panel bpn-type-{{system.bpn.type}}">
+					<div class="bpn-header">
+						<div class="bpn-header-left">
+							<span class="bpn-type-badge">{{#if system.bpn.type}}{{system.bpn.type}}{{else}}BLUE{{/if}} BPN</span>
+							<input type="text" class="bpn-code-input" name="system.bpn.code" value="{{system.bpn.code}}" placeholder="BPN-XXX-α" />
+						</div>
+						<div class="bpn-header-right">
+							<select name="system.bpn.type" class="bpn-type-select">
+								<option value="blue"   {{#if (eq system.bpn.type "blue")}}selected{{/if}}>Blue</option>
+								<option value="red"    {{#if (eq system.bpn.type "red")}}selected{{/if}}>Red</option>
+								<option value="white"  {{#if (eq system.bpn.type "white")}}selected{{/if}}>White</option>
+								<option value="gold"   {{#if (eq system.bpn.type "gold")}}selected{{/if}}>Gold</option>
+								<option value="silver" {{#if (eq system.bpn.type "silver")}}selected{{/if}}>Silver</option>
+								<option value="black"  {{#if (eq system.bpn.type "black")}}selected{{/if}}>Black</option>
+								<option value="grey"   {{#if (eq system.bpn.type "grey")}}selected{{/if}}>Grey</option>
+								<option value="violet" {{#if (eq system.bpn.type "violet")}}selected{{/if}}>Violet</option>
+							</select>
+							<select name="system.bpn.status" class="bpn-status-select">
+								<option value="open"     {{#if (eq system.bpn.status "open")}}selected{{/if}}>Open</option>
+								<option value="active"   {{#if (eq system.bpn.status "active")}}selected{{/if}}>Active</option>
+								<option value="complete" {{#if (eq system.bpn.status "complete")}}selected{{/if}}>Complete</option>
+								<option value="failed"   {{#if (eq system.bpn.status "failed")}}selected{{/if}}>Failed</option>
+							</select>
+							<div class="bpn-reward-field">
+								<span class="bpn-reward-label">Reward</span>
+								<div class="fin-amount">
+									<input type="number" name="system.bpn.reward" value="{{system.bpn.reward}}" class="bpn-reward-input" />
+									<span>c</span>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="bpn-body">
+						<div class="bpn-field">
+							<label class="bpn-field-label"><i class="fas fa-file-alt"></i> Briefing</label>
+							<textarea name="system.bpn.description" class="bpn-textarea" rows="3" placeholder="BPN briefing and background...">{{system.bpn.description}}</textarea>
+						</div>
+						<div class="bpn-field">
+							<label class="bpn-field-label"><i class="fas fa-tasks"></i> Objectives</label>
+							<textarea name="system.bpn.objectives" class="bpn-textarea" rows="3" placeholder="• Primary objective&#10;• Secondary objective...">{{system.bpn.objectives}}</textarea>
+						</div>
+						<div class="bpn-field">
+							<label class="bpn-field-label"><i class="fas fa-sticky-note"></i> Notes</label>
+							<textarea name="system.bpn.notes" class="bpn-textarea" rows="2" placeholder="Field notes, contacts, intel...">{{system.bpn.notes}}</textarea>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="tab" data-tab="bio">
+			<div class="bio-section">
+				<h2>Biography</h2>
+
+				<h3>Background</h3>
+				<div class="editor">
+					<textarea name="system.bio.background" rows="8" placeholder="Character background and history...">{{system.bio.background}}</textarea>
+				</div>
+
+				<h3>Appearance</h3>
+				<div class="editor">
+					<textarea name="system.bio.appearance" rows="5" placeholder="Physical description...">{{system.bio.appearance}}</textarea>
+				</div>
+
+				<h3>Personality</h3>
+				<div class="editor">
+					<textarea name="system.bio.personality" rows="5" placeholder="Personality traits and behavior...">{{system.bio.personality}}</textarea>
+				</div>
+
+				<h3>Notes</h3>
+				<div class="editor">
+					<textarea name="system.bio.notes" rows="6" placeholder="Additional notes...">{{system.bio.notes}}</textarea>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</form>

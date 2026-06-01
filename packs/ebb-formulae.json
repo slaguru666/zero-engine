@@ -1,0 +1,452 @@
+[
+  {
+    "name": "Empathic Pulse",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-awareness.svg",
+    "system": {
+      "description": "The Ebon reaches outward with focused ebb energy, sensing the emotional landscape of nearby minds. Used by investigators to read a room before entering and by field operatives to detect concealed hostiles.",
+      "discipline": "awareness",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Sense the dominant emotion of every living being within Short range. Gain +1 die to Insight rolls against sensed targets this stretch.",
+      "catastrophe": "Overwhelmed by alien emotions; +1 Stress and -1 die to all Empathy rolls for 1 round.",
+      "duration": "Stretch",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Precognition",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-awareness.svg",
+    "system": {
+      "description": "The Ebon projects their awareness a handful of seconds into the future, glimpsing outcomes before they crystallise. Even a brief forewarning can mean the difference between survival and oblivion on the streets of Mort.",
+      "discipline": "awareness",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Ask the GM one yes/no question about what will happen in the next few minutes. The answer is truthful but may be incomplete.",
+      "catastrophe": "Fractured timeline vision; Stunned for 1 round (no actions), +1 Stress.",
+      "duration": "Instant",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Danger Sense",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-awareness.svg",
+    "system": {
+      "description": "The Ebon maintains a perpetual low-level awareness field, turning the ebb into an early-warning system. Ambushes become nearly impossible and hostiles register as a cold prickle at the base of the skull before they act.",
+      "discipline": "awareness",
+      "fluxCost": 2,
+      "successes": 1,
+      "effect": "Cannot be surprised for 1 shift. Gain +2 dice to Initiative rolls. Sense aggression directed at you before it manifests.",
+      "catastrophe": "Hyper-vigilance overload; +2 Stress, must flee or attack the nearest perceived threat on next action.",
+      "duration": "Shift",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Ebb Bolt",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-blast.svg",
+    "system": {
+      "description": "The most fundamental offensive formula \u2014 raw ebb energy concentrated into a kinetic projectile. Every trained combat Ebon learns this first. Fast, reliable, and visible as a crackling blue-white streak.",
+      "discipline": "blast",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Strike one target for damage equal to successes. Armor applies normally.",
+      "catastrophe": "Backlash; Caster takes 1 damage and +1 Stress as ebb energy reverses.",
+      "duration": "Instant",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Hellfire",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-blast.svg",
+    "system": {
+      "description": "A concentrated ebb detonation that releases stored energy in a single catastrophic burst. The air turns orange-white and the impact leaves scorched craters. SLA is cautious about licensing Ebons who favour this formula \u2014 it is extremely effective and even more visible.",
+      "discipline": "blast",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Blast one target for successes + 2 damage. On 3+ successes, the blast ignites flammable materials and deals 1 splash damage to all Engaged targets.",
+      "catastrophe": "Misfire; Detonation occurs at caster's feet. Caster takes 2 damage, all Engaged characters take 1 damage.",
+      "duration": "Instant",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Ebb Storm",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-blast.svg",
+    "system": {
+      "description": "The most destructive Blast formula in common circulation, Ebb Storm saturates an area with rapidly cycling ebb frequencies until everything inside is shredded. Restricted to Department of Ebb-use oversight. Usage reports are mandatory.",
+      "discipline": "blast",
+      "fluxCost": 3,
+      "successes": 2,
+      "effect": "Ebb energy detonates at Short range from the caster. All targets in the burst radius take damage equal to successes (reduce by 1 per additional target beyond the first, minimum 1).",
+      "catastrophe": "Uncontrolled surge; All characters within Short range of caster \u2014 including allies \u2014 take 2 damage.",
+      "duration": "Instant",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Mind-Link",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-communicate.svg",
+    "system": {
+      "description": "A direct, unmediated channel between two minds. Words, images, and intent pass faster than speech. Standard kit for any Ebon working alongside non-ebb teammates who lack radio discipline.",
+      "discipline": "communicate",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Establish silent two-way mental communication with one willing target within Short range for 1 stretch. Undetectable by mundane surveillance.",
+      "catastrophe": "Static bleed; Both caster and target gain +1 Stress from the mental noise feedback.",
+      "duration": "Stretch",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Broadcast",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-communicate.svg",
+    "system": {
+      "description": "A one-way mental shout projected into every nearby mind simultaneously. Useful for mass commands, warnings, or demoralisation. Brain Wasters favour this formula for spreading raw terror.",
+      "discipline": "communicate",
+      "fluxCost": 2,
+      "successes": 1,
+      "effect": "Project one simple message, image, or emotion to all living beings within Long range. Cannot be blocked. Message is brief \u2014 one sentence or strong impression.",
+      "catastrophe": "Neural bleed; All targets, including allies, experience disorienting psychic noise. All within range lose their next Fast action.",
+      "duration": "Instant",
+      "range": "Long"
+    }
+  },
+  {
+    "name": "Compel",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-communicate.svg",
+    "system": {
+      "description": "The Ebon reaches into a target's decision-making architecture and plants a simple directive that feels entirely like the target's own idea. Extremely illegal without SLA authorisation. Used extensively by the Department of Investigation.",
+      "discipline": "communicate",
+      "fluxCost": 2,
+      "successes": 3,
+      "effect": "Force one target to perform a simple action (flee, drop weapon, sit down). Target resists with Empathy roll (3 successes to resist). On success, they comply believing it was their own choice.",
+      "catastrophe": "Psychic feedback; Target becomes hostile to the caster. Both gain +1 Stress.",
+      "duration": "Instant",
+      "range": "Engaged"
+    }
+  },
+  {
+    "name": "Surge",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-enhance.svg",
+    "system": {
+      "description": "A rapid-onset ebb boost that floods the target's neural pathways with enhanced signal clarity. Physical or mental performance spikes sharply for a brief window \u2014 long enough to matter.",
+      "discipline": "enhance",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Add +2 dice to all rolls using one chosen attribute (Strength, Agility, Wits, or Empathy) for 1 round.",
+      "catastrophe": "Overclocked; When the effect ends, gain +1 Stress and suffer -1 die to all rolls for 1 round as the crash hits.",
+      "duration": "Round",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Iron Flesh",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-enhance.svg",
+    "system": {
+      "description": "The Ebon's skin hardens as ebb energy reinforces cellular structure \u2014 faint crackling can be heard if you listen close. The effect is temporary but renders them significantly harder to injure.",
+      "discipline": "enhance",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Gain 2 automatic armor (stacks with worn armor) for 1 stretch. This ebb-armor is not reduced by AP.",
+      "catastrophe": "Brittle shell; The hardening shatters immediately and the caster takes 1 damage from the rebound feedback.",
+      "duration": "Stretch",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Heightened State",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-enhance.svg",
+    "system": {
+      "description": "The pinnacle of Enhance: the Ebon exists at the absolute limit of their potential for a brief, perfect moment. Operatives who have experienced this describe it as the most alive they have ever felt \u2014 immediately before the crash.",
+      "discipline": "enhance",
+      "fluxCost": 3,
+      "successes": 2,
+      "effect": "Gain +1 die to all rolls, reduce all incoming damage by 1 (minimum 1), and cannot be Broken for the duration.",
+      "catastrophe": "Crash; When the effect expires or fails, immediately become Broken. +2 Stress.",
+      "duration": "Stretch",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Mend",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-heal.svg",
+    "system": {
+      "description": "The Heal discipline's most basic application \u2014 the Ebon channels ebb energy directly into biological tissue, accelerating natural repair processes. Routine field medicine for any squad with an Ebon operative.",
+      "discipline": "heal",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Restore Health equal to successes (max 2) to self or a touched target. Cannot exceed maximum Health.",
+      "catastrophe": "Drain; Caster takes 1 damage as bio-energy flows the wrong direction through the link.",
+      "duration": "Instant",
+      "range": "Engaged"
+    }
+  },
+  {
+    "name": "Restore",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-heal.svg",
+    "system": {
+      "description": "A significant investment of flux that triggers deep biological regeneration. Bone knits, blood stops. On exceptional rolls, even light critical injuries can be suppressed \u2014 though not truly healed.",
+      "discipline": "heal",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Restore Health equal to successes + 1. On 3+ successes, also clear one non-lethal Critical Injury.",
+      "catastrophe": "Empathic wound; Caster absorbs the target's injuries. Caster takes damage equal to the target's critical count (1-3).",
+      "duration": "Instant",
+      "range": "Engaged"
+    }
+  },
+  {
+    "name": "Calm",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-heal.svg",
+    "system": {
+      "description": "The Ebon reaches into the ebb frequencies associated with panic and distress, smoothing them into something bearable. Standard issue for any operative working in trauma zones or prolonged high-stress environments.",
+      "discipline": "heal",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Reduce one target's Stress by 1. If they are Broken from Stress, they may immediately attempt a recovery roll.",
+      "catastrophe": "Shared anguish; Caster absorbs the emotional load. Caster gains +1 Stress.",
+      "duration": "Instant",
+      "range": "Engaged"
+    }
+  },
+  {
+    "name": "Ebb Shield",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-protect.svg",
+    "system": {
+      "description": "A reactive personal barrier of condensed ebb energy that interposes itself between the caster and incoming harm. The shimmer is visible \u2014 blue-white, flickering at impact. It does not last long but can turn the critical strike.",
+      "discipline": "protect",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Roll 2d6 against the next incoming attack this round; each 6 reduces damage by 1. The shield can absorb up to 3 damage total before collapsing.",
+      "catastrophe": "Barrier collapse; The shield implodes. Caster takes 1 damage and +1 Stress.",
+      "duration": "Round",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Ward",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-protect.svg",
+    "system": {
+      "description": "The Ebon extends a protective field to cover an ally, wrapping them in deflection energy. The ward holds until it absorbs a direct ebb attack or expires naturally.",
+      "discipline": "protect",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "One target within Short range gains 1 automatic armor for 1 stretch. The ward also absorbs one incoming Ebb formula completely (then dissipates).",
+      "catastrophe": "Overextension; Both caster and target are momentarily unprotected. All attacks against either gain +1 die this round.",
+      "duration": "Stretch",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Phase Shell",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-protect.svg",
+    "system": {
+      "description": "The Ebon shifts their personal ebb signature out of phase with normal matter, causing incoming projectiles and blows to partially pass through. The most extreme defensive formula available \u2014 and the most taxing.",
+      "discipline": "protect",
+      "fluxCost": 3,
+      "successes": 3,
+      "effect": "All physical damage is reduced by 3 this round. Ebb attacks must overcome an opposed Ebb roll to penetrate. Movement is halved.",
+      "catastrophe": "Phase lock; Frozen in phase-space for 1 round \u2014 cannot act, but cannot be harmed. Extremely disorienting.",
+      "duration": "Round",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Blink",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-realityfold.svg",
+    "system": {
+      "description": "Short-range teleportation via a momentary fold in local space-time. The Ebon vanishes with a crack of displaced air and reappears somewhere within sight. Extremely useful in enclosed firefights.",
+      "discipline": "realityFold",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Instantly teleport to any visible point within Short range. Cannot pass through solid barriers.",
+      "catastrophe": "Partial fold; Materialise partially inside an obstacle. Take 2 damage and are knocked prone.",
+      "duration": "Instant",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Fold Space",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-realityfold.svg",
+    "system": {
+      "description": "Two points in space become adjacent for a brief window. Tactically absurd. The GM decides who can react fast enough when a wall suddenly has a window to a point fifty metres away.",
+      "discipline": "realityFold",
+      "fluxCost": 3,
+      "successes": 3,
+      "effect": "Two chosen points within range become adjacent for 1 round. Line of sight and attacks between them occur as if at Engaged range.",
+      "catastrophe": "Space collapse; Both fold points detonate. Everyone Engaged with either point takes 2 damage.",
+      "duration": "Round",
+      "range": "Medium"
+    }
+  },
+  {
+    "name": "Phase Through",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-realityfold.svg",
+    "system": {
+      "description": "The Ebon shifts their atomic structure briefly out of alignment with normal matter, allowing them to walk through a single solid non-living obstacle. The sensation is described as cold static filling every cell.",
+      "discipline": "realityFold",
+      "fluxCost": 3,
+      "successes": 2,
+      "effect": "Pass through one non-living solid object (wall, door, hull). Takes one action. Cannot phase through living tissue or active ebb fields.",
+      "catastrophe": "Partial phase; Stuck inside the material. Cannot act, take 1 damage per round until freed by allies or own effort.",
+      "duration": "Instant",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Ebb Sight",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-senses.svg",
+    "system": {
+      "description": "The Ebon perceives the ebb spectrum \u2014 active formulae glow like flares, dormant Ebons are visible as faint heat shimmer, and residual ebb discharge lingers like burn marks on reality.",
+      "discipline": "senses",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Perceive ebb energy, active formulae, and ebb users within Long range as visible auras. Gain +2 dice to detect ebb-related activity. See clearly in darkness.",
+      "catastrophe": "Ebb blindness; Normal vision disrupted by ebb noise. -2 dice to Observation for 1 round.",
+      "duration": "Stretch",
+      "range": "Long"
+    }
+  },
+  {
+    "name": "Mind's Eye",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-senses.svg",
+    "system": {
+      "description": "All five senses sharpen to preternatural levels simultaneously. The Ebon can read a serial number at Long range, hear whispers through walls, and track by scent. Over-reliance leads to the sensation of perpetual information overload.",
+      "discipline": "senses",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Gain +3 dice to all Observation rolls. Cannot be ambushed. Detect concealed objects and persons within Short range automatically.",
+      "catastrophe": "Sensory overload; Stunned for 1 round (no actions), +1 Stress.",
+      "duration": "Stretch",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Remote View",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-senses.svg",
+    "system": {
+      "description": "The Ebon projects their senses to a remote location, seeing and hearing as though present. The body remains inert and vulnerable while the mind wanders. Standard operational use requires a minder.",
+      "discipline": "senses",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Project senses to any location within Long range that you have visited or can clearly visualise. See and hear but cannot interact.",
+      "catastrophe": "Lost projection; Consciousness becomes stuck. Cannot act for 1 round \u2014 must be physically shaken free. +1 Stress.",
+      "duration": "Stretch",
+      "range": "Long"
+    }
+  },
+  {
+    "name": "Push",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-telekinesis.svg",
+    "system": {
+      "description": "The most common Telekinesis formula and a staple of Ebon combat training. A directed burst of kinetic force that can clear corridors, send opponents sprawling, or shove obstacles.",
+      "discipline": "telekinesis",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Hurl one target or object with mental force, moving them up to Short range. Living targets take 1 damage and must pass Strength (2 successes) or fall prone.",
+      "catastrophe": "Misaimed; The force shoves the caster instead. Caster is knocked back and falls prone.",
+      "duration": "Instant",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Grip",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-telekinesis.svg",
+    "system": {
+      "description": "An invisible hand seizes the target and holds them immobile. The hold is not gentle \u2014 internal pressure builds noticeably. Prolonged use causes real physical damage.",
+      "discipline": "telekinesis",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Hold one target immobile (they can still act but cannot move). Deal damage equal to successes at the start of each round the grip is maintained. Requires a new roll each round.",
+      "catastrophe": "Mental strain; Grip snaps. Caster takes 1 damage and +1 Stress.",
+      "duration": "Round",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Levitate",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-telekinesis.svg",
+    "system": {
+      "description": "The Ebon defies gravity with casual elegance. Movement is in any direction \u2014 vertical, horizontal, diagonal \u2014 at normal walking speed. A discreet entrance through a third-storey window is standard procedure.",
+      "discipline": "telekinesis",
+      "fluxCost": 2,
+      "successes": 1,
+      "effect": "Float at any height, moving in any direction at normal speed. Immune to fall damage while active. On 3+ successes, can carry one additional person.",
+      "catastrophe": "Sudden drop; Fall from current height and take normal fall damage.",
+      "duration": "Stretch",
+      "range": "Self"
+    }
+  },
+  {
+    "name": "Heat Touch",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-thermal.svg",
+    "system": {
+      "description": "Superheating the immediate cellular layer through Thermal manipulation is a brutal and intimate formula. Equipment melts, flesh chars. Favoured by Ebons who prefer to work at close quarters.",
+      "discipline": "thermal",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "Deal damage equal to successes + 1 to a touched target. On 3+ successes, their clothing or equipment begins to burn (1 damage per round until extinguished).",
+      "catastrophe": "Backburn; Heat reverses. Caster takes 1 damage as the formula collapses inward.",
+      "duration": "Instant",
+      "range": "Engaged"
+    }
+  },
+  {
+    "name": "Flame Burst",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-thermal.svg",
+    "system": {
+      "description": "A ranged thermal projection \u2014 concentrated heat launched as a coherent bolt. The Ebon's eyes typically take on a faint orange glow while channelling. The impact smells of burning ozone and scorched metal.",
+      "discipline": "thermal",
+      "fluxCost": 2,
+      "successes": 1,
+      "effect": "Deal damage equal to successes + 2. On 3+ successes, the target catches fire (1 damage per round until extinguished by action or water).",
+      "catastrophe": "Flash; Caster and all Engaged targets are blinded for 1 round.",
+      "duration": "Instant",
+      "range": "Short"
+    }
+  },
+  {
+    "name": "Freeze",
+    "type": "ebb",
+    "img": "systems/zero-engine/assets/icons/ebb/ebb-thermal.svg",
+    "system": {
+      "description": "Thermal extraction removes heat from the target rapidly. Ice crystals form in joint fluid, synaptic firing slows, and movement becomes laboured agony. Objects frozen in this manner become dangerously brittle.",
+      "discipline": "thermal",
+      "fluxCost": 2,
+      "successes": 2,
+      "effect": "Target takes 1 damage and suffers -2 dice to all Agility rolls this round. Objects may shatter if frozen.",
+      "catastrophe": "Thermal shock; Temperature flux knocks caster prone. +1 Stress.",
+      "duration": "Round",
+      "range": "Short"
+    }
+  }
+]

@@ -1,0 +1,64 @@
+<div
+	class="yzur chat-card"
+	data-actor-id="{{roll.options.actorId}}"
+	{{#if roll.options.itemId}}
+		data-item-id="{{roll.options.itemId}}"
+	{{/if}}
+	{{#if roll.options.damage}}
+		data-damage="{{roll.options.damage}}"
+	{{/if}}
+>
+	<div class="card-content">
+		<div class="dice-roll" data-action="expandRoll">
+			{{#if flavor}}
+				<span class="dice-flavor flavor-text">{{flavor}}</span>
+			{{/if}}
+			<div class="dice-result">
+				<div class="dice-formula">{{formula}}</div>
+				{{{tooltip}}}
+				{{#if isPrivate}}
+					<h4 class="dice-total">{{total}}</h4>
+				{{else}}
+					<h4 class="dice-total">
+						{{#with roll}}
+							{{#if successCount}}
+								<span class="success">
+									{{#times successCount}}
+										<i class="fas fa-eye"></i>
+									{{/times}}
+								</span>
+							{{/if}}
+							{{#if baneCount}}
+								<span class="blade-runner-symbols{{#if pushed}} failure{{/if}}">
+									{{#times baneCount}}F{{/times}}
+								</span>
+							{{/if}}
+							{{#unless (or successCount baneCount)}}
+								<span>0</span>
+							{{/unless}}
+						{{/with}}
+					</h4>
+				{{/if}}
+			</div>
+		</div>
+
+		{{!-- Extra info added for Year Zero rolls --}}
+		{{#if showInfos}}
+			{{{infos}}}
+		{{/if}}
+
+		{{!-- Push button --}}
+		{{#if pushable}}
+			<div class="roll-controls">
+				<button class="roll-button" data-action="push">
+					<i class="fas fa-dice"></i> 
+					{{localize "YZUR.CHAT.ROLL.Push"}}
+				</button>
+				<button class="roll-button" data-action="cancel-push">
+					<i class="fas fa-times"></i> 
+					{{localize "YZUR.CHAT.ROLL.CancelPush"}}
+				</button>
+			</div>
+		{{/if}}
+	</div>
+</div>

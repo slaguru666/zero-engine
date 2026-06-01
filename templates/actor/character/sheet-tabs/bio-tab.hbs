@@ -1,0 +1,38 @@
+<div class="bio-tab container">
+	<div class="boxed-property bio-notes">
+		<h3>{{localize "FLBR.HEADER.Notes"}}</h3>
+		<div class="bio-editor">
+			{{{editor system.description target="system.description" button=true editable=editable}}}
+		</div>
+	</div>
+	{{#if system.bio}}
+		<div class="boxed-property years-on-the-force">
+			<h3>{{localize "FLBR.HEADER.YearsOnTheForce"}}</h3>
+			<input type="text" name="system.bio.yearsOnTheForce" value="{{system.bio.yearsOnTheForce}}" data-dtype="Number"/>
+		</div>
+		<div class="boxed-property">
+			<h3>{{localize "FLBR.HEADER.Appearance"}}</h3>
+			<div class="bio-editor">
+				{{{editor system.bio.appearance target="system.bio.appearance" button=true editable=editable}}}
+			</div>
+		</div>
+		<div class="boxed-property">
+			<h3>{{localize "FLBR.HEADER.Home"}}</h3>
+			<div class="bio-editor">
+				{{{editor system.bio.home target="system.bio.home" button=true editable=editable}}}
+			</div>
+		</div>
+		<div class="boxed-property">
+			<h3>{{localize "FLBR.HEADER.KeyMemory"}}</h3>
+			<div class="bio-editor">
+				{{{editor system.bio.keyMemory target="system.bio.keyMemory" button=true editable=editable}}}
+			</div>
+		</div>
+		<div class="boxed-property">
+			<h3>{{localize "FLBR.HEADER.KeyRelationship"}}</h3>
+			<div class="bio-editor">
+				{{{editor system.bio.keyRelationship target="system.bio.keyRelationship" button=true editable=editable}}}
+			</div>
+		</div>
+	{{/if}}
+</div>

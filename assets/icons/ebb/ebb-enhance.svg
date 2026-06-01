@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Double upward chevron — suggests amplification/boost -->
+  <polyline points="12,68 50,28 88,68" fill="none" stroke="white" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+  <polyline points="12,92 50,52 88,92" fill="none" stroke="white" stroke-width="11" stroke-linejoin="round" stroke-linecap="round"/>
+</svg>

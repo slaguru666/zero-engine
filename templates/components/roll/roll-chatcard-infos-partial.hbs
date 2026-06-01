@@ -1,0 +1,24 @@
+{{#if roll.successCount}}
+{{#if roll.options.damage includeZero=true}}
+	<fieldset class="dice-infos">
+		<legend>{{localize "YZUR.CHAT.ROLL.Infos"}}</legend>
+		<div class="dice-info-grid">
+			{{#if roll.options.damage includeZero=true}}
+				<div>{{localize "YZUR.CHAT.ROLL.Damage"}}</div>
+				<div>
+					{{roll.options.damage}}&numsp;
+					<small>({{localize roll.options.damageTypeName}})</small>
+				</div>
+			{{/if}}
+			{{#if (and roll.options.crit (gte roll.successCount 2))}}
+				<div>{{localize "FLBR.CRIT.Crit"}}</div>
+				<div>
+					<a class="inline-table crit-roll" data-tooltip="{{localize "FLBR.CRIT.CritButtonTooltip"}}">
+						{{substract roll.successCount 1}}{{localize "FLBR.D"}}{{roll.options.crit}}
+					</a>
+				</div>
+			{{/if}}
+		</div>
+	</fieldset>
+{{/if}}
+{{/if}}

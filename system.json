@@ -1,0 +1,33 @@
+{
+  "id": "zero-engine",
+  "title": "Zero Engine (SLA Industries)",
+  "description": "A basic game system for SLA Industries using the Zero Engine rules.",
+  "version": "1.3.0-dev",
+  "compatibility": {
+    "minimum": 13,
+    "verified": "14.359"
+  },
+  "authors": [
+    {
+      "name": "System Developer"
+    }
+  ],
+  "scripts": [],
+  "esmodules": ["zero-engine.mjs"],
+  "styles": ["styles/zero-engine.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "socket": false,
+  "initiative": "@combat.initiative",
+  "grid": {
+    "distance": 1,
+    "units": "m"
+  },
+  "primaryTokenAttribute": "health",
+  "secondaryTokenAttribute": null
+}

@@ -1,0 +1,4179 @@
+/* Zero Engine - SLA Industries Character Sheet */
+
+/* ========================================
+   SLA BORG FONTS
+   ======================================== */
+@font-face {
+  font-family: "SLA Borg Title";
+  src: url("/systems/zero-engine/fonts/SLABorg-Title.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SLA Borg UI";
+  src: url("/systems/zero-engine/fonts/SLABorg-UI.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SLA Borg Tech";
+  src: url("/systems/zero-engine/fonts/SLABorg-Tech.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "SLA Borg Book";
+  src: url("/systems/zero-engine/fonts/SLABorg-Book.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.zero-engine {
+  font-family: "SLA Borg UI", "Rajdhani", "Oxanium", sans-serif;
+}
+
+.zero-engine .window-content {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  padding: 0;
+}
+
+/* ========================================
+   SHEET HEADER - Balanced Layout
+   ======================================== */
+
+.zero-engine .sheet-header {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+  border-bottom: none;
+  gap: 0;
+}
+
+.zero-engine .drug-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #333;
+  background: rgba(0, 0, 0, 0.28);
+}
+
+.zero-engine .drug-alert {
+  border: 1px solid #555;
+  border-left: 4px solid #777;
+  border-radius: 5px;
+  padding: 6px 8px;
+  background: rgba(20, 20, 20, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.zero-engine .drug-alert.active {
+  border-left-color: #00d46d;
+  background: rgba(0, 130, 60, 0.18);
+}
+
+.zero-engine .drug-alert.withdrawal {
+  border-left-color: #ff7a00;
+  background: rgba(160, 70, 0, 0.22);
+}
+
+.zero-engine .drug-alert-main {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.zero-engine .drug-alert-title {
+  font-weight: 700;
+  color: #fff;
+}
+
+.zero-engine .drug-alert-duration {
+  font-size: 11px;
+  color: #ddd;
+}
+
+.zero-engine .drug-alert-meta {
+  flex: 1;
+  font-size: 11px;
+  color: #c8c8c8;
+}
+
+/* --- Top Row: Avatar + Name + SCL/Credits --- */
+.zero-engine .header-top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px 8px 12px;
+  border-bottom: 1px solid #333;
+}
+
+.zero-engine .header-top-row .avatar {
+  flex: 0 0 56px;
+  height: 56px;
+}
+
+.zero-engine .header-top-row .avatar .profile {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  cursor: pointer;
+  object-fit: cover;
+  transition: border-color 0.2s;
+}
+
+.zero-engine .header-top-row .avatar .profile:hover {
+  border-color: #ff8833;
+}
+
+.zero-engine .header-top-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zero-engine .header-top-info .actor-name input {
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #ff6600;
+  color: #fff;
+  padding: 2px 0;
+}
+
+.zero-engine .header-top-stats {
+  display: flex;
+  gap: 12px;
+}
+
+.zero-engine .mini-stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.zero-engine .mini-stat-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zero-engine .mini-stat input {
+  width: 60px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #555;
+  border-radius: 3px;
+  padding: 3px 4px;
+  color: #fff;
+}
+
+.zero-engine .mini-stat input:focus {
+  border-color: #ff6600;
+  outline: none;
+}
+
+/* --- Details Row: Race, Training, Archetype --- */
+.zero-engine .header-details-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 150px;
+  gap: 6px;
+  padding: 6px 12px;
+  border-bottom: 1px solid #333;
+}
+
+.zero-engine .header-details-row .detail-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.zero-engine .header-details-row .detail-field label {
+  font-size: 9px;
+  font-weight: bold;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.zero-engine .header-details-row .detail-field select,
+.zero-engine .header-details-row .detail-field input[type="text"] {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 3px 5px;
+  color: #e0e0e0;
+  font-size: 11px;
+  height: 30px;
+}
+
+.zero-engine .header-details-row .detail-field select:focus,
+.zero-engine .header-details-row .detail-field input[type="text"]:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+
+.zero-engine .header-details-row .armor-roll-field {
+  justify-content: flex-end;
+}
+
+/* --- Vitals Row: Health, Resolve, Stress, Ebb --- */
+.zero-engine .header-vitals-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 0.7fr;
+  gap: 8px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #333;
+}
+
+.zero-engine .vital-box {
+  background: rgba(255, 102, 0, 0.08);
+  border: 2px solid #ff6600;
+  border-radius: 5px;
+  padding: 6px 8px;
+  text-align: center;
+}
+
+.zero-engine .vital-box label {
+  display: block;
+  font-weight: bold;
+  color: #ff6600;
+  font-size: 11px;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.zero-engine .vital-values {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.zero-engine .vital-values input {
+  width: 40px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #ff6600;
+  border-radius: 3px;
+  padding: 4px;
+  color: #fff;
+}
+
+.zero-engine .vital-separator {
+  font-size: 16px;
+  color: #ff6600;
+  font-weight: bold;
+}
+
+/* Health box */
+.zero-engine .health-box {
+  border-color: #cc3333;
+  background: rgba(204, 51, 51, 0.08);
+}
+
+.zero-engine .health-box label {
+  color: #ff4444;
+}
+
+.zero-engine .health-box .vital-values input {
+  border-color: #cc3333;
+}
+
+.zero-engine .health-box .vital-separator {
+  color: #cc3333;
+}
+
+/* Resolve box */
+.zero-engine .resolve-box {
+  border-color: #3388cc;
+  background: rgba(51, 136, 204, 0.08);
+}
+
+.zero-engine .resolve-box label {
+  color: #55aaff;
+}
+
+.zero-engine .resolve-box .vital-values input {
+  border-color: #3388cc;
+}
+
+.zero-engine .resolve-box .vital-separator {
+  color: #3388cc;
+}
+
+/* Stress box with Panic button */
+.zero-engine .stress-vital {
+  border-color: #8b0000;
+  background: rgba(139, 0, 0, 0.12);
+}
+
+.zero-engine .stress-vital label {
+  color: #ff4444;
+}
+
+.zero-engine .stress-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.zero-engine .stress-value {
+  width: 44px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  background: rgba(139, 0, 0, 0.2);
+  border: 1px solid #8b0000;
+  border-radius: 3px;
+  padding: 4px;
+  color: #ff4444;
+}
+
+/* REST box — standalone vital next to Stress */
+.zero-engine .rest-vital {
+  border-color: #007744;
+  background: rgba(0, 100, 60, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zero-engine .rest-vital .rest-btn {
+  /* Override the general rest-btn defaults — fill the box */
+  width: 100%;
+  height: 100%;
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.zero-engine .manual-panic-button {
+  background: linear-gradient(135deg, #8b0000 0%, #5c0000 100%);
+  border: 1px solid #ff4444;
+  color: #fff;
+  font-weight: bold;
+  font-size: 10px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.zero-engine .manual-panic-button:hover {
+  background: linear-gradient(135deg, #a00000 0%, #700000 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(255, 68, 68, 0.4);
+}
+
+.zero-engine .manual-panic-button i {
+  margin-right: 3px;
+}
+
+.zero-engine .manual-armor-button {
+  background: linear-gradient(135deg, #222 0%, #141414 100%);
+  border: 1px solid #cfa35a;
+  color: #e8d3a9;
+  font-weight: bold;
+  font-size: 10px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.zero-engine .manual-armor-button:hover {
+  background: linear-gradient(135deg, #2b2b2b 0%, #1c1c1c 100%);
+  border-color: #ffd089;
+  color: #fff2cf;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(255, 208, 137, 0.25);
+}
+
+.zero-engine .manual-armor-button i {
+  margin-right: 3px;
+}
+
+.zero-engine .header-armor-roll-btn {
+  width: 100%;
+  height: 30px;
+  font-size: 10px;
+  padding: 0 6px;
+}
+
+/* Ebb box */
+.zero-engine .ebb-vital {
+  border-color: #0096ff;
+  background: rgba(0, 150, 255, 0.08);
+}
+
+.zero-engine .ebb-vital label {
+  color: #0096ff;
+}
+
+.zero-engine .ebb-vital input {
+  width: 100%;
+  text-align: center;
+  font-size: 18px;
+  font-weight: bold;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #0096ff;
+  border-radius: 3px;
+  padding: 4px;
+  color: #0096ff;
+}
+
+/* --- Critical Injuries Row --- */
+.zero-engine .header-crits-row {
+  padding: 8px 12px 10px 12px;
+}
+
+.zero-engine .crit-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.zero-engine .roll-physical-crit-btn,
+.zero-engine .roll-mental-crit-btn {
+  flex: 1;
+  background: linear-gradient(135deg, #8b0000 0%, #5c0000 100%);
+  border: 2px solid #ff4444;
+  color: #fff;
+  font-weight: bold;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zero-engine .roll-physical-crit-btn:hover {
+  background: linear-gradient(135deg, #a00000 0%, #700000 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(255, 68, 68, 0.4);
+}
+
+.zero-engine .roll-mental-crit-btn {
+  background: linear-gradient(135deg, #4b0082 0%, #2e0052 100%);
+  border-color: #8b5cf6;
+}
+
+.zero-engine .roll-mental-crit-btn:hover {
+  background: linear-gradient(135deg, #6a0dad 0%, #4b0082 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(139, 92, 246, 0.4);
+}
+
+/* Active injuries */
+.zero-engine .active-injuries {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  padding: 8px;
+  margin-top: 6px;
+}
+
+.zero-engine .active-injuries h4 {
+  color: #ff6600;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 6px 0;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(255, 102, 0, 0.3);
+}
+
+.zero-engine .mental-injuries h4 {
+  color: #8b5cf6;
+  border-bottom-color: rgba(139, 92, 246, 0.3);
+}
+
+.zero-engine .injury-item {
+  background: rgba(255, 102, 0, 0.08);
+  border-left: 3px solid #ff6600;
+  padding: 6px 8px;
+  margin: 4px 0;
+  border-radius: 3px;
+}
+
+.zero-engine .mental-injuries .injury-item {
+  background: rgba(139, 92, 246, 0.08);
+  border-left-color: #8b5cf6;
+}
+
+.zero-engine .injury-item.lethal-injury {
+  background: rgba(255, 0, 0, 0.15);
+  border-left-color: #ff0000;
+  box-shadow: 0 0 8px rgba(255, 0, 0, 0.2);
+  animation: pulse-injury 3s infinite;
+}
+
+@keyframes pulse-injury {
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 0, 0, 0.2); }
+  50% { box-shadow: 0 0 16px rgba(255, 0, 0, 0.5); }
+}
+
+.zero-engine .injury-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+
+.zero-engine .injury-item strong {
+  font-size: 12px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.zero-engine .lethal-tag {
+  color: #ff0000;
+  font-weight: bold;
+  font-size: 10px;
+  animation: pulse-lethal 2s infinite;
+}
+
+@keyframes pulse-lethal {
+  0%, 100% { opacity: 1; text-shadow: 0 0 6px rgba(255, 0, 0, 0.8); }
+  50% { opacity: 0.6; text-shadow: 0 0 3px rgba(255, 0, 0, 0.4); }
+}
+
+.zero-engine .injury-effects {
+  font-size: 11px;
+  color: #ccc;
+  margin: 2px 0 0 0;
+  line-height: 1.3;
+}
+
+.zero-engine .delete-injury-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.zero-engine .delete-injury-btn:hover {
+  background: rgba(255, 0, 0, 0.35);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* ========================================
+   SHEET TABS
+   ======================================== */
+
+.zero-engine .sheet-tabs {
+  display: flex;
+  border-bottom: 3px solid #ff6600;
+  background: #2c2c2c;
+  gap: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.zero-engine .sheet-tabs .item {
+  flex: 1;
+  padding: 6px 10px;
+  text-align: center;
+  background: rgba(0, 0, 0, 0.3);
+  color: #888;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  border-bottom: 2px solid transparent;
+}
+
+.zero-engine .sheet-tabs .item:hover {
+  background: rgba(255, 102, 0, 0.1);
+  color: #ff8833;
+}
+
+.zero-engine .sheet-tabs .item.active {
+  background: rgba(255, 102, 0, 0.2);
+  color: #ff6600;
+  border-bottom-color: #ff6600;
+}
+
+/* ========================================
+   SHEET BODY
+   ======================================== */
+
+.zero-engine .sheet-body {
+  padding: 8px 12px 12px 12px;
+  overflow-y: auto;
+  max-height: calc(100% - 135px);
+}
+
+.zero-engine .sheet-body .tab {
+  display: none;
+}
+
+.zero-engine .sheet-body .tab.active {
+  display: block;
+}
+
+/* Section Headers */
+.zero-engine .section-header {
+  margin: 0 0 6px 0;
+  padding: 6px 10px;
+  background: linear-gradient(90deg, #ff6600 0%, #cc5200 100%);
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* ========================================
+   ATTRIBUTES & SKILLS TABLE
+   ======================================== */
+
+.zero-engine .attr-skill-table {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 6px;
+  border: 2px solid #333;
+  border-radius: 6px;
+}
+
+.zero-engine .attr-column {
+  background: rgba(255, 102, 0, 0.05);
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* Attribute Header */
+.zero-engine .attr-header {
+  background: rgba(255, 102, 0, 0.15);
+  border: 2px solid #ff6600;
+  border-radius: 4px;
+  padding: 8px 6px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.zero-engine .attr-header:hover {
+  background: rgba(255, 102, 0, 0.25);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(255, 102, 0, 0.3);
+}
+
+.zero-engine .attr-name {
+  font-weight: bold;
+  color: #ff6600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+.zero-engine .attr-value-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.zero-engine .attr-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff6600;
+  text-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+  min-width: 40px;
+  text-align: center;
+}
+
+.zero-engine .attr-btn {
+  width: 24px;
+  height: 24px;
+  background: rgba(255, 102, 0, 0.2);
+  border: 2px solid #ff6600;
+  border-radius: 3px;
+  color: #ff6600;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.zero-engine .attr-btn:hover {
+  background: #ff6600;
+  color: #000;
+  transform: scale(1.1);
+}
+
+.zero-engine .attr-btn:active {
+  transform: scale(0.95);
+}
+
+.zero-engine .attr-header input {
+  display: none;
+}
+
+.zero-engine .attr-roll-btn {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  background: rgba(0, 150, 255, 0.2);
+  border: 2px solid #0096ff;
+  border-radius: 4px;
+  color: #0096ff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.zero-engine .attr-roll-btn:hover {
+  background: #0096ff;
+  color: #000;
+  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(0, 150, 255, 0.6);
+}
+
+.zero-engine .attr-roll-btn:active {
+  transform: scale(0.95);
+}
+
+/* Skill Rows */
+.zero-engine .attr-column .skill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+  border-radius: 3px;
+  transition: background 0.2s;
+}
+
+.zero-engine .attr-column .skill-row:hover {
+  background: rgba(255, 102, 0, 0.1);
+  border-color: #ff6600;
+}
+
+.zero-engine .attr-column .skill-row label {
+  flex: 1;
+  color: #ccc;
+  font-weight: 500;
+  font-size: 12px;
+  pointer-events: none;
+}
+
+.zero-engine .skill-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zero-engine .skill-value {
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff6600;
+  min-width: 20px;
+  text-align: center;
+  padding: 2px 6px;
+  background: rgba(255, 102, 0, 0.15);
+  border-radius: 3px;
+}
+
+.zero-engine .skill-increment,
+.zero-engine .skill-decrement {
+  width: 20px;
+  height: 20px;
+  background: rgba(255, 102, 0, 0.2);
+  border: 1px solid #ff6600;
+  border-radius: 3px;
+  color: #ff6600;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.zero-engine .skill-increment:hover,
+.zero-engine .skill-decrement:hover {
+  background: #ff6600;
+  color: #000;
+  transform: scale(1.15);
+}
+
+.zero-engine .skill-increment:active,
+.zero-engine .skill-decrement:active {
+  transform: scale(0.9);
+}
+
+.zero-engine .skill-roll {
+  width: 22px;
+  height: 22px;
+  background: rgba(0, 212, 255, 0.2);
+  border: 2px solid #00d4ff;
+  border-radius: 3px;
+  color: #00d4ff;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+}
+
+.zero-engine .skill-roll:hover {
+  background: #00d4ff;
+  color: #000;
+  transform: scale(1.15);
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+}
+
+.zero-engine .skill-roll:active {
+  transform: scale(0.95);
+}
+
+.zero-engine .skill-row input {
+  display: none;
+}
+
+/* ========================================
+   SPECIALTIES, EQUIPMENT, BIOGRAPHY
+   ======================================== */
+
+.zero-engine .specialties-section {
+  margin-top: 20px;
+  padding: 15px;
+  background: rgba(255, 102, 0, 0.05);
+  border: 2px solid #ff6600;
+  border-radius: 8px;
+}
+
+.zero-engine .specialties-section .section-header {
+  margin: 0 0 15px 0;
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Specialty Items List on Actor Sheet */
+.zero-engine .specialty-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.zero-engine .specialty-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid #444;
+  border-left: 3px solid #ff6600;
+  border-radius: 4px;
+  padding: 8px 10px;
+  transition: all 0.2s;
+}
+
+.zero-engine .specialty-item:hover {
+  background: rgba(255, 102, 0, 0.1);
+  border-color: #ff6600;
+}
+
+.zero-engine .specialty-img {
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+
+.zero-engine .specialty-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.zero-engine .specialty-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.zero-engine .specialty-name {
+  font-weight: bold;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.zero-engine .specialty-name:hover {
+  color: #ff6600;
+  text-decoration: underline;
+}
+
+.zero-engine .specialty-package {
+  font-size: 10px;
+  color: #ff6600;
+  background: rgba(255, 102, 0, 0.15);
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.zero-engine .specialty-effects {
+  font-size: 11px;
+  color: #aaa;
+  line-height: 1.3;
+}
+
+.zero-engine .specialty-empty {
+  text-align: center;
+  padding: 15px;
+  color: #666;
+  font-size: 12px;
+}
+
+.zero-engine .delete-specialty-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  flex-grow: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin-left: auto;
+}
+
+.zero-engine .delete-specialty-btn:hover {
+  background: rgba(255, 0, 0, 0.35);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.zero-engine .specialties-section,
+.zero-engine .equipment-section,
+.zero-engine .biography-section,
+.zero-engine .gear-section,
+.zero-engine .bio-section,
+.zero-engine .weapons-section {
+  margin-bottom: 20px;
+}
+
+.zero-engine .specialties-section h2,
+.zero-engine .equipment-section h2,
+.zero-engine .biography-section h2,
+.zero-engine .gear-section h2,
+.zero-engine .bio-section h2,
+.zero-engine .weapons-section h2 {
+  margin: 0 0 15px 0;
+  padding: 10px;
+  background: linear-gradient(90deg, #ff6600 0%, transparent 100%);
+  color: #fff;
+  font-size: 20px;
+  border-radius: 4px;
+}
+
+.zero-engine .bio-section h3 {
+  margin: 15px 0 10px 0;
+  padding: 6px;
+  background: rgba(255, 102, 0, 0.2);
+  color: #ff6600;
+  font-size: 16px;
+  border-radius: 3px;
+}
+
+.zero-engine .editor {
+  min-height: 150px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 10px;
+  color: #e0e0e0;
+}
+
+.zero-engine .editor textarea {
+  width: 100%;
+  min-height: 100px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 8px;
+  color: #e0e0e0;
+  font-family: inherit;
+  font-size: 13px;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.zero-engine .editor textarea:focus {
+  outline: none;
+  border-color: #ff6600;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.3);
+}
+
+.zero-engine .editor textarea::placeholder {
+  color: #666;
+  font-style: italic;
+}
+
+/* ========================================
+   FORM INPUTS
+   ======================================== */
+
+.zero-engine input:focus {
+  outline: none;
+  border-color: #ff8833;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.3);
+}
+
+.zero-engine input::placeholder {
+  color: #666;
+}
+
+/* ========================================
+   SCROLLBAR
+   ======================================== */
+
+.zero-engine .sheet-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.zero-engine .sheet-body::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+.zero-engine .sheet-body::-webkit-scrollbar-thumb {
+  background: #ff6600;
+  border-radius: 4px;
+}
+
+.zero-engine .sheet-body::-webkit-scrollbar-thumb:hover {
+  background: #ff8833;
+}
+
+/* ========================================
+   YZE DICE DIALOG
+   ======================================== */
+
+.zero-engine.dialog .yze-roll-dialog {
+  padding: 15px;
+  background: #1a1a1a;
+}
+
+.zero-engine.dialog .yze-roll-dialog .form-group {
+  margin-bottom: 18px;
+}
+
+.zero-engine.dialog .yze-roll-dialog label {
+  display: block;
+  font-weight: bold;
+  color: #ff8833;
+  margin-bottom: 8px;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.zero-engine.dialog .modify-dice {
+  background: rgba(255, 102, 0, 0.2);
+  border: 2px solid #ff6600;
+  color: #ff6600;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  font-weight: bold;
+  font-size: 16px;
+  transition: all 0.2s;
+}
+
+.zero-engine.dialog .modify-dice:hover {
+  background: #ff6600;
+  color: #000;
+  transform: scale(1.05);
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.6);
+}
+
+.zero-engine.dialog input[type="number"] {
+  background: rgba(0, 0, 0, 0.5);
+  border: 2px solid #666;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 4px;
+}
+
+.zero-engine.dialog input[type="number"]:focus {
+  border-color: #ff6600;
+  outline: none;
+  box-shadow: 0 0 8px rgba(255, 102, 0, 0.4);
+}
+
+.zero-engine.dialog select {
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #555;
+  color: #e0e0e0;
+  border-radius: 4px;
+  padding: 5px 8px;
+  width: 100%;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.zero-engine.dialog select:focus {
+  border-color: #ff6600;
+  outline: none;
+  box-shadow: 0 0 6px rgba(255, 102, 0, 0.4);
+}
+
+.zero-engine.dialog select option {
+  background: #1a1a1a;
+  color: #e0e0e0;
+}
+
+/* Dialog footer buttons (Roll / Cancel) */
+.zero-engine.dialog .dialog-button,
+.zero-engine.dialog footer button {
+  background: rgba(40, 40, 40, 0.9);
+  border: 1px solid #555;
+  color: #e0e0e0;
+  border-radius: 4px;
+  padding: 6px 18px;
+  font-family: "SLA Borg UI", "Rajdhani", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.zero-engine.dialog .dialog-button:hover,
+.zero-engine.dialog footer button:hover {
+  background: rgba(255, 102, 0, 0.25);
+  border-color: #ff6600;
+  color: #fff;
+}
+/* Primary action (Roll) */
+.zero-engine.dialog .dialog-button.default,
+.zero-engine.dialog footer button.default,
+.zero-engine.dialog .dialog-button[data-button="roll"] {
+  background: rgba(255, 102, 0, 0.2);
+  border-color: #ff6600;
+  color: #ff8833;
+}
+.zero-engine.dialog .dialog-button.default:hover,
+.zero-engine.dialog footer button.default:hover,
+.zero-engine.dialog .dialog-button[data-button="roll"]:hover {
+  background: #ff6600;
+  color: #000;
+  box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+}
+
+/* ========================================
+   YZE ROLL RESULTS (Chat)
+   ======================================== */
+
+.yze-roll-result {
+  padding: 8px 10px;
+  background: rgba(26, 26, 26, 0.95);
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  margin: 4px 0;
+}
+
+.yze-dice-display {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  margin-bottom: 6px;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
+}
+
+.yze-dice-display.yze-stress-bane {
+  box-shadow: 0 0 14px rgba(255, 45, 45, 0.45);
+  border: 1px solid rgba(255, 45, 45, 0.35);
+}
+
+.yze-dice-divider {
+  flex-basis: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 45, 45, 0.6), transparent);
+  margin: 4px 0;
+}
+
+.yze-stress-label {
+  flex-basis: 100%;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 2px;
+  color: #ff2d2d;
+  font-weight: bold;
+  margin-bottom: 4px;
+}
+
+.yze-die {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: bold;
+  background: #f4f4f4;
+  border: 2px solid #111;
+  border-radius: 5px;
+  color: #111;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.yze-die.yze-success {
+  background: rgba(0, 212, 255, 0.3);
+  border-color: #00d4ff;
+  color: #00d4ff;
+  box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  font-size: 22px;
+}
+
+.yze-die.yze-stress {
+  background: #0b0b0b;
+  border: 2px solid #ff2d2d;
+  color: #ff2d2d;
+  box-shadow: 0 0 10px rgba(255, 45, 45, 0.5);
+  position: relative;
+}
+
+.yze-die.yze-stress::after {
+  content: "!";
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  border-radius: 50%;
+  background: #ff2d2d;
+  color: #0b0b0b;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 6px rgba(255, 45, 45, 0.7);
+}
+
+.yze-die.yze-locked::before {
+  content: "🔒";
+  position: absolute;
+  top: -6px;
+  left: -6px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  border-radius: 50%;
+  background: #111;
+  color: #ffd6d6;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+}
+
+.yze-die.yze-stress.yze-success {
+  background: #0b0b0b;
+  border-color: #00e5ff;
+  color: #00e5ff;
+  box-shadow: 0 0 12px rgba(0, 229, 255, 0.7);
+}
+
+.yze-die.yze-stress.yze-bane {
+  background: #2a0000;
+  border-color: #ff2d2d;
+  color: #ff2d2d;
+  box-shadow: 0 0 14px rgba(255, 45, 45, 0.75);
+}
+
+.yze-roll-result .yze-summary {
+  text-align: center;
+  font-size: 14px;
+  padding: 6px 10px;
+  background: rgba(255, 102, 0, 0.15);
+  border-radius: 5px;
+  border-top: 1px solid #ff6600;
+  color: #fff;
+}
+
+.yze-roll-result .yze-summary strong {
+  color: #00d4ff;
+  font-size: 20px;
+  text-shadow: 0 0 6px rgba(0, 212, 255, 0.6);
+  border-bottom: 1px solid rgba(0, 212, 255, 0.5);
+  padding-bottom: 1px;
+}
+
+.yze-roll-result .yze-summary .yze-success-label {
+  color: #bfefff;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.35);
+  padding-bottom: 1px;
+}
+
+.yze-roll-result .yze-summary .yze-banes {
+  color: #ff6b6b;
+  font-weight: bold;
+}
+
+.yze-roll-result .yze-summary .yze-stress-banes {
+  color: #ff2d2d;
+  font-weight: bold;
+  font-size: 16px;
+  text-shadow: 0 0 6px rgba(255, 45, 45, 0.7);
+  border-bottom: 1px solid rgba(255, 45, 45, 0.5);
+  padding-bottom: 1px;
+}
+
+.yze-roll-result .yze-summary .yze-stress-note {
+  color: #d0d0d0;
+  font-size: 11px;
+  margin-left: 4px;
+  font-style: italic;
+}
+
+.yze-panic-badge {
+  text-align: center;
+  background: rgba(255, 45, 45, 0.2);
+  border: 1px solid rgba(255, 45, 45, 0.7);
+  color: #ff2d2d;
+  font-weight: bold;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.yze-stress-tag {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(255, 45, 45, 0.15);
+  border: 1px solid rgba(255, 45, 45, 0.4);
+  color: #ff2d2d;
+  font-weight: bold;
+  font-size: 11px;
+  letter-spacing: 0.5px;
+}
+
+/* Push Mechanics */
+.yze-pushed-label {
+  text-align: center;
+  background: linear-gradient(90deg, transparent, rgba(255, 200, 0, 0.3), transparent);
+  color: #ffc800;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px rgba(255, 200, 0, 0.5);
+}
+
+.yze-push-section {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 2px solid rgba(255, 102, 0, 0.3);
+  text-align: center;
+}
+
+.yze-push-button {
+  background: linear-gradient(135deg, #ffc800 0%, #ff8800 100%);
+  border: 2px solid #ffc800;
+  color: #000;
+  font-weight: bold;
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 8px rgba(255, 200, 0, 0.3);
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.yze-push-title {
+  font-size: 16px;
+  line-height: 1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.yze-push-rule {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.yze-push-button:hover {
+  background: linear-gradient(135deg, #ffdd00 0%, #ff9900 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(255, 200, 0, 0.5);
+}
+
+.yze-push-button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(255, 200, 0, 0.3);
+}
+
+.yze-push-note {
+  margin-top: 8px;
+  font-size: 12px;
+  color: #ffd6d6;
+  font-style: italic;
+  line-height: 1.35;
+}
+
+/* ========================================
+   PANIC & CRITICAL INJURY CHAT CARDS
+   ======================================== */
+
+.panic-result {
+  background: rgba(139, 0, 0, 0.2);
+  border: 2px solid #8b0000;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.panic-formula {
+  font-size: 14px;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.panic-total {
+  font-size: 20px;
+  color: #ff4444;
+  font-weight: bold;
+}
+
+.panic-success {
+  background: rgba(0, 128, 0, 0.2);
+  border: 2px solid #00aa00;
+  border-radius: 4px;
+  padding: 12px;
+  color: #00ff00;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+.panic-effect {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #ff4444;
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+.panic-effect strong {
+  color: #ff6b6b;
+  font-size: 16px;
+  display: block;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.critical-injury {
+  background: rgba(220, 20, 60, 0.2);
+  border: 2px solid #dc143c;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 10px 0;
+}
+
+.crit-roll {
+  font-size: 14px;
+  color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.crit-name {
+  color: #ff6b6b;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 10px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.lethal {
+  color: #ff0000;
+  font-weight: bold;
+  animation: pulse-lethal 2s infinite;
+  text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+}
+
+.time-limit {
+  background: rgba(255, 170, 0, 0.2);
+  border: 1px solid #ffaa00;
+  border-radius: 4px;
+  padding: 8px;
+  color: #ffaa00;
+  font-weight: bold;
+  margin: 8px 0;
+}
+
+.crit-effects,
+.crit-healing {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  padding: 8px;
+  margin: 8px 0;
+}
+
+.crit-effects strong,
+.crit-healing strong {
+  color: #ff6600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* ========================================
+   ROLLABLE INDICATOR
+   ======================================== */
+
+.zero-engine .rollable {
+  position: relative;
+}
+
+.zero-engine .rollable::after {
+  content: '\1F3B2';
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.zero-engine .rollable:hover::after {
+  opacity: 0.6;
+}
+
+/* ========================================
+   ITEM SHEET STYLES
+   ======================================== */
+
+.zero-engine.sheet.item .window-content {
+  background: #1a1a1a;
+  color: #e0e0e0;
+  padding: 0;
+}
+
+.zero-engine.sheet.item .sheet-header {
+  background: linear-gradient(135deg, #2c2c2c 0%, #1a1a1a 100%);
+  padding: 10px 12px;
+  border-bottom: 2px solid #ff6600;
+}
+
+.zero-engine.sheet.item .item-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.zero-engine.sheet.item .item-photo {
+  flex: 0 0 64px;
+  height: 64px;
+}
+
+.zero-engine.sheet.item .item-photo img {
+  width: 100%;
+  height: 100%;
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  cursor: pointer;
+  object-fit: cover;
+}
+
+.zero-engine.sheet.item .item-header-info {
+  flex: 1;
+}
+
+.zero-engine.sheet.item .item-name input {
+  width: 100%;
+  font-size: 20px;
+  font-weight: bold;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid #ff6600;
+  color: #fff;
+  padding: 4px 0;
+}
+
+.zero-engine.sheet.item .item-name input:focus {
+  outline: none;
+  border-bottom-color: #ff8833;
+}
+
+.zero-engine.sheet.item .item-type-label {
+  font-size: 11px;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.zero-engine.sheet.item .sheet-body {
+  padding: 12px;
+  overflow-y: auto;
+  max-height: calc(100% - 90px);
+}
+
+/* Specialty Sheet Content */
+.zero-engine .specialty-sheet-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.zero-engine .specialty-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background: rgba(255, 102, 0, 0.05);
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.zero-engine .specialty-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.zero-engine .specialty-meta-row label {
+  flex: 0 0 140px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zero-engine .specialty-meta-row select,
+.zero-engine .specialty-meta-row input[type="text"] {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 5px 8px;
+  color: #e0e0e0;
+  font-size: 12px;
+}
+
+.zero-engine .specialty-meta-row select:focus,
+.zero-engine .specialty-meta-row input[type="text"]:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+
+.zero-engine .specialty-description {
+  flex: 1;
+}
+
+.zero-engine .specialty-description > label {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.zero-engine .specialty-description .editor {
+  min-height: 200px;
+}
+
+/* Item Props (Weapon/Armor/Equipment) */
+.zero-engine .item-props {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+  background: rgba(255, 102, 0, 0.05);
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.zero-engine .item-prop {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zero-engine .item-prop label {
+  font-size: 10px;
+  font-weight: bold;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.zero-engine .item-prop input,
+.zero-engine .item-prop select {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 5px 8px;
+  color: #e0e0e0;
+  font-size: 13px;
+  text-align: center;
+}
+
+.zero-engine .item-prop input:focus,
+.zero-engine .item-prop select:focus {
+  outline: none;
+  border-color: #ff6600;
+}
+
+.zero-engine .item-description > label {
+  display: block;
+  font-size: 11px;
+  font-weight: bold;
+  color: #ff6600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+/* ========================================
+   WEAPON LIST ON ACTOR SHEET
+   ======================================== */
+
+.zero-engine .weapon-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.zero-engine .weapon-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid #444;
+  border-left: 3px solid #ff6600;
+  border-radius: 4px;
+  padding: 6px 8px;
+  transition: all 0.2s;
+}
+
+.zero-engine .weapon-item:hover {
+  background: rgba(255, 102, 0, 0.1);
+  border-color: #ff6600;
+}
+
+.zero-engine .weapon-img {
+  flex-shrink: 0;
+  border-radius: 4px;
+  border: 1px solid #555;
+}
+
+.zero-engine .weapon-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.zero-engine .weapon-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.zero-engine .weapon-name {
+  font-weight: bold;
+  font-size: 13px;
+  color: #fff;
+  cursor: pointer;
+}
+
+.zero-engine .weapon-name:hover {
+  color: #ff6600;
+  text-decoration: underline;
+}
+
+.zero-engine .weapon-type-badge {
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  font-weight: bold;
+}
+
+.zero-engine .weapon-type-badge.ranged {
+  color: #00d4ff;
+  background: rgba(0, 212, 255, 0.15);
+  border: 1px solid rgba(0, 212, 255, 0.3);
+}
+
+.zero-engine .weapon-type-badge.melee {
+  color: #ff4444;
+  background: rgba(255, 68, 68, 0.15);
+  border: 1px solid rgba(255, 68, 68, 0.3);
+}
+
+.zero-engine .weapon-stats-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.zero-engine .weapon-stat {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.zero-engine .weapon-stat strong {
+  color: #ff6600;
+  font-size: 10px;
+  margin-right: 2px;
+}
+
+.zero-engine .weapon-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.zero-engine .weapon-aux-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.zero-engine .weapon-roll-btn {
+  height: auto;
+  min-width: 80px;
+  background: rgba(0, 212, 255, 0.18);
+  border: 2px solid #00d4ff;
+  border-radius: 5px;
+  color: #00d4ff;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 6px 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.zero-engine .weapon-roll-btn i {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.zero-engine .weapon-roll-btn:hover {
+  background: #00d4ff;
+  color: #000;
+  box-shadow: 0 0 14px rgba(0, 212, 255, 0.55);
+}
+
+.zero-engine .weapon-roll-btn:active {
+  transform: scale(0.95);
+}
+
+.zero-engine .weapon-roll-btn.btn-locked,
+.zero-engine .weapon-roll-btn:disabled {
+  background: rgba(80,80,80,0.2);
+  border-color: #555;
+  color: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.zero-engine .weapon-item.weapon-ammo-empty {
+  border-left-color: #cc4400;
+  background: rgba(80,20,0,0.2);
+  opacity: 0.8;
+}
+
+.zero-engine .ammo-empty-badge {
+  font-size: 9px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #ff4400;
+  background: rgba(200,40,0,0.2);
+  border: 1px solid #cc3300;
+  border-radius: 3px;
+  padding: 1px 5px;
+  letter-spacing: 0.5px;
+}
+
+.zero-engine .toggle-equip-btn {
+  width: 22px;
+  height: 20px;
+  background: rgba(120, 120, 120, 0.18);
+  border: 1px solid #888;
+  border-radius: 3px;
+  color: #cfcfcf;
+  font-size: 11px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.zero-engine .toggle-equip-btn:hover {
+  border-color: #cfcfcf;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+.zero-engine .toggle-equip-btn.equipped {
+  background: rgba(0, 170, 0, 0.22);
+  border-color: #29d429;
+  color: #a9ff9a;
+  box-shadow: 0 0 8px rgba(41, 212, 41, 0.25);
+}
+
+.zero-engine .drug-activate-btn,
+.zero-engine .drug-off-btn,
+.zero-engine .drug-clear-withdrawal-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  border: 1px solid #888;
+  color: #eee;
+  background: rgba(70, 70, 70, 0.2);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  padding: 0;
+}
+
+.zero-engine .drug-alert .drug-off-btn {
+  width: auto;
+  min-width: 54px;
+  padding: 0 8px;
+  font-size: 11px;
+}
+
+.zero-engine .drug-activate-btn {
+  border-color: #26c96b;
+  color: #9fffc4;
+  background: rgba(0, 130, 60, 0.2);
+}
+
+.zero-engine .drug-off-btn {
+  border-color: #ff9f40;
+  color: #ffd6a9;
+  background: rgba(170, 80, 0, 0.22);
+}
+
+.zero-engine .drug-clear-withdrawal-btn {
+  border-color: #9db4cc;
+  color: #d7e7ff;
+  background: rgba(40, 70, 110, 0.22);
+}
+
+.zero-engine .drug-activate-btn:hover,
+.zero-engine .drug-off-btn:hover,
+.zero-engine .drug-clear-withdrawal-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.2);
+}
+
+.zero-engine .drug-item.drug-active {
+  border-left-color: #00d46d;
+  background: rgba(0, 110, 55, 0.16);
+}
+
+.zero-engine .drug-item.drug-withdrawal {
+  border-left-color: #ff7a00;
+  background: rgba(150, 75, 0, 0.2);
+}
+
+.zero-engine .armor-roll-btn {
+  width: 32px;
+  height: 32px;
+  background: rgba(207, 163, 90, 0.2);
+  border: 2px solid #cfa35a;
+  border-radius: 4px;
+  color: #f5d6a2;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.zero-engine .armor-roll-btn:hover {
+  background: #cfa35a;
+  color: #111;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(207, 163, 90, 0.45);
+}
+
+.zero-engine .armor-roll-btn:active {
+  transform: scale(0.95);
+}
+
+.zero-engine .delete-weapon-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+.zero-engine .delete-weapon-btn:hover {
+  background: rgba(255, 0, 0, 0.35);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.zero-engine .delete-armor-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zero-engine .delete-armor-btn:hover {
+  background: rgba(255, 0, 0, 0.35);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.zero-engine .delete-gear-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zero-engine .delete-gear-btn:hover {
+  background: rgba(255, 0, 0, 0.35);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.zero-engine .delete-drug-btn {
+  background: rgba(255, 0, 0, 0.15);
+  border: 1px solid #ff0000;
+  color: #ff6666;
+  cursor: pointer;
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  padding: 0;
+  border-radius: 3px;
+  font-size: 10px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.zero-engine .delete-drug-btn:hover {
+  background: rgba(255, 0, 0, 0.35);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+.zero-engine .weapon-empty {
+  text-align: center;
+  padding: 12px;
+  color: #666;
+  font-size: 12px;
+}
+
+/* REST button */
+.zero-engine .rest-btn {
+  background: rgba(0, 140, 90, 0.22);
+  border: 1px solid #00a860;
+  border-radius: 4px;
+  color: #55ffaa;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.zero-engine .rest-btn:hover {
+  background: rgba(0, 170, 100, 0.35);
+  box-shadow: 0 0 8px rgba(0, 168, 96, 0.45);
+}
+
+/* Finance amount wrapper keeps input + 'c' aligned */
+.zero-engine .fin-amount {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.zero-engine .fin-amount span {
+  color: #888;
+  font-size: 11px;
+}
+
+/* Ammo empty indicator in chat cards */
+.ammo-chat-empty {
+  color: #ff4444 !important;
+  font-weight: bold;
+}
+
+/* ========================================
+   WEAPON DAMAGE IN CHAT CARDS
+   ======================================== */
+
+.yze-weapon-damage {
+  margin-top: 12px;
+  background: rgba(255, 102, 0, 0.08);
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.weapon-damage-header {
+  background: linear-gradient(90deg, #ff6600 0%, #cc5200 100%);
+  color: #fff;
+  font-weight: bold;
+  font-size: 14px;
+  padding: 6px 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.weapon-damage-header i {
+  margin-right: 6px;
+}
+
+.weapon-damage-stats {
+  padding: 10px 12px;
+}
+
+.weapon-damage-total {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.weapon-damage-total .damage-label {
+  font-size: 12px;
+  color: #aaa;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.weapon-damage-total .damage-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #ff6600;
+  text-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+}
+
+.weapon-damage-breakdown {
+  text-align: center;
+  font-size: 11px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.weapon-damage-miss {
+  text-align: center;
+  padding: 6px;
+}
+
+.weapon-damage-miss span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ff4444;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+}
+
+.weapon-damage-info {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 102, 0, 0.2);
+}
+
+.weapon-damage-info .wdi {
+  font-size: 11px;
+  color: #ccc;
+}
+
+.weapon-damage-info .wdi strong {
+  color: #ff6600;
+  margin-right: 3px;
+}
+
+
+
+
+/* Initiative chat breakdown */
+.yze-initiative-card {
+  border: 1px solid rgba(255, 179, 0, 0.4);
+  background: linear-gradient(180deg, #1e1a10 0%, #141208 100%);
+  padding: 8px 10px;
+  border-radius: 6px;
+  color: #d0c8a0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.yze-initiative-title {
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #ffb300;
+  font-size: 12px;
+  margin-bottom: 5px;
+  border-bottom: 1px solid rgba(255,179,0,0.25);
+  padding-bottom: 3px;
+}
+
+.yze-initiative-formula {
+  color: #c8c0a0;
+  margin-bottom: 4px;
+}
+
+.init-base {
+  color: #ff9933;
+  font-size: 14px;
+}
+
+.yze-initiative-dice {
+  margin-bottom: 4px;
+}
+
+.yze-initiative-successes .init-suc {
+  color: #00d4ff;
+  font-size: 14px;
+}
+
+.yze-initiative-bonus {
+  color: #c8c0a0;
+}
+.init-bon { color: #88ddaa; font-size: 13px; }
+.init-breakdown { font-size: 10px; color: #888; font-style: italic; }
+
+.yze-initiative-total {
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px solid rgba(255,179,0,0.2);
+  font-size: 14px;
+}
+.init-final {
+  color: #ffb300;
+  font-size: 18px;
+  text-shadow: 0 0 8px rgba(255,179,0,0.5);
+}
+
+.yze-initiative-tiebreak {
+  margin-top: 4px;
+  font-size: 11px;
+  color: #777;
+}
+
+
+/* Initiative buttons inline (next to name/SCL) */
+.zero-engine .init-buttons-inline {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.zero-engine .init-buttons-inline button {
+  display: inline-flex !important;
+  width: auto !important;
+  min-width: 72px;
+  height: 24px;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-gridnik), "Roboto", sans-serif;
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  border: 1px solid var(--color-border--core-box-orange);
+  background: #2a2a2a;
+  color: #ffb300 !important;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 0 1px #00000066;
+  line-height: 1;
+}
+
+.zero-engine .init-buttons-inline button:hover {
+  background: #3a3a3a;
+  color: #ffd56a;
+}
+
+.zero-engine .init-buttons-inline button:active {
+  background: #242424;
+}
+
+.ze-combatant-init-controls {
+  display: inline-flex;
+  gap: 4px;
+  margin-left: 10px;
+  vertical-align: middle;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.ze-combatant-init-controls .ze-init-score {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 22px;
+  padding: 0 6px;
+  border: 1px solid #7a3f1a;
+  border-radius: 4px;
+  background: #161616;
+  color: #8fd7ff;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.ze-combatant-init-controls .ze-row-init-btn {
+  min-width: 48px;
+  height: 22px;
+  padding: 0 7px;
+  border: 1px solid #7a3f1a;
+  border-radius: 4px;
+  background: #1f1f1f;
+  color: #ffb65a;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ze-combatant-init-controls .ze-row-init-btn:hover {
+  background: #2a2a2a;
+  color: #ffd08a;
+}
+
+/* Hide yze-combat card-roll affordances; Zero Engine uses AGI/WIT initiative buttons. */
+.combat-sidebar li.combatant .token-initiative .roll {
+  display: none !important;
+}
+
+.chat-message .initiative-draw {
+  display: none !important;
+}
+
+/* ========================================
+   SLA FONT APPLICATIONS
+   ======================================== */
+
+/* Section headers & named labels: SLA Borg Title */
+.zero-engine .section-header,
+.zero-engine h2,
+.zero-engine h3,
+.zero-engine h4,
+.zero-engine .sheet-tab-nav .item,
+.zero-engine .tab-label,
+.zero-engine .drug-name,
+.zero-engine .specialties-section h2,
+.zero-engine .equipment-section h2,
+.zero-engine .biography-section h2,
+.zero-engine .gear-section h2,
+.zero-engine .bio-section h2,
+.zero-engine .weapons-section h2 {
+  font-family: "SLA Borg Title", "Orbitron", "Rajdhani", sans-serif;
+}
+
+/* Technical / numeric values: SLA Borg Tech */
+.zero-engine .boxed-value,
+.zero-engine .health-box,
+.zero-engine .resolve-box,
+.zero-engine .ze-attr-die,
+.zero-engine .ze-skill-die,
+.zero-engine .stress-value,
+.zero-engine .scl-value,
+.zero-engine .credits-value,
+.zero-engine input[type="number"] {
+  font-family: "SLA Borg Tech", "Share Tech Mono", "Courier New", monospace;
+}
+
+/* Actor name: SLA Borg Title, larger */
+.zero-engine .actor-name input {
+  font-family: "SLA Borg Title", "Orbitron", sans-serif;
+}
+
+/* ========================================
+   VERTICAL SKILLS LAYOUT (.ze-stats)
+   ======================================== */
+
+.zero-engine .ze-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px 10px;
+}
+
+/* One block per attribute */
+.zero-engine .ze-attribute-block {
+  background: rgba(255, 102, 0, 0.04);
+  border: 1px solid rgba(255, 102, 0, 0.25);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+/* Attribute header row */
+.zero-engine .ze-attribute-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: linear-gradient(90deg, rgba(255, 102, 0, 0.22) 0%, rgba(30, 30, 30, 0.8) 100%);
+  border-bottom: 1px solid rgba(255, 102, 0, 0.3);
+}
+
+.zero-engine .ze-attr-roll-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  flex: 1;
+}
+
+.zero-engine .ze-attr-name {
+  font-family: "SLA Borg Title", "Orbitron", sans-serif;
+  font-size: 15px;
+  font-weight: bold;
+  color: #ff8833;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+}
+
+.zero-engine .ze-attr-roll-btn i {
+  color: #ff6600;
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+.zero-engine .ze-attr-roll-btn:hover .ze-attr-name {
+  color: #ffaa55;
+}
+.zero-engine .ze-attr-roll-btn:hover i {
+  opacity: 1;
+}
+
+/* Score selector (dots/boxes) for attribute */
+.zero-engine .ze-attr-score {
+  display: flex;
+  align-items: center;
+}
+
+/* Attribute die value badge */
+.zero-engine .ze-attr-die {
+  font-family: "SLA Borg Tech", "Share Tech Mono", monospace;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ff8833;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid #ff6600;
+  border-radius: 4px;
+  padding: 2px 8px;
+  min-width: 36px;
+  text-align: center;
+  cursor: pointer;
+}
+.zero-engine .ze-attr-die:hover {
+  background: rgba(255, 102, 0, 0.2);
+  box-shadow: 0 0 6px rgba(255, 102, 0, 0.4);
+}
+
+/* Skills list beneath each attribute */
+.zero-engine .ze-skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* Individual skill row */
+.zero-engine .ze-skill-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  transition: background 0.15s;
+}
+
+.zero-engine .ze-skill-row:last-child {
+  border-bottom: none;
+}
+
+.zero-engine .ze-skill-row:hover {
+  background: rgba(255, 102, 0, 0.08);
+}
+
+/* Skill name link */
+.zero-engine .ze-skill-name {
+  font-family: "SLA Borg UI", "Rajdhani", sans-serif;
+  font-size: 14px;
+  color: #c8c8c8;
+  flex: 1;
+  cursor: pointer;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+}
+
+.zero-engine .ze-skill-name:hover {
+  color: #ff8833;
+  text-decoration: none;
+}
+
+/* Score selector for skill */
+.zero-engine .ze-skill-score {
+  display: flex;
+  align-items: center;
+}
+
+/* Skill die value badge */
+.zero-engine .ze-skill-die {
+  font-family: "SLA Borg Tech", "Share Tech Mono", monospace;
+  font-size: 12px;
+  font-weight: bold;
+  color: #999;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  border-radius: 3px;
+  padding: 2px 7px;
+  min-width: 32px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.zero-engine .ze-skill-die:hover {
+  color: #ff8833;
+  border-color: #ff6600;
+  background: rgba(255, 102, 0, 0.15);
+}
+
+/* ========================================
+   EBB & FLUX SYSTEM
+   ======================================== */
+
+/* Flux vital box — cyan/teal to distinguish from health/resolve/stress */
+.zero-engine .flux-vital {
+  border-color: #00cccc !important;
+}
+.zero-engine .flux-vital label {
+  color: #00cccc !important;
+  font-family: "SLA Borg Title", "Orbitron", sans-serif;
+  letter-spacing: 1.5px;
+}
+.zero-engine .flux-vital .vital-values {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.zero-engine .flux-vital .flux-current {
+  color: #00cccc !important;
+  border-color: #00cccc !important;
+  background: rgba(0, 204, 204, 0.08) !important;
+  width: 50px;
+  text-align: center;
+}
+.zero-engine .flux-vital .vital-separator {
+  color: #888;
+  font-weight: bold;
+}
+.zero-engine .flux-vital .flux-max-display {
+  color: #00cccc;
+  font-family: "SLA Borg Tech", "Share Tech Mono", monospace;
+  font-size: 18px;
+  font-weight: bold;
+  min-width: 24px;
+  text-align: center;
+}
+
+/* Ebb skill row — highlighted in cyan */
+.zero-engine .ebb-skill-row {
+  background: rgba(0, 204, 204, 0.06);
+  border-top: 1px solid rgba(0, 204, 204, 0.3);
+  border-radius: 0 0 4px 4px;
+}
+.zero-engine .ebb-skill-row label {
+  color: #00cccc !important;
+  font-weight: bold;
+}
+
+/* Ebb Formulae section */
+.zero-engine .ebb-formulae-section .section-header {
+  background: linear-gradient(90deg, rgba(0, 100, 150, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%);
+  border-color: #00aacc;
+  color: #00cccc !important;
+}
+.zero-engine .ebb-formulae-section .section-header i {
+  color: #00cccc;
+}
+.zero-engine .flux-indicator {
+  font-size: 12px;
+  color: #aaa;
+  font-family: "SLA Borg UI", sans-serif;
+  font-weight: normal;
+  letter-spacing: 0;
+  text-transform: none;
+}
+.zero-engine .flux-indicator strong {
+  color: #00cccc;
+}
+.zero-engine .ebb-discipline-badge {
+  background: rgba(0, 100, 150, 0.5) !important;
+  border-color: #00aacc !important;
+  color: #00cccc !important;
+}
+.zero-engine .ebb-effect-row .ebb-effect-text {
+  color: #bbb;
+  font-size: 12px;
+  font-style: italic;
+}
+/* All action buttons inside ebb formula items share a base dark style */
+.zero-engine .ebb-formula-item .weapon-actions button {
+  background: rgba(20, 20, 30, 0.6);
+  border: 1px solid #444;
+  color: #aaa;
+  border-radius: 4px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  line-height: 1;
+}
+.zero-engine .ebb-formula-roll-btn {
+  background: rgba(0, 100, 150, 0.4);
+  border: 1px solid #00aacc !important;
+  color: #00cccc !important;
+}
+.zero-engine .ebb-formula-roll-btn:hover {
+  background: rgba(0, 150, 200, 0.5) !important;
+  color: #fff !important;
+}
+.zero-engine .ebb-formula-edit-btn {
+  border-color: #555 !important;
+  color: #999 !important;
+}
+.zero-engine .ebb-formula-edit-btn:hover {
+  border-color: #aaa !important;
+  color: #fff !important;
+  background: rgba(255,255,255,0.1) !important;
+}
+.zero-engine .ebb-formula-delete-btn {
+  border-color: #662222 !important;
+  color: #cc4444 !important;
+  background: rgba(100, 0, 0, 0.2) !important;
+}
+.zero-engine .ebb-formula-delete-btn:hover {
+  border-color: #ff4444 !important;
+  color: #fff !important;
+  background: rgba(180, 0, 0, 0.35) !important;
+}
+
+/* Flux control buttons */
+.zero-engine .ebb-flux-controls {
+  display: flex;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid rgba(0, 170, 204, 0.2);
+  margin-top: 4px;
+}
+.zero-engine .ebb-flux-recover-btn,
+.zero-engine .ebb-flux-full-btn {
+  background: rgba(0, 80, 100, 0.4);
+  border: 1px solid #00aacc;
+  color: #00cccc;
+  border-radius: 4px;
+  padding: 5px 12px;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: "SLA Borg UI", sans-serif;
+  transition: background 0.2s;
+}
+.zero-engine .ebb-flux-recover-btn:hover,
+.zero-engine .ebb-flux-full-btn:hover {
+  background: rgba(0, 130, 160, 0.5);
+  color: #fff;
+}
+
+/* Ebb item sheet */
+.zero-engine .ebb-sheet-content .item-prop-full {
+  padding: 6px 12px;
+}
+.zero-engine .ebb-sheet-content .item-prop-full label {
+  display: block;
+  color: #888;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+}
+.zero-engine .ebb-sheet-content textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid #444;
+  color: #ccc;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-family: "SLA Borg UI", "Rajdhani", sans-serif;
+  font-size: 13px;
+  resize: vertical;
+}
+.zero-engine .ebb-sheet-content textarea:focus {
+  border-color: #00aacc;
+  outline: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EBB TAB LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+
+/* Tab header: flux tracker + skill side by side */
+.zero-engine .ebb-tab-header {
+  display: flex;
+  gap: 12px;
+  padding: 10px 10px 0;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+/* Flux status panel */
+.zero-engine .ebb-flux-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(0, 80, 100, 0.35);
+  border: 1px solid #00cccc;
+  border-radius: 6px;
+  padding: 8px 14px;
+  flex: 1;
+  min-width: 220px;
+}
+.zero-engine .ebb-flux-label {
+  color: #00cccc;
+  font-family: "SLA Borg Title", "Orbitron", sans-serif;
+  font-size: 16px;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px rgba(0, 204, 204, 0.6);
+  white-space: nowrap;
+}
+.zero-engine .ebb-flux-track {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.zero-engine .ebb-flux-input {
+  width: 48px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid #00cccc;
+  border-radius: 4px;
+  color: #00cccc !important;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  padding: 2px 4px;
+  -moz-appearance: textfield;
+}
+.zero-engine .ebb-flux-input::-webkit-inner-spin-button,
+.zero-engine .ebb-flux-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.zero-engine .ebb-flux-sep {
+  color: #666;
+  font-size: 18px;
+}
+.zero-engine .ebb-flux-max {
+  font-size: 22px;
+  color: #555;
+  font-weight: bold;
+}
+.zero-engine .ebb-flux-actions {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+}
+
+/* Ebb skill panel */
+.zero-engine .ebb-skill-panel {
+  background: rgba(20, 30, 50, 0.4);
+  border: 1px solid #336699;
+  border-radius: 6px;
+  padding: 8px 14px;
+  flex: 1;
+  min-width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.zero-engine .ebb-skill-label {
+  color: #7799cc;
+  font-family: "SLA Borg Title", "Orbitron", sans-serif;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+}
+.zero-engine .ebb-skill-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.zero-engine .ebb-skill-value {
+  font-size: 20px !important;
+}
+.zero-engine .ebb-tab-skill-roll {
+  padding: 4px 10px;
+  height: auto !important;
+  width: auto !important;
+  font-size: 13px !important;
+  gap: 4px;
+  display: flex;
+  align-items: center;
+}
+.zero-engine .ebb-dice-summary {
+  color: #556688;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* Formulae section within the tab */
+.zero-engine .tab[data-tab="ebb"] .ebb-formulae-section {
+  padding: 0 10px 10px;
+}
+.zero-engine .tab[data-tab="ebb"] .ebb-formulae-section .section-header {
+  background: linear-gradient(90deg, rgba(0, 100, 150, 0.6) 0%, rgba(20, 20, 20, 0.8) 100%);
+  color: #00cccc;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.zero-engine .ebb-formula-count {
+  margin-left: auto;
+  font-size: 11px;
+  color: #556;
+  font-style: italic;
+}
+
+/* Discipline badge colours on the Ebb tab */
+.zero-engine .ebb-disc-awareness   { background: rgba(100, 180, 255, 0.25); color: #64b4ff; border: 1px solid #64b4ff; }
+.zero-engine .ebb-disc-blast       { background: rgba(255, 102,   0, 0.25); color: #ff6600; border: 1px solid #ff6600; }
+.zero-engine .ebb-disc-communicate { background: rgba(180, 100, 255, 0.25); color: #b464ff; border: 1px solid #b464ff; }
+.zero-engine .ebb-disc-enhance     { background: rgba( 80, 220, 120, 0.25); color: #50dc78; border: 1px solid #50dc78; }
+.zero-engine .ebb-disc-heal        { background: rgba( 80, 220, 180, 0.25); color: #50dcb4; border: 1px solid #50dcb4; }
+.zero-engine .ebb-disc-protect     { background: rgba(220, 200,  80, 0.25); color: #dcc850; border: 1px solid #dcc850; }
+.zero-engine .ebb-disc-realityFold { background: rgba(220,  80, 220, 0.25); color: #dc50dc; border: 1px solid #dc50dc; }
+.zero-engine .ebb-disc-senses      { background: rgba(255, 220,  80, 0.25); color: #ffdc50; border: 1px solid #ffdc50; }
+.zero-engine .ebb-disc-telekinesis { background: rgba( 80, 180, 255, 0.25); color: #50b4ff; border: 1px solid #50b4ff; }
+.zero-engine .ebb-disc-thermal     { background: rgba(255,  60,  60, 0.25); color: #ff3c3c; border: 1px solid #ff3c3c; }
+
+/* Formula icon — white SVGs on a dark tinted tile */
+.zero-engine .ebb-formula-icon {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.45);
+  border-radius: 4px;
+  padding: 3px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.zero-engine .ebb-flux-cost {
+  color: #00cccc !important;
+}
+.zero-engine .ebb-flux-cost i {
+  color: #00cccc;
+  font-size: 10px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INLINE DIE FACES (panic, critical, armor roll results)
+   ═══════════════════════════════════════════════════════════ */
+
+.inline-die-face {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  background: rgba(30, 30, 40, 0.85);
+  border: 1px solid #555;
+  border-radius: 4px;
+  font-family: "SLA Borg Tech", "Share Tech Mono", monospace;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ccc;
+  margin: 0 2px;
+  vertical-align: middle;
+  text-shadow: none;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.4);
+}
+
+.inline-die-face.inline-die-success {
+  border-color: #44aa44;
+  color: #88ee88;
+  background: rgba(20, 60, 20, 0.7);
+  box-shadow: 0 0 4px rgba(68, 170, 68, 0.3), inset 0 1px 2px rgba(0,0,0,0.3);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   EBB OUTCOME BLOCK IN CHAT CARDS
+   ═══════════════════════════════════════════════════════════ */
+
+.yze-ebb-outcome {
+  margin-top: 6px;
+  border-radius: 4px;
+  padding: 6px 8px;
+  border: 1px solid rgba(0, 204, 204, 0.35);
+  background: rgba(0, 60, 80, 0.4);
+  font-family: var(--font-primary, "Signika", sans-serif);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.yze-ebb-outcome.ebb-outcome-failed {
+  border-color: rgba(180, 60, 60, 0.5);
+  background: rgba(60, 10, 10, 0.4);
+}
+
+.ebb-outcome-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.ebb-outcome-disc {
+  background: rgba(0, 100, 140, 0.5);
+  border: 1px solid #00aacc;
+  color: #00cccc;
+  border-radius: 3px;
+  padding: 1px 6px;
+  font-size: 10px;
+  font-weight: bold;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.ebb-outcome-status {
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 1.3;
+}
+.ebb-outcome-status.success {
+  color: #44dd88;
+}
+.ebb-outcome-status.failed {
+  color: #dd4444;
+}
+
+.ebb-outcome-effect {
+  color: #cce8f0;
+  font-size: 12px;
+  line-height: 1.45;
+  margin-top: 2px;
+  word-wrap: break-word;
+}
+
+.ebb-outcome-effect.ebb-failed-note {
+  color: #aa7777;
+  font-style: italic;
+}
+
+.ebb-outcome-meta {
+  margin-top: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 11px;
+  color: #88aacc;
+}
+.ebb-outcome-meta strong {
+  color: #aaccee;
+}
+
+.ebb-outcome-catastrophe {
+  margin-top: 5px;
+  padding: 4px 7px;
+  border-radius: 3px;
+  background: rgba(160, 40, 40, 0.4);
+  border: 1px solid #cc4444;
+  color: #ffaaaa;
+  font-size: 11px;
+  font-weight: bold;
+  word-wrap: break-word;
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SLA INDUSTRIES — CHARACTER GENERATORS
+   ═══════════════════════════════════════════════════════════ */
+
+.sla-gen-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #0f0f14;
+  color: #d0d0d0;
+  font-family: var(--font-primary, "Signika", sans-serif);
+  font-size: 13px;
+  overflow: hidden;
+}
+
+.sla-npc-container { height: auto; }
+
+.gen-header {
+  background: rgba(255,102,0,0.12);
+  border-bottom: 2px solid #ff6600;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.gen-title {
+  font-size: 15px;
+  font-weight: bold;
+  color: #ff6600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.gen-progress { display: flex; gap: 6px; align-items: center; }
+.gen-progress-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #333;
+  border: 1px solid #555;
+  transition: all 0.2s;
+}
+.gen-progress-dot.active  { background: rgba(255,102,0,0.5); border-color: #ff6600; }
+.gen-progress-dot.current { background: #ff6600; box-shadow: 0 0 6px #ff6600; }
+
+.gen-step {
+  flex-direction: column;
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px 14px;
+  gap: 8px;
+}
+.step-title {
+  font-size: 13px;
+  color: #ff6600;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid rgba(255,102,0,0.3);
+  padding-bottom: 4px;
+}
+.gen-hint { font-size: 11px; color: #888; font-style: italic; }
+.points-banner {
+  text-align: center;
+  font-size: 13px;
+  color: #ccc;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 5px;
+}
+.points-banner strong { color: #00d4ff; font-size: 16px; }
+
+/* Race Grid */
+.race-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 7px;
+  flex: 1;
+  overflow-y: auto;
+}
+.race-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.race-card:hover { border-color: #ff6600; background: rgba(255,102,0,0.08); }
+.race-card.selected { border-color: #ff6600; background: rgba(255,102,0,0.18); box-shadow: 0 0 8px rgba(255,102,0,0.3); }
+.rc-icon { font-size: 20px; text-align: center; }
+.rc-name { font-weight: bold; color: #fff; font-size: 12px; text-align: center; }
+.rc-stats { font-size: 10px; color: #00d4ff; text-align: center; font-family: monospace; }
+.rc-flavor { font-size: 10px; color: #999; line-height: 1.35; }
+.rc-ebb { font-size: 10px; color: #cc88ff; font-weight: bold; margin-top: 2px; }
+
+/* Training Grid */
+.training-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 7px;
+  flex: 1;
+  overflow-y: auto;
+}
+.training-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.training-card:hover:not(.disabled) { border-color: #00aacc; background: rgba(0,170,200,0.08); }
+.training-card.selected { border-color: #00aacc; background: rgba(0,170,200,0.18); box-shadow: 0 0 8px rgba(0,170,200,0.3); }
+.training-card.disabled { opacity: 0.35; cursor: not-allowed; }
+.tc-icon { font-size: 18px; text-align: center; }
+.tc-name { font-weight: bold; color: #fff; font-size: 12px; text-align: center; }
+.tc-flavor { font-size: 10px; color: #999; line-height: 1.35; }
+.tc-skills { font-size: 10px; color: #88ddaa; font-family: monospace; }
+.tc-ebb-only { font-size: 10px; color: #cc88ff; }
+
+/* Attribute table */
+.attr-table { display: flex; flex-direction: column; gap: 5px; }
+.attr-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  border: 1px solid #2a2a2a;
+}
+.attr-label { width: 130px; color: #ccc; }
+.attr-base  { width: 55px; font-size: 11px; color: #666; }
+.attr-val   { width: 24px; text-align: center; font-size: 16px; font-weight: bold; color: #00d4ff; }
+.attr-cap   { font-size: 11px; color: #555; }
+.attr-btn {
+  width: 24px; height: 24px;
+  background: rgba(255,102,0,0.15);
+  border: 1px solid rgba(255,102,0,0.4);
+  border-radius: 3px;
+  color: #ff9955;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.attr-btn:hover { background: rgba(255,102,0,0.3); }
+.derived-preview { text-align: center; font-size: 12px; color: #999; padding: 6px 0; }
+.derived-preview strong { color: #00d4ff; }
+
+/* Skill table */
+.skill-gen-table { display: flex; flex-direction: column; gap: 4px; flex: 1; overflow-y: auto; }
+.skill-group { display: flex; flex-direction: column; gap: 3px; }
+.skill-group-header {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #888;
+  border-bottom: 1px solid #2a2a2a;
+  padding-bottom: 2px;
+  margin-top: 4px;
+}
+.skill-gen-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  background: rgba(255,255,255,0.02);
+  border-radius: 3px;
+}
+.sg-label    { width: 100px; color: #ccc; font-size: 12px; }
+.sg-training { width: 70px; font-size: 10px; color: #88ddaa; }
+.sg-val      { width: 20px; text-align: center; font-weight: bold; color: #00d4ff; font-size: 14px; }
+.sg-cap      { font-size: 10px; color: #555; }
+.sg-btn {
+  width: 20px; height: 20px;
+  background: rgba(0,170,200,0.1);
+  border: 1px solid rgba(0,170,200,0.3);
+  border-radius: 3px;
+  color: #00aacc;
+  cursor: pointer;
+  font-size: 13px;
+  line-height: 1;
+  display: flex; align-items: center; justify-content: center;
+}
+.sg-btn:hover { background: rgba(0,170,200,0.25); }
+
+/* Details form */
+.details-form { display: flex; flex-direction: column; gap: 10px; flex: 1; overflow-y: auto; }
+.df-row { display: flex; flex-direction: column; gap: 4px; }
+.df-row label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; }
+.df-row input, .df-row textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #d0d0d0;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: inherit;
+}
+.df-row input:focus, .df-row textarea:focus { border-color: #ff6600; outline: none; }
+.df-row textarea { resize: vertical; }
+.df-name-row { display: flex; gap: 8px; }
+.df-name-row input { flex: 1; }
+
+/* Summary */
+.summary-grid { display: flex; flex-direction: column; gap: 5px; flex: 1; overflow-y: auto; }
+.summary-section {
+  display: flex;
+  gap: 10px;
+  padding: 5px 8px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 4px;
+  border-left: 2px solid #ff6600;
+}
+.sum-label { width: 100px; font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 0.5px; flex-shrink: 0; }
+.sum-val   { color: #d0d0d0; font-size: 12px; }
+
+/* Navigation */
+.gen-nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid #222;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.gen-btn-primary, .gen-btn-secondary, .gen-btn-create {
+  padding: 5px 14px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid;
+  transition: all 0.15s;
+}
+.gen-btn-primary   { background: rgba(255,102,0,0.2); border-color: #ff6600; color: #ff9955; }
+.gen-btn-primary:hover:not(:disabled) { background: rgba(255,102,0,0.4); }
+.gen-btn-primary:disabled { opacity: 0.35; cursor: not-allowed; }
+.gen-btn-secondary { background: rgba(255,255,255,0.05); border-color: #444; color: #999; }
+.gen-btn-secondary:hover { border-color: #777; color: #ccc; }
+.gen-btn-create    { background: rgba(0,200,100,0.15); border-color: #00cc66; color: #00ee77; font-size: 13px; padding: 6px 18px; }
+.gen-btn-create:hover { background: rgba(0,200,100,0.3); box-shadow: 0 0 10px rgba(0,200,100,0.3); }
+
+/* NPC Creator */
+.npc-nav { justify-content: space-between; }
+.mode-tabs { display: flex; gap: 4px; }
+.mode-tab {
+  padding: 3px 10px;
+  border-radius: 3px;
+  border: 1px solid #444;
+  cursor: pointer;
+  font-size: 11px;
+  color: #888;
+  transition: all 0.15s;
+}
+.mode-tab.active { border-color: #ff6600; color: #ff6600; background: rgba(255,102,0,0.15); }
+.npc-form { display: flex; flex-direction: column; gap: 8px; padding: 10px 14px; flex: 1; overflow-y: auto; }
+.nf-row { display: flex; flex-direction: column; gap: 3px; }
+.nf-row label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: #888; }
+.nf-row select, .nf-row input[type="text"], .nf-row textarea {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #d0d0d0;
+  padding: 5px 8px;
+  font-size: 12px;
+  font-family: inherit;
+}
+.nf-row select:focus, .nf-row input:focus, .nf-row textarea:focus { border-color: #00aacc; outline: none; }
+.nf-row textarea { resize: vertical; }
+.nf-row-full {}
+.nf-section-header {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #00aacc;
+  border-bottom: 1px solid rgba(0,170,200,0.3);
+  padding-bottom: 4px;
+  margin-top: 4px;
+}
+.threat-slider { width: 100%; accent-color: #ff6600; }
+.threat-label { color: #ff6600; font-weight: bold; font-size: 15px; margin-left: 6px; }
+.threat-desc { font-size: 10px; color: #555; }
+
+
+
+
+
+/* ═══════════════════════════════════════════════════════════
+   ZERO ENGINE — Mk2 DARK SHEET
+   High contrast · Grayscale · Readable
+   ═══════════════════════════════════════════════════════════ */
+
+/* ── PALETTE (mostly greyscale, one red accent) ──────────── */
+.sla-mk2 {
+  --c-bg:       #0a0a0a;
+  --c-panel:    #101010;
+  --c-border:   #303030;
+  --c-border2:  #1c1c1c;
+  --c-text:     #dedad3;   /* primary text — warm near-white */
+  --c-text2:    #a09c96;   /* secondary text */
+  --c-text3:    #5e5a57;   /* dim labels */
+  --c-red:      #cc1818;   /* single accent: SLA red */
+  --c-red-dim:  #4a1010;
+  --c-white:    #f2ede8;   /* numbers, names */
+  background: var(--c-bg);
+  color: var(--c-text);
+  font-family: "SLA Borg UI", "Rajdhani", "Orbitron", sans-serif;
+  font-size: 14px;
+  display: flex; flex-direction: column; height: 100%; overflow: hidden;
+}
+
+/* ── HEADER ──────────────────────────────────────────────── */
+.sla-mk2 .mk2-header {
+  display: flex; align-items: stretch;
+  background: #0a0a0a; border-bottom: 2px solid var(--c-red); flex-shrink: 0;
+}
+.sla-mk2 .mk2-portrait {
+  width: 76px; height: 76px; object-fit: cover; flex-shrink: 0;
+  border-right: 2px solid var(--c-red);
+  filter: saturate(0.2) contrast(1.3) brightness(0.9);
+}
+.sla-mk2 .mk2-identity { flex: 1; padding: 7px 12px; display: flex; flex-direction: column; gap: 6px; }
+.sla-mk2 .mk2-name {
+  background: transparent; border: none; border-bottom: 1px solid #3a2a2a;
+  color: var(--c-white); font-family: "SLA Borg Title", "Oswald", sans-serif;
+  font-size: 22px; text-transform: uppercase; letter-spacing: 3px; width: 100%; padding: 0;
+}
+.sla-mk2 .mk2-name:focus { outline: none; border-bottom-color: var(--c-red); }
+.sla-mk2 .mk2-id-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.sla-mk2 .mk2-field-pair {
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--c-border);
+  border-radius: 3px; padding: 2px 8px; font-size: 11px; color: var(--c-text3);
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.sla-mk2 .mk2-field-pair input {
+  background: transparent; border: none; color: var(--c-white); font-family: "SLA Borg Tech", monospace;
+  font-size: 13px; font-weight: bold; width: 50px; text-align: right;
+}
+.sla-mk2 .mk2-race-tag {
+  background: rgba(255,255,255,0.05); border: 1px solid var(--c-border);
+  border-radius: 3px; padding: 2px 8px; font-size: 11px; color: var(--c-text);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.sla-mk2 .mk2-race-tag.dim { color: var(--c-text3); }
+
+/* ── INITIATIVE COLUMN ───────────────────────────────────── */
+.sla-mk2 .mk2-init-col {
+  display: flex; flex-direction: column; align-items: stretch;
+  border-left: 2px solid var(--c-red); width: 90px; flex-shrink: 0;
+}
+.sla-mk2 .mk2-init-label {
+  font-family: "SLA Borg Title", "Oswald", sans-serif;
+  font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--c-text3); text-align: center; padding: 4px 2px;
+  border-bottom: 1px solid var(--c-border2); background: #0a0a0a;
+  writing-mode: horizontal-tb;
+}
+.sla-mk2 .mk2-init-btn {
+  flex: 1; font-size: 11px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 1px; cursor: pointer; border: none;
+  font-family: "SLA Borg UI", sans-serif; transition: filter 0.1s;
+  border-bottom: 1px solid rgba(0,0,0,0.3);
+}
+.sla-mk2 .mk2-init-btn:last-child { border-bottom: none; }
+.sla-mk2 .mk2-init-btn.red   { background: rgba(180,20,20,0.35); color: #ff9999; }
+.sla-mk2 .mk2-init-btn.grey  { background: rgba(60,60,60,0.4); color: #b0b0b0; }
+.sla-mk2 .mk2-init-btn:hover { filter: brightness(1.35); }
+
+/* ── VITALS ──────────────────────────────────────────────── */
+.sla-mk2 .mk2-vitals {
+  display: flex; align-items: center; gap: 5px; padding: 6px 8px;
+  background: #0a0a0a; border-bottom: 1px solid var(--c-border2); flex-shrink: 0;
+}
+.sla-mk2 .mk2-vital {
+  display: flex; align-items: baseline; gap: 3px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--c-border2);
+  border-radius: 3px; padding: 4px 9px;
+}
+.sla-mk2 .vl {
+  font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+  color: var(--c-text3); margin-right: 4px; font-weight: bold;
+  font-family: "SLA Borg UI", "Rajdhani", sans-serif;
+}
+.sla-mk2 .vnum {
+  font-family: "SLA Borg Tech", monospace; font-size: 24px; font-weight: bold;
+  background: transparent; border: none; text-align: center; width: 36px;
+  color: var(--c-white);
+}
+.sla-mk2 .vnum.red    { color: #e05050; }
+.sla-mk2 .vnum.blue   { color: #7090e0; }
+.sla-mk2 .vnum.orange { color: #e08030; }
+.sla-mk2 .vnum.purple { color: #c080f0; }
+.sla-mk2 .vnum.dim    { color: var(--c-text3); font-size: 16px; }
+.sla-mk2 .vsep        { color: var(--c-border); font-size: 18px; }
+.sla-mk2 .mk2-vital.red    { border-color: rgba(180,40,40,0.4); }
+.sla-mk2 .mk2-vital.blue   { border-color: rgba(60,80,180,0.4); }
+.sla-mk2 .mk2-vital.orange { border-color: rgba(160,80,20,0.4); }
+.sla-mk2 .mk2-vital.purple { border-color: rgba(140,60,200,0.35); }
+.sla-mk2 .mk2-crit-col { margin-left: auto; display: flex; flex-direction: column; gap: 4px; }
+.sla-mk2 .mk2-crit-btn {
+  padding: 4px 11px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px;
+  cursor: pointer; border-radius: 3px; font-family: "SLA Borg UI", sans-serif;
+  font-weight: bold; border: 1px solid;
+}
+.sla-mk2 .mk2-crit-btn.red    { background: rgba(180,20,20,0.18); border-color: #6a1010; color: #dd5555; }
+.sla-mk2 .mk2-crit-btn.purple { background: rgba(120,50,200,0.12); border-color: #552299; color: #c080f0; }
+
+/* ── TABS ────────────────────────────────────────────────── */
+.sla-mk2 .mk2-nav {
+  display: flex; background: #090909; border-bottom: 2px solid var(--c-border2); flex-shrink: 0;
+}
+.sla-mk2 .mk2-tab {
+  padding: 8px 16px; font-size: 12px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 2px; color: var(--c-text3); cursor: pointer;
+  border-right: 1px solid var(--c-border2);
+  font-family: "SLA Borg Title","Oswald",sans-serif; position: relative; transition: color 0.1s;
+}
+.sla-mk2 .mk2-tab:hover { color: var(--c-text2); }
+.sla-mk2 .mk2-tab.active { color: var(--c-white); background: rgba(255,255,255,0.04); }
+.sla-mk2 .mk2-tab.active::after {
+  content:''; position:absolute; bottom:-2px; left:0; right:0; height:2px; background: var(--c-red);
+}
+.sla-mk2 .mk2-tab.ebb-tab.active { color: #c080f0; }
+.sla-mk2 .mk2-tab.ebb-tab.active::after { background: #9944cc; }
+
+/* ── PANELS ──────────────────────────────────────────────── */
+.sla-mk2 .mk2-panel { display: none; padding: 9px; overflow-y: auto; flex: 1; }
+.sla-mk2 .mk2-panel.active { display: block; }
+.sla-mk2 .mk2-subhead {
+  font-family: "SLA Borg Title", "Oswald", sans-serif;
+  font-size: 13px; text-transform: uppercase; letter-spacing: 2.5px; color: var(--c-text2);
+  border-bottom: 1px solid var(--c-border); padding-bottom: 5px; margin-bottom: 8px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.sla-mk2 .mk2-none-msg { font-size: 11px; color: var(--c-text3); font-style: italic; padding: 3px 6px; }
+.sla-mk2 .mk2-add { font-size: 11px; color: var(--c-red); cursor: pointer; font-family: sans-serif; letter-spacing: 0; font-weight: normal; }
+
+/* ── ATTRIBUTE + SKILL GRID ──────────────────────────────── */
+.sla-mk2 .mk2-attr-skill-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 12px;
+}
+.sla-mk2 .mk2-attr-col {
+  background: var(--c-panel); border: 1px solid var(--c-border2);
+  border-top: 2px solid var(--c-border); border-radius: 3px; overflow: hidden;
+}
+/* Subtle top border tints per attribute — greyscale with a hint of color */
+.sla-mk2 .str-color { border-top-color: #704040; }
+.sla-mk2 .agi-color { border-top-color: #606040; }
+.sla-mk2 .wit-color { border-top-color: #404060; }
+.sla-mk2 .emp-color { border-top-color: #405540; }
+
+.sla-mk2 .mk2-attr-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 5px 7px; border-bottom: 1px solid var(--c-border2); background: rgba(255,255,255,0.04);
+}
+.sla-mk2 .mk2-attr-abbr {
+  font-family: "SLA Borg Title", "Oswald", sans-serif;
+  font-size: 14px; font-weight: bold; letter-spacing: 2px; color: var(--c-text2);
+}
+.sla-mk2 .mk2-attr-val {
+  font-family: "SLA Borg Tech", monospace; font-size: 28px; font-weight: bold;
+  color: var(--c-white); background: transparent; border: none; text-align: center; width: 34px;
+}
+.sla-mk2 .mk2-attr-roll {
+  background: transparent; border: none; color: var(--c-text3); cursor: pointer;
+  font-size: 11px; padding: 2px 4px; transition: color 0.1s;
+}
+.sla-mk2 .mk2-attr-roll:hover { color: var(--c-red); }
+
+/* Skill entries — LARGER, readable text */
+.sla-mk2 .mk2-skill-entry {
+  display: flex; align-items: center; gap: 5px; padding: 4px 7px;
+  border-bottom: 1px solid var(--c-border2);
+}
+.sla-mk2 .mk2-skill-entry:last-child { border-bottom: none; }
+.sla-mk2 .mk2-skill-entry.ebb-sk { background: rgba(140,60,200,0.07); }
+.sla-mk2 .mk2-sk-roll {
+  background: transparent; border: none; color: var(--c-text3); cursor: pointer;
+  font-size: 10px; padding: 0; width: 14px; flex-shrink: 0; transition: color 0.1s;
+}
+.sla-mk2 .mk2-sk-roll:hover { color: var(--c-red); }
+.sla-mk2 .mk2-sk-name {
+  flex: 1; font-size: 13px; font-weight: bold; color: var(--c-text);
+  white-space: nowrap; overflow: hidden; font-family: "SLA Borg UI","Rajdhani",sans-serif;
+  letter-spacing: 0.5px;
+}
+.sla-mk2 .mk2-sk-dots { display: flex; gap: 3px; flex-shrink: 0; }
+.sla-mk2 .mk2-dot {
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 1px solid #444; /* visible empty dots */ background: transparent;
+}
+.sla-mk2 .mk2-dot.on { background: #c0bab4; border-color: #c0bab4; } /* greyscale filled */
+.sla-mk2 .str-color .mk2-dot.on { background: #c08080; border-color: #c08080; }
+.sla-mk2 .agi-color .mk2-dot.on { background: #b0a870; border-color: #b0a870; }
+.sla-mk2 .wit-color .mk2-dot.on { background: #7090c0; border-color: #7090c0; }
+.sla-mk2 .emp-color .mk2-dot.on { background: #70b090; border-color: #70b090; }
+.sla-mk2 .ebb-dot.on { background: #c080f0 !important; border-color: #c080f0 !important; }
+.sla-mk2 .mk2-sk-num {
+  font-size: 14px; font-weight: bold; color: var(--c-white); /* HIGH CONTRAST */
+  width: 16px; text-align: right; flex-shrink: 0;
+}
+
+/* ── SPECIALTIES ─────────────────────────────────────────── */
+.sla-mk2 .mk2-spec {
+  display: flex; align-items: center; gap: 8px; padding: 4px 6px;
+  border-left: 2px solid var(--c-border); margin-bottom: 3px;
+  background: rgba(255,255,255,0.02);
+}
+.sla-mk2 .mk2-spec.racial { border-left-color: var(--c-red); }
+.sla-mk2 .mk2-spec-name {
+  font-size: 13px; font-weight: bold; color: var(--c-white); /* HIGH CONTRAST */
+  width: 160px; flex-shrink: 0;
+}
+.sla-mk2 .mk2-spec-fx { flex: 1; font-size: 12px; color: var(--c-text2); }
+.sla-mk2 .mk2-ico { font-size: 11px; cursor: pointer; color: var(--c-text3); flex-shrink: 0; }
+.sla-mk2 .mk2-ico:hover { color: var(--c-text2); }
+.sla-mk2 .mk2-ico.del:hover { color: var(--c-red); }
+
+/* ── ARMOUR ON STATS PANEL ───────────────────────────────── */
+.sla-mk2 .mk2-armor-stat-row {
+  display: flex; align-items: center; gap: 8px; padding: 5px 8px;
+  background: rgba(255,255,255,0.03); border: 1px solid var(--c-border2);
+  border-radius: 3px; margin-bottom: 4px;
+}
+.sla-mk2 .mk2-armor-stat-name { flex: 1; font-size: 13px; font-weight: bold; color: var(--c-white); }
+.sla-mk2 .mk2-armor-stat-val { font-size: 12px; color: var(--c-text2); font-family: "SLA Borg Tech",monospace; }
+
+/* ── WEAPONS ─────────────────────────────────────────────── */
+.sla-mk2 .mk2-wpn {
+  background: rgba(255,255,255,0.025); border: 1px solid var(--c-border2);
+  border-left: 3px solid #6a1818; border-radius: 0 3px 3px 0; padding: 7px 10px; margin-bottom: 4px;
+}
+.sla-mk2 .mk2-wpn.mk2-wpn-empty {
+  border-left-color: #553010; opacity: 0.75;
+}
+.sla-mk2 .mk2-wpn-row1 {
+  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap;
+}
+.sla-mk2 .mk2-wpn-row2 {
+  display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; margin-top: 5px;
+}
+.sla-mk2 .mk2-wpn-name {
+  font-family: "SLA Borg Title","Oswald",sans-serif;
+  font-size: 16px; font-weight: bold; color: var(--c-white);
+  text-transform: uppercase; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.sla-mk2 .mk2-stat-pill {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--c-border); border-radius: 2px;
+  padding: 2px 8px; font-size: 12px; font-family: "SLA Borg Tech",monospace;
+  color: var(--c-text2); white-space: nowrap; flex-shrink: 0;
+}
+.sla-mk2 .mk2-stat-pill.orange { border-color: #5a3010; color: #c08040; }
+.sla-mk2 .mk2-stat-pill.teal   { border-color: #105040; color: #50b0a0; }
+.sla-mk2 .mk2-ammo-empty-pill {
+  font-size: 10px; font-weight: bold; color: #ff5500; background: rgba(150,40,0,0.2);
+  border: 1px solid #882200; border-radius: 2px; padding: 1px 6px; white-space: nowrap; flex-shrink: 0;
+}
+.sla-mk2 .mk2-caliber {
+  background: rgba(180,20,20,0.08); border: 1px solid #3a1010; border-radius: 2px;
+  padding: 2px 8px; font-size: 11px; font-family: "SLA Borg Tech",monospace;
+  color: #996666; text-transform: uppercase; flex-shrink: 0;
+}
+/* Round-type button group */
+.sla-mk2 .mk2-rb-group {
+  display: flex; gap: 0; flex-shrink: 0;
+}
+.sla-mk2 .mk2-rb-group .mk2-rb:not(:last-child) { border-right: none; border-radius: 2px 0 0 2px; }
+.sla-mk2 .mk2-rb-group .mk2-rb:last-child { border-radius: 0 2px 2px 0; }
+.sla-mk2 .mk2-rb-group .mk2-rb:not(:first-child):not(:last-child) { border-radius: 0; }
+
+/* Round buttons — compact toggles */
+.sla-mk2 .mk2-rb {
+  padding: 3px 10px; font-size: 11px; font-weight: bold; text-transform: uppercase;
+  border-radius: 2px; cursor: pointer; font-family: "SLA Borg Tech",monospace;
+  border: 1px solid var(--c-border); background: rgba(255,255,255,0.04); color: var(--c-text3);
+  transition: filter 0.1s; white-space: nowrap; flex-shrink: 0;
+}
+.sla-mk2 .mk2-rb.rb-std { border-color: #2a5a2a; color: #70c070; background: rgba(40,100,40,0.18); }
+.sla-mk2 .mk2-rb.rb-ap  { border-color: #2a3a6a; color: #6090d0; background: rgba(40,60,140,0.18); }
+.sla-mk2 .mk2-rb.rb-he  { border-color: #6a2a1a; color: #d06040; background: rgba(140,50,20,0.18); }
+.sla-mk2 .mk2-rb:hover { filter: brightness(1.4); }
+
+/* Attack button — the main call-to-action */
+.sla-mk2 .mk2-attack-btn {
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* Locked/empty state */
+.sla-mk2 .mk2-btn-locked,
+.sla-mk2 .mk2-btn-locked:disabled {
+  background: rgba(50,50,50,0.2) !important; border-color: #444 !important;
+  color: #555 !important; cursor: not-allowed;
+}
+
+/* Action buttons */
+.sla-mk2 .mk2-action-btn {
+  padding: 4px 14px; font-size: 12px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 0.5px; cursor: pointer; border-radius: 2px;
+  font-family: "SLA Borg UI","SLA Borg Title",sans-serif; border: 1px solid; transition: filter 0.1s; flex-shrink: 0;
+}
+.sla-mk2 .mk2-action-btn.red    { background: rgba(200,20,20,0.22); border-color: #6a1010; color: #ee6060; }
+.sla-mk2 .mk2-action-btn.teal   { background: rgba(20,100,90,0.15); border-color: #104040; color: #60b0a8; }
+.sla-mk2 .mk2-action-btn.grey   { background: rgba(80,80,80,0.15); border-color: #444; color: #aaa; }
+.sla-mk2 .mk2-action-btn.purple { background: rgba(120,50,200,0.15); border-color: #551199; color: #cc88ff; min-width: 110px; text-align: center; }
+.sla-mk2 .mk2-action-btn:hover  { filter: brightness(1.35); }
+
+.sla-mk2 .mk2-armor { display: flex; align-items: center; gap: 8px; padding: 5px 8px; background: rgba(255,255,255,0.03); border: 1px solid var(--c-border2); border-radius: 3px; margin-bottom: 4px; }
+.sla-mk2 .mk2-armor-name { flex: 1; font-size: 13px; font-weight: bold; color: var(--c-white); }
+
+/* ── FINANCES ────────────────────────────────────────────── */
+.sla-mk2 .mk2-credits-big { text-align: center; font-family: "SLA Borg Tech",monospace; font-size: 48px; font-weight: bold; color: var(--c-white); text-shadow: 0 0 16px rgba(255,200,100,0.12); padding: 12px 0 10px; border-bottom: 1px solid var(--c-border2); margin-bottom: 12px; letter-spacing: 2px; }
+.sla-mk2 .mk2-c-unit { font-size: 20px; color: var(--c-text3); }
+.sla-mk2 .mk2-debt { font-size: 13px; color: #dd4444; margin-left: 14px; vertical-align: middle; }
+.sla-mk2 .mk2-fin-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sla-mk2 .mk2-fin-col { background: rgba(255,255,255,0.03); border: 1px solid var(--c-border2); border-radius: 3px; padding: 8px; }
+.sla-mk2 .mk2-fin-head { font-family: "SLA Borg Title","Oswald",sans-serif; font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; padding-bottom: 5px; margin-bottom: 6px; font-weight: bold; }
+.sla-mk2 .mk2-fin-head.green { color: #60b080; border-bottom: 1px solid rgba(80,160,100,0.25); }
+.sla-mk2 .mk2-fin-head.red   { color: #c05050; border-bottom: 1px solid rgba(160,50,50,0.25); }
+.sla-mk2 .mk2-fin-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.06); font-size: 14px; }
+.sla-mk2 .mk2-fin-row label { color: var(--c-text); font-family: "SLA Borg UI","Oswald",sans-serif; font-size: 13px; }
+.sla-mk2 .mk2-fin-amount { display: flex; align-items: center; gap: 4px; flex-shrink: 0; }
+.sla-mk2 .mk2-fin-amount input { background: rgba(255,255,255,0.06); border: 1px solid var(--c-border); border-radius: 2px; color: var(--c-white); font-family:"SLA Borg Tech",monospace; font-size: 14px; text-align: right; width: 80px; padding: 3px 6px; }
+.sla-mk2 .mk2-fin-amount > span { color: var(--c-text3); font-size: 12px; font-family:"SLA Borg Tech",monospace; }
+.sla-mk2 .mk2-fin-total { display: flex; justify-content: space-between; align-items: center; padding: 6px 0 3px; font-size: 15px; font-weight: bold; border-top: 1px solid var(--c-border); margin-top: 4px; font-family: "SLA Borg Title","Oswald",sans-serif; text-transform: uppercase; letter-spacing: 1px; }
+.sla-mk2 .green { color: #60c080; } .sla-mk2 .red { color: #dd5555; } .sla-mk2 .orange { color: #c08040; } .sla-mk2 .fw { font-weight: bold; }
+.sla-mk2 .mk2-net-row { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.04); border: 1px solid var(--c-border); border-radius: 3px; padding: 10px 16px; margin-top: 10px; }
+.sla-mk2 .mk2-net-label { font-family:"SLA Borg Title","Oswald",sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 2px; color: var(--c-text2); }
+.sla-mk2 .mk2-net-val { font-family:"SLA Borg Tech",monospace; font-size: 32px; font-weight: bold; letter-spacing: 2px; }
+.sla-mk2 .mk2-net-val.green { color: #60c080; } .sla-mk2 .mk2-net-val.red { color: #dd5555; }
+.sla-mk2 .mk2-ammo-list { display: flex; flex-direction: column; gap: 3px; }
+.sla-mk2 .mk2-ammo-row { display: flex; align-items: center; gap: 8px; padding: 4px 7px; background: rgba(255,255,255,0.03); border-radius: 2px; border: 1px solid var(--c-border2); }
+.sla-mk2 .mk2-ammo-cal { color: var(--c-text2); text-transform: uppercase; font-size: 11px; font-weight: bold; width: 55px; }
+.sla-mk2 .mk2-ammo-type { font-size: 11px; font-weight: bold; text-transform: uppercase; }
+.sla-mk2 .mk2-ammo-type.standard { color: #70c070; } .sla-mk2 .mk2-ammo-type.ap { color: #7090c0; } .sla-mk2 .mk2-ammo-type.he { color: #c07050; }
+.sla-mk2 .mk2-ammo-qty { font-family:"SLA Borg Tech",monospace; font-size: 18px; font-weight: bold; color: var(--c-white); }
+.sla-mk2 .mk2-ammo-cost { color: var(--c-text3); font-size: 11px; }
+
+/* ── EBB ─────────────────────────────────────────────────── */
+.sla-mk2 .mk2-ebb-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: rgba(100,40,180,0.1); border: 1px solid rgba(120,50,200,0.25); border-left: 3px solid #6622bb; border-radius: 0 3px 3px 0; margin-bottom: 5px; }
+.sla-mk2 .mk2-ebb-disc { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; border-radius: 2px; padding: 4px 10px; background: rgba(120,50,200,0.2); border: 1px solid rgba(140,60,220,0.45); color: #bb88ff; white-space: nowrap; font-family: "SLA Borg Title","Oswald",sans-serif; min-width: 64px; text-align: center; }
+.sla-mk2 .mk2-ebb-info { flex: 1; min-width: 0; }
+.sla-mk2 .mk2-ebb-name { display: block; font-size: 17px; font-weight: bold; color: var(--c-white); text-transform: uppercase; font-family: "SLA Borg Title","Oswald",sans-serif; }
+.sla-mk2 .mk2-ebb-meta { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 3px; }
+.sla-mk2 .mk2-ebb-flux { font-size: 13px; color: #cc88ff; font-family: "SLA Borg Tech",monospace; }
+.sla-mk2 .mk2-ebb-suc  { font-size: 13px; color: var(--c-text2); }
+.sla-mk2 .mk2-ebb-range, .sla-mk2 .mk2-ebb-dur { font-size: 12px; color: var(--c-text3); }
+.sla-mk2 .mk2-ebb-effect { font-size: 12px; color: var(--c-text2); margin-top: 3px; font-style: italic; }
+.sla-mk2 .mk2-ebb-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.sla-mk2 .mk2-channel-btn { font-size: 13px; padding: 5px 14px; }
+
+/* ── GEAR / NOTES ────────────────────────────────────────── */
+.sla-mk2 .mk2-gear-row { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border-bottom: 1px solid var(--c-border2); font-size: 14px; }
+.sla-mk2 .mk2-gear-name { flex: 1; color: var(--c-text); font-family: "SLA Borg UI","Rajdhani",sans-serif; font-size: 14px; }
+.sla-mk2 .mk2-bio { width: 100%; height: 230px; background: rgba(255,255,255,0.03); border: 1px solid var(--c-border); color: var(--c-text); /* READABLE */ font-family: "SLA Borg Book",serif; font-size: 13px; padding: 9px; resize: vertical; line-height: 1.6; border-radius: 3px; }
+
+/* ── Mk1 finances + armor name ───────────────────────────── */
+.zero-engine .armor-name-display { font-size: 12px; margin-bottom: 3px; }
+.zero-engine .equipped-armor-name { color: #00d4ff; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; }
+.zero-engine .equipped-armor-name.none { color: #555; font-style: italic; text-transform: none; }
+.zero-engine .finances-section { padding: 12px; }
+.zero-engine .finances-credits-hero { display: flex; align-items: center; gap: 16px; background: rgba(0,0,0,0.3); border: 2px solid rgba(255,102,0,0.3); border-radius: 6px; padding: 12px 18px; margin-bottom: 14px; }
+.zero-engine .fin-credit-label { font-size: 11px; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+.zero-engine .fin-credit-value { font-size: 28px; font-weight: bold; color: #00d4ff; }
+.zero-engine .fin-credit-value input { background: transparent; border: none; color: #00d4ff; font-size: 26px; font-weight: bold; width: 100px; }
+.zero-engine .fin-debt-badge { background: rgba(220,40,40,0.2); border: 1px solid #cc2222; border-radius: 4px; padding: 3px 8px; color: #ff4444; font-size: 12px; font-weight: bold; margin-left: auto; }
+.zero-engine .finances-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+.zero-engine .fin-panel { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,102,0,0.2); border-radius: 6px; padding: 10px; }
+.zero-engine .fin-panel-title { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.zero-engine .income-panel .fin-panel-title { color: #44cc88; }
+.zero-engine .expense-panel .fin-panel-title { color: #ff6644; }
+.zero-engine .fin-row { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 12px; }
+.zero-engine .fin-row label { color: #aaa; }
+.zero-engine .fin-row input { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; color: #ddd; text-align: right; width: 80px; padding: 2px 5px; font-size: 12px; }
+.zero-engine .fin-row.fin-total { border-top: 2px solid rgba(255,102,0,0.3); border-bottom: none; margin-top: 4px; padding-top: 6px; font-weight: bold; }
+.zero-engine .fin-total-val { font-size: 15px; color: #ff9955; }
+.zero-engine .income-total .fin-total-val { color: #44cc88; }
+.zero-engine .expense-total .fin-total-val { color: #ff6644; }
+.zero-engine .fin-btax { color: #ff9900; font-weight: bold; }
+.zero-engine .fin-net-bar { display: flex; justify-content: space-between; align-items: center; background: rgba(255,102,0,0.08); border: 2px solid rgba(255,102,0,0.25); border-radius: 6px; padding: 10px 18px; }
+.zero-engine .fin-net-label { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+.zero-engine .fin-net-val { font-size: 22px; font-weight: bold; }
+.zero-engine .net-positive { color: #44cc88; } .zero-engine .net-negative { color: #ff4444; }
+/* bullet tax chat */
+.bullet-tax-line { color: #886600; font-style: italic; }
+.btax-total { color: #cc4400; font-weight: bold; }
+
+/* ── Gear section: amber/yellow accent ── */
+.zero-engine .weapons-section:has(h2 .fa-toolbox) h2,
+.zero-engine .gear-section-header {
+  background: linear-gradient(90deg, #aa7700 0%, transparent 100%) !important;
+}
+
+/* ── Drugs section: magenta/purple accent ── */
+.zero-engine .weapons-section:has(h2 .fa-pills) h2,
+.zero-engine .drugs-section-header {
+  background: linear-gradient(90deg, #880077 0%, transparent 100%) !important;
+}
+
+/* Drug item — richer status display */
+.zero-engine .drug-item {
+  position: relative;
+}
+
+.zero-engine .drug-item.drug-active {
+  border-left-color: #00dd66;
+  background: rgba(0,90,40,0.22);
+  box-shadow: inset 0 0 12px rgba(0,200,80,0.08);
+}
+
+.zero-engine .drug-item.drug-withdrawal {
+  border-left-color: #dd5500;
+  background: rgba(80,30,0,0.22);
+  box-shadow: inset 0 0 12px rgba(220,80,0,0.08);
+}
+
+/* ── Active Conditions Row ──────────────────────────────── */
+.zero-engine .active-conditions-row {
+  display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; padding: 5px 0;
+}
+.zero-engine .condition-tag {
+  display: flex; align-items: center; gap: 4px;
+  background: rgba(200,80,0,0.15); border: 1px solid rgba(200,100,0,0.4);
+  border-radius: 3px; padding: 3px 7px; font-size: 11px; color: #e0a060;
+  font-family: "SLA Borg UI", sans-serif; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.zero-engine .condition-tag.sla-bleeding { border-color: #aa2222; background: rgba(160,20,20,0.2); color: #ff6666; }
+.zero-engine .condition-tag.sla-stunned  { border-color: #aaaa22; background: rgba(140,140,20,0.18); color: #ffff88; }
+.zero-engine .condition-tag.sla-winded   { border-color: #888822; background: rgba(120,120,20,0.15); color: #dddd66; }
+.zero-engine .condition-tag.sla-broken-arm,.zero-engine .condition-tag.sla-broken-leg { border-color: #882200; background: rgba(120,40,0,0.2); color: #ff8844; }
+.zero-engine .condition-tag.sla-panicking { border-color: #882288; background: rgba(120,20,120,0.2); color: #ff88ff; }
+.zero-engine .condition-tag.sla-shaken   { border-color: #664488; background: rgba(100,40,120,0.18); color: #cc88ff; }
+.zero-engine .condition-clear-btn {
+  background: transparent; border: none; color: inherit; cursor: pointer;
+  font-size: 10px; padding: 0 0 0 3px; opacity: 0.7; line-height: 1;
+}
+.zero-engine .condition-clear-btn:hover { opacity: 1; }
+
+/* ── Stress max display ─────────────────────────────────── */
+.zero-engine .stress-max-display {
+  color: #555; font-size: 14px; margin-left: 2px; align-self: center;
+}
+
+/* ── Drug withdrawal warning ────────────────────────────── */
+.zero-engine .drug-withdrawal-warning {
+  background: rgba(180,80,0,0.15); border: 1px solid rgba(220,100,0,0.35);
+  border-radius: 4px; padding: 6px 10px; margin-bottom: 8px;
+  color: #ff8833; font-size: 12px; display: flex; align-items: center; gap: 8px;
+}
+.zero-engine .drug-withdrawal-warning i { font-size: 14px; }
+
+/* ══════════════════════════════════════════════════════════════
+   BPN PANEL — original sheet
+   ══════════════════════════════════════════════════════════════ */
+.zero-engine .bpn-panel {
+  margin-top: 16px;
+  border: 2px solid #334;
+  border-radius: 5px;
+  overflow: hidden;
+  background: rgba(0,0,0,0.25);
+}
+
+/* Color theming by BPN type */
+.zero-engine .bpn-panel.bpn-type-blue   { border-color: #1155aa; }
+.zero-engine .bpn-panel.bpn-type-red    { border-color: #aa1111; }
+.zero-engine .bpn-panel.bpn-type-white  { border-color: #888; }
+.zero-engine .bpn-panel.bpn-type-gold   { border-color: #aa8800; }
+.zero-engine .bpn-panel.bpn-type-silver { border-color: #778899; }
+.zero-engine .bpn-panel.bpn-type-black  { border-color: #222; background: rgba(0,0,0,0.5); }
+.zero-engine .bpn-panel.bpn-type-grey   { border-color: #555; }
+.zero-engine .bpn-panel.bpn-type-violet { border-color: #6622aa; }
+
+.zero-engine .bpn-header {
+  display: flex; justify-content: space-between; align-items: center;
+  flex-wrap: wrap; gap: 8px;
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.zero-engine .bpn-header-left { display: flex; align-items: center; gap: 10px; }
+.zero-engine .bpn-header-right { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.zero-engine .bpn-type-badge {
+  font-family: "SLA Borg Title","Oswald",sans-serif;
+  font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+  padding: 3px 10px; border-radius: 2px; white-space: nowrap;
+}
+.zero-engine .bpn-type-blue   .bpn-type-badge { background: rgba(20,80,180,0.3); color: #88bbff; border: 1px solid #3366cc; }
+.zero-engine .bpn-type-red    .bpn-type-badge { background: rgba(180,20,20,0.3); color: #ff8888; border: 1px solid #cc3333; }
+.zero-engine .bpn-type-white  .bpn-type-badge { background: rgba(200,200,200,0.15); color: #ddd; border: 1px solid #888; }
+.zero-engine .bpn-type-gold   .bpn-type-badge { background: rgba(180,140,0,0.25); color: #ffdd66; border: 1px solid #aa9900; }
+.zero-engine .bpn-type-silver .bpn-type-badge { background: rgba(120,140,160,0.2); color: #aabbcc; border: 1px solid #778899; }
+.zero-engine .bpn-type-black  .bpn-type-badge { background: rgba(0,0,0,0.6); color: #999; border: 1px solid #333; }
+.zero-engine .bpn-type-grey   .bpn-type-badge { background: rgba(80,80,80,0.3); color: #aaa; border: 1px solid #555; }
+.zero-engine .bpn-type-violet .bpn-type-badge { background: rgba(100,30,170,0.3); color: #cc88ff; border: 1px solid #7733bb; }
+
+.zero-engine .bpn-code-input {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 3px; color: #ddd; font-family: "SLA Borg Tech",monospace;
+  font-size: 14px; letter-spacing: 1px; padding: 4px 8px; width: 140px;
+}
+.zero-engine .bpn-type-select, .zero-engine .bpn-status-select {
+  background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 3px; color: #ccc; font-size: 12px; padding: 4px 6px;
+}
+.zero-engine .bpn-reward-field { display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa; }
+.zero-engine .bpn-reward-input { width: 70px; }
+
+.zero-engine .bpn-body { padding: 8px 12px; display: flex; flex-direction: column; gap: 8px; }
+.zero-engine .bpn-field { display: flex; flex-direction: column; gap: 3px; }
+.zero-engine .bpn-field-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+.zero-engine .bpn-textarea {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 3px; color: #ccc; font-size: 12px; padding: 6px 8px;
+  resize: vertical; font-family: inherit; line-height: 1.5;
+}
+.zero-engine .bpn-textarea:focus { border-color: rgba(255,255,255,0.25); outline: none; }
+
+/* ══ BPN PANEL — Mk2 sheet ══ */
+.sla-mk2 .mk2-bpn {
+  border: 2px solid #334; border-radius: 3px; margin-bottom: 10px;
+  background: rgba(0,0,0,0.2); overflow: hidden;
+}
+.sla-mk2 .mk2-bpn.bpn-type-blue   { border-color: #1155aa; }
+.sla-mk2 .mk2-bpn.bpn-type-red    { border-color: #aa1111; }
+.sla-mk2 .mk2-bpn.bpn-type-white  { border-color: #888; }
+.sla-mk2 .mk2-bpn.bpn-type-gold   { border-color: #aa8800; }
+.sla-mk2 .mk2-bpn.bpn-type-silver { border-color: #778899; }
+.sla-mk2 .mk2-bpn.bpn-type-black  { border-color: #222; background: rgba(0,0,0,0.5); }
+.sla-mk2 .mk2-bpn.bpn-type-grey   { border-color: #555; }
+.sla-mk2 .mk2-bpn.bpn-type-violet { border-color: #6622aa; }
+
+.sla-mk2 .mk2-bpn-head {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  padding: 7px 10px; background: rgba(255,255,255,0.04);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.sla-mk2 .mk2-bpn-type {
+  font-family: "SLA Borg Title","Oswald",sans-serif;
+  font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+  color: #aaa; padding: 2px 8px; border-radius: 2px;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  white-space: nowrap; flex-shrink: 0;
+}
+.sla-mk2 .mk2-bpn-code {
+  background: rgba(255,255,255,0.06); border: 1px solid var(--c-border);
+  border-radius: 2px; color: var(--c-white); font-family: "SLA Borg Tech",monospace;
+  font-size: 13px; padding: 3px 7px; width: 130px;
+}
+.sla-mk2 .mk2-bpn-select {
+  background: rgba(0,0,0,0.4); border: 1px solid var(--c-border);
+  border-radius: 2px; color: var(--c-text2); font-size: 12px; padding: 3px 5px;
+}
+.sla-mk2 .mk2-bpn-text {
+  display: block; width: 100%; background: rgba(255,255,255,0.03);
+  border: none; border-top: 1px solid rgba(255,255,255,0.06);
+  color: var(--c-text); font-size: 12px; padding: 6px 10px;
+  resize: vertical; font-family: inherit; line-height: 1.5;
+}
+.sla-mk2 .mk2-bpn-text:focus { background: rgba(255,255,255,0.05); outline: none; }
+.sla-mk2 .mk2-bpn-text::placeholder { color: var(--c-text3); }
+
+/* ══════════════════════════════════════════════════════════════════
+   SLA INDUSTRIES — GAME PAUSED OVERLAY
+   ══════════════════════════════════════════════════════════════════ */
+
+/* Hide Foundry's default pause element while ours is active */
+body.ze-pause-active #pause {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Full-screen overlay */
+body > .ze-pause-root {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: radial-gradient(circle at center, rgba(120,0,0,0.07), transparent 30%),
+              rgba(0,0,0,0.18);
+}
+
+body > .ze-pause-root .ze-pause-stage {
+  width: min(34vw, 420px);
+  height: min(44vw, 520px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body > .ze-pause-root .ze-pause-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 0 22px rgba(180, 20, 20, 0.3));
+}
+
+/* Animations */
+body > .ze-pause-root .ze-pause-standby {
+  animation: zePausePulse 1.8s ease-in-out infinite;
+}
+body > .ze-pause-root .ze-pause-standby2 {
+  animation: zePausePulse 1.8s ease-in-out infinite 0.9s;
+}
+body > .ze-pause-root .ze-pause-scan {
+  transform-origin: 0 0;
+  animation: zePauseScan 3s linear infinite;
+}
+body > .ze-pause-root .ze-pause-logo-core {
+  animation: zePauseLogoPulse 2.6s ease-in-out infinite;
+}
+body > .ze-pause-root .ze-pause-core-glow {
+  animation: zePauseCoreGlow 3s ease-in-out infinite;
+}
+body > .ze-pause-root .ze-sat,
+body > .ze-pause-root .ze-sat-inner {
+  animation: zePauseSatPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes zePausePulse {
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 1; }
+}
+@keyframes zePauseScan {
+  0%   { transform: rotate(0deg);   opacity: 0.08; }
+  50%  { opacity: 0.32; }
+  100% { transform: rotate(360deg); opacity: 0.08; }
+}
+@keyframes zePauseLogoPulse {
+  0%, 100% { opacity: 0.82; filter: brightness(0.9); }
+  50%       { opacity: 1;    filter: brightness(1.25); }
+}
+@keyframes zePauseCoreGlow {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.9; }
+}
+@keyframes zePauseSatPulse {
+  0%, 100% { opacity: 0.7; r: 4; }
+  50%       { opacity: 1;   r: 5.5; }
+}
+
+/* ══ Vevaphon Morph Form Panel ══ */
+.zero-engine .morph-form-panel {
+  background: rgba(0,0,0,0.2); border: 1px solid #333; border-radius: 5px;
+  padding: 10px 12px; margin-bottom: 14px;
+}
+.zero-engine .morph-form-buttons {
+  display: flex; gap: 8px; margin: 8px 0;
+}
+.zero-engine .morph-form-btn {
+  flex: 1; padding: 8px 4px; background: rgba(50,50,80,0.3);
+  border: 2px solid #444; border-radius: 5px; color: #aaa;
+  font-size: 11px; font-weight: bold; text-transform: uppercase;
+  cursor: pointer; transition: all 0.2s; text-align: center; line-height: 1.4;
+}
+.zero-engine .morph-form-btn:hover { border-color: #888; color: #fff; }
+.zero-engine .morph-form-btn.morph-active {
+  border-color: #00d4ff; color: #00d4ff; background: rgba(0,180,255,0.12);
+  box-shadow: 0 0 10px rgba(0,200,255,0.25);
+}
+.zero-engine .instability-warning { font-size: 11px; color: #ff8800; margin-left: 8px; }
+.zero-engine .instability-warning.active { animation: pulse-lethal 1.5s infinite; }
+.zero-engine .morph-instability-bar { display: flex; align-items: center; gap: 8px; margin-top: 8px; }
+.zero-engine .instability-track { display: flex; gap: 3px; flex: 1; }
+.zero-engine .instability-pip {
+  width: 16px; height: 16px; border-radius: 3px;
+  border: 1px solid #444; background: rgba(255,255,255,0.05); flex-shrink: 0;
+}
+.zero-engine .instability-pip.pip-filled { background: #ff8800; border-color: #cc6600; }
+.zero-engine .instability-pip.pip-filled.pip-danger { background: #ff2200; border-color: #cc1100; animation: pulse-lethal 1.5s infinite; }
+.zero-engine .instability-roll-btn {
+  background: rgba(255,100,0,0.2); border: 1px solid #cc5500; border-radius: 4px;
+  color: #ff8840; font-size: 11px; font-weight: bold; padding: 4px 10px;
+  cursor: pointer; white-space: nowrap; transition: all 0.2s;
+}
+.zero-engine .instability-roll-btn:hover { background: rgba(255,100,0,0.35); }
+/* Vevaphon instability vital box */
+.zero-engine .vevaphon-vital { border-color: #ff8800; background: rgba(80,40,0,0.15); }
+.zero-engine .vevaphon-vital label { color: #ff8800; }
+.zero-engine .vevaphon-vital .instability-value { border-color: #cc6600; color: #ffaa44; font-size: 18px; font-weight: bold; width: 40px; text-align: center; background: rgba(80,40,0,0.3); border: 1px solid; border-radius: 3px; padding: 4px; }
+
+/* Morph SHIFT button on specialty entries */
+.zero-engine .morph-shift-btn {
+  padding: 2px 10px; font-size: 10px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 0.5px; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+  background: rgba(0,180,255,0.1); border: 1px solid #0090cc; color: #44bbff;
+  white-space: nowrap; flex-shrink: 0;
+}
+.zero-engine .morph-shift-btn:hover { background: rgba(0,180,255,0.25); }
+.zero-engine .morph-shift-btn.morph-shift-active {
+  background: rgba(0,212,255,0.2); border-color: #00d4ff; color: #00d4ff;
+  box-shadow: 0 0 8px rgba(0,200,255,0.3);
+}

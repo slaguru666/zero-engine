@@ -1,0 +1,309 @@
+{{!-- ZERO ENGINE Mk2 — SLA Industries Dark Sheet --}}
+<div class="zero-engine sla-mk2">
+
+  {{!-- ═══ HEADER ══════════════════════════════════════════════════════════ --}}
+  <header class="mk2-header">
+    <img class="mk2-portrait" src="{{img}}" title="{{name}}" />
+    <div class="mk2-identity">
+      <input class="mk2-name" type="text" name="name" value="{{name}}" placeholder="OPERATIVE NAME" />
+      <div class="mk2-id-row">
+        <label class="mk2-field-pair">SCL<input type="number" name="system.details.scl" value="{{system.details.scl}}" /></label>
+        <label class="mk2-field-pair">c<input type="number" name="system.details.credits" value="{{system.details.credits}}" /></label>
+        <span class="mk2-race-tag">{{#if system.race.[0]}}{{system.race.[0]}}{{else}}—{{/if}}</span>
+        <span class="mk2-race-tag dim">{{#if archetype}}{{archetype}}{{else}}—{{/if}}</span>
+      </div>
+    </div>
+    <div class="mk2-init-col">
+      <span class="mk2-init-label">INITIATIVE</span>
+      <button type="button" class="init-agi mk2-init-btn red">AGI+MOB</button>
+      <button type="button" class="init-wit mk2-init-btn grey">WIT+OBS</button>
+    </div>
+  </header>
+
+  {{!-- ═══ VITALS ═══════════════════════════════════════════════════════════ --}}
+  <div class="mk2-vitals">
+    <div class="mk2-vital red">
+      <span class="vl">HP</span>
+      <input type="number" name="system.derivedStats.health.value" value="{{system.derivedStats.health.value}}" class="vnum red" />
+      <span class="vsep">/</span>
+      <input type="number" name="system.derivedStats.health.max" value="{{system.derivedStats.health.max}}" class="vnum dim" />
+    </div>
+    <div class="mk2-vital blue">
+      <span class="vl">RES</span>
+      <input type="number" name="system.derivedStats.resolve.value" value="{{system.derivedStats.resolve.value}}" class="vnum blue" />
+      <span class="vsep">/</span>
+      <input type="number" name="system.derivedStats.resolve.max" value="{{system.derivedStats.resolve.max}}" class="vnum dim" />
+    </div>
+    <div class="mk2-vital orange">
+      <span class="vl">STRESS</span>
+      <input type="number" name="system.stress" value="{{system.stress}}" class="vnum orange" />
+    </div>
+    {{#if isEbbUser}}
+    <div class="mk2-vital purple">
+      <span class="vl">FLUX</span>
+      <input type="number" name="system.flux.value" value="{{system.flux.value}}" class="vnum purple" />
+      <span class="vsep">/</span>
+      <span class="vnum dim">{{computedFluxMax}}</span>
+    </div>
+    {{/if}}
+    <div class="mk2-crit-col">
+      <button type="button" class="physical-critical-btn mk2-crit-btn red">💔 PHYS CRIT</button>
+      <button type="button" class="mental-critical-btn mk2-crit-btn purple">🧠 MENTAL CRIT</button>
+    </div>
+  </div>
+
+  {{!-- ═══ TAB NAV ══════════════════════════════════════════════════════════ --}}
+  <nav class="mk2-nav">
+    <a class="mk2-tab active" data-tab="mk2-stats">STATS</a>
+    <a class="mk2-tab" data-tab="mk2-combat">COMBAT</a>
+    <a class="mk2-tab" data-tab="mk2-finances">FINANCES</a>
+    {{#if isEbbUser}}<a class="mk2-tab ebb-tab" data-tab="mk2-ebb">EBB</a>{{/if}}
+    <a class="mk2-tab" data-tab="mk2-gear">GEAR</a>
+    <a class="mk2-tab" data-tab="mk2-notes">NOTES</a>
+  </nav>
+
+  {{!-- ═══════════════════ STATS ═══════════════════════════════════════════ --}}
+  <div class="mk2-panel active" data-panel="mk2-stats">
+
+    {{!-- 4-column attribute+skill grid --}}
+    <div class="mk2-attr-skill-grid">
+      {{#each attributeGroups}}
+      <div class="mk2-attr-col {{colorClass}}">
+        {{!-- Attribute header --}}
+        <div class="mk2-attr-head">
+          <span class="mk2-attr-abbr">{{label}}</span>
+          <input type="number" class="mk2-attr-val" name="system.attributes.{{key}}.value" value="{{value}}" min="1" max="5" />
+          <button type="button" class="attr-roll-btn mk2-attr-roll" data-attribute="{{key}}">▶</button>
+        </div>
+        {{!-- 3 skills beneath --}}
+        {{#each skills}}
+        <div class="mk2-skill-entry">
+          <button type="button" class="skill-roll mk2-sk-roll" data-skill="{{key}}" data-attribute="{{attribute}}">▶</button>
+          <span class="mk2-sk-name">{{label}}</span>
+          <div class="mk2-sk-dots">{{#each dots}}<span class="mk2-dot {{#if filled}}on{{/if}}"></span>{{/each}}</div>
+          <span class="mk2-sk-num">{{value}}</span>
+          <input type="hidden" name="system.skills.{{key}}.value" value="{{value}}" />
+        </div>
+        {{/each}}
+        {{#if (eq key "empathy")}}
+        {{#if ../isEbbUser}}
+        <div class="mk2-skill-entry ebb-sk">
+          <span class="mk2-sk-roll" style="width:16px;"></span>
+          <span class="mk2-sk-name" style="color:#bb88ff;">Ebb</span>
+          <div class="mk2-sk-dots">{{#each ../skillsWithDots}}{{#if (eq key "ebb")}}{{#each dots}}<span class="mk2-dot ebb-dot {{#if filled}}on{{/if}}"></span>{{/each}}{{/if}}{{/each}}</div>
+          <span class="mk2-sk-num" style="color:#bb88ff;">{{../system.skills.ebb.value}}</span>
+          <input type="hidden" name="system.skills.ebb.value" value="{{../system.skills.ebb.value}}" />
+        </div>
+        {{/if}}
+        {{/if}}
+      </div>
+      {{/each}}
+    </div>
+
+    {{!-- Specialties --}}
+    <div class="mk2-subhead">SPECIALTIES &amp; RACIAL ABILITIES <a class="item-create mk2-add" data-type="specialty">+ ADD</a></div>
+    {{#each items}}
+    {{#if (eq type "specialty")}}
+    <div class="mk2-spec {{#if (eq system.category 'racial')}}racial{{/if}}">
+      <span class="mk2-spec-name">{{name}}</span>
+      <span class="mk2-spec-fx">{{system.effects}}</span>
+      <a class="item-edit mk2-ico" data-item-id="{{_id}}">✎</a>
+      <a class="item-delete mk2-ico del" data-item-id="{{_id}}">✕</a>
+    </div>
+    {{/if}}
+    {{/each}}
+
+    {{!-- Armor quick-view on stats panel --}}
+    <div class="mk2-subhead" style="margin-top:10px;">ARMOUR <a class="item-create mk2-add" data-type="armor">+ ADD</a></div>
+    {{#each items}}
+    {{#if (eq type "armor")}}
+    <div class="mk2-armor-stat-row">
+      <span class="mk2-armor-stat-name">{{name}}</span>
+      <span class="mk2-armor-stat-val">{{system.armorDice}}d6 + {{system.armorAuto}}</span>
+      <button type="button" class="armor-roll-btn mk2-action-btn grey" data-item-id="{{_id}}">ROLL AR</button>
+      <a class="item-delete mk2-ico del" data-item-id="{{_id}}">✕</a>
+    </div>
+    {{/if}}
+    {{/each}}
+    {{#unless armors.length}}<div class="mk2-none-msg">No armour equipped</div>{{/unless}}
+
+  </div>
+
+  {{!-- ═══════════════════ COMBAT ════════════════════════════════════════════ --}}
+  <div class="mk2-panel" data-panel="mk2-combat">
+
+    <div class="mk2-subhead">WEAPONS <a class="item-create mk2-add" data-type="weapon">+ ADD</a></div>
+    {{#each weaponItems}}
+    <div class="mk2-wpn {{#if system.ammoEmpty}}mk2-wpn-empty{{/if}}">
+      <div class="mk2-wpn-row1">
+        <span class="mk2-wpn-name">{{name}}</span>
+        <span class="mk2-stat-pill">DMG {{system.damage}}</span>
+        {{#if system.ap}}<span class="mk2-stat-pill">AP {{system.apEffective}}</span>{{/if}}
+        <span class="mk2-stat-pill">{{system.range}}</span>
+        {{#if system.gearBonus}}<span class="mk2-stat-pill">+{{system.gearBonus}}</span>{{/if}}
+        {{#if system.ammoEmpty}}<span class="mk2-ammo-empty-pill">🔒 EMPTY</span>{{/if}}
+        <a class="item-edit mk2-ico" data-item-id="{{_id}}">✎</a>
+        <a class="item-delete mk2-ico del" data-item-id="{{_id}}">✕</a>
+      </div>
+      {{#if (eq system.category "ranged")}}
+      <div class="mk2-wpn-row2">
+        {{#if caliber}}<span class="mk2-caliber">{{caliber}}</span>{{/if}}
+        <div class="mk2-rb-group">
+          <button type="button" class="round-select mk2-rb {{#if (eq roundType 'standard')}}rb-std{{/if}}" data-item-id="{{_id}}" data-round="standard">STD</button>
+          <button type="button" class="round-select mk2-rb {{#if (eq roundType 'ap')}}rb-ap{{/if}}" data-item-id="{{_id}}" data-round="ap">AP</button>
+          <button type="button" class="round-select mk2-rb {{#if (eq roundType 'he')}}rb-he{{/if}}" data-item-id="{{_id}}" data-round="he">HE</button>
+        </div>
+        <button type="button" class="weapon-roll-btn mk2-action-btn red mk2-attack-btn {{#if system.ammoEmpty}}mk2-btn-locked{{/if}}"
+                data-item-id="{{_id}}" title="{{#if system.ammoEmpty}}OUT OF AMMO — rest to restore{{else}}Roll attack{{/if}}"
+                {{#if system.ammoEmpty}}disabled{{/if}}>⚡ ATTACK</button>
+      </div>
+      {{else}}
+      <div class="mk2-wpn-row2">
+        <button type="button" class="weapon-roll-btn mk2-action-btn red mk2-attack-btn" data-item-id="{{_id}}">⚡ ATTACK</button>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+
+    <div class="mk2-subhead" style="margin-top:10px;">ARMOR <a class="item-create mk2-add" data-type="armor">+ ADD</a></div>
+    {{#each items}}
+    {{#if (eq type "armor")}}
+    <div class="mk2-armor">
+      <span class="mk2-armor-name">{{name}}</span>
+      <span class="mk2-stat-pill teal">{{system.armorDice}}d6 + {{system.armorAuto}}</span>
+      <a class="item-edit mk2-ico" data-item-id="{{_id}}">✎</a>
+      <a class="item-delete mk2-ico del" data-item-id="{{_id}}">✕</a>
+    </div>
+    {{/if}}
+    {{/each}}
+
+  </div>
+
+  {{!-- ═══════════════════ FINANCES ═════════════════════════════════════════ --}}
+  <div class="mk2-panel" data-panel="mk2-finances">
+    <div class="mk2-credits-big">{{system.details.credits}}<span class="mk2-c-unit">c</span>
+      {{#if system.finances.debt}}<span class="mk2-debt">⚠ DEBT {{system.finances.debt}}c</span>{{/if}}
+    </div>
+    <div class="mk2-fin-cols">
+      <div class="mk2-fin-col">
+        <div class="mk2-fin-head green">◈ INCOME / WEEK</div>
+        <div class="mk2-fin-row"><label>Salary</label><div class="mk2-fin-amount"><input type="number" name="system.finances.income.salary" value="{{system.finances.income.salary}}" /><span>c</span></div></div>
+        <div class="mk2-fin-row"><label>BPN Reward</label><div class="mk2-fin-amount"><input type="number" name="system.finances.income.bpnReward" value="{{system.finances.income.bpnReward}}" /><span>c</span></div></div>
+        <div class="mk2-fin-row"><label>Other</label><div class="mk2-fin-amount"><input type="number" name="system.finances.income.other" value="{{system.finances.income.other}}" /><span>c</span></div></div>
+        <div class="mk2-fin-total"><span>TOTAL</span><span class="green">{{weeklyIncome}}c</span></div>
+      </div>
+      <div class="mk2-fin-col">
+        <div class="mk2-fin-head red">◈ EXPENSES / WEEK</div>
+        <div class="mk2-fin-row"><label>Accommodation</label><div class="mk2-fin-amount"><input type="number" name="system.finances.expenses.accommodation" value="{{system.finances.expenses.accommodation}}" /><span>c</span></div></div>
+        <div class="mk2-fin-row"><label>Drugs</label><div class="mk2-fin-amount"><input type="number" name="system.finances.expenses.drugs" value="{{system.finances.expenses.drugs}}" /><span>c</span></div></div>
+        <div class="mk2-fin-row"><label>Subscriptions</label><div class="mk2-fin-amount"><input type="number" name="system.finances.expenses.subscriptions" value="{{system.finances.expenses.subscriptions}}" /><span>c</span></div></div>
+        <div class="mk2-fin-row"><label>Other</label><div class="mk2-fin-amount"><input type="number" name="system.finances.expenses.other" value="{{system.finances.expenses.other}}" /><span>c</span></div></div>
+        <div class="mk2-fin-row"><label>💸 Bullet Tax</label><span class="orange fw">{{system.finances.expenses.bulletTax}}c</span></div>
+        <div class="mk2-fin-row"><label>Debt</label><div class="mk2-fin-amount"><input type="number" name="system.finances.debt" value="{{system.finances.debt}}" /><span>c</span></div></div>
+        <div class="mk2-fin-total"><span>TOTAL</span><span class="red">{{weeklyExpenses}}c</span></div>
+      </div>
+    </div>
+    <div class="mk2-net-row">
+      <span class="mk2-net-label">WEEKLY NET</span>
+      <span class="mk2-net-val {{#if (gte weeklyNet 0)}}green{{else}}red{{/if}}">{{weeklyNetSign}}{{weeklyNet}}c</span>
+    </div>
+    {{!-- ══ BPN PANEL ══ --}}
+    <div class="mk2-bpn bpn-type-{{system.bpn.type}}">
+      <div class="mk2-bpn-head">
+        <span class="mk2-bpn-type">{{#if system.bpn.type}}{{system.bpn.type}}{{else}}BLUE{{/if}} BPN</span>
+        <input type="text" class="mk2-bpn-code" name="system.bpn.code" value="{{system.bpn.code}}" placeholder="BPN-XXX-α" />
+        <select name="system.bpn.type" class="mk2-bpn-select">
+          <option value="blue"   {{#if (eq system.bpn.type "blue")}}selected{{/if}}>Blue</option>
+          <option value="red"    {{#if (eq system.bpn.type "red")}}selected{{/if}}>Red</option>
+          <option value="white"  {{#if (eq system.bpn.type "white")}}selected{{/if}}>White</option>
+          <option value="gold"   {{#if (eq system.bpn.type "gold")}}selected{{/if}}>Gold</option>
+          <option value="silver" {{#if (eq system.bpn.type "silver")}}selected{{/if}}>Silver</option>
+          <option value="black"  {{#if (eq system.bpn.type "black")}}selected{{/if}}>Black</option>
+          <option value="grey"   {{#if (eq system.bpn.type "grey")}}selected{{/if}}>Grey</option>
+          <option value="violet" {{#if (eq system.bpn.type "violet")}}selected{{/if}}>Violet</option>
+        </select>
+        <select name="system.bpn.status" class="mk2-bpn-select">
+          <option value="open"     {{#if (eq system.bpn.status "open")}}selected{{/if}}>Open</option>
+          <option value="active"   {{#if (eq system.bpn.status "active")}}selected{{/if}}>Active</option>
+          <option value="complete" {{#if (eq system.bpn.status "complete")}}selected{{/if}}>Complete</option>
+          <option value="failed"   {{#if (eq system.bpn.status "failed")}}selected{{/if}}>Failed</option>
+        </select>
+        <div class="mk2-fin-amount" style="margin-left:auto;">
+          <input type="number" name="system.bpn.reward" value="{{system.bpn.reward}}" style="width:70px;" />
+          <span>c</span>
+        </div>
+      </div>
+      <textarea name="system.bpn.description" class="mk2-bpn-text" rows="2" placeholder="Briefing...">{{system.bpn.description}}</textarea>
+      <textarea name="system.bpn.objectives" class="mk2-bpn-text" rows="2" placeholder="Objectives...">{{system.bpn.objectives}}</textarea>
+      <textarea name="system.bpn.notes" class="mk2-bpn-text" rows="2" placeholder="Field notes...">{{system.bpn.notes}}</textarea>
+    </div>
+
+    <div class="mk2-subhead" style="margin-top:10px;">AMMO RESERVES</div>
+    <div class="mk2-ammo-list">
+      {{#each items}}
+      {{#if (eq type "ammo")}}
+      <div class="mk2-ammo-row">
+        <span class="mk2-ammo-cal">{{system.caliber}}</span>
+        <span class="mk2-ammo-type {{system.roundType}}">{{system.roundType}}</span>
+        <span class="mk2-ammo-qty">{{system.quantity}}</span>
+        <span class="mk2-ammo-cost">{{system.costPerRound}}c/rnd</span>
+        {{#if system.apBonus}}<span class="mk2-ammo-bonus teal">AP+{{system.apBonus}}</span>{{/if}}
+        {{#if system.damageMod}}<span class="mk2-ammo-bonus orange">DMG+{{system.damageMod}}</span>{{/if}}
+      </div>
+      {{/if}}
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- ═══════════════════ EBB ════════════════════════════════════════════════ --}}
+  {{#if isEbbUser}}
+  <div class="mk2-panel" data-panel="mk2-ebb">
+    <div class="mk2-subhead ebb-h">EBB FORMULAE</div>
+    {{#each ebbFormulae}}
+    <div class="mk2-ebb-row">
+      <div class="mk2-ebb-disc {{system.discipline}}">{{system.discipline}}</div>
+      <div class="mk2-ebb-info">
+        <span class="mk2-ebb-name">{{name}}</span>
+        <div class="mk2-ebb-meta">
+          <span class="mk2-ebb-flux">⚡ {{system.fluxCost}} Flux</span>
+          <span class="mk2-ebb-suc">{{system.successes}} suc</span>
+          {{#if system.range}}<span class="mk2-ebb-range">{{system.range}}</span>{{/if}}
+          {{#if system.duration}}<span class="mk2-ebb-dur">{{system.duration}}</span>{{/if}}
+        </div>
+        {{#if system.effect}}<div class="mk2-ebb-effect">{{system.effect}}</div>{{/if}}
+      </div>
+      <div class="mk2-ebb-actions">
+        <button type="button" class="ebb-formula-roll-btn mk2-action-btn purple mk2-channel-btn" data-item-id="{{_id}}">⚡ CHANNEL</button>
+        <a class="item-edit mk2-ico" data-item-id="{{_id}}" title="Edit">✎</a>
+        <a class="item-delete mk2-ico del" data-item-id="{{_id}}" title="Remove">✕</a>
+      </div>
+    </div>
+    {{/each}}
+    {{#unless ebbFormulae.length}}
+    <div class="mk2-none-msg">No formulae known. Drag Ebb items from the world item list.</div>
+    {{/unless}}
+  </div>
+  {{/if}}
+
+  {{!-- ═══════════════════ GEAR ═════════════════════════════════════════════ --}}
+  <div class="mk2-panel" data-panel="mk2-gear">
+    <div class="mk2-subhead">EQUIPMENT <a class="item-create mk2-add" data-type="equipment">+ ADD</a></div>
+    {{#each items}}
+    {{#unless (eq type "weapon")}}{{#unless (eq type "armor")}}{{#unless (eq type "specialty")}}{{#unless (eq type "ebb")}}{{#unless (eq type "ammo")}}
+    <div class="mk2-gear-row">
+      <span class="mk2-gear-name">{{name}}</span>
+      {{#if system.quantity}}<span class="mk2-stat-pill">×{{system.quantity}}</span>{{/if}}
+      <a class="item-edit mk2-ico" data-item-id="{{_id}}">✎</a>
+      <a class="item-delete mk2-ico del" data-item-id="{{_id}}">✕</a>
+    </div>
+    {{/unless}}{{/unless}}{{/unless}}{{/unless}}{{/unless}}
+    {{/each}}
+  </div>
+
+  {{!-- ═══════════════════ NOTES ════════════════════════════════════════════ --}}
+  <div class="mk2-panel" data-panel="mk2-notes">
+    <div class="mk2-subhead">DOSSIER</div>
+    <textarea name="system.biography" class="mk2-bio">{{system.biography}}</textarea>
+  </div>
+
+</div>

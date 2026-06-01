@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Shield outline -->
+  <path d="M50,6 L91,22 L91,56 Q91,82 50,95 Q9,82 9,56 L9,22 Z" fill="none" stroke="white" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Shield fill inner shape -->
+  <path d="M50,18 L79,30 L79,55 Q79,73 50,83 Q21,73 21,55 L21,30 Z" fill="white"/>
+</svg>

@@ -1,0 +1,432 @@
+<form class="{{cssClass}} zero-engine" autocomplete="off">
+
+	{{!-- SHEET HEADER --}}
+	<div class="sheet-header">
+		<div class="item-header-row">
+			<div class="item-photo">
+				<img src="{{item.img}}" data-edit="img" data-tooltip="{{item.name}}"/>
+			</div>
+			<div class="item-header-info">
+				<div class="item-name">
+					<input type="text" name="name" value="{{item.name}}"/>
+				</div>
+				<div class="item-type-label">{{item.type}}</div>
+			</div>
+		</div>
+	</div>
+
+	{{!-- SHEET BODY --}}
+	<div class="sheet-body">
+
+		{{#if (eq item.type "specialty")}}
+			{{!-- SPECIALTY ITEM SHEET --}}
+			<div class="specialty-sheet-content">
+				<div class="specialty-meta">
+					<div class="specialty-meta-row">
+						<label>Category</label>
+						<select name="system.category">
+							<option value="general" {{#if (eq system.category "general")}}selected{{/if}}>General</option>
+							<option value="combat" {{#if (eq system.category "combat")}}selected{{/if}}>Combat</option>
+							<option value="investigation" {{#if (eq system.category "investigation")}}selected{{/if}}>Investigation</option>
+							<option value="social" {{#if (eq system.category "social")}}selected{{/if}}>Social</option>
+							<option value="medical" {{#if (eq system.category "medical")}}selected{{/if}}>Medical</option>
+							<option value="survival" {{#if (eq system.category "survival")}}selected{{/if}}>Survival</option>
+							<option value="ebb" {{#if (eq system.category "ebb")}}selected{{/if}}>Ebb</option>
+							<option value="racial" {{#if (eq system.category "racial")}}selected{{/if}}>Racial</option>
+						</select>
+					</div>
+					<div class="specialty-meta-row">
+						<label>Training Package</label>
+						<input type="text" name="system.package" value="{{system.package}}" placeholder="e.g. Scout, Medic, Frother..."/>
+					</div>
+					<div class="specialty-meta-row">
+						<label>Prerequisites</label>
+						<input type="text" name="system.prerequisites" value="{{system.prerequisites}}" placeholder="Requirements to take this specialty"/>
+					</div>
+					<div class="specialty-meta-row">
+						<label>Quick Effect Summary</label>
+						<input type="text" name="system.effects" value="{{system.effects}}" placeholder="Brief one-line summary of the mechanical effect"/>
+					</div>
+					<div class="specialty-meta-row">
+						<label>Health Mod</label>
+						<input type="number" name="system.healthMod" value="{{system.healthMod}}" data-dtype="Number" min="-10" max="10" step="1" placeholder="0"/>
+					</div>
+					<div class="specialty-meta-row">
+						<label>Resolve Mod</label>
+						<input type="number" name="system.resolveMod" value="{{system.resolveMod}}" data-dtype="Number" min="-10" max="10" step="1" placeholder="0"/>
+					</div>
+				</div>
+
+				<div class="specialty-description">
+					<label>Full Description & Rules</label>
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			</div>
+
+		{{else if (eq item.type "weapon")}}
+			{{!-- WEAPON ITEM SHEET --}}
+			<div class="weapon-sheet-content">
+				<div class="item-props">
+					<div class="item-prop">
+						<label>Category</label>
+						<select name="system.category">
+							<option value="ranged" {{#if (eq system.category "ranged")}}selected{{/if}}>Ranged</option>
+							<option value="melee" {{#if (eq system.category "melee")}}selected{{/if}}>Melee</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>Type</label>
+						<input type="text" name="system.weaponType" value="{{system.weaponType}}" placeholder="Pistol, Rifle, Knife..."/>
+					</div>
+					<div class="item-prop">
+						<label>Damage</label>
+						<input type="number" name="system.damage" value="{{system.damage}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Range</label>
+						<select name="system.range">
+							<option value="Engaged" {{#if (eq system.range "Engaged")}}selected{{/if}}>Engaged</option>
+							<option value="Short" {{#if (eq system.range "Short")}}selected{{/if}}>Short</option>
+							<option value="Medium" {{#if (eq system.range "Medium")}}selected{{/if}}>Medium</option>
+							<option value="Long" {{#if (eq system.range "Long")}}selected{{/if}}>Long</option>
+							<option value="Extreme" {{#if (eq system.range "Extreme")}}selected{{/if}}>Extreme</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>ROF</label>
+						<input type="text" name="system.rof" value="{{system.rof}}" placeholder="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Gear Bonus</label>
+						<input type="number" name="system.gearBonus" value="{{system.gearBonus}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Fire Modes</label>
+						<select name="system.fireModes" multiple size="3">
+							<option value="single" {{#if (contains system.fireModes "single")}}selected{{/if}}>Single</option>
+							<option value="burst" {{#if (contains system.fireModes "burst")}}selected{{/if}}>Burst</option>
+							<option value="auto" {{#if (contains system.fireModes "auto")}}selected{{/if}}>Full Auto</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>Auto Ammo Use</label>
+						<input type="number" name="system.autoAmmoUse" value="{{system.autoAmmoUse}}" data-dtype="Number" placeholder="8"/>
+					</div>
+					<div class="item-prop">
+						<label>AP</label>
+						<input type="number" name="system.ap" value="{{system.ap}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Magazine</label>
+						<input type="number" name="system.magazine" value="{{system.magazine}}" data-dtype="Number" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Ammo</label>
+						<input type="number" name="system.ammo" value="{{system.ammo}}" data-dtype="Number" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Ammo Type</label>
+						<select name="system.ammoType">
+							<option value="standard" {{#if (eq system.ammoType "standard")}}selected{{/if}}>Standard</option>
+							<option value="he" {{#if (eq system.ammoType "he")}}selected{{/if}}>Hi Explosives</option>
+							<option value="ap" {{#if (eq system.ammoType "ap")}}selected{{/if}}>Armour Piercing</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>Cost</label>
+						<input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Initiative Mod</label>
+						<input type="number" name="system.initiativeMod" value="{{system.initiativeMod}}" data-dtype="Number" min="-5" max="5" step="1" placeholder="0"/>
+					</div>
+				</div>
+				<div class="item-description">
+					<label>Description</label>
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			</div>
+
+		{{else if (eq item.type "armor")}}
+			{{!-- ARMOR ITEM SHEET --}}
+			<div class="armor-sheet-content">
+				<div class="item-props">
+					<div class="item-prop">
+						<label>Armor Dice (X)</label>
+						<input type="number" name="system.armorDice" value="{{system.armorDice}}" data-dtype="Number" min="0" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Auto Armor (Y)</label>
+						<input type="number" name="system.armorAuto" value="{{system.armorAuto}}" data-dtype="Number" min="0" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Stat Mod</label>
+						<input type="number" name="system.statMod" value="{{system.statMod}}" data-dtype="Number" min="-5" max="5" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Skill Mod</label>
+						<input type="number" name="system.skillMod" value="{{system.skillMod}}" data-dtype="Number" min="-5" max="5" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Cost</label>
+						<input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Initiative Mod</label>
+						<input type="number" name="system.initiativeMod" value="{{system.initiativeMod}}" data-dtype="Number" min="-5" max="5" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Health Mod</label>
+						<input type="number" name="system.healthMod" value="{{system.healthMod}}" data-dtype="Number" min="-10" max="10" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Resolve Mod</label>
+						<input type="number" name="system.resolveMod" value="{{system.resolveMod}}" data-dtype="Number" min="-10" max="10" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Stat Target (Reference)</label>
+						<select name="system.statModTarget">
+							<option value="" {{#if (eq system.statModTarget "")}}selected{{/if}}>None</option>
+							<option value="strength" {{#if (eq system.statModTarget "strength")}}selected{{/if}}>Strength</option>
+							<option value="agility" {{#if (eq system.statModTarget "agility")}}selected{{/if}}>Agility</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>Skill Target (Reference)</label>
+						<select name="system.skillModTarget">
+							<option value="" {{#if (eq system.skillModTarget "")}}selected{{/if}}>None</option>
+							<option value="force" {{#if (eq system.skillModTarget "force")}}selected{{/if}}>Force</option>
+							<option value="mobility" {{#if (eq system.skillModTarget "mobility")}}selected{{/if}}>Mobility</option>
+							<option value="stealth" {{#if (eq system.skillModTarget "stealth")}}selected{{/if}}>Stealth</option>
+						</select>
+					</div>
+				</div>
+				<div class="item-description">
+					<label>Description</label>
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			</div>
+
+		{{else if (eq item.type "equipment")}}
+			{{#if system.isDrug}}
+			{{!-- DRUG ITEM SHEET --}}
+			<div class="equipment-sheet-content">
+				<div class="item-props">
+					<div class="item-prop">
+						<label>Quantity</label>
+						<input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number" min="0" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Cost</label>
+						<input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Active Duration</label>
+						<input type="text" name="system.activeDuration" value="{{system.activeDuration}}" placeholder="e.g. 1 shift"/>
+					</div>
+					<div class="item-prop">
+						<label>Withdrawal Duration</label>
+						<input type="text" name="system.withdrawalDuration" value="{{system.withdrawalDuration}}" placeholder="e.g. 1 shift"/>
+					</div>
+					<div class="item-prop">
+						<label>Physical Stat Mod (Active)</label>
+						<input type="number" name="system.statPhysicalMod" value="{{system.statPhysicalMod}}" data-dtype="Number" min="-5" max="5" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>All Skill Mod (Active)</label>
+						<input type="number" name="system.skillAllMod" value="{{system.skillAllMod}}" data-dtype="Number" min="-5" max="5" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Health Mod (Active)</label>
+						<input type="number" name="system.healthMod" value="{{system.healthMod}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Resolve Mod (Active)</label>
+						<input type="number" name="system.resolveMod" value="{{system.resolveMod}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Panic Reduction (Active)</label>
+						<input type="number" name="system.panicReduction" value="{{system.panicReduction}}" data-dtype="Number" min="0" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Melee Mod (Active)</label>
+						<input type="number" name="system.skillMods.melee" value="{{system.skillMods.melee}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Marksmanship Mod (Active)</label>
+						<input type="number" name="system.skillMods.marksmanship" value="{{system.skillMods.marksmanship}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Force Mod (Active)</label>
+						<input type="number" name="system.skillMods.force" value="{{system.skillMods.force}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Observation Mod (Active)</label>
+						<input type="number" name="system.skillMods.observation" value="{{system.skillMods.observation}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Crafting Mod (Active)</label>
+						<input type="number" name="system.skillMods.crafting" value="{{system.skillMods.crafting}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Insight Mod (Active)</label>
+						<input type="number" name="system.skillMods.insight" value="{{system.skillMods.insight}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Persuasion Mod (Active)</label>
+						<input type="number" name="system.skillMods.persuasion" value="{{system.skillMods.persuasion}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Physical Stat Mod (Withdrawal)</label>
+						<input type="number" name="system.wdStatPhysicalMod" value="{{system.wdStatPhysicalMod}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>All Skill Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillAllMod" value="{{system.wdSkillAllMod}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Health Mod (Withdrawal)</label>
+						<input type="number" name="system.wdHealthMod" value="{{system.wdHealthMod}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Resolve Mod (Withdrawal)</label>
+						<input type="number" name="system.wdResolveMod" value="{{system.wdResolveMod}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Panic Reduction (Withdrawal)</label>
+						<input type="number" name="system.wdPanicReduction" value="{{system.wdPanicReduction}}" data-dtype="Number" min="0" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Melee Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.melee" value="{{system.wdSkillMods.melee}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Marksmanship Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.marksmanship" value="{{system.wdSkillMods.marksmanship}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Force Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.force" value="{{system.wdSkillMods.force}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Observation Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.observation" value="{{system.wdSkillMods.observation}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Crafting Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.crafting" value="{{system.wdSkillMods.crafting}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Insight Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.insight" value="{{system.wdSkillMods.insight}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Persuasion Mod (Withdrawal)</label>
+						<input type="number" name="system.wdSkillMods.persuasion" value="{{system.wdSkillMods.persuasion}}" data-dtype="Number" min="-10" max="10" step="1"/>
+					</div>
+				</div>
+			<div class="item-description">
+				<label>Description</label>
+				{{{editor system.description target="system.description" button=true editable=editable}}}
+			</div>
+			</div>
+			{{else}}
+			{{!-- EQUIPMENT / GENERIC ITEM SHEET --}}
+			<div class="equipment-sheet-content">
+				<div class="item-props">
+					<div class="item-prop">
+						<label>Quantity</label>
+						<input type="number" name="system.quantity" value="{{system.quantity}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Cost</label>
+						<input type="number" name="system.cost" value="{{system.cost}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Weight</label>
+						<input type="number" name="system.weight" value="{{system.weight}}" data-dtype="Number"/>
+					</div>
+					<div class="item-prop">
+						<label>Initiative Mod</label>
+						<input type="number" name="system.initiativeMod" value="{{system.initiativeMod}}" data-dtype="Number" min="-5" max="5" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Health Mod</label>
+						<input type="number" name="system.healthMod" value="{{system.healthMod}}" data-dtype="Number" min="-10" max="10" step="1" placeholder="0"/>
+					</div>
+					<div class="item-prop">
+						<label>Resolve Mod</label>
+						<input type="number" name="system.resolveMod" value="{{system.resolveMod}}" data-dtype="Number" min="-10" max="10" step="1" placeholder="0"/>
+					</div>
+				</div>
+				<div class="item-description">
+					<label>Description</label>
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			</div>
+			{{/if}}
+		{{else if (eq item.type "ebb")}}
+			{{!-- EBB FORMULA ITEM SHEET --}}
+			<div class="ebb-sheet-content">
+				<div class="item-props">
+					<div class="item-prop">
+						<label>Discipline</label>
+						<select name="system.discipline">
+							<option value="blast" {{#if (eq system.discipline "blast")}}selected{{/if}}>Blast</option>
+							<option value="enhance" {{#if (eq system.discipline "enhance")}}selected{{/if}}>Enhance</option>
+							<option value="telepathy" {{#if (eq system.discipline "telepathy")}}selected{{/if}}>Telepathy</option>
+							<option value="heal" {{#if (eq system.discipline "heal")}}selected{{/if}}>Heal</option>
+							<option value="detect" {{#if (eq system.discipline "detect")}}selected{{/if}}>Detect</option>
+							<option value="transmute" {{#if (eq system.discipline "transmute")}}selected{{/if}}>Transmute</option>
+							<option value="other" {{#if (eq system.discipline "other")}}selected{{/if}}>Other</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>Flux Cost</label>
+						<input type="number" name="system.fluxCost" value="{{system.fluxCost}}" data-dtype="Number" min="0" max="10" step="1" placeholder="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Successes Required</label>
+						<input type="number" name="system.successes" value="{{system.successes}}" data-dtype="Number" min="1" max="6" step="1" placeholder="1"/>
+					</div>
+					<div class="item-prop">
+						<label>Range</label>
+						<select name="system.range">
+							<option value="Engaged" {{#if (eq system.range "Engaged")}}selected{{/if}}>Engaged</option>
+							<option value="Short" {{#if (eq system.range "Short")}}selected{{/if}}>Short</option>
+							<option value="Medium" {{#if (eq system.range "Medium")}}selected{{/if}}>Medium</option>
+							<option value="Long" {{#if (eq system.range "Long")}}selected{{/if}}>Long</option>
+							<option value="Self" {{#if (eq system.range "Self")}}selected{{/if}}>Self</option>
+						</select>
+					</div>
+					<div class="item-prop">
+						<label>Duration</label>
+						<input type="text" name="system.duration" value="{{system.duration}}" placeholder="e.g. Instant, 1 round, 1 stretch"/>
+					</div>
+				</div>
+				<div class="item-prop-full">
+					<label>Effect</label>
+					<textarea name="system.effect" rows="3" placeholder="What does this formula do?">{{system.effect}}</textarea>
+				</div>
+				<div class="item-prop-full">
+					<label>Catastrophe (on failed push)</label>
+					<textarea name="system.catastrophe" rows="2" placeholder="What happens if the push roll fails or a bane is rolled?">{{system.catastrophe}}</textarea>
+				</div>
+				<div class="item-description">
+					<label>Full Description</label>
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			</div>
+
+		{{else}}
+			<div class="equipment-sheet-content">
+				<div class="item-description">
+					<label>Description</label>
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			</div>
+		{{/if}}
+
+	</div>
+
+</form>

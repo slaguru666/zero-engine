@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Medical cross with rounded ends -->
+  <rect x="36" y="8" width="28" height="84" rx="6" ry="6" fill="white"/>
+  <rect x="8" y="36" width="84" height="28" rx="6" ry="6" fill="white"/>
+</svg>

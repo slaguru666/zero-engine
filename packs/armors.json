@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Downtown Jacket",
+    "type": "armor",
+    "img": "icons/svg/shield.svg",
+    "system": {
+      "description": "Reinforced street jacket with hidden ballistic panels; common among low-level gangers and worried civilians.",
+      "armorRating": 1,
+      "armorDice": 1,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 0,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "CAF Armor",
+    "type": "armor",
+    "img": "icons/svg/shield.svg",
+    "system": {
+      "description": "Standard CAF tactical vest and pads; decent protection without much extra bulk.",
+      "armorRating": 2,
+      "armorDice": 2,
+      "armorAuto": 1,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 0,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Scout Armor",
+    "type": "armor",
+    "img": "icons/svg/shield.svg",
+    "system": {
+      "description": "Lightweight composite plates over flexible mesh; built for operatives who need to move and climb.",
+      "armorRating": 3,
+      "armorDice": 3,
+      "armorAuto": 1,
+      "statMod": 1,
+      "skillMod": 0,
+      "statModTarget": "agility",
+      "skillModTarget": "",
+      "cost": 0,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "HARD Armor",
+    "type": "armor",
+    "img": "icons/svg/shield.svg",
+    "system": {
+      "description": "Full-body ceramic and metal laminate suit for frontline combat and urban assaults.",
+      "armorRating": 4,
+      "armorDice": 4,
+      "armorAuto": 2,
+      "statMod": -1,
+      "skillMod": 1,
+      "statModTarget": "agility",
+      "skillModTarget": "force",
+      "cost": 0,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Exo-Rig Armor",
+    "type": "armor",
+    "img": "icons/svg/shield.svg",
+    "system": {
+      "description": "Powered exoskeletal frame with armored plates; massively increases carrying and weapon handling at the cost of finesse.",
+      "armorRating": 5,
+      "armorDice": 5,
+      "armorAuto": 2,
+      "statMod": 1,
+      "skillMod": -1,
+      "statModTarget": "strength",
+      "skillModTarget": "mobility",
+      "cost": 0,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Squad Shielded Power Armor",
+    "type": "armor",
+    "img": "icons/svg/shield.svg",
+    "system": {
+      "description": "Full sealed power armor with integrated energy shielding; rare, expensive, and terrifying on the street.",
+      "armorRating": 6,
+      "armorDice": 6,
+      "armorAuto": 3,
+      "statMod": 1,
+      "skillMod": -2,
+      "statModTarget": "strength",
+      "skillModTarget": "stealth",
+      "cost": 0,
+      "initiativeMod": 0
+    }
+  }
+]

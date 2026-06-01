@@ -1,0 +1,205 @@
+<form class="{{cssClass}} zero-engine npc-sheet" autocomplete="off">
+
+	{{!-- SHEET HEADER --}}
+	<div class="sheet-header">
+
+		{{!-- TOP ROW: Portrait + Name --}}
+		<div class="header-top-row">
+			<div class="avatar">
+				<img class="profile" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}"/>
+			</div>
+			<div class="header-top-info">
+				<div class="actor-name">
+					<input type="text" name="name" value="{{actor.name}}" placeholder="NPC Name"/>
+				</div>
+				<div class="header-top-stats">
+					<div class="mini-stat">
+						<span class="mini-stat-label">Threat</span>
+						<input type="number" name="system.threat" value="{{system.threat}}" placeholder="1" min="1" max="5"/>
+					</div>
+					<div class="mini-stat">
+						<span class="mini-stat-label">Armor</span>
+						<input type="number" name="system.armor" value="{{system.armor}}" placeholder="0" min="0"/>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{{!-- VITALS ROW: Health --}}
+		<div class="header-vitals-row">
+			<div class="vital-box health-box">
+				<label>Health</label>
+				<div class="vital-values">
+					<input type="number" name="system.health.value" value="{{system.health.value}}" />
+					<span class="vital-separator">/</span>
+					<input type="number" name="system.health.max" value="{{system.health.max}}" />
+				</div>
+			</div>
+			<div class="vital-box">
+				<label>Base Damage</label>
+				<input type="number" name="system.damage" value="{{system.damage}}" min="0" style="width:3rem;"/>
+			</div>
+		</div>
+
+		{{!-- Active conditions from SLA status effects --}}
+		{{#if activeConditions.length}}
+		<div class="active-conditions-row">
+			{{#each activeConditions}}
+			<div class="condition-tag {{this.id}}" title="{{this.description}}">
+				<i class="{{this.icon}}"></i>
+				<span class="condition-label">{{this.label}}</span>
+				<button type="button" class="condition-clear-btn" data-condition-id="{{this.id}}" title="Clear condition">✕</button>
+			</div>
+			{{/each}}
+		</div>
+		{{/if}}
+
+	</div>
+
+	{{!-- SHEET TABS --}}
+	<div class="sheet-tabs">
+		<a class="item" data-tab="stats">
+			<i class="fas fa-chart-bar"></i> Stats
+		</a>
+		<a class="item" data-tab="combat">
+			<i class="fas fa-fist-raised"></i> Combat
+		</a>
+		<a class="item" data-tab="bio">
+			<i class="fas fa-user"></i> Bio
+		</a>
+	</div>
+
+	{{!-- SHEET BODY --}}
+	<div class="sheet-body">
+
+		{{!-- STATS TAB --}}
+		<div class="tab" data-tab="stats">
+			<div class="section-header">Attributes</div>
+			<div class="attr-skill-table" style="grid-template-columns: repeat(4,1fr);">
+
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Strength</div>
+						<div class="attr-value-row">
+							<div class="attr-value">{{system.attributes.strength}}</div>
+							<input type="hidden" name="system.attributes.strength" value="{{system.attributes.strength}}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Agility</div>
+						<div class="attr-value-row">
+							<div class="attr-value">{{system.attributes.agility}}</div>
+							<input type="hidden" name="system.attributes.agility" value="{{system.attributes.agility}}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Wits</div>
+						<div class="attr-value-row">
+							<div class="attr-value">{{system.attributes.wits}}</div>
+							<input type="hidden" name="system.attributes.wits" value="{{system.attributes.wits}}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="attr-column">
+					<div class="attr-header">
+						<div class="attr-name">Empathy</div>
+						<div class="attr-value-row">
+							<div class="attr-value">{{system.attributes.empathy}}</div>
+							<input type="hidden" name="system.attributes.empathy" value="{{system.attributes.empathy}}" />
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		{{!-- COMBAT TAB --}}
+		<div class="tab" data-tab="combat">
+
+			{{!-- RANGED WEAPONS --}}
+			<div class="weapons-section">
+				<h2 class="section-header"><i class="fas fa-crosshairs"></i> Ranged Weapons</h2>
+				<div class="weapon-list">
+					{{#each rangedWeapons}}
+						<div class="weapon-item" data-item-id="{{this._id}}">
+							<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+							<div class="weapon-info">
+								<div class="weapon-name-row">
+									<span class="weapon-name">{{this.name}}</span>
+									<span class="weapon-type-badge ranged">{{this.system.weaponType}}</span>
+								</div>
+								<div class="weapon-stats-row">
+									<span class="weapon-stat"><strong>DMG</strong> {{this.system.damage}}</span>
+									<span class="weapon-stat"><strong>Range</strong> {{this.system.range}}</span>
+									<span class="weapon-stat"><strong>AP</strong> {{this.system.ap}}</span>
+								</div>
+							</div>
+							<div class="weapon-actions">
+								<button type="button" class="weapon-roll-btn"
+										data-item-id="{{this._id}}" data-weapon-category="ranged"
+										title="Roll attack">
+									<i class="fas fa-dice-d6"></i> ATTACK
+								</button>
+							</div>
+						</div>
+					{{/each}}
+					{{#unless rangedWeapons.length}}
+						<div class="weapon-empty"><em>No ranged weapons.</em></div>
+					{{/unless}}
+				</div>
+			</div>
+
+			{{!-- MELEE WEAPONS --}}
+			<div class="weapons-section">
+				<h2 class="section-header"><i class="fas fa-fist-raised"></i> Melee Weapons</h2>
+				<div class="weapon-list">
+					{{#each meleeWeapons}}
+						<div class="weapon-item" data-item-id="{{this._id}}">
+							<img class="weapon-img" src="{{this.img}}" width="36" height="36"/>
+							<div class="weapon-info">
+								<div class="weapon-name-row">
+									<span class="weapon-name">{{this.name}}</span>
+									<span class="weapon-type-badge melee">{{this.system.weaponType}}</span>
+								</div>
+								<div class="weapon-stats-row">
+									<span class="weapon-stat"><strong>DMG</strong> {{this.system.damage}}</span>
+									<span class="weapon-stat"><strong>AP</strong> {{this.system.ap}}</span>
+								</div>
+							</div>
+							<div class="weapon-actions">
+								<button type="button" class="weapon-roll-btn"
+										data-item-id="{{this._id}}" data-weapon-category="melee"
+										title="Roll melee attack">
+									<i class="fas fa-fist-raised"></i> ATTACK
+								</button>
+							</div>
+						</div>
+					{{/each}}
+					{{#unless meleeWeapons.length}}
+						<div class="weapon-empty"><em>No melee weapons. Base damage: {{system.damage}}.</em></div>
+					{{/unless}}
+				</div>
+			</div>
+
+		</div>
+
+		{{!-- BIO TAB --}}
+		<div class="tab" data-tab="bio">
+			<div class="bio-section">
+				<h2>Biography / Notes</h2>
+				<div class="editor">
+					<textarea name="system.biography" rows="16" placeholder="NPC notes, background, motivation...">{{system.biography}}</textarea>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</form>

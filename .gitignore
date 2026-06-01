@@ -1,0 +1,29 @@
+# ── Foundry VTT system .gitignore ──────────────────────────────────────────
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Node / build artefacts (if ever added)
+node_modules/
+dist/
+.env
+
+# Foundry local cache / temp files
+*.lock
+.fvtt-*/
+
+# Compiled / minified outputs (keep source only)
+*.min.js
+*.min.css
+
+# Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Test output
+coverage/

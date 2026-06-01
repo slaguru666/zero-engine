@@ -1,0 +1,117 @@
+<form class="{{cssClass}} zero-engine character-sheet" autocomplete="off">
+
+	{{!-- Sheet Header --}}
+	<header class="sheet-header">
+		<img class="profile-img" src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+
+		<div class="header-fields">
+			<h1 class="charname">
+				<input name="name" type="text" value="{{actor.name}}" placeholder="Character Name"/>
+			</h1>
+
+			<div class="character-info">
+				<div class="info-row">
+					<div class="field">
+						<label>Race:</label>
+						<select name="system.race" multiple size="3">
+							<option value="human" {{#if (contains system.race "human")}}selected{{/if}}>Human</option>
+							<option value="ebon" {{#if (contains system.race "ebon")}}selected{{/if}}>Ebon</option>
+							<option value="brainwaster" {{#if (contains system.race "brainwaster")}}selected{{/if}}>Brain Waster</option>
+							<option value="stormer" {{#if (contains system.race "stormer")}}selected{{/if}}>Stormer</option>
+							<option value="shaktar" {{#if (contains system.race "shaktar")}}selected{{/if}}>Shaktar</option>
+							<option value="wraith" {{#if (contains system.race "wraith")}}selected{{/if}}>Wraith Raider</option>
+							<option value="frother" {{#if (contains system.race "frother")}}selected{{/if}}>Frother</option>
+						</select>
+					</div>
+
+					<div class="field">
+						<label>Training:</label>
+						<select name="system.training" multiple size="3">
+							<option value="scout" {{#if (contains system.training "scout")}}selected{{/if}}>Scout</option>
+							<option value="investigator" {{#if (contains system.training "investigator")}}selected{{/if}}>Investigator</option>
+							<option value="medic" {{#if (contains system.training "medic")}}selected{{/if}}>Medic</option>
+							<option value="corporate" {{#if (contains system.training "corporate")}}selected{{/if}}>Corporate</option>
+						</select>
+					</div>
+
+					<div class="field">
+						<label>Archetype:</label>
+						<input type="text" name="system.archetype" value="{{system.archetype}}" placeholder="Operative"/>
+					</div>
+				</div>
+
+				<div class="info-row">
+					<div class="field">
+						<label>SCL:</label>
+						<input type="number" name="system.details.scl" value="{{system.details.scl}}"/>
+					</div>
+					<div class="field">
+						<label>Credits:</label>
+						<input type="number" name="system.details.credits" value="{{system.details.credits}}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</header>
+
+	{{!-- Attributes & Skills --}}
+	<section class="sheet-body">
+		<h2>Attributes & Skills</h2>
+
+		<div class="attributes-grid">
+			{{#each system.attributes as |attribute attrKey|}}
+			<div class="attribute-block">
+				<h3>{{capitalize attrKey}}</h3>
+				<div class="attribute-value">
+					<button type="button" class="decrement" data-path="system.attributes.{{attrKey}}.value">−</button>
+					<span class="value">{{attribute.value}}</span>
+					<button type="button" class="increment" data-path="system.attributes.{{attrKey}}.value">+</button>
+					<button type="button" class="roll-dice" data-attribute="{{attrKey}}">
+						<i class="fas fa-dice-d6"></i>
+					</button>
+				</div>
+
+				{{!-- Skills for this attribute --}}
+				<div class="skills-list">
+					{{#each @root.system.skills as |skill skillKey|}}
+						{{#if (eq skill.attribute attrKey)}}
+						<div class="skill-row">
+							<span class="skill-name">{{skill.label}}</span>
+							<button type="button" class="decrement" data-path="system.skills.{{skillKey}}.value">−</button>
+							<span class="value">{{skill.value}}</span>
+							<button type="button" class="increment" data-path="system.skills.{{skillKey}}.value">+</button>
+							<button type="button" class="roll-dice" data-skill="{{skillKey}}" data-attribute="{{attrKey}}">
+								<i class="fas fa-dice-d6"></i>
+							</button>
+						</div>
+						{{/if}}
+					{{/each}}
+				</div>
+			</div>
+			{{/each}}
+		</div>
+
+		{{!-- Health & Resolve --}}
+		<div class="resources">
+			<div class="resource">
+				<label>Health</label>
+				<input type="number" name="system.derivedStats.health.value" value="{{system.derivedStats.health.value}}" />
+				/
+				<input type="number" name="system.derivedStats.health.max" value="{{system.derivedStats.health.max}}" />
+			</div>
+
+			<div class="resource">
+				<label>Resolve</label>
+				<input type="number" name="system.derivedStats.resolve.value" value="{{system.derivedStats.resolve.value}}" />
+				/
+				<input type="number" name="system.derivedStats.resolve.max" value="{{system.derivedStats.resolve.max}}" />
+			</div>
+
+			<div class="resource">
+				<label>Stress</label>
+				<input type="number" name="system.derivedStats.stress" value="{{system.derivedStats.stress}}" />
+			</div>
+		</div>
+	</section>
+
+</form>

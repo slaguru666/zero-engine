@@ -1,0 +1,187 @@
+{
+  "panic": {
+    "name": "Panic Table",
+    "description": "Roll 1d6 + Stress. Results of 7-15 trigger panic effects.",
+    "formula": "1d6+@stress",
+    "results": [
+      {
+        "range": [7, 7],
+        "text": "<strong>Nervous Twitch:</strong> Gain +1 Stress. All allies in Short range gain +1 Stress as your tension spikes the squad.",
+        "type": 0
+      },
+      {
+        "range": [8, 8],
+        "text": "<strong>Tremble:</strong> Until end of scene: -2 dice to all AGI-based rolls (Marksmanship, Mobility, Stealth).",
+        "type": 0
+      },
+      {
+        "range": [9, 9],
+        "text": "<strong>Fumble/Jam:</strong> GM chooses one: drop held item; weapon jams (1 Fast action to clear); comms/camera/evidence mishandled (next related roll -2 dice).",
+        "type": 0
+      },
+      {
+        "range": [10, 10],
+        "text": "<strong>Freeze:</strong> Lose your next action (combat: lose next turn). You may defend normally but cannot Push again until after you act.",
+        "type": 0
+      },
+      {
+        "range": [11, 11],
+        "text": "<strong>Seek Cover:</strong> Use next action moving to cover/safer position if possible. If you refuse, take +1 Stress at start of each round until you comply.",
+        "type": 0
+      },
+      {
+        "range": [12, 12],
+        "text": "<strong>Outburst on Camera:</strong> You shout/scream/swear. Lose next action; position revealed (enemies +2 dice to locate/target). If witnesses/Third Eye present, GM introduces 'bad footage' complication.",
+        "type": 0
+      },
+      {
+        "range": [13, 13],
+        "text": "<strong>Flight Response:</strong> Must retreat from threat for at least 1 full round or one zone away. During this cannot take Slow actions.",
+        "type": 0
+      },
+      {
+        "range": [14, 14],
+        "text": "<strong>Operative Breakdown:</strong> Choose: BERSERK (attack nearest creature next action, friend/foe) OR CATATONIC (incapacitated D6 rounds). Allies who witness gain +1 Stress.",
+        "type": 0
+      },
+      {
+        "range": [15, 99],
+        "text": "<strong>Mind Fracture:</strong> Immediately suffer a Mental Critical Injury (roll Mental Critical Table) and apply it now.",
+        "type": 2,
+        "collection": "mentalCritical"
+      }
+    ]
+  },
+  "physicalCritical": {
+    "name": "Physical Critical Injuries (D66)",
+    "description": "Roll 2d6 - first die is tens, second is ones (shown as tens.ones)",
+    "formula": "1d6t + 1d6",
+    "results": [
+      {"key": "1.1", "name": "Winded", "lethal": false, "timeLimit": "", "effects": "Lose next Fast action; -1 die to physical rolls for 1 round.", "healing": "1 stretch"},
+      {"key": "1.2", "name": "Rattled", "lethal": false, "timeLimit": "", "effects": "-1 die to Marksmanship and Observation for 1 scene.", "healing": "1 shift"},
+      {"key": "1.3", "name": "Sprained wrist", "lethal": false, "timeLimit": "", "effects": "-2 dice to actions using that hand (shooting, melee, crafting).", "healing": "D6 shifts"},
+      {"key": "1.4", "name": "Sprained ankle", "lethal": false, "timeLimit": "", "effects": "Movement is a Slow action until treated.", "healing": "D6 shifts or Healing"},
+      {"key": "1.5", "name": "Scalp cut", "lethal": false, "timeLimit": "", "effects": "Bleeding: take 1 damage per round until Healing roll succeeds (Slow action).", "healing": "1 shift"},
+      {"key": "1.6", "name": "Concussion", "lethal": false, "timeLimit": "", "effects": "-2 dice to WIT-based rolls for D6 shifts.", "healing": "D6 shifts"},
+
+      {"key": "2.1", "name": "Cracked ribs", "lethal": false, "timeLimit": "", "effects": "-2 dice to Mobility; Running costs +1 Stress.", "healing": "2D6 shifts"},
+      {"key": "2.2", "name": "Dislocated shoulder", "lethal": false, "timeLimit": "", "effects": "Arm unusable for melee/shooting; can still hold light items.", "healing": "2D6 shifts"},
+      {"key": "2.3", "name": "Broken fingers", "lethal": false, "timeLimit": "", "effects": "Reloading requires both actions (Fast+Slow); -2 dice to fine tasks.", "healing": "2D6 shifts"},
+      {"key": "2.4", "name": "Broken nose", "lethal": false, "timeLimit": "", "effects": "-2 dice to Persuasion; blood/mask issues impose -1 die on Observation.", "healing": "D6 shifts"},
+      {"key": "2.5", "name": "Deep thigh gash", "lethal": false, "timeLimit": "", "effects": "Movement becomes Slow; if you Run, take 1 damage after the move.", "healing": "2D6 shifts"},
+      {"key": "2.6", "name": "Hearing loss", "lethal": false, "timeLimit": "", "effects": "-2 dice to Observation checks relying on sound/comms cues.", "healing": "D6 shifts"},
+
+      {"key": "3.1", "name": "Knocked-out teeth", "lethal": false, "timeLimit": "", "effects": "-2 dice to Persuasion; intimidation attempts +1 die if you show the injury.", "healing": "D6 days"},
+      {"key": "3.2", "name": "Crushed toes", "lethal": false, "timeLimit": "", "effects": "Movement Slow; -2 dice to Mobility in cluttered zones.", "healing": "2D6 days"},
+      {"key": "3.3", "name": "Gouged eye", "lethal": false, "timeLimit": "", "effects": "-2 dice to Marksmanship and Observation (depth perception).", "healing": "2D6 days or Permanent if untreated"},
+      {"key": "3.4", "name": "Busted kneecap", "lethal": false, "timeLimit": "", "effects": "Cannot Run; Movement Slow.", "healing": "2D6 days"},
+      {"key": "3.5", "name": "Broken arm", "lethal": false, "timeLimit": "", "effects": "Arm unusable; no 2-handed weapons.", "healing": "2D6 days"},
+      {"key": "3.6", "name": "Broken leg", "lethal": false, "timeLimit": "", "effects": "Movement Slow; Retreat requires Mobility roll or fall prone.", "healing": "3D6 days"},
+
+      {"key": "4.1", "name": "Punctured lung", "lethal": true, "timeLimit": "1 shift", "effects": "-2 dice to Stamina & Mobility; each round you exert yourself take 1 damage.", "healing": "D6 days"},
+      {"key": "4.2", "name": "Bleeding gut", "lethal": true, "timeLimit": "1 shift", "effects": "Each Slow action costs 1 damage (internal bleed).", "healing": "D6 days"},
+      {"key": "4.3", "name": "Ruptured intestines", "lethal": true, "timeLimit": "1 shift", "effects": "Infection risk: each day roll Stamina; fail = take 1 damage.", "healing": "2D6 days"},
+      {"key": "4.4", "name": "Severed arm artery", "lethal": true, "timeLimit": "1 stretch", "effects": "Arm unusable; must be stabilized or death check at time limit.", "healing": "D6 days"},
+      {"key": "4.5", "name": "Severed leg artery", "lethal": true, "timeLimit": "1 stretch", "effects": "Movement impossible unaided; must be stabilized.", "healing": "D6 days"},
+      {"key": "4.6", "name": "Cracked spine", "lethal": true, "timeLimit": "1 day", "effects": "Collapse prone; cannot Move without help; if not stabilized becomes permanent paralysis.", "healing": "3D6 days or Permanent"},
+
+      {"key": "5.1", "name": "Ruptured jugular", "lethal": true, "timeLimit": "1 round", "effects": "Immediate stabilize or die at time limit.", "healing": "—"},
+      {"key": "5.2", "name": "Ruptured aorta", "lethal": true, "timeLimit": "2 rounds", "effects": "Immediate stabilize or die at time limit.", "healing": "—"},
+      {"key": "5.3", "name": "Severed arm", "lethal": true, "timeLimit": "1 shift", "effects": "Permanent loss; immediate +2 Stress from shock.", "healing": "Permanent"},
+      {"key": "5.4", "name": "Severed leg", "lethal": true, "timeLimit": "1 shift", "effects": "Permanent loss; you collapse; movement impossible unaided.", "healing": "Permanent"},
+      {"key": "5.5", "name": "Impaled heart", "lethal": true, "timeLimit": "1 round", "effects": "You are Broken; only stabilization prevents death.", "healing": "Permanent condition"},
+      {"key": "5.6", "name": "Crushed skull", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "healing": "—"},
+
+      {"key": "6.1", "name": "Disembowelled", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "healing": "—"},
+      {"key": "6.2", "name": "Pierced head", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "healing": "—"},
+      {"key": "6.3", "name": "Spinal sever", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately (or GM option: permanent paralysis if cinematic).", "healing": "—"},
+      {"key": "6.4", "name": "Massive trauma", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "healing": "—"},
+      {"key": "6.5", "name": "Total organ failure", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "healing": "—"},
+      {"key": "6.6", "name": "Catastrophic destruction", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "healing": "—"}
+    ]
+  },
+  "mentalCritical": {
+    "name": "Mental Critical Injuries (D66)",
+    "description": "Roll 2d6 - first die is tens, second is ones (shown as tens.ones)",
+    "formula": "1d6t + 1d6",
+    "results": [
+      {"key": "1.1", "name": "Shaken", "lethal": false, "timeLimit": "", "effects": "+1 Stress; -1 die to all rolls for 1 round.", "recovery": "1 stretch"},
+      {"key": "1.2", "name": "Tunnel vision", "lethal": false, "timeLimit": "", "effects": "-2 dice to Observation; you miss side details.", "recovery": "1 shift"},
+      {"key": "1.3", "name": "Jumpy", "lethal": false, "timeLimit": "", "effects": "Must spend Fast action to Focus before any ranged attack or power use.", "recovery": "D6 shifts"},
+      {"key": "1.4", "name": "Intrusive media loop", "lethal": false, "timeLimit": "", "effects": "-2 dice to Insight/Persuasion (can't read people; hear 'commentary').", "recovery": "D6 shifts"},
+      {"key": "1.5", "name": "Nausea", "lethal": false, "timeLimit": "", "effects": "First Slow action each scene costs +1 Stress.", "recovery": "D6 shifts"},
+      {"key": "1.6", "name": "Dissociation", "lethal": false, "timeLimit": "", "effects": "Cannot Push social rolls; speech becomes flat/odd (roleplay flag).", "recovery": "D6 shifts"},
+
+      {"key": "2.1", "name": "Anxiety spiral", "lethal": false, "timeLimit": "", "effects": "+1 Stress each shift until safe rest stretch.", "recovery": "D6 shifts"},
+      {"key": "2.2", "name": "Nightmares", "lethal": false, "timeLimit": "", "effects": "Sleep doesn't clear Stress unless you succeed Insight roll per sleep shift.", "recovery": "D6 days"},
+      {"key": "2.3", "name": "Phobia (triggered)", "lethal": false, "timeLimit": "", "effects": "Near trigger: +1 Stress per round; cannot Push.", "recovery": "2D6 days"},
+      {"key": "2.4", "name": "Compulsion: Check kit", "lethal": false, "timeLimit": "", "effects": "Start of each scene: spend 1 Fast action checking kit or take +1 Stress.", "recovery": "D6 days"},
+      {"key": "2.5", "name": "Paranoia (no help)", "lethal": false, "timeLimit": "", "effects": "Cannot receive Help dice; reject assistance unless persuaded.", "recovery": "2D6 days"},
+      {"key": "2.6", "name": "Emotional shutdown", "lethal": false, "timeLimit": "", "effects": "-2 dice to EMP rolls; can't connect or comfort.", "recovery": "2D6 days"},
+
+      {"key": "3.1", "name": "Rage trigger", "lethal": false, "timeLimit": "", "effects": "When harmed/insulted: pass Resolve check or retaliate next action.", "recovery": "2D6 days"},
+      {"key": "3.2", "name": "Guilty fixation", "lethal": false, "timeLimit": "", "effects": "-2 dice to WIT rolls unless pursuing obsession in scene.", "recovery": "2D6 days"},
+      {"key": "3.3", "name": "Hallucinations (voices)", "lethal": false, "timeLimit": "", "effects": "Each shift: roll Insight; fail = lose next action to arguing/listening.", "recovery": "3D6 days"},
+      {"key": "3.4", "name": "Flashbacks", "lethal": false, "timeLimit": "", "effects": "Blood/dim light: +1 Stress per round; cannot Push.", "recovery": "2D6 days"},
+      {"key": "3.5", "name": "Fugue risk", "lethal": false, "timeLimit": "", "effects": "When Stress ≥5: once per scene GM may remove 1 action (lose time).", "recovery": "2D6 days"},
+      {"key": "3.6", "name": "Self-medication", "lethal": false, "timeLimit": "", "effects": "If don't take coping substance daily, start next session at +2 Stress.", "recovery": "3D6 days"},
+
+      {"key": "4.1", "name": "Major breakdown", "lethal": false, "timeLimit": "", "effects": "Broken for D6 rounds; afterward -2 dice to mental rolls for 1 day.", "recovery": "D6 days"},
+      {"key": "4.2", "name": "Catatonia", "lethal": false, "timeLimit": "", "effects": "Unresponsive for D6 rounds (combat) or 1 stretch (non-combat).", "recovery": "D6 days"},
+      {"key": "4.3", "name": "Violent derealization", "lethal": false, "timeLimit": "", "effects": "In darkness allies count as 'unknown shapes': -2 dice to avoid friendly fire.", "recovery": "2D6 days"},
+      {"key": "4.4", "name": "Panic flight", "lethal": false, "timeLimit": "", "effects": "If threatened: must Retreat unless pass Resolve; cannot hold position.", "recovery": "2D6 days"},
+      {"key": "4.5", "name": "Ebb echo (if Ebon)", "lethal": false, "timeLimit": "", "effects": "Whenever you Push gain +1 extra Stress (so Push = +2 Stress total).", "recovery": "2D6 days"},
+      {"key": "4.6", "name": "Camera-worthy mania", "lethal": false, "timeLimit": "", "effects": "-2 dice to Stealth; if don't do something bold each scene +1 Stress.", "recovery": "2D6 days"},
+
+      {"key": "5.1", "name": "Permanent phobia", "lethal": false, "timeLimit": "", "effects": "As Phobia but only therapy/arc resolution removes it.", "recovery": "Permanent until treated"},
+      {"key": "5.2", "name": "Permanent paranoia", "lethal": false, "timeLimit": "", "effects": "Cannot accept Help dice without therapy/arc resolution.", "recovery": "Permanent until treated"},
+      {"key": "5.3", "name": "Identity fracture", "lethal": false, "timeLimit": "", "effects": "Define new persona/compulsion; -1 die to EMP until resolved in play.", "recovery": "Permanent until resolved"},
+      {"key": "5.4", "name": "Amnesia (episodic)", "lethal": false, "timeLimit": "", "effects": "Lose last shift of memory; GM introduces concrete complication/lead loss.", "recovery": "D6 days"},
+      {"key": "5.5", "name": "Total amnesia", "lethal": false, "timeLimit": "", "effects": "Forget squad and role; must be managed in play.", "recovery": "D6 days or longer"},
+      {"key": "5.6", "name": "Psychotic break", "lethal": false, "timeLimit": "", "effects": "Broken now; on recovery gain lasting delusion/compulsion.", "recovery": "Permanent until treated"},
+
+      {"key": "6.1", "name": "Heart seizure", "lethal": true, "timeLimit": "1 shift", "effects": "Each shift make Stamina; fail = death.", "recovery": "—"},
+      {"key": "6.2", "name": "Suicide impulse", "lethal": true, "timeLimit": "1 shift", "effects": "If left alone attempt self-harm; allies can restrain/persuade/treat.", "recovery": "—"},
+      {"key": "6.3", "name": "Total collapse", "lethal": true, "timeLimit": "1 day", "effects": "Stress cannot be relieved naturally; if Stress ≥7 at day end, die of shock.", "recovery": "—"},
+      {"key": "6.4", "name": "Vegetative state", "lethal": true, "timeLimit": "1 day", "effects": "Unresponsive; only advanced care prevents permanent loss.", "recovery": "Permanent"},
+      {"key": "6.5", "name": "Fatal panic", "lethal": true, "timeLimit": "1 shift", "effects": "Unless stabilized medically, you die.", "recovery": "—"},
+      {"key": "6.6", "name": "Heart stops", "lethal": true, "timeLimit": "Instant", "effects": "You die immediately.", "recovery": "—"}
+    ]
+  },
+  "rangedCriticalFail": {
+    "name": "Ranged Weapon Critical Fail (2-12)",
+    "description": "Trigger on pushed attack with stress bane and zero total successes.",
+    "formula": "2d6",
+    "results": [
+      {"range": [2, 2], "text": "<strong>Awkward stance:</strong> You overextend. Suffer -1 die to your next ranged attack this scene.", "type": 0},
+      {"range": [3, 3], "text": "<strong>Exposed:</strong> You lean too far from cover or step into the open. Enemies gain +1 die to attack you until the start of your next turn.", "type": 0},
+      {"range": [4, 4], "text": "<strong>Fumbled reload:</strong> You mis-seat a magazine or drop a round. No damage, but you lose your next Fast action (or must spend a Fast action immediately) to fix it.", "type": 0},
+      {"range": [5, 5], "text": "<strong>Slipped aim:</strong> Your shot goes wild. The GM may move your attack to a different target or object in the same zone.", "type": 0},
+      {"range": [6, 6], "text": "<strong>Spent mag:</strong> You miscounted your rounds. After resolving the miss, your magazine is empty; set ammo to 0 for that magazine.", "type": 0},
+      {"range": [7, 7], "text": "<strong>Jammed:</strong> The weapon jams hard. You cannot fire it again until you spend a Slow action to clear the jam.", "type": 0},
+      {"range": [8, 8], "text": "<strong>Weapon dropped:</strong> Recoil or surprise makes you lose your grip. You drop the weapon in your zone; picking it up costs a Fast action.", "type": 0},
+      {"range": [9, 9], "text": "<strong>Harsh recoil:</strong> You wrench your arm or shoulder. Take 1 damage ignoring armor and -1 die to all ranged attacks until you receive first aid or rest a stretch.", "type": 0},
+      {"range": [10, 10], "text": "<strong>Collateral damage:</strong> Your stray fire hits something important. The GM creates an immediate new hazard that threatens you or your squad.", "type": 0},
+      {"range": [11, 11], "text": "<strong>Catastrophic jam / partial break:</strong> A casing ruptures, or internal parts shear. Take 1 damage ignoring armor, and the weapon is broken until repaired.", "type": 0},
+      {"range": [12, 12], "text": "<strong>Overload / explosion:</strong> The weapon catastrophically fails. Take 2 damage ignoring armor and suffer an automatic Physical Critical Injury roll. The weapon is destroyed.", "type": 0}
+    ]
+  },
+  "meleeCriticalFail": {
+    "name": "Melee Weapon Critical Fail (2-12)",
+    "description": "Trigger on pushed attack with stress bane and zero total successes.",
+    "formula": "2d6",
+    "results": [
+      {"range": [2, 2], "text": "<strong>Off balance:</strong> You over-swing. Suffer -1 die to your next Melee attack this scene.", "type": 0},
+      {"range": [3, 3], "text": "<strong>Overextended:</strong> You stumble into a bad position. Enemies attacking you in Engaged range gain +1 die until the start of your next turn.", "type": 0},
+      {"range": [4, 4], "text": "<strong>Slip or trip:</strong> You lose footing. You fall prone or stagger; standing costs a Fast action.", "type": 0},
+      {"range": [5, 5], "text": "<strong>Minor strain:</strong> You tweak a wrist, elbow, or ankle. Take 1 damage ignoring armor but no other effect.", "type": 0},
+      {"range": [6, 6], "text": "<strong>Friendly tangle:</strong> You clash with an ally’s position. One nearby ally suffers -1 die to their next action this round.", "type": 0},
+      {"range": [7, 7], "text": "<strong>Weapon stuck / over-committed:</strong> Weapon user: weapon sticks; spend a Fast action to free it. Unarmed: cannot Parry until your next turn.", "type": 0},
+      {"range": [8, 8], "text": "<strong>Weapon dropped / grip broken:</strong> Weapon user: drop weapon; pick up costs Fast action. Unarmed: suffer -2 dice to Melee until end of scene or treated.", "type": 0},
+      {"range": [9, 9], "text": "<strong>Self-inflicted knock:</strong> You strike a solid surface. Take 1 damage ignoring armor and lose one Fast action on your next turn.", "type": 0},
+      {"range": [10, 10], "text": "<strong>Bad landing / joint damage:</strong> Take 2 damage ignoring armor and suffer -2 dice to physical rolls involving that limb until healed.", "type": 0},
+      {"range": [11, 11], "text": "<strong>Weapon break / serious strain:</strong> Weapon: damaged (-2 dice) until repaired; if already damaged, it breaks. Unarmed: take 2 damage ignoring armor and -2 dice to Melee until medical treatment.", "type": 0},
+      {"range": [12, 12], "text": "<strong>Catastrophic self-harm:</strong> Take weapon’s base damage (or 2 unarmed) ignoring armor and immediately roll a Physical Critical Injury.", "type": 0}
+    ]
+  }
+}

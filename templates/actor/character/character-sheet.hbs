@@ -1,0 +1,137 @@
+<form class="{{cssClass}}{{#if actor.isBroken}} broken{{/if}}" autocomplete="off">
+
+	{{!-- SHEET HEADER --}}
+
+	<div class="sheet-header">
+		<div class="container-header">
+
+			<div class="avatar">
+				<img class="profile" src="{{actor.img}}" data-edit="img" data-tooltip="{{actor.name}}"/>
+			</div>
+
+			<div class="actor-name">
+				<input type="text" name="name" value="{{actor.name}}"/>
+			</div>
+
+			<div class="nature boxed-property container">
+				<h3>{{localize "FLBR.Nature"}}</h3>
+				<select name="system.nature" data-tooltip="{{localize "FLBR.NatureHint"}}"{{#unless editNature}} disabled{{/unless}}>
+					{{selectOptions config.natures selected=system.nature localize=true}}
+				</select>
+			</div>
+			
+			<div class="capacities">
+				{{#if system.health}}
+					<div class="capacity-health boxed-property{{#if (lte system.health.value 0)}} broken{{else if (lte system.health.ratio 0.5)}} half{{/if}}">
+						<h3>
+							{{localize "FLBR.HEADER.Health"}}
+							{{#if (lte system.health.value 0)}}
+								<b>({{toUpperCase (localize "FLBR.BrokenByDamage")}})</b>
+							{{/if}}
+							<span class="capacity-rating">{{system.health.value}}/{{system.health.max}}</span>
+						</h3>
+						{{boxes "system.health.value" value=system.health.value min=0 max=system.health.max loss=system.health.permanentLoss}}
+					</div>
+				{{/if}}
+				{{#if (and system.resolve isPC)}}
+					<div class="capacity-resolve boxed-property{{#if (lte system.resolve.value 0)}} broken{{else if (lte system.resolve.ratio 0.5)}} half{{/if}}">
+						<h3>
+							{{localize "FLBR.HEADER.Resolve"}}
+							{{#if (lte system.resolve.value 0)}}
+								<b>({{toUpperCase (localize "FLBR.BrokenByStress")}})</b>
+							{{/if}}
+							<span class="capacity-rating">{{system.resolve.value}}/{{system.resolve.max}}</span>
+						</h3>
+						{{boxes "system.resolve.value" value=system.resolve.value min=0 max=system.resolve.max loss=system.resolve.permanentLoss}}
+					</div>
+				{{/if}}
+			</div>
+
+			<div class="sla-character-info" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+				<div class="race boxed-property container">
+					<h3>Race/Species</h3>
+					<select name="system.race" multiple size="7" data-tooltip="Select one or more races (Ctrl/Cmd+Click for multiple)">
+						<option value="human" {{#if (contains system.race "human")}}selected{{/if}}>Human</option>
+						<option value="ebon" {{#if (contains system.race "ebon")}}selected{{/if}}>Ebon</option>
+						<option value="brainwaster" {{#if (contains system.race "brainwaster")}}selected{{/if}}>Brain Waster</option>
+						<option value="stormer" {{#if (contains system.race "stormer")}}selected{{/if}}>Stormer (313 Malice)</option>
+						<option value="shaktar" {{#if (contains system.race "shaktar")}}selected{{/if}}>Shaktar</option>
+						<option value="wraith" {{#if (contains system.race "wraith")}}selected{{/if}}>Wraith Raider</option>
+						<option value="frother" {{#if (contains system.race "frother")}}selected{{/if}}>Frother</option>
+					</select>
+				</div>
+
+				<div class="training boxed-property container">
+					<h3>Training Package</h3>
+					<select name="system.training" multiple size="7" data-tooltip="Select one or more training packages (Ctrl/Cmd+Click for multiple)">
+						<option value="scout" {{#if (contains system.training "scout")}}selected{{/if}}>Scout</option>
+						<option value="investigator" {{#if (contains system.training "investigator")}}selected{{/if}}>Investigator</option>
+						<option value="frother-pkg" {{#if (contains system.training "frother-pkg")}}selected{{/if}}>Frother</option>
+						<option value="corporate" {{#if (contains system.training "corporate")}}selected{{/if}}>Corporate</option>
+						<option value="medic" {{#if (contains system.training "medic")}}selected{{/if}}>Medic / Field Surgeon</option>
+						<option value="ebon-investigator" {{#if (contains system.training "ebon-investigator")}}selected{{/if}}>Ebon - Investigator</option>
+						<option value="brainwaster-operative" {{#if (contains system.training "brainwaster-operative")}}selected{{/if}}>Brain Waster - Operative</option>
+					</select>
+				</div>
+
+				<div class="archetype boxed-property container">
+					<h3>Archetype</h3>
+					<input list="list-of-archetypes" type="text" name="system.archetype" value="{{system.archetype}}"/>
+					<datalist id="list-of-archetypes">
+						{{selectOptions config.archetypes localize=true}}
+					</datalist>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+	{{!-- SHEET TABS --}}
+
+	<div class="sheet-tabs" data-group="primary">
+		<a class="sheet-tab" data-tab="stats">{{{config.Icons.tabs.stats}}}&nbsp;{{localize "FLBR.TAB.Stats"}}</a>
+		<a class="sheet-tab" data-tab="mods">{{{config.Icons.tabs.mods}}}&nbsp;{{localize "FLBR.TAB.Mods"}}</a>
+		<a class="sheet-tab" data-tab="combat">{{{config.Icons.tabs.combat}}}&nbsp;{{localize "FLBR.TAB.Combat"}}</a>
+		<a class="sheet-tab" data-tab="inventory">{{{config.Icons.tabs.inventory}}}&nbsp;{{localize "FLBR.TAB.Inventory"}}</a>
+		<a class="sheet-tab" data-tab="bio">
+			{{{config.Icons.tabs.bio}}}&nbsp;
+			{{#if isPC}}
+				{{localize "FLBR.TAB.Bio"}}
+			{{else if isNPC}}
+				{{localize "FLBR.HEADER.Notes"}}
+			{{/if}}
+		</a>
+	</div>
+
+	{{!-- SHEET BODY --}}
+
+	<div class="sheet-body">
+		<div class="tab" data-group="primary" data-tab="stats">
+{{> systems/zero-engine/templates/actor/character/sheet-tabs/stats-tab.hbs}}
+		</div>
+		<div class="tab" data-group="primary" data-tab="mods">
+{{> systems/blade-runner/templates/actor/character/sheet-tabs/mods-tab.hbs}}
+		</div>
+		<div class="tab" data-group="primary" data-tab="combat">
+{{> systems/blade-runner/templates/actor/character/sheet-tabs/combat-tab.hbs}}
+		</div>
+		<div class="tab" data-group="primary" data-tab="inventory">
+{{> systems/blade-runner/templates/actor/character/sheet-tabs/inventory-tab.hbs}}
+		</div>
+		<div class="tab" data-group="primary" data-tab="bio">
+			{{#if isPC}}
+{{> systems/zero-engine/templates/actor/character/sheet-tabs/bio-tab.hbs}}
+			{{else if isNPC}}
+				<div class="boxed-property npc-notes">
+					{{{editor system.description target="system.description" button=true editable=editable}}}
+				</div>
+			{{/if}}
+		</div>
+
+	</div>
+
+	{{!-- SHEET FOOTER --}}
+
+	{{!-- <div class="sheet-footer"></div> --}}
+
+</form>

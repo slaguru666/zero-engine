@@ -1,0 +1,75 @@
+<div class="ze-stats">
+	{{#each system.attributes as | attribute attrKey |}}
+	{{#unless (eq attrKey "mvr")}}
+		<div class="ze-attribute-block">
+			<div class="ze-attribute-header">
+				<button class="ze-attr-roll-btn stat-roll" data-attribute="{{attrKey}}" type="button">
+					<span class="ze-attr-name">{{localize (concat "FLBR.ATTRIBUTE." (toUpperCase attrKey))}}</span>
+					<i class="fas fa-dice-d6"></i>
+				</button>
+				<div class="ze-attr-score">
+					{{scoreSelector (concat "system.attributes." attrKey ".value") selected=attribute.value}}
+				</div>
+				<div class="ze-attr-die boxed-value stat-roll rollable" data-attribute="{{attrKey}}">
+					{{#if (lte attribute.value 0)}}—{{else}}{{localize "FLBR.D"}}{{attribute.value}}{{/if}}
+				</div>
+			</div>
+			<div class="ze-skills-list">
+				{{#each @root.system.skills as | skill skillKey |}}
+					{{#if (eq attrKey (lookup @root.config.skillMap skillKey))}}
+						<div class="ze-skill-row">
+							<a class="ze-skill-name stat-roll" data-skill="{{skillKey}}" data-attribute="{{attrKey}}">
+								{{localize (concat "FLBR.SKILL." (capitalize skillKey))}}
+							</a>
+							<div class="ze-skill-score">
+								{{scoreSelector (concat "system.skills." skillKey ".value") selected=skill.value}}
+							</div>
+							<div class="ze-skill-die boxed-value stat-roll rollable" data-skill="{{skillKey}}" data-attribute="{{attrKey}}">
+								{{#if (lte skill.value 0)}}—{{else}}{{localize "FLBR.D"}}{{skill.value}}{{/if}}
+							</div>
+						</div>
+					{{/if}}
+				{{/each}}
+			</div>
+		</div>
+	{{/unless}}
+	{{/each}}
+</div>
+
+{{!-- Specialties Section --}}
+<div class="specialties-section">
+	<h2 class="section-header">
+		<i class="fas fa-star"></i> Specialties
+		<span class="specialty-count">({{actor.items.size}})</span>
+	</h2>
+	<div class="specialties-container">
+		<div class="specialty-drop-zone" data-tooltip="Drag and drop specialty items here">
+			{{#if (gt actor.items.size 0)}}
+				<ul class="specialty-list">
+					{{#each actor.items as |item|}}
+						{{#if (eq item.type "specialty")}}
+							<li class="specialty-item" data-item-id="{{item._id}}">
+								<div class="specialty-header">
+									<img class="specialty-icon" src="{{item.img}}" alt="{{item.name}}"/>
+									<h4 class="specialty-name">{{item.name}}</h4>
+									<div class="specialty-controls">
+										<a class="item-edit" data-tooltip="Edit Specialty"><i class="fas fa-edit"></i></a>
+										<a class="item-delete" data-tooltip="Delete Specialty"><i class="fas fa-trash"></i></a>
+									</div>
+								</div>
+								<div class="specialty-description">
+									{{item.system.description}}
+								</div>
+							</li>
+						{{/if}}
+					{{/each}}
+				</ul>
+			{{else}}
+				<div class="empty-specialties">
+					<i class="fas fa-star-half-alt"></i>
+					<p>No specialties yet. Drag and drop specialty items here.</p>
+				</div>
+			{{/if}}
+		</div>
+	</div>
+</div>

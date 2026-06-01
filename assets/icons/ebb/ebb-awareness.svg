@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Eye shape -->
+  <path d="M5,50 Q25,15 50,15 Q75,15 95,50 Q75,85 50,85 Q25,85 5,50Z" fill="none" stroke="white" stroke-width="7" stroke-linejoin="round"/>
+  <!-- Iris -->
+  <circle cx="50" cy="50" r="17" fill="white"/>
+  <!-- Pupil highlight -->
+  <circle cx="44" cy="44" r="6" fill="black"/>
+  <!-- Radiating awareness lines -->
+  <line x1="50" y1="5" x2="50" y2="13" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="50" y1="87" x2="50" y2="95" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="8" y1="25" x2="14" y2="31" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="86" y1="69" x2="92" y2="75" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="92" y1="25" x2="86" y2="31" stroke="white" stroke-width="5" stroke-linecap="round"/>
+  <line x1="14" y1="69" x2="8" y2="75" stroke="white" stroke-width="5" stroke-linecap="round"/>
+</svg>

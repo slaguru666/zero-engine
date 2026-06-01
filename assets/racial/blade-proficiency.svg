@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="8" fill="#140808"/>
+  <g transform="translate(32,32)">
+    <polygon points="0,-24 4,-2 0,4 -4,-2" fill="#cc3333"/>
+    <polygon points="0,-24 4,-2 0,4 -4,-2" fill="#ff6644" opacity="0.5" transform="rotate(30)"/>
+    <polygon points="0,-24 4,-2 0,4 -4,-2" fill="#ff6644" opacity="0.4" transform="rotate(-30)"/>
+    <rect x="-3" y="4" width="6" height="8" rx="1" fill="#884422"/>
+    <rect x="-6" y="10" width="12" height="3" rx="1" fill="#663311"/>
+  </g>
+  <text x="32" y="62" text-anchor="middle" font-size="5" fill="#cc3333" font-family="monospace" letter-spacing="0">BLADES</text>
+</svg>

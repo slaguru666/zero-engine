@@ -1,0 +1,77 @@
+<form class="{{cssClass}}" autocomplete="off">
+
+	{{!-- <div class="sheet-header">
+		<h2>{{title}}</h2>
+	</div> --}}
+
+	<div class="sheet-body">
+		{{!-- Dice --}}
+		<div class="dice flex row justify-center">
+			{{#each dice}}
+				<div class="die-box die-d{{.}}">{{localize "FLBR.D"}}{{.}}</div>
+			{{/each}}
+			{{#if (lt dice.length config.maxRolledDice)}}
+				<div class="die-box empty add-die rollable">
+					<a data-tooltip="{{localize "FLBR.ROLLER.AddDie"}}">{{{@root.config.Icons.buttons.plus}}}</a>
+				</div>
+			{{/if}}
+		</div>
+		{{!-- Modifiers --}}
+		<div class="modifiers boxed-property">
+			<h3>{{localize "FLBR.HEADER.Modifiers"}}</h3>
+			<h4>{{localize "FLBR.ROLLER.ModifierActive"}}</h4>
+			<h4>{{localize "FLBR.ROLLER.ModifierName"}}</h4>
+			<h4>{{localize "FLBR.ROLLER.ModifierValue"}}</h4>
+			{{#each modifiers}}
+				<input type="checkbox" id="modifier-{{id}}" data-id="{{id}}" {{checked active}}/>
+				<label class="modifier-name" for="modifier-{{id}}" data-tooltip='{{enrichDocumentName description}}'>{{name}}</label>
+				{{!-- <div class="modifier-value">{{signedValue}}</div> --}}
+				<div class="modifier-value">
+				{{#if (gt value 0)}}
+					<div class="modifier-value advantage" data-tooltip="{{localize "FLBR.Advantage"}}">
+						{{{@root.config.Icons.buttons.advantage}}}
+					</div>
+				{{else if (lt value 0)}}
+					<div class="modifier-value disadvantage" data-tooltip="{{localize "FLBR.Disadvantage"}}">
+						{{{@root.config.Icons.buttons.disadvantage}}}
+					</div>
+				{{else}}
+					<div class="modifier-value">{{localize "FLBR.NO_VALUE"}}</div>
+				{{/if}}
+				</div>
+			{{/each}}
+		</div>
+		<div class="roll-options boxed-property flex column">
+			{{!-- Max Pushes --}}
+			{{#unless options.disabledPush}}
+				<h3>{{localize "FLBR.ROLLER.MaxPush"}}</h3>
+				<div class="flex row align-center">
+					<input type="number" name="maxPush" value="{{maxPush}}"{{#if options.unlimitedPush}} style="display: none;"{{/if}}/>
+					<input type="checkbox" id="unlimitedPush" name="options.unlimitedPush" {{checked options.unlimitedPush}}/>
+					<label class="checkbox-label" for="unlimitedPush">{{localize "FLBR.ROLLER.UnlimitedPush"}}</label>
+				</div>
+			{{/unless}}
+			{{!-- RollMode --}}
+			<h3>{{localize "CHAT.RollDefault"}}</h3>
+			<select name="rollMode">
+				{{selectOptions config.rollModes selected=rollMode localize=true}}
+			</select>
+			{{#if damage includeZero=true}}
+				<h3>{{localize "FLBR.WeaponDamage"}}:<span style="color: var(--color-green); float: right;">{{damage}}, <small>{{localize (lookup config.damageTypes damageType)}}</small></span></h3>
+			{{/if}}
+		</div>
+	</div>
+
+	<div class="sheet-footer flex row space-around">
+		<button id="advantage" class="dialog-button" type="submit"{{#if disadvantage}} disabled{{/if}}>
+			{{localize "FLBR.ROLLER.RollWithAdvantageButton"}}
+		</button>
+		<button id="roll" class="dialog-button" type="submit"{{#if (or advantage disadvantage)}} disabled{{/if}}>
+			{{localize "FLBR.ROLLER.RollButton"}}
+		</button>
+		<button id="disadvantage" class="dialog-button" type="submit"{{#if advantage}} disabled{{/if}}>
+			{{localize "FLBR.ROLLER.RollWithDisadvantageButton"}}
+		</button>
+	</div>
+
+</form>

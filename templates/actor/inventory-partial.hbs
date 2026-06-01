@@ -1,0 +1,125 @@
+{{!-- The parameters are: --}}
+{{!-- {Item[]}  items  -  See actor.itemTypes.<type> --}}
+{{!-- {boolean}  wrap  -  Whether to wrap items in rows or not. --}}
+<div class="embedded-items flex {{#if wrap}}row wrap{{else}}column{{/if}}">
+	{{#each items}}
+		<div class="embedded-item flex row {{type}}" data-item-id="{{id}}">
+			<div class="photo{{#if hasAction}} item-control rollable{{/if}}" data-action="roll">
+				<img src="{{img}}" data-tooltip="{{name}}"/>
+			</div>
+
+			<div class="details"{{#if isPhysical}} data-tooltip='{{{enrichDocumentName system.description}}}'{{/if}}>
+				<div class="name{{#if (lte system.qty 0)}} empty-item{{/if}}">
+					{{#if system.lethal}}
+						{{{@root.config.Icons.buttons.lethal}}}
+					{{/if}}
+					{{detailedName}}
+				</div>
+
+				{{#if system.special}}
+					<div class="item-detail special">{{system.special}}</div>
+				{{/if}}
+
+				{{!-- Weapons & Explosives --}}
+				{{#if isOffensive}}
+					{{#if (eq type "explosive")}}
+						<div class="item-detail explosive">
+							{{localize "FLBR.Blast"}}&nbsp;{{localize "FLBR.D"}}{{system.blast}}
+						</div>
+					{{else if hasAttack}}
+						<div class="item-detail damage">
+						{{#each system.attacks}}
+							<div>
+								{{#if (eq damageType 1)}}
+									{{{@root.config.Icons.buttons.crush}}}{{damage}}
+								{{else if (eq damageType 2)}}
+									{{{@root.config.Icons.buttons.pierce}}}{{damage}}
+								{{else if (eq damageType 3)}}
+									{{{@root.config.Icons.buttons.stress}}}{{damage}}
+								{{else}}
+									{{damage}}
+								{{/if}}
+							</div>
+							<div>
+								{{#unless (eq crit 0)}}
+									{{{@root.config.Icons.buttons.crit}}}{{localize "FLBR.D"}}{{crit}}
+								{{/unless}}
+							</div>
+							<div>
+								{{#if (gt range.max 0)}}
+									{{{@root.config.Icons.buttons.range}}}{{localize (lookup @root.config.ranges range.max)}}
+								{{/if}}
+							</div>
+						{{/each}}
+						</div>
+					{{/if}}
+				{{!-- Armors --}}
+				{{else if system.armor includeZero=true}}
+					<div class="item-detail armor">
+						{{localize "TYPES.Item.armor"}}&nbsp;{{localize "FLBR.D"}}{{system.armor}}
+					</div>
+				{{/if}}
+
+				{{#if system.description}}
+					{{#unless isPhysical}}
+						<div class="item-detail description">
+							{{{enrichDocumentName system.description}}}
+						</div>
+					{{/unless}}
+				{{else if hasModifier}}
+					<div class="item-detail modifiers-description">{{modifiersDescription}}</div>
+				{{/if}}
+			</div>
+
+			{{!-- Item Controls --}}
+
+			<div class="item-controls">
+				{{#if system.blast}}
+					<a class="btn item-control" data-action="blast" data-tooltip="{{localize "FLBR.SHEET_HEADER.BlastPowerRoll"}}">
+						{{{@root.config.Icons.buttons.bomb}}}
+					</a>
+				{{/if}}
+				{{#if (eq type "armor")}}
+					<a class="btn item-control" data-action="roll" data-tooltip="{{localize "FLBR.SHEET_HEADER.ArmorRoll"}}">
+						{{{@root.config.Icons.buttons.armor}}}
+					</a>
+				{{/if}}
+				{{#if hasAction}}
+					<a class="btn item-control" data-action="roll" data-tooltip="{{localize "FLBR.BUTTON.Roll"}}">
+						{{{@root.config.Icons.buttons.roll}}}
+					</a>
+				{{/if}}
+				<a class="btn item-control" data-action="edit" data-tooltip="{{localize "FLBR.BUTTON.Edit"}}">
+					{{{@root.config.Icons.buttons.edit}}}
+				</a>
+				<a class="btn item-control" data-action="chat" data-tooltip="{{localize "FLBR.BUTTON.ToChat"}}">
+					{{{@root.config.Icons.buttons.chat}}}
+				</a>
+				{{#if (and hasAttack (eq @root.actor.type "vehicle"))}}
+					{{#if system.mounted}}
+						<a class="btn item-control" data-action="unmount" data-tooltip="{{localize "FLBR.BUTTON.Unmount"}}">
+							{{{@root.config.Icons.buttons.unmount}}}
+						</a>
+					{{else}}
+						<a class="btn item-control" data-action="mount" data-tooltip="{{localize "FLBR.BUTTON.Mount"}}">
+							{{{@root.config.Icons.buttons.mount}}}
+						</a>
+					{{/if}}
+				{{/if}}
+				{{#unless system.mounted}}
+					<a class="btn item-delete" data-tooltip="{{localize "FLBR.BUTTON.Delete"}}">
+						{{{@root.config.Icons.buttons.remove}}}
+					</a>
+					<a class="btn item-delete-confirmed" style="display: none;" data-tooltip="{{localize "FLBR.BUTTON.Delete"}}">
+						{{{@root.config.Icons.buttons.delete}}}
+					</a>
+				{{/unless}}
+			</div>
+
+		</div>
+	{{else}}
+		<div class="empty-inventory">
+			{{localize "FLBR.InventoryNoItem"}}
+		</div>
+	{{/each}}
+</div>

@@ -1,0 +1,325 @@
+{
+  "Actor": {
+    "types": [
+      "character",
+      "npc"
+    ],
+    "character": {
+      "biography": "",
+      "details": {
+        "age": "",
+        "height": "",
+        "weight": "",
+        "scl": 10,
+        "credits": 500
+      },
+      "race": [],
+      "training": [],
+      "archetype": "",
+      "attributes": {
+        "strength": {
+          "value": 2,
+          "label": "Strength"
+        },
+        "agility": {
+          "value": 2,
+          "label": "Agility"
+        },
+        "wits": {
+          "value": 2,
+          "label": "Wits"
+        },
+        "empathy": {
+          "value": 2,
+          "label": "Empathy"
+        }
+      },
+      "skills": {
+        "force": {
+          "value": 0,
+          "attribute": "strength",
+          "label": "Force"
+        },
+        "melee": {
+          "value": 0,
+          "attribute": "strength",
+          "label": "Melee"
+        },
+        "stamina": {
+          "value": 0,
+          "attribute": "strength",
+          "label": "Stamina"
+        },
+        "marksmanship": {
+          "value": 0,
+          "attribute": "agility",
+          "label": "Marksmanship"
+        },
+        "mobility": {
+          "value": 0,
+          "attribute": "agility",
+          "label": "Mobility"
+        },
+        "stealth": {
+          "value": 0,
+          "attribute": "agility",
+          "label": "Stealth"
+        },
+        "crafting": {
+          "value": 0,
+          "attribute": "wits",
+          "label": "Crafting"
+        },
+        "observation": {
+          "value": 0,
+          "attribute": "wits",
+          "label": "Observation"
+        },
+        "survival": {
+          "value": 0,
+          "attribute": "wits",
+          "label": "Survival"
+        },
+        "healing": {
+          "value": 0,
+          "attribute": "empathy",
+          "label": "Healing"
+        },
+        "insight": {
+          "value": 0,
+          "attribute": "empathy",
+          "label": "Insight"
+        },
+        "persuasion": {
+          "value": 0,
+          "attribute": "empathy",
+          "label": "Persuasion"
+        },
+        "ebb": {
+          "value": 0,
+          "attribute": "empathy",
+          "label": "Ebb"
+        }
+      },
+      "derivedStats": {
+        "health": {
+          "value": 3,
+          "max": 3
+        },
+        "resolve": {
+          "value": 3,
+          "max": 3
+        },
+        "stress": 0,
+        "carryLimit": 4,
+        "broken": false
+      },
+      "criticalInjuries": {
+        "physical": [],
+        "mental": []
+      },
+      "panic": {
+        "directive": "",
+        "active": false
+      },
+      "flux": {
+        "value": 0,
+        "max": 0
+      },
+      "vevaphon": {
+        "instability": 0,
+        "instabilityMax": 12,
+        "activeMorphForm": "none"
+      },
+      "specialties": "",
+      "equipment": "",
+      "weapons": "",
+      "finances": {
+        "income": {
+          "salary": 0,
+          "bpnReward": 0,
+          "other": 0
+        },
+        "expenses": {
+          "accommodation": 0,
+          "drugs": 0,
+          "subscriptions": 0,
+          "other": 0,
+          "bulletTax": 0
+        },
+        "debt": 0,
+        "ammoSpentSession": 0,
+        "creditLog": []
+      },
+      "bpn": {
+        "code": "",
+        "type": "blue",
+        "status": "open",
+        "reward": 0,
+        "description": "",
+        "objectives": "",
+        "notes": ""
+      }
+    },
+    "npc": {
+      "biography": "",
+      "threat": 1,
+      "attributes": {
+        "strength": 2,
+        "agility": 2,
+        "wits": 2,
+        "empathy": 2
+      },
+      "health": {
+        "value": 10,
+        "max": 10
+      },
+      "armor": 0,
+      "damage": 2
+    }
+  },
+  "Item": {
+    "types": [
+      "weapon",
+      "armor",
+      "equipment",
+      "ammo",
+      "specialty",
+      "ebb"
+    ],
+    "weapon": {
+      "description": "",
+      "weaponType": "Pistol",
+      "category": "ranged",
+      "damage": 2,
+      "range": "Short",
+      "rof": 1,
+      "gearBonus": 0,
+      "ap": 0,
+      "magazine": 0,
+      "ammo": 0,
+      "cost": 0,
+      "fireModes": [
+        "single"
+      ],
+      "autoAmmoUse": 8,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "roundCostStd": 0,
+      "roundCostAP": 0,
+      "roundCostHE": 0,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    },
+    "armor": {
+      "description": "",
+      "armorRating": 0,
+      "armorDice": 0,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "healthMod": 0,
+      "resolveMod": 0,
+      "cost": 0,
+      "initiativeMod": 0,
+      "equipped": false
+    },
+    "ammo": {
+      "description": "",
+      "caliber": "10mm",
+      "roundType": "standard",
+      "quantity": 30,
+      "costPerRound": 5,
+      "apBonus": 0,
+      "damageMod": 0,
+      "blastRadius": 0,
+      "weight": 0
+    },
+    "equipment": {
+      "description": "",
+      "quantity": 1,
+      "cost": 0,
+      "weight": 1,
+      "isDrug": false,
+      "active": false,
+      "activeDuration": "1 shift",
+      "activeLabel": "",
+      "activeNotes": "",
+      "withdrawalActive": false,
+      "withdrawalDuration": "",
+      "withdrawalLabel": "",
+      "withdrawalNotes": "",
+      "healthMod": 0,
+      "resolveMod": 0,
+      "statPhysicalMod": 0,
+      "skillAllMod": 0,
+      "panicReduction": 0,
+      "injuryPenaltyIgnore": 0,
+      "stressRecoveryBonus": 0,
+      "postUseStaminaDamage": 0,
+      "wdHealthMod": 0,
+      "wdResolveMod": 0,
+      "wdStatPhysicalMod": 0,
+      "wdSkillAllMod": 0,
+      "wdPanicReduction": 0,
+      "wdInjuryPenaltyIgnore": 0,
+      "wdStressRecoveryBonus": 0,
+      "wdPostUseStaminaDamage": 0,
+      "skillMods": {
+        "force": 0,
+        "melee": 0,
+        "stamina": 0,
+        "marksmanship": 0,
+        "mobility": 0,
+        "stealth": 0,
+        "crafting": 0,
+        "observation": 0,
+        "survival": 0,
+        "healing": 0,
+        "insight": 0,
+        "persuasion": 0
+      },
+      "wdSkillMods": {
+        "force": 0,
+        "melee": 0,
+        "stamina": 0,
+        "marksmanship": 0,
+        "mobility": 0,
+        "stealth": 0,
+        "crafting": 0,
+        "observation": 0,
+        "survival": 0,
+        "healing": 0,
+        "insight": 0,
+        "persuasion": 0
+      },
+      "initiativeMod": 0,
+      "equipped": false
+    },
+    "specialty": {
+      "description": "",
+      "effects": "",
+      "category": "general",
+      "prerequisites": "",
+      "package": "",
+      "healthMod": 0,
+      "resolveMod": 0,
+      "isActive": true
+    },
+    "ebb": {
+      "description": "",
+      "discipline": "blast",
+      "fluxCost": 1,
+      "successes": 1,
+      "effect": "",
+      "catastrophe": "",
+      "duration": "",
+      "range": "Engaged"
+    },
+    "initiativeMod": 0
+  }
+}
