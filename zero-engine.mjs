@@ -5999,6 +5999,7 @@ function _getAmmoModifiers(weaponData) {
  * Deduct bullet tax from actor credits and update session ammo log.
  * Bullet tax = 2× the base round cost (ammo purchase price + field levy).
  * Called immediately when a weapon fires.
+ * Two separate update() calls so a finances schema issue never blocks the credit deduction.
  */
 async function _applyBulletTax(actor, weaponData, roundsFired) {
   if (!actor || roundsFired <= 0) return 0;
@@ -6010,15 +6011,26 @@ async function _applyBulletTax(actor, weaponData, roundsFired) {
   const currentCredits = Number(actor.system?.details?.credits ?? 0);
   const newCredits = Math.max(0, currentCredits - totalCost);
 
-  // Deduct from credits; track session bullet tax
-  const sessionSpent = Number(actor.system?.finances?.ammoSpentSession ?? 0) + totalCost;
-  const bulletTaxTotal = Number(actor.system?.finances?.expenses?.bulletTax ?? 0) + totalCost;
+  // ── Credit deduction — critical, standalone update ──────────────────────
+  try {
+    await actor.update({ "system.details.credits": newCredits });
+    console.log(`Zero Engine | Bullet Tax: ${actor.name} credits ${currentCredits}¢ → ${newCredits}¢ (−${totalCost}¢)`);
+  } catch (err) {
+    console.error("Zero Engine | Bullet Tax credit deduction failed:", err);
+    return 0;
+  }
 
-  await actor.update({
-    "system.details.credits": newCredits,
-    "system.finances.ammoSpentSession": sessionSpent,
-    "system.finances.expenses.bulletTax": bulletTaxTotal
-  });
+  // ── Finances tracking — non-critical, separate update ───────────────────
+  try {
+    const sessionSpent  = Number(actor.system?.finances?.ammoSpentSession ?? 0) + totalCost;
+    const bulletTaxRun  = Number(actor.system?.finances?.expenses?.bulletTax ?? 0) + totalCost;
+    await actor.update({
+      "system.finances.ammoSpentSession":   sessionSpent,
+      "system.finances.expenses.bulletTax": bulletTaxRun
+    });
+  } catch (_) {
+    // Finances tracking is optional — ignore failures silently
+  }
 
   return totalCost;
 }
