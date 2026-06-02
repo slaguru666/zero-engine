@@ -5559,9 +5559,21 @@ class SLAGMFinanceTool extends Application {
     return $html;
   }
 
-  /** Parse a credit value safely — NaN, null, undefined all become 0 */
-  _safeCredits(val) {
-    const n = Number(val);
+  /** Parse a credit value safely, trying multiple read paths */
+  _safeCredits(actor) {
+    // Try direct access, then foundry safe getter, then toObject fallback
+    let raw = actor.system?.details?.credits;
+    if (raw === undefined || raw === null)
+      raw = foundry.utils.getProperty(actor, 'system.details.credits');
+    if (raw === undefined || raw === null)
+      raw = actor.toObject?.()?.system?.details?.credits;
+
+    // Handle "500,500" string corruption from duplicate form inputs
+    if (typeof raw === 'string' && raw.includes(','))
+      raw = raw.split(',')[0];
+
+    const n = Number(raw);
+    console.log(`Zero Engine | Finance Ledger: ${actor.name} credits raw=${JSON.stringify(raw)} → ${n}`);
     return isNaN(n) ? 0 : n;
   }
 
@@ -5577,7 +5589,7 @@ class SLAGMFinanceTool extends Application {
         return {
           id:            a.id,
           name:          a.name,
-          credits:       this._safeCredits(a.system.details?.credits),
+          credits:       this._safeCredits(a),
           weeklyIncome,
           weeklyExpenses,
           netWeekly
@@ -5594,7 +5606,7 @@ class SLAGMFinanceTool extends Application {
     const weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
     const weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
     const net     = weeklyIncome - weeklyExpenses;
-    const current = this._safeCredits(actor.system?.details?.credits);
+    const current = this._safeCredits(actor);
     const newBal  = current + net;
     await actor.update({ 'system.details.credits': newBal });
     ui.notifications.info(
