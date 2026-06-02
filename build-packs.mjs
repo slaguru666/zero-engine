@@ -63,6 +63,9 @@ async function buildPack(packDir, items) {
     await db.put(`!items!${id}`, JSON.stringify(doc));
   }
 
+  // Force compaction: flushes WAL (.log) into proper SST (.ldb) files
+  // Foundry requires .ldb format — without this the packs appear empty
+  await db.compactRange('\x00', '\xff');
   await db.close();
   console.log(`  ✓  ${items.length} items → ${packDir.replace(__dir, '.')}`);
 }
