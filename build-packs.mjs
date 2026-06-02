@@ -95,6 +95,11 @@ const PACKS = [
     label:  'SLA Specialties',
     source: 'packs/specialties.json',
   },
+  {
+    id:     'sla-weapons',
+    label:  'SLA Weapons',
+    source: 'packs/weapons.json',
+  },
 ];
 
 // ── Run ──────────────────────────────────────────────────────────────────────

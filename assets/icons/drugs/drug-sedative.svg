@@ -1,0 +1,16 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Round-bottom dropper flask -->
+  <!-- Round bottom -->
+  <ellipse cx="32" cy="46" rx="18" ry="14" fill="#1a1a1a"/>
+  <!-- Neck -->
+  <rect x="26" y="18" width="12" height="20" rx="1" fill="#1a1a1a"/>
+  <!-- Dropper tip -->
+  <rect x="29" y="8" width="6" height="12" rx="2" fill="#1a1a1a"/>
+  <!-- Drop emerging -->
+  <ellipse cx="32" cy="7" rx="3" ry="4" fill="#1a1a1a"/>
+  <!-- Flask highlight (white oval inside) -->
+  <ellipse cx="32" cy="46" rx="12" ry="9" fill="white"/>
+  <!-- Wavy sedative lines inside flask -->
+  <path d="M22,44 Q26,40 30,44 Q34,48 38,44" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+  <path d="M22,50 Q26,46 30,50 Q34,54 38,50" stroke="#1a1a1a" stroke-width="2" fill="none"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Palm base -->
+  <ellipse cx="32" cy="50" rx="18" ry="12" fill="#1a1a1a"/>
+  <!-- Claw 1 (left outer) -->
+  <path d="M16,44 Q8,28 12,10 Q14,6 16,10 Q16,28 20,42Z" fill="#1a1a1a"/>
+  <path d="M12,10 Q13,7 16,10 Q15,18 18,36 L16,44 Q14,36 12,10Z" fill="white"/>
+  <!-- Claw 2 (left inner) -->
+  <path d="M24,42 Q20,24 23,8 Q25,4 27,8 Q25,26 27,42Z" fill="#1a1a1a"/>
+  <path d="M23,8 Q24,5 27,8 Q25,22 26,40 L24,42 Q22,30 23,8Z" fill="white"/>
+  <!-- Claw 3 (centre) -->
+  <path d="M32,42 Q30,22 32,6 Q34,2 36,6 Q34,24 34,42Z" fill="#1a1a1a"/>
+  <path d="M32,6 Q33,3 36,6 Q34,20 34,40 L32,42 Q30,28 32,6Z" fill="white"/>
+  <!-- Claw 4 (right inner) -->
+  <path d="M40,42 Q39,26 41,8 Q43,4 45,8 Q43,28 42,42Z" fill="#1a1a1a"/>
+  <path d="M41,8 Q42,5 45,8 Q43,22 42,40 L40,42 Q40,28 41,8Z" fill="white"/>
+  <!-- Claw 5 (right outer) -->
+  <path d="M48,44 Q50,28 52,10 Q54,6 56,10 Q54,28 50,42Z" fill="#1a1a1a"/>
+  <path d="M52,10 Q53,7 56,10 Q54,24 50,40 L48,44 Q48,30 52,10Z" fill="white"/>
+</svg>

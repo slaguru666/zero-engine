@@ -1,0 +1,18 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Short barrel -->
+  <rect x="6" y="26" width="28" height="7" rx="2" fill="#1a1a1a"/>
+  <!-- Compact receiver -->
+  <rect x="22" y="20" width="20" height="16" rx="2" fill="#1a1a1a"/>
+  <!-- Folded stock / rear -->
+  <rect x="40" y="22" width="16" height="12" rx="2" fill="#1a1a1a"/>
+  <!-- Magazine (straight, below) -->
+  <rect x="27" y="36" width="8" height="16" rx="2" fill="#1a1a1a"/>
+  <!-- Foregrip -->
+  <rect x="10" y="33" width="6" height="10" rx="2" fill="#1a1a1a"/>
+  <!-- Ejection port -->
+  <rect x="32" y="21" width="6" height="4" rx="1" fill="white"/>
+  <!-- Trigger -->
+  <rect x="33" y="33" width="2" height="5" rx="1" fill="white"/>
+  <!-- Sight -->
+  <rect x="24" y="18" width="8" height="3" rx="1" fill="#1a1a1a"/>
+</svg>

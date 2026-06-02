@@ -1,0 +1,14 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body: soft jacket trapezoid -->
+  <path d="M10,20 L6,58 L58,58 L54,20 C46,14 40,18 36,28 L32,36 L28,28 C24,18 18,14 10,20Z" fill="#1a1a1a"/>
+  <!-- Left lapel cutout -->
+  <path d="M10,20 L22,20 L32,36 L26,28 C22,22 16,16 10,20Z" fill="white"/>
+  <!-- Right lapel cutout -->
+  <path d="M54,20 L42,20 L32,36 L38,28 C42,22 48,16 54,20Z" fill="white"/>
+  <!-- Left pocket -->
+  <rect x="10" y="47" width="14" height="8" rx="2" fill="white"/>
+  <!-- Right pocket -->
+  <rect x="40" y="47" width="14" height="8" rx="2" fill="white"/>
+  <!-- Centre zip -->
+  <rect x="31" y="36" width="2" height="22" fill="white"/>
+</svg>

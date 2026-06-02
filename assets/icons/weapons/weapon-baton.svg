@@ -1,0 +1,18 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Baton shaft -->
+  <rect x="28" y="6" width="8" height="46" rx="3" fill="#1a1a1a"/>
+  <!-- Shock tip (wider) -->
+  <rect x="24" y="6" width="16" height="10" rx="4" fill="#1a1a1a"/>
+  <!-- Shock coil rings -->
+  <rect x="22" y="8" width="20" height="2" rx="1" fill="white"/>
+  <rect x="22" y="12" width="20" height="2" rx="1" fill="white"/>
+  <!-- Grip ridges -->
+  <rect x="26" y="32" width="12" height="3" rx="1" fill="white"/>
+  <rect x="26" y="38" width="12" height="3" rx="1" fill="white"/>
+  <rect x="26" y="44" width="12" height="3" rx="1" fill="white"/>
+  <!-- Pommel -->
+  <ellipse cx="32" cy="54" rx="7" ry="5" fill="#1a1a1a"/>
+  <!-- SLA badge on baton -->
+  <circle cx="32" cy="25" r="5" fill="white"/>
+  <rect cx="32" cy="25" x="30" y="23" width="4" height="4" rx="1" fill="#1a1a1a"/>
+</svg>

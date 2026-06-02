@@ -1,0 +1,25 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Long barrel -->
+  <rect x="4" y="27" width="46" height="6" rx="2" fill="#1a1a1a"/>
+  <!-- Receiver/body -->
+  <rect x="22" y="22" width="24" height="14" rx="2" fill="#1a1a1a"/>
+  <!-- Stock -->
+  <path d="M46,22 L60,24 L60,36 L46,36 Z" fill="#1a1a1a"/>
+  <!-- Stock butt -->
+  <rect x="56" y="22" width="6" height="14" rx="2" fill="#1a1a1a"/>
+  <!-- Magazine (curved, below receiver) -->
+  <path d="M30,36 Q28,46 32,48 Q36,50 38,46 L38,36 Z" fill="#1a1a1a"/>
+  <!-- Scope rail -->
+  <rect x="26" y="20" width="18" height="3" rx="1" fill="#1a1a1a"/>
+  <!-- Scope -->
+  <rect x="28" y="16" width="14" height="5" rx="2" fill="#1a1a1a"/>
+  <rect x="30" y="17" width="10" height="3" rx="1" fill="white"/>
+  <!-- Trigger guard -->
+  <path d="M34,36 Q32,44 34,44 L38,44 L38,36Z" fill="#1a1a1a"/>
+  <!-- Grip -->
+  <rect x="44" y="34" width="6" height="12" rx="2" fill="#1a1a1a"/>
+  <!-- Muzzle flash guard -->
+  <rect x="2" y="25" width="6" height="10" rx="1" fill="#1a1a1a"/>
+  <line x1="4" y1="28" x2="4" y2="32" stroke="white" stroke-width="1"/>
+  <line x1="6" y1="28" x2="6" y2="32" stroke="white" stroke-width="1"/>
+</svg>

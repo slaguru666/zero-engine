@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Barrel -->
+  <rect x="10" y="22" width="34" height="8" rx="2" fill="#1a1a1a"/>
+  <!-- Slide top -->
+  <rect x="18" y="18" width="26" height="6" rx="1" fill="#1a1a1a"/>
+  <!-- Ejection port -->
+  <rect x="28" y="19" width="8" height="4" rx="1" fill="white"/>
+  <!-- Grip -->
+  <path d="M40,28 L44,28 L46,50 L36,50 L34,30 Z" fill="#1a1a1a"/>
+  <!-- Trigger guard -->
+  <path d="M34,30 Q30,38 32,44 L36,50 L36,42 Z" fill="#1a1a1a"/>
+  <!-- Trigger -->
+  <rect x="31" y="32" width="3" height="8" rx="1" fill="white"/>
+  <!-- Magazine base -->
+  <rect x="36" y="48" width="8" height="4" rx="1" fill="#1a1a1a"/>
+  <!-- Muzzle -->
+  <rect x="8" y="23" width="4" height="6" rx="1" fill="#1a1a1a"/>
+  <!-- Sight -->
+  <rect x="40" y="17" width="4" height="3" rx="1" fill="#1a1a1a"/>
+</svg>

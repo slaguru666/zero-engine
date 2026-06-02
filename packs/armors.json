@@ -2,7 +2,7 @@
   {
     "name": "Downtown Jacket",
     "type": "armor",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/armor/armor-downtown-jacket.svg",
     "system": {
       "description": "Reinforced street jacket with hidden ballistic panels; common among low-level gangers and worried civilians.",
       "armorRating": 1,
@@ -12,14 +12,14 @@
       "skillMod": 0,
       "statModTarget": "",
       "skillModTarget": "",
-      "cost": 0,
+      "cost": 150,
       "initiativeMod": 0
     }
   },
   {
     "name": "CAF Armor",
     "type": "armor",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/armor/armor-caf.svg",
     "system": {
       "description": "Standard CAF tactical vest and pads; decent protection without much extra bulk.",
       "armorRating": 2,
@@ -29,14 +29,14 @@
       "skillMod": 0,
       "statModTarget": "",
       "skillModTarget": "",
-      "cost": 0,
+      "cost": 400,
       "initiativeMod": 0
     }
   },
   {
     "name": "Scout Armor",
     "type": "armor",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/armor/armor-scout.svg",
     "system": {
       "description": "Lightweight composite plates over flexible mesh; built for operatives who need to move and climb.",
       "armorRating": 3,
@@ -46,14 +46,14 @@
       "skillMod": 0,
       "statModTarget": "agility",
       "skillModTarget": "",
-      "cost": 0,
+      "cost": 700,
       "initiativeMod": 0
     }
   },
   {
     "name": "HARD Armor",
     "type": "armor",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/armor/armor-hard.svg",
     "system": {
       "description": "Full-body ceramic and metal laminate suit for frontline combat and urban assaults.",
       "armorRating": 4,
@@ -63,14 +63,14 @@
       "skillMod": 1,
       "statModTarget": "agility",
       "skillModTarget": "force",
-      "cost": 0,
+      "cost": 1200,
       "initiativeMod": 0
     }
   },
   {
     "name": "Exo-Rig Armor",
     "type": "armor",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/armor/armor-exo-rig.svg",
     "system": {
       "description": "Powered exoskeletal frame with armored plates; massively increases carrying and weapon handling at the cost of finesse.",
       "armorRating": 5,
@@ -80,14 +80,14 @@
       "skillMod": -1,
       "statModTarget": "strength",
       "skillModTarget": "mobility",
-      "cost": 0,
+      "cost": 3000,
       "initiativeMod": 0
     }
   },
   {
     "name": "Squad Shielded Power Armor",
     "type": "armor",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/armor/armor-power.svg",
     "system": {
       "description": "Full sealed power armor with integrated energy shielding; rare, expensive, and terrifying on the street.",
       "armorRating": 6,
@@ -97,7 +97,7 @@
       "skillMod": -2,
       "statModTarget": "strength",
       "skillModTarget": "stealth",
-      "cost": 0,
+      "cost": 8000,
       "initiativeMod": 0
     }
   }

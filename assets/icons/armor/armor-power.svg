@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield aura (outermost) -->
+  <ellipse cx="32" cy="34" rx="29" ry="28" fill="none" stroke="#1a1a1a" stroke-width="2" stroke-dasharray="4 3"/>
+  <!-- Left dome shoulder -->
+  <ellipse cx="10" cy="22" rx="9" ry="10" fill="#1a1a1a"/>
+  <!-- Right dome shoulder -->
+  <ellipse cx="54" cy="22" rx="9" ry="10" fill="#1a1a1a"/>
+  <!-- Main torso block -->
+  <rect x="14" y="18" width="36" height="36" rx="4" fill="#1a1a1a"/>
+  <!-- Neck guard -->
+  <rect x="22" y="10" width="20" height="10" rx="3" fill="#1a1a1a"/>
+  <!-- Chest panel white -->
+  <rect x="19" y="22" width="26" height="18" rx="2" fill="white"/>
+  <!-- Power cell indicator -->
+  <rect x="24" y="26" width="16" height="10" rx="1" fill="#1a1a1a"/>
+  <rect x="26" y="28" width="5" height="6" rx="1" fill="white"/>
+  <rect x="33" y="28" width="5" height="6" rx="1" fill="white"/>
+  <!-- Lower skirt -->
+  <rect x="16" y="52" width="32" height="6" rx="2" fill="#1a1a1a"/>
+</svg>

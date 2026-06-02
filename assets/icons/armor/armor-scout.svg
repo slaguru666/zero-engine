@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Narrow vest body -->
+  <rect x="20" y="24" width="24" height="36" rx="3" fill="#1a1a1a"/>
+  <!-- Left shoulder strap -->
+  <rect x="17" y="8" width="8" height="18" rx="3" fill="#1a1a1a"/>
+  <!-- Right shoulder strap -->
+  <rect x="39" y="8" width="8" height="18" rx="3" fill="#1a1a1a"/>
+  <!-- Left buckle -->
+  <rect x="16" y="18" width="10" height="5" rx="1" fill="white"/>
+  <rect x="19" y="19" width="4" height="3" rx="1" fill="#1a1a1a"/>
+  <!-- Right buckle -->
+  <rect x="38" y="18" width="10" height="5" rx="1" fill="white"/>
+  <rect x="41" y="19" width="4" height="3" rx="1" fill="#1a1a1a"/>
+  <!-- Chest pockets -->
+  <rect x="22" y="26" width="8" height="9" rx="1" fill="white"/>
+  <rect x="34" y="26" width="8" height="9" rx="1" fill="white"/>
+  <!-- Utility loop -->
+  <circle cx="32" cy="50" r="5" fill="white"/>
+  <circle cx="32" cy="50" r="2" fill="#1a1a1a"/>
+</svg>

@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Curved katana-style blade -->
+  <path d="M30,4 Q36,20 36,44 L32,48 Q28,44 28,20 Z" fill="#1a1a1a"/>
+  <!-- Mono-edge highlight (one glowing edge) -->
+  <path d="M36,8 Q38,22 36,44 L32,48 Q34,44 36,8Z" fill="white"/>
+  <!-- Tsuba / guard (circular) -->
+  <ellipse cx="32" cy="50" rx="12" ry="5" fill="#1a1a1a"/>
+  <ellipse cx="32" cy="50" rx="8" ry="3" fill="white"/>
+  <ellipse cx="32" cy="50" rx="4" ry="2" fill="#1a1a1a"/>
+  <!-- Handle -->
+  <rect x="28" y="55" width="8" height="8" rx="2" fill="#1a1a1a"/>
+  <!-- Handle wrap -->
+  <line x1="28" y1="57" x2="36" y2="57" stroke="white" stroke-width="1.5"/>
+  <line x1="28" y1="60" x2="36" y2="60" stroke="white" stroke-width="1.5"/>
+</svg>

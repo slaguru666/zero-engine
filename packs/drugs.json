@@ -2,7 +2,7 @@
   {
     "name": "Painkillers (Analgesic)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-bottle-corked-red.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-painkillers.svg",
     "system": {
       "description": "Prescription-grade painkillers used by Medics to keep operatives moving on broken bones and bullet wounds.",
       "isDrug": true,
@@ -65,7 +65,7 @@
   {
     "name": "Stimulant (Focus/Wake-up)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-flask-corked-orange.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-stimulant.svg",
     "system": {
       "description": "Corporate-grade stimulant chips; keep you awake, sharp, and moving long after your body wants to shut down.",
       "isDrug": true,
@@ -128,7 +128,7 @@
   {
     "name": "Sedative (Downer)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-vial-corked-blue.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-sedative.svg",
     "system": {
       "description": "Heavy sedative used to shut down panic, control Frothers, or help Ebons come down after bad Ebb feedback.",
       "isDrug": true,
@@ -191,7 +191,7 @@
   {
     "name": "Redline (Overclock Combat Booster)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-bottle-corked-black.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-redline.svg",
     "system": {
       "description": "Illegal DarkNight derivative of Rush; pushes the body past safe limits into true overdrive.",
       "isDrug": true,
@@ -254,7 +254,7 @@
   {
     "name": "Calm-Line (Anti-Panic Neuroregulator)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-bottle-corked-cyan.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-calm-line.svg",
     "system": {
       "description": "Corporate anti-anxiety drug; standard issue for some Shiver units and corporate VIPs who still have to go on-site.",
       "isDrug": true,
@@ -317,7 +317,7 @@
   {
     "name": "Rush (Combat Stimulant)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-bottle-corked-orange-red.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-rush.svg",
     "system": {
       "description": "Standard Frother combat drug; a violent mix of stimulants, painkillers, and combat enhancers widely available on Mort.",
       "isDrug": true,
@@ -380,7 +380,7 @@
   {
     "name": "UV (Ultra-Violence Combat Drug)",
     "type": "equipment",
-    "img": "icons/consumables/potions/potion-bottle-corked-violet.webp",
+    "img": "systems/zero-engine/assets/icons/drugs/drug-uv.svg",
     "system": {
       "description": "Restricted UV-grade combat cocktail reserved for black ops and suicidal Frothers; massively amplifies aggression and physical output at severe mental cost.",
       "isDrug": true,

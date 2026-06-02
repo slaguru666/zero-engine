@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Circular pill / lozenge -->
+  <circle cx="32" cy="32" r="26" fill="#1a1a1a"/>
+  <circle cx="32" cy="32" r="20" fill="white"/>
+  <!-- Flat calm EKG line -->
+  <path d="M12,32 L20,32 L23,26 L26,38 L29,32 L35,32 L38,26 L41,38 L44,32 L52,32"
+        stroke="#1a1a1a" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

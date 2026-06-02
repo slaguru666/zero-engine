@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hexagonal hazard vial -->
+  <polygon points="32,4 52,16 52,48 32,60 12,48 12,16" fill="#1a1a1a"/>
+  <!-- Inner hex -->
+  <polygon points="32,10 48,20 48,44 32,54 16,44 16,20" fill="white"/>
+  <!-- Skull: dome -->
+  <ellipse cx="32" cy="28" rx="11" ry="10" fill="#1a1a1a"/>
+  <!-- Skull: jaw -->
+  <rect x="26" y="36" width="12" height="6" rx="2" fill="#1a1a1a"/>
+  <!-- Skull: eye sockets -->
+  <ellipse cx="28" cy="27" rx="3" ry="3.5" fill="white"/>
+  <ellipse cx="36" cy="27" rx="3" ry="3.5" fill="white"/>
+  <!-- Skull: nose -->
+  <polygon points="32,31 30,35 34,35" fill="white"/>
+  <!-- Skull: teeth -->
+  <rect x="27" y="37" width="3" height="4" rx="1" fill="white"/>
+  <rect x="31" y="37" width="3" height="4" rx="1" fill="white"/>
+  <rect x="35" y="37" width="3" height="4" rx="1" fill="white"/>
+</svg>

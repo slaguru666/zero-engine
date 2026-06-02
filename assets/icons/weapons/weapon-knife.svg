@@ -1,0 +1,13 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blade (angular combat knife) -->
+  <path d="M30,6 L38,8 L36,48 L28,48 Z" fill="#1a1a1a"/>
+  <!-- Serrated spine detail -->
+  <path d="M30,6 L32,8 L30,12 L32,16 L30,20 L32,24 L30,28 L32,32 L30,36 L32,40 L30,44 L28,48 L30,48Z" fill="white"/>
+  <!-- Guard -->
+  <rect x="20" y="46" width="24" height="5" rx="2" fill="#1a1a1a"/>
+  <!-- Handle with grip lines -->
+  <rect x="24" y="51" width="16" height="12" rx="3" fill="#1a1a1a"/>
+  <line x1="24" y1="54" x2="40" y2="54" stroke="white" stroke-width="1.5"/>
+  <line x1="24" y1="57" x2="40" y2="57" stroke="white" stroke-width="1.5"/>
+  <line x1="24" y1="60" x2="40" y2="60" stroke="white" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,16 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blade -->
+  <path d="M32,4 L38,14 L36,54 L28,54 L26,14 Z" fill="#1a1a1a"/>
+  <!-- Blade edge glow (mono-edge detail) -->
+  <path d="M32,4 L36,14 L35,50 L32,54 L32,4Z" fill="white"/>
+  <!-- Cross guard -->
+  <rect x="16" y="50" width="32" height="6" rx="3" fill="#1a1a1a"/>
+  <!-- Guard detail -->
+  <rect x="20" y="51" width="10" height="4" rx="1" fill="white"/>
+  <rect x="34" y="51" width="10" height="4" rx="1" fill="white"/>
+  <!-- Handle -->
+  <rect x="26" y="56" width="12" height="6" rx="2" fill="#1a1a1a"/>
+  <!-- Power cell at base -->
+  <rect x="24" y="58" width="16" height="4" rx="2" fill="#1a1a1a"/>
+  <rect x="28" y="59" width="8" height="2" rx="1" fill="white"/>
+</svg>
