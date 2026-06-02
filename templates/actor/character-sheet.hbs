@@ -958,6 +958,14 @@
 			<div class="bio-section">
 				<h2>Biography</h2>
 
+				<div class="pc-flag-row">
+					<label class="pc-flag-label">
+						<input type="checkbox" name="system.details.isPlayerCharacter" {{#if system.details.isPlayerCharacter}}checked{{/if}} />
+						<i class="fas fa-user-shield"></i> Player Character
+					</label>
+					<span class="pc-flag-hint">When ticked, this actor appears in the GM Finance Ledger.</span>
+				</div>
+
 				<h3>Background</h3>
 				<div class="editor">
 					<textarea name="system.bio.background" rows="8" placeholder="Character background and history...">{{system.bio.background}}</textarea>

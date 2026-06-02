@@ -11,7 +11,8 @@
         "height": "",
         "weight": "",
         "scl": 10,
-        "credits": 500
+        "credits": 500,
+        "isPlayerCharacter": false
       },
       "race": [],
       "training": [],

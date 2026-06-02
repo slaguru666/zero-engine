@@ -5481,6 +5481,140 @@ class SLANPCCreator extends Application {
   }
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+//   SLA GM FINANCE LEDGER
+//   GM-only tool: lists all Player Character actors, shows current balance,
+//   weekly income/expenses, net weekly, and allows one-click week calculation.
+// ══════════════════════════════════════════════════════════════════════════════
+
+class SLAGMFinanceTool extends Application {
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: 'sla-gm-finance-tool',
+      title: 'GM Finance Ledger',
+      width: 660,
+      height: 'auto',
+      resizable: true,
+      classes: ['zero-engine', 'gm-finance-tool']
+    });
+  }
+
+  /** Build inline HTML — no separate .hbs file needed */
+  async _renderInner(data) {
+    const pcs = this._getPCData();
+    let rows = '';
+    if (pcs.length === 0) {
+      rows = `<tr><td colspan="6" class="gm-finance-empty">
+        No Player Characters found. Tick the <strong>Player Character</strong> checkbox
+        on the Biography tab of each PC actor sheet.
+      </td></tr>`;
+    } else {
+      for (const pc of pcs) {
+        const netClass = pc.netWeekly >= 0 ? 'net-positive' : 'net-negative';
+        const netStr   = `${pc.netWeekly >= 0 ? '+' : ''}${pc.netWeekly}c`;
+        rows += `
+          <tr class="gm-finance-row" data-actor-id="${pc.id}">
+            <td class="gf-name">${pc.name}</td>
+            <td class="gf-balance">${pc.credits}c</td>
+            <td class="gf-income">+${pc.weeklyIncome}c</td>
+            <td class="gf-expenses">−${pc.weeklyExpenses}c</td>
+            <td class="gf-net ${netClass}">${netStr}</td>
+            <td class="gf-action">
+              <button type="button" class="gm-finance-calc-btn" data-actor-id="${pc.id}"
+                title="Apply net weekly income to balance: ${pc.credits}c ${pc.netWeekly >= 0 ? '+' : ''}${pc.netWeekly}c = ${pc.credits + pc.netWeekly}c">
+                <i class="fas fa-calculator"></i> Calculate
+              </button>
+            </td>
+          </tr>`;
+      }
+    }
+
+    const html = `
+      <div class="gm-finance-wrap">
+        <div class="gm-finance-header-note">
+          <i class="fas fa-info-circle"></i>
+          Click <strong>Calculate</strong> to apply one week of net income/expenses to a character's balance.
+        </div>
+        <table class="gm-finance-table">
+          <thead>
+            <tr>
+              <th>Character</th>
+              <th>Balance</th>
+              <th>Wk Income</th>
+              <th>Wk Expenses</th>
+              <th>Net</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+        <div class="gm-finance-footer">
+          <button type="button" class="gm-finance-calc-all-btn">
+            <i class="fas fa-calculator"></i> Calculate All
+          </button>
+        </div>
+      </div>`;
+
+    const $html = $(html);
+    return $html;
+  }
+
+  _getPCData() {
+    return (game.actors ?? [])
+      .filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter)
+      .map(a => {
+        const inc = a.system.finances?.income  || {};
+        const exp = a.system.finances?.expenses || {};
+        const weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
+        const weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
+        const netWeekly = weeklyIncome - weeklyExpenses;
+        return {
+          id:            a.id,
+          name:          a.name,
+          credits:       Number(a.system.details?.credits ?? 0),
+          weeklyIncome,
+          weeklyExpenses,
+          netWeekly
+        };
+      });
+  }
+
+  async _applyWeek(actorId) {
+    if (!game.user?.isGM) return;
+    const actor = game.actors.get(actorId);
+    if (!actor) return;
+    const inc = actor.system.finances?.income  || {};
+    const exp = actor.system.finances?.expenses || {};
+    const weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
+    const weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
+    const net     = weeklyIncome - weeklyExpenses;
+    const current = Number(actor.system?.details?.credits ?? 0);
+    const newBal  = current + net;
+    await actor.update({ 'system.details.credits': newBal });
+    ui.notifications.info(
+      `${actor.name}: ${current}c ${net >= 0 ? '+' : ''}${net}c → ${newBal}c`
+    );
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    const root = html instanceof jQuery ? html[0] : html;
+
+    root.querySelectorAll('.gm-finance-calc-btn').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        await this._applyWeek(btn.dataset.actorId);
+        this.render(false);
+      });
+    });
+
+    root.querySelector('.gm-finance-calc-all-btn')?.addEventListener('click', async () => {
+      const pcs = this._getPCData();
+      for (const pc of pcs) await this._applyWeek(pc.id);
+      this.render(false);
+    });
+  }
+}
+
 // ── ACTOR DIRECTORY BUTTONS ──────────────────────────────────────────────────
 Hooks.on('renderActorDirectory', (app, html) => {
   const root = html instanceof jQuery ? html[0] : html;
@@ -5501,6 +5635,19 @@ Hooks.on('renderActorDirectory', (app, html) => {
   npcBtn.innerHTML = '<i class="fas fa-robot"></i> Generate NPC';
   npcBtn.style.cssText = 'font-size:11px;padding:2px 7px;margin-left:4px;background:rgba(0,200,200,0.1);border:1px solid #00aacc;color:#00aacc;border-radius:3px;cursor:pointer;';
   npcBtn.addEventListener('click', () => new SLANPCCreator().render(true));
+
+  // GM-only Finance Ledger button
+  if (game.user?.isGM) {
+    const finBtn = document.createElement('button');
+    finBtn.className = 'sla-gm-finance-btn';
+    finBtn.innerHTML = '<i class="fas fa-credit-card"></i> Finance Ledger';
+    finBtn.style.cssText = 'font-size:11px;padding:2px 7px;margin-left:4px;background:rgba(255,200,0,0.15);border:1px solid #ffcc00;color:#ffcc00;border-radius:3px;cursor:pointer;';
+    finBtn.addEventListener('click', () => {
+      if (!game.slaGMFinanceTool) game.slaGMFinanceTool = new SLAGMFinanceTool();
+      game.slaGMFinanceTool.render(true);
+    });
+    actions.append(finBtn);
+  }
 
   actions.append(pcBtn, npcBtn);
 });

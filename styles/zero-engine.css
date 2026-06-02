@@ -4244,3 +4244,145 @@ body > .ze-pause-root .ze-sat-inner {
   background: rgba(0,212,255,0.2); border-color: #00d4ff; color: #00d4ff;
   box-shadow: 0 0 8px rgba(0,200,255,0.3);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   PLAYER CHARACTER FLAG — Bio Tab
+   ══════════════════════════════════════════════════════════════════════════════ */
+.zero-engine .pc-flag-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  margin-bottom: 14px;
+  background: rgba(255, 200, 0, 0.07);
+  border: 1px solid rgba(255, 200, 0, 0.25);
+  border-radius: 5px;
+}
+.zero-engine .pc-flag-label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #ffcc00;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.zero-engine .pc-flag-label input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #ffcc00;
+  cursor: pointer;
+}
+.zero-engine .pc-flag-hint {
+  font-size: 11px;
+  color: #888;
+  font-style: italic;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   GM FINANCE LEDGER
+   ══════════════════════════════════════════════════════════════════════════════ */
+.gm-finance-tool .gm-finance-wrap {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gm-finance-tool .gm-finance-header-note {
+  font-size: 12px;
+  color: #aaa;
+  padding: 6px 10px;
+  background: rgba(255,255,255,0.04);
+  border-left: 3px solid #ffcc00;
+  border-radius: 3px;
+}
+.gm-finance-tool .gm-finance-header-note strong { color: #ffcc00; }
+
+.gm-finance-tool .gm-finance-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.gm-finance-tool .gm-finance-table thead tr {
+  background: rgba(255, 200, 0, 0.1);
+  border-bottom: 1px solid rgba(255,200,0,0.3);
+}
+.gm-finance-tool .gm-finance-table thead th {
+  padding: 7px 10px;
+  text-align: left;
+  color: #ffcc00;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.gm-finance-tool .gm-finance-table tbody tr {
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  transition: background 0.15s;
+}
+.gm-finance-tool .gm-finance-table tbody tr:hover {
+  background: rgba(255,255,255,0.04);
+}
+.gm-finance-tool .gm-finance-table td {
+  padding: 8px 10px;
+  color: #ccc;
+}
+.gm-finance-tool .gf-name {
+  font-weight: bold;
+  color: #eee;
+}
+.gm-finance-tool .gf-balance {
+  color: #88ccff;
+  font-weight: bold;
+  font-size: 14px;
+}
+.gm-finance-tool .gf-income { color: #44cc66; }
+.gm-finance-tool .gf-expenses { color: #cc5555; }
+.gm-finance-tool .gf-net { font-weight: bold; font-size: 14px; }
+.gm-finance-tool .net-positive { color: #44cc66; }
+.gm-finance-tool .net-negative { color: #cc3333; }
+
+.gm-finance-tool .gm-finance-calc-btn {
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  background: rgba(255,200,0,0.15);
+  border: 1px solid #ffcc00;
+  color: #ffcc00;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.gm-finance-tool .gm-finance-calc-btn:hover {
+  background: rgba(255,200,0,0.3);
+  box-shadow: 0 0 8px rgba(255,200,0,0.25);
+}
+
+.gm-finance-tool .gm-finance-empty {
+  text-align: center;
+  padding: 20px;
+  color: #777;
+  font-style: italic;
+}
+
+.gm-finance-tool .gm-finance-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 4px;
+}
+.gm-finance-tool .gm-finance-calc-all-btn {
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: bold;
+  background: rgba(255,200,0,0.2);
+  border: 1px solid #ffcc00;
+  color: #ffcc00;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.gm-finance-tool .gm-finance-calc-all-btn:hover {
+  background: rgba(255,200,0,0.35);
+  box-shadow: 0 0 10px rgba(255,200,0,0.3);
+}
