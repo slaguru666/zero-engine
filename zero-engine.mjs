@@ -5602,6 +5602,9 @@ class SLAGMFinanceTool extends Application {
     const current  = this._readCredits(actor);
     const newBal   = current + income - expenses;
 
+    // {render: false} stops Foundry from auto-submitting open character sheets
+    // before they re-render, which was causing stale form values (e.g. 500)
+    // to be merged with the new value (e.g. 852) into a corrupt "852,500" string.
     await actor.update({
       'system.details.credits':                  newBal,
       'system.finances.income.salary':           0,
@@ -5614,7 +5617,12 @@ class SLAGMFinanceTool extends Application {
       'system.finances.expenses.bulletTax':      0,
       'system.finances.ammoSpentSession':        0,
       'system.finances.debt':                    0
-    });
+    }, { render: false });
+
+    // Now re-render any open sheets for this actor cleanly from fresh data.
+    for (const app of Object.values(actor.apps ?? {})) {
+      app.render(false);
+    }
 
     ui.notifications.info(
       `${actor.name}: ${current}c + ${income}c income − ${expenses}c expenses = ${newBal}c`
