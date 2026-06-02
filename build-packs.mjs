@@ -100,6 +100,16 @@ const PACKS = [
     label:  'SLA Weapons',
     source: 'packs/weapons.json',
   },
+  {
+    id:     'sla-equipment',
+    label:  'SLA Equipment & Gear',
+    source: 'packs/equipment.json',
+  },
+  {
+    id:     'sla-ammo',
+    label:  'SLA Ammunition',
+    source: 'packs/ammo.json',
+  },
 ];
 
 // ── Run ──────────────────────────────────────────────────────────────────────

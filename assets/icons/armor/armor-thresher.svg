@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Industrial hardsuit torso (very angular) -->
+  <polygon points="8,22 14,12 50,12 56,22 56,54 8,54" fill="#1a1a1a"/>
+  <!-- Heavy shoulder plates (industrial tabs) -->
+  <polygon points="4,12 14,12 14,26 8,22 4,18" fill="#1a1a1a"/>
+  <polygon points="60,12 50,12 50,26 56,22 60,18" fill="#1a1a1a"/>
+  <!-- Industrial seam lines -->
+  <line x1="8" y1="30" x2="56" y2="30" stroke="white" stroke-width="2"/>
+  <line x1="8" y1="40" x2="56" y2="40" stroke="white" stroke-width="2"/>
+  <line x1="32" y1="12" x2="32" y2="54" stroke="white" stroke-width="2"/>
+  <!-- Mounting points (bolts) -->
+  <circle cx="16" cy="18" r="3" fill="white"/>
+  <circle cx="48" cy="18" r="3" fill="white"/>
+  <circle cx="16" cy="48" r="3" fill="white"/>
+  <circle cx="48" cy="48" r="3" fill="white"/>
+  <circle cx="32" cy="22" r="3" fill="white"/>
+  <!-- Industrial hazard marks on chest plate -->
+  <polygon points="28,32 32,26 36,32 34,36 30,36" fill="white"/>
+  <polygon points="28,44 32,38 36,44 34,48 30,48" fill="white"/>
+</svg>

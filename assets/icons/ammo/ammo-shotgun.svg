@@ -1,0 +1,23 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Two shotgun shells (wide, short) -->
+  <!-- Left shell -->
+  <rect x="8" y="28" width="20" height="26" rx="2" fill="#1a1a1a"/>
+  <!-- Crimp top -->
+  <path d="M8,28 Q18,20 28,28" fill="#1a1a1a"/>
+  <path d="M11,28 Q18,23 25,28" fill="white"/>
+  <!-- Brass base -->
+  <rect x="6" y="50" width="24" height="6" rx="2" fill="#1a1a1a"/>
+  <!-- Primer -->
+  <circle cx="18" cy="56" r="3" fill="white"/>
+  <!-- Right shell -->
+  <rect x="36" y="28" width="20" height="26" rx="2" fill="#1a1a1a"/>
+  <path d="M36,28 Q46,20 56,28" fill="#1a1a1a"/>
+  <path d="M39,28 Q46,23 53,28" fill="white"/>
+  <rect x="34" y="50" width="24" height="6" rx="2" fill="#1a1a1a"/>
+  <circle cx="46" cy="56" r="3" fill="white"/>
+  <!-- Pellet pattern above shells -->
+  <circle cx="18" cy="12" r="3" fill="#1a1a1a"/>
+  <circle cx="26" cy="8" r="3" fill="#1a1a1a"/>
+  <circle cx="10" cy="8" r="3" fill="#1a1a1a"/>
+  <circle cx="18" cy="4" r="2.5" fill="#1a1a1a"/>
+</svg>

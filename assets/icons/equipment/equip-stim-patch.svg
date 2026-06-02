@@ -1,0 +1,13 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transdermal patch (square, adhesive) -->
+  <rect x="10" y="10" width="44" height="44" rx="4" fill="#1a1a1a"/>
+  <!-- Backing paper (peeled corner) -->
+  <path d="M10,10 L30,10 L10,30 Z" fill="white"/>
+  <!-- Peel corner detail -->
+  <line x1="10" y1="10" x2="30" y2="30" stroke="#1a1a1a" stroke-width="1.5"/>
+  <!-- Active drug membrane (inner square) -->
+  <rect x="18" y="18" width="28" height="28" rx="2" fill="white"/>
+  <!-- Medical cross on patch -->
+  <rect x="28" y="22" width="4" height="20" rx="1" fill="#1a1a1a"/>
+  <rect x="22" y="28" width="16" height="4" rx="1" fill="#1a1a1a"/>
+</svg>

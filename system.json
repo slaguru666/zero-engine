@@ -2,7 +2,7 @@
   "id": "zero-engine",
   "title": "Zero Engine (SLA Industries)",
   "description": "A basic game system for SLA Industries using the Zero Engine rules.",
-  "version": "1.3.4",
+  "version": "1.3.5",
   "compatibility": {
     "minimum": 13,
     "verified": "14.359"
@@ -63,6 +63,20 @@
       "name": "sla-weapons",
       "label": "SLA Weapons",
       "path": "packs/sla-weapons",
+      "type": "Item",
+      "system": "zero-engine"
+    },
+    {
+      "name": "sla-equipment",
+      "label": "SLA Equipment & Gear",
+      "path": "packs/sla-equipment",
+      "type": "Item",
+      "system": "zero-engine"
+    },
+    {
+      "name": "sla-ammo",
+      "label": "SLA Ammunition",
+      "path": "packs/sla-ammo",
       "type": "Item",
       "system": "zero-engine"
     }

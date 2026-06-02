@@ -1,0 +1,132 @@
+[
+  {
+    "name": "10mm Standard Rounds (x30)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-pistol.svg",
+    "system": {
+      "description": "Standard 10mm full metal jacket rounds. The most common pistol and SMG calibre on Mort. Available at every Shiver station, most corner shops, and all operative supply depots.",
+      "caliber": "10mm", "roundType": "standard", "quantity": 30, "costPerRound": 2,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "10mm AP Rounds (x30)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-ap.svg",
+    "system": {
+      "description": "Armour-piercing 10mm rounds with a hardened steel penetrator core. Each hit reduces target's armour dice by 1 (in addition to weapon AP). More expensive but essential against armoured targets.",
+      "caliber": "10mm", "roundType": "AP", "quantity": 30, "costPerRound": 8,
+      "apBonus": 1, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "9mm Standard Rounds (x30)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-pistol.svg",
+    "system": {
+      "description": "Standard 9mm parabellum. Compatible with the FEN 603 and similar machine pistols. High velocity, moderate stopping power.",
+      "caliber": "9mm", "roundType": "standard", "quantity": 30, "costPerRound": 2,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "5.56mm Standard Rounds (x30)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-rifle.svg",
+    "system": {
+      "description": "Standard 5.56mm intermediate rifle rounds. Fits the FEN AR and compatible assault rifles. High velocity, good accuracy at medium range.",
+      "caliber": "5.56mm", "roundType": "standard", "quantity": 30, "costPerRound": 3,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "5.56mm AP Rounds (x30)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-ap.svg",
+    "system": {
+      "description": "5.56mm armour-piercing rounds for assault rifles. Penetrator core defeats light armour. Essential for engagements against armoured Shivers or operative-grade targets.",
+      "caliber": "5.56mm", "roundType": "AP", "quantity": 30, "costPerRound": 10,
+      "apBonus": 1, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "7.62mm Standard Rounds (x20)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-rifle.svg",
+    "system": {
+      "description": "Full-power 7.62mm rifle rounds. Fits the Browbeater series, FEN Reaper LMG, and similar battle rifles. More penetrating than intermediate calibres.",
+      "caliber": "7.62mm", "roundType": "standard", "quantity": 20, "costPerRound": 4,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "7.62mm AP Rounds (x20)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-ap.svg",
+    "system": {
+      "description": "7.62mm armour-piercing for battle rifles and LMGs. Defeats medium armour consistently. Standard upgrade for sustained-fire engagements against armoured targets.",
+      "caliber": "7.62mm", "roundType": "AP", "quantity": 20, "costPerRound": 12,
+      "apBonus": 2, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "12-Gauge Standard Shells (x8)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-shotgun.svg",
+    "system": {
+      "description": "Standard 12-gauge buckshot shells. Devastating at close range, poor at anything else. Each shell fires a spread pattern covering Engaged range with full damage, Short range at -1 damage.",
+      "caliber": "12g", "roundType": "standard", "quantity": 8, "costPerRound": 5,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": "12-Gauge Slug Rounds (x8)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-rifle.svg",
+    "system": {
+      "description": "12-gauge rifled slugs. A single heavy projectile instead of a spread pattern. Retains full damage at Short range. Gains AP 1. Less area coverage but better penetration than buckshot.",
+      "caliber": "12g", "roundType": "slug", "quantity": 8, "costPerRound": 8,
+      "apBonus": 1, "damageMod": 0, "blastRadius": 0, "weight": 1
+    }
+  },
+  {
+    "name": ".44 Standard Rounds (x6)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-pistol.svg",
+    "system": {
+      "description": "Heavy .44 revolver rounds for the BLA 046M Blitzer. Slow to reload, high stopping power. Each round hits harder than comparable pistol calibres.",
+      "caliber": ".44", "roundType": "standard", "quantity": 6, "costPerRound": 6,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 0
+    }
+  },
+  {
+    "name": ".454 Standard Rounds (x12)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/ammo/ammo-pistol.svg",
+    "system": {
+      "description": "Heavy-calibre pistol rounds for the FEN 204 Heavy Pistol. High recoil, high damage. The round that makes the compensator necessary.",
+      "caliber": ".454", "roundType": "standard", "quantity": 12, "costPerRound": 7,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 0, "weight": 0
+    }
+  },
+  {
+    "name": "40mm HE Grenade Round (x1)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-grenade.svg",
+    "system": {
+      "description": "High-explosive 40mm grenade round for the MILA launcher. On impact, deals DMG 5 within Engaged range of blast point, DMG 2 at Short range. Armour dice halved against blast.",
+      "caliber": "40mm", "roundType": "HE", "quantity": 1, "costPerRound": 80,
+      "apBonus": 0, "damageMod": 2, "blastRadius": 3, "weight": 1
+    }
+  },
+  {
+    "name": "40mm Smoke Round (x1)",
+    "type": "ammo",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-stun-grenade.svg",
+    "system": {
+      "description": "40mm smoke grenade round for the MILA launcher. Creates a dense smoke cloud at Short range radius on impact. All ranged attacks through the cloud are at -2 dice. Dissipates after 3 rounds.",
+      "caliber": "40mm", "roundType": "smoke", "quantity": 1, "costPerRound": 40,
+      "apBonus": 0, "damageMod": 0, "blastRadius": 3, "weight": 1
+    }
+  }
+]

@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Two rifle rounds (tall, bottleneck case) -->
+  <!-- Left round -->
+  <path d="M16,52 L16,36 L18,28 L20,20 L22,16 L24,20 L26,28 L28,36 L28,52 Z" fill="#1a1a1a"/>
+  <ellipse cx="22" cy="14" rx="4" ry="5" fill="#1a1a1a"/>
+  <ellipse cx="22" cy="13" rx="2" ry="3" fill="white"/>
+  <!-- Rim -->
+  <rect x="14" y="50" width="16" height="3" rx="1" fill="#1a1a1a"/>
+  <!-- Right round -->
+  <path d="M36" y="52" fill="#1a1a1a"/>
+  <path d="M36,52 L36,36 L38,28 L40,20 L42,16 L44,20 L46,28 L48,36 L48,52 Z" fill="#1a1a1a"/>
+  <ellipse cx="42" cy="14" rx="4" ry="5" fill="#1a1a1a"/>
+  <ellipse cx="42" cy="13" rx="2" ry="3" fill="white"/>
+  <rect x="34" y="50" width="16" height="3" rx="1" fill="#1a1a1a"/>
+</svg>

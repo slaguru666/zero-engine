@@ -1,0 +1,31 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Extra-long barrel -->
+  <rect x="2" y="29" width="50" height="6" rx="1" fill="#1a1a1a"/>
+  <!-- Suppressor -->
+  <rect x="2" y="27" width="10" height="10" rx="2" fill="#1a1a1a"/>
+  <!-- Suppressor baffles -->
+  <line x1="5" y1="27" x2="5" y2="37" stroke="white" stroke-width="1"/>
+  <line x1="8" y1="27" x2="8" y2="37" stroke="white" stroke-width="1"/>
+  <!-- Receiver -->
+  <rect x="40" y="24" width="16" height="16" rx="2" fill="#1a1a1a"/>
+  <!-- Large scope -->
+  <rect x="32" y="18" width="24" height="8" rx="2" fill="#1a1a1a"/>
+  <rect x="34" y="19" width="20" height="6" rx="1" fill="white"/>
+  <!-- Large eyepiece -->
+  <rect x="52" y="16" width="8" height="12" rx="3" fill="#1a1a1a"/>
+  <!-- Turret knobs on scope -->
+  <rect x="42" y="14" width="4" height="5" rx="1" fill="#1a1a1a"/>
+  <!-- Cheek rest / stock -->
+  <path d="M54,26 L64,24 L64,36 L54,38 Z" fill="#1a1a1a"/>
+  <!-- Thumb-hole stock cutout -->
+  <ellipse cx="57" cy="32" rx="4" ry="3" fill="white"/>
+  <!-- Trigger -->
+  <rect x="42" y="38" width="3" height="8" rx="1" fill="white"/>
+  <!-- Pistol grip -->
+  <rect x="46" y="38" width="7" height="14" rx="2" fill="#1a1a1a"/>
+  <!-- Box magazine -->
+  <rect x="36" y="40" width="8" height="14" rx="2" fill="#1a1a1a"/>
+  <!-- Bipod -->
+  <line x1="14" y1="35" x2="10" y2="54" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  <line x1="20" y1="35" x2="24" y2="54" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+</svg>

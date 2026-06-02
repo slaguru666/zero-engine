@@ -1,0 +1,18 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Radio unit body -->
+  <rect x="18" y="20" width="28" height="38" rx="4" fill="#1a1a1a"/>
+  <!-- Antenna -->
+  <line x1="38" y1="20" x2="44" y2="4" stroke="#1a1a1a" stroke-width="3" stroke-linecap="round"/>
+  <!-- Screen -->
+  <rect x="22" y="24" width="20" height="12" rx="2" fill="white"/>
+  <!-- Screen content (signal bars) -->
+  <rect x="24" y="30" width="3" height="4" rx="1" fill="#1a1a1a"/>
+  <rect x="29" y="28" width="3" height="6" rx="1" fill="#1a1a1a"/>
+  <rect x="34" y="26" width="3" height="8" rx="1" fill="#1a1a1a"/>
+  <!-- Push-to-talk button -->
+  <rect x="22" y="40" width="12" height="8" rx="2" fill="white"/>
+  <rect x="34" y="40" width="8" height="8" rx="2" fill="white"/>
+  <!-- Speaker grille -->
+  <line x1="22" y1="52" x2="42" y2="52" stroke="white" stroke-width="1.5"/>
+  <line x1="22" y1="55" x2="42" y2="55" stroke="white" stroke-width="1.5"/>
+</svg>

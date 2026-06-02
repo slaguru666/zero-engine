@@ -1,0 +1,15 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hip flask / slosh bottle -->
+  <!-- Flask body (rounded rectangle) -->
+  <path d="M16,22 Q14,22 12,28 L12,54 Q12,58 16,58 L48,58 Q52,58 52,54 L52,28 Q50,22 48,22 Z" fill="#1a1a1a"/>
+  <!-- Neck -->
+  <rect x="24" y="10" width="16" height="14" rx="2" fill="#1a1a1a"/>
+  <!-- Cap -->
+  <rect x="22" y="6" width="20" height="6" rx="3" fill="#1a1a1a"/>
+  <!-- Liquid level (sloshing) -->
+  <path d="M14,40 Q20,36 32,40 Q44,44 50,40 L50,54 Q50,56 48,56 L16,56 Q14,56 14,54 Z" fill="white"/>
+  <!-- Slosh wave -->
+  <path d="M14,40 Q20,36 32,40 Q44,44 50,40" stroke="white" stroke-width="1" fill="none"/>
+  <!-- Flask highlight line -->
+  <line x1="18" y1="26" x2="18" y2="54" stroke="white" stroke-width="2" stroke-linecap="round"/>
+</svg>

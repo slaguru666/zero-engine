@@ -13,7 +13,9 @@
       "ap": 0,
       "magazine": 6,
       "ammo": 6,
-      "fireModes": ["single"],
+      "fireModes": [
+        "single"
+      ],
       "gearBonus": 0,
       "autoAmmoUse": 0,
       "ammoType": "standard",
@@ -39,7 +41,10 @@
       "ap": 0,
       "magazine": 30,
       "ammo": 30,
-      "fireModes": ["single", "auto"],
+      "fireModes": [
+        "single",
+        "auto"
+      ],
       "gearBonus": 0,
       "autoAmmoUse": 8,
       "ammoType": "standard",
@@ -65,7 +70,9 @@
       "ap": 1,
       "magazine": 12,
       "ammo": 12,
-      "fireModes": ["single"],
+      "fireModes": [
+        "single"
+      ],
       "gearBonus": 1,
       "autoAmmoUse": 0,
       "ammoType": "standard",
@@ -91,7 +98,9 @@
       "ap": 4,
       "magazine": 5,
       "ammo": 5,
-      "fireModes": ["single"],
+      "fireModes": [
+        "single"
+      ],
       "gearBonus": 2,
       "autoAmmoUse": 0,
       "ammoType": "standard",
@@ -117,7 +126,10 @@
       "ap": 0,
       "magazine": 24,
       "ammo": 24,
-      "fireModes": ["single", "auto"],
+      "fireModes": [
+        "single",
+        "auto"
+      ],
       "gearBonus": 0,
       "autoAmmoUse": 8,
       "ammoType": "standard",
@@ -134,7 +146,7 @@
     "type": "weapon",
     "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-706.svg",
     "system": {
-      "description": "A rotary-barrel heavy weapon that fires high-velocity rounds at catastrophic volume. The Power Reaper is not a precision instrument — it is a statement. Requires a harness or mounting point to use effectively.",
+      "description": "A rotary-barrel heavy weapon that fires high-velocity rounds at catastrophic volume. The Power Reaper is not a precision instrument \u2014 it is a statement. Requires a harness or mounting point to use effectively.",
       "weaponType": "HW",
       "category": "ranged",
       "damage": 5,
@@ -143,7 +155,9 @@
       "ap": 2,
       "magazine": 100,
       "ammo": 100,
-      "fireModes": ["auto"],
+      "fireModes": [
+        "auto"
+      ],
       "gearBonus": 0,
       "autoAmmoUse": 15,
       "ammoType": "standard",
@@ -169,7 +183,11 @@
       "ap": 1,
       "magazine": 30,
       "ammo": 30,
-      "fireModes": ["single", "burst", "auto"],
+      "fireModes": [
+        "single",
+        "burst",
+        "auto"
+      ],
       "gearBonus": 0,
       "autoAmmoUse": 8,
       "ammoType": "standard",
@@ -195,7 +213,10 @@
       "ap": 2,
       "magazine": 20,
       "ammo": 20,
-      "fireModes": ["single", "burst"],
+      "fireModes": [
+        "single",
+        "burst"
+      ],
       "gearBonus": 2,
       "autoAmmoUse": 0,
       "ammoType": "standard",
@@ -221,7 +242,10 @@
       "ap": 1,
       "magazine": 20,
       "ammo": 20,
-      "fireModes": ["single", "burst"],
+      "fireModes": [
+        "single",
+        "burst"
+      ],
       "gearBonus": 1,
       "autoAmmoUse": 0,
       "ammoType": "standard",
@@ -273,7 +297,9 @@
       "ap": 0,
       "magazine": 8,
       "ammo": 8,
-      "fireModes": ["single"],
+      "fireModes": [
+        "single"
+      ],
       "gearBonus": 0,
       "autoAmmoUse": 0,
       "ammoType": "standard",
@@ -368,7 +394,7 @@
     "type": "weapon",
     "img": "systems/zero-engine/assets/icons/weapons/weapon-sla-blade.svg",
     "system": {
-      "description": "Standard single-handed combat blade issued across SLA operative divisions. A straight, single-edged weapon optimised for quick thrusting attacks. Reliable, balanced, and unremarkable — exactly as intended.",
+      "description": "Standard single-handed combat blade issued across SLA operative divisions. A straight, single-edged weapon optimised for quick thrusting attacks. Reliable, balanced, and unremarkable \u2014 exactly as intended.",
       "weaponType": "Blade",
       "category": "melee",
       "damage": 3,
@@ -394,7 +420,7 @@
     "type": "weapon",
     "img": "systems/zero-engine/assets/icons/weapons/weapon-vibro-sabre.svg",
     "system": {
-      "description": "A curved sabre with a high-frequency vibration spine that disrupts molecular cohesion on contact. The Vibro Sabre cuts through armour as easily as flesh. The whine it produces before a strike is unmistakable — and terrifying.",
+      "description": "A curved sabre with a high-frequency vibration spine that disrupts molecular cohesion on contact. The Vibro Sabre cuts through armour as easily as flesh. The whine it produces before a strike is unmistakable \u2014 and terrifying.",
       "weaponType": "Blade",
       "category": "melee",
       "damage": 3,
@@ -410,6 +436,445 @@
       "caliber": "",
       "roundType": "standard",
       "cost": 900,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "GA 50 Finisher",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-204.svg",
+    "system": {
+      "description": "A heavy-frame semi-automatic pistol firing .50 calibre rounds. Slower than lighter sidearms but hits significantly harder. Standard sidearm for SLA special division operatives.",
+      "weaponType": "Pistol",
+      "category": "ranged",
+      "damage": 3,
+      "range": "Short",
+      "rof": 1,
+      "ap": 1,
+      "magazine": 8,
+      "ammo": 8,
+      "fireModes": [
+        "single"
+      ],
+      "gearBonus": 1,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": ".50",
+      "roundType": "standard",
+      "cost": 700,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "FEN 401 Shiver Pistol",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-pistol.svg",
+    "system": {
+      "description": "Standard-issue sidearm for SLA law enforcement and Shivers. Reliable, accurate, and built to survive being dropped in a drain. Nothing special \u2014 which is exactly what CAF wanted.",
+      "weaponType": "Pistol",
+      "category": "ranged",
+      "damage": 2,
+      "range": "Short",
+      "rof": 2,
+      "ap": 0,
+      "magazine": 12,
+      "ammo": 12,
+      "fireModes": [
+        "single"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "9mm",
+      "roundType": "standard",
+      "cost": 280,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "FEN 209 Machine Pistol",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-603.svg",
+    "system": {
+      "description": "A fully-automatic machine pistol. Fires 3mm rounds at high velocity from a compact frame. Devastating in close quarters; nearly useless beyond that. Favoured by operatives who need concealment over reach.",
+      "weaponType": "Machine Pistol",
+      "category": "ranged",
+      "damage": 2,
+      "range": "Short",
+      "rof": 4,
+      "ap": 0,
+      "magazine": 20,
+      "ammo": 20,
+      "fireModes": [
+        "single",
+        "auto"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 8,
+      "ammoType": "standard",
+      "caliber": "3mm",
+      "roundType": "standard",
+      "cost": 380,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "FEN 981 Sniper Rifle",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-sniper-rifle.svg",
+    "system": {
+      "description": "A bolt-action precision rifle with integrated suppressor, large magnification scope, and bipod. The FEN 981 is the weapon of choice for long-range elimination. Requires a prepared position and patience.",
+      "weaponType": "Sniper Rifle",
+      "category": "ranged",
+      "damage": 5,
+      "range": "Extreme",
+      "rof": 1,
+      "ap": 2,
+      "magazine": 10,
+      "ammo": 10,
+      "fireModes": [
+        "single"
+      ],
+      "gearBonus": 2,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "8mm",
+      "roundType": "standard",
+      "cost": 2000,
+      "initiativeMod": -1,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "FEN 701 Urban Carbine",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-ga-9443.svg",
+    "system": {
+      "description": "A compact carbine designed for urban operations. Short enough for vehicle use, powerful enough for street-level engagements. Used extensively by SLA rapid response teams.",
+      "weaponType": "Carbine",
+      "category": "ranged",
+      "damage": 3,
+      "range": "Long",
+      "rof": 2,
+      "ap": 1,
+      "magazine": 24,
+      "ammo": 24,
+      "fireModes": [
+        "single",
+        "burst"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "7mm",
+      "roundType": "standard",
+      "cost": 850,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "FEN 10 Street Sweeper",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-auto-shotgun.svg",
+    "system": {
+      "description": "A drum-fed automatic shotgun. The Street Sweeper fires 12-gauge rounds from a 12-round drum at semi-automatic speed. At close range it is catastrophic. At any other range it is mostly theatrical.",
+      "weaponType": "Shotgun",
+      "category": "ranged",
+      "damage": 4,
+      "range": "Short",
+      "rof": 2,
+      "ap": 0,
+      "magazine": 12,
+      "ammo": 12,
+      "fireModes": [
+        "single",
+        "burst"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 4,
+      "ammoType": "standard",
+      "caliber": "12g",
+      "roundType": "standard",
+      "cost": 900,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "FEN Reaper LMG",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-lmg.svg",
+    "system": {
+      "description": "A belt-fed light machine gun. The Reaper provides sustained suppressive fire. Fires until the belt runs out or the operator passes out \u2014 whichever comes first. Requires a bipod or resting position to use accurately.",
+      "weaponType": "LMG",
+      "category": "ranged",
+      "damage": 4,
+      "range": "Long",
+      "rof": 4,
+      "ap": 1,
+      "magazine": 100,
+      "ammo": 100,
+      "fireModes": [
+        "auto"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 10,
+      "ammoType": "standard",
+      "caliber": "7mm",
+      "roundType": "standard",
+      "cost": 2200,
+      "initiativeMod": -1,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "MILA Grenade Launcher",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-grenade-launcher.svg",
+    "system": {
+      "description": "A six-round revolving cylinder grenade launcher. Fires 40mm fragmentation, smoke, or stun grenades. The MILA is a crowd-control and area-denial weapon. Anything within its blast radius disagrees with the concept of cover.",
+      "weaponType": "Launcher",
+      "category": "ranged",
+      "damage": 5,
+      "range": "Long",
+      "rof": 1,
+      "ap": 1,
+      "magazine": 6,
+      "ammo": 6,
+      "fireModes": [
+        "single"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "40mm",
+      "roundType": "HE",
+      "cost": 1800,
+      "initiativeMod": -1,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "ITB Mutilator Sword",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-mutilator-sword.svg",
+    "system": {
+      "description": "A two-handed chain-edged claymore produced by ITB. The motorised chain teeth run continuously along both edges. It does not cut \u2014 it tears. Wounds from a Mutilator are extremely difficult to stabilise.",
+      "weaponType": "Blade",
+      "category": "melee",
+      "damage": 4,
+      "range": "Engaged",
+      "rof": 1,
+      "ap": 2,
+      "magazine": 0,
+      "ammo": 0,
+      "fireModes": [],
+      "gearBonus": 1,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "cost": 850,
+      "initiativeMod": -1,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Chainaxe",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-chainaxe.svg",
+    "system": {
+      "description": "A one-handed axe with a motorised chain running along the blade edge. The Chainaxe is louder than it needs to be. This is intentional. Favoured by Frothers and anyone who wants witnesses.",
+      "weaponType": "Axe",
+      "category": "melee",
+      "damage": 3,
+      "range": "Engaged",
+      "rof": 2,
+      "ap": 1,
+      "magazine": 0,
+      "ammo": 0,
+      "fireModes": [],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "cost": 460,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Chainsaw (Improvised)",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-chainsaw.svg",
+    "system": {
+      "description": "An industrial power tool repurposed as a close-range weapon. Technically not a weapon. Technically. On a fumble, the operator takes 1d3 damage instead of the target.",
+      "weaponType": "Improvised",
+      "category": "melee",
+      "damage": 4,
+      "range": "Engaged",
+      "rof": 1,
+      "ap": 0,
+      "magazine": 0,
+      "ammo": 0,
+      "fireModes": [],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "cost": 120,
+      "initiativeMod": -1,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Riot Shield",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-riot-shield.svg",
+    "system": {
+      "description": "A full-body ballistic shield used by Shivers and riot control units. While carried, the user gains +1 automatic armour against ranged attacks from the front. Can be used to bash for 1d4 damage.",
+      "weaponType": "Shield",
+      "category": "melee",
+      "damage": 2,
+      "range": "Engaged",
+      "rof": 1,
+      "ap": 0,
+      "magazine": 0,
+      "ammo": 0,
+      "fireModes": [],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "cost": 300,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Fragmentation Grenade",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-grenade.svg",
+    "system": {
+      "description": "A standard-pattern fragmentation grenade. On detonation, everyone within Short range takes DMG 3 (no armour dice, only auto). Between Short and Medium range takes DMG 1. Roll Mobility vs difficulty 2 to avoid the blast zone.",
+      "weaponType": "Grenade",
+      "category": "ranged",
+      "damage": 3,
+      "range": "Short",
+      "rof": 1,
+      "ap": 0,
+      "magazine": 1,
+      "ammo": 1,
+      "fireModes": [
+        "single"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "40mm",
+      "roundType": "HE",
+      "cost": 80,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Stun Grenade",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-stun-grenade.svg",
+    "system": {
+      "description": "A flashbang/stun grenade. On detonation, all targets within Short range must pass a Stamina roll (difficulty 2) or gain the Stunned condition (-3 dice to all rolls until end of next turn). No physical damage.",
+      "weaponType": "Grenade",
+      "category": "ranged",
+      "damage": 0,
+      "range": "Short",
+      "rof": 1,
+      "ap": 0,
+      "magazine": 1,
+      "ammo": 1,
+      "fireModes": [
+        "single"
+      ],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "40mm",
+      "roundType": "standard",
+      "cost": 60,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Ebb Sword",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-ebb-sword.svg",
+    "system": {
+      "description": "A blade channelled with focused Ebb energy. The weapon strikes with physical force and Ebb disruption simultaneously. Only Ebon and Brain Waster operatives can maintain the Ebb channel required to use it at full effectiveness. Others can wield it but gain no Ebb bonus.",
+      "weaponType": "Blade",
+      "category": "melee",
+      "damage": 3,
+      "range": "Engaged",
+      "rof": 2,
+      "ap": 2,
+      "magazine": 0,
+      "ammo": 0,
+      "fireModes": [],
+      "gearBonus": 1,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "cost": 1200,
+      "initiativeMod": 0,
+      "equipped": false,
+      "ammoEmpty": false
+    }
+  },
+  {
+    "name": "Stormer Chuckleduster",
+    "type": "weapon",
+    "img": "systems/zero-engine/assets/icons/weapons/weapon-gash-fist.svg",
+    "system": {
+      "description": "A reinforced brass-knuckle weapon scaled for Stormer-class physiques. The mass and density of the weapon combined with a Stormer's natural strength make it capable of structural damage. The name was coined by the first squad to use one.",
+      "weaponType": "Natural",
+      "category": "melee",
+      "damage": 4,
+      "range": "Engaged",
+      "rof": 2,
+      "ap": 0,
+      "magazine": 0,
+      "ammo": 0,
+      "fireModes": [],
+      "gearBonus": 0,
+      "autoAmmoUse": 0,
+      "ammoType": "standard",
+      "caliber": "",
+      "roundType": "standard",
+      "cost": 200,
       "initiativeMod": 0,
       "equipped": false,
       "ammoEmpty": false

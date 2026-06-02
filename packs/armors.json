@@ -100,5 +100,192 @@
       "cost": 8000,
       "initiativeMod": 0
     }
+  },
+  {
+    "name": "Street Clothes",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-downtown-jacket.svg",
+    "system": {
+      "description": "Civilian clothing. Offers essentially no ballistic protection. The only reason to track it is so the GM knows when an operative has forgotten to put their armour on.",
+      "armorRating": 0,
+      "armorDice": 0,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 20,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Shiver Flak Vest",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-flak-vest.svg",
+    "system": {
+      "description": "Standard-issue soft armour vest worn under uniform by Shivers and patrol officers. Lightweight, concealable under a jacket. Not rated for combat \u2014 rated for surviving a mugging.",
+      "armorRating": 1,
+      "armorDice": 1,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 200,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Full Shiver Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-caf.svg",
+    "system": {
+      "description": "Full plate and vest armour used by Shiver combat units. Rated for street operations and riot suppression. Includes shoulder guards, arm vambraces, and shin protection.",
+      "armorRating": 2,
+      "armorDice": 2,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 450,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Crackshot Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-scout.svg",
+    "system": {
+      "description": "Lightweight precision-operative armour designed for marksmanship. Minimal shoulder and torso coverage to avoid restricting aiming motion. Includes integrated rangefinder mounting point.",
+      "armorRating": 2,
+      "armorDice": 2,
+      "armorAuto": 0,
+      "statMod": 1,
+      "skillMod": 0,
+      "statModTarget": "agility",
+      "skillModTarget": "",
+      "cost": 600,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Shock Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-hard.svg",
+    "system": {
+      "description": "Blast-resistant armour with energy-dispersal panels. Designed for operatives who expect to be in the vicinity of explosions, EMP discharges, or Ebb detonations. Reduces Ebb damage by 1 auto.",
+      "armorRating": 3,
+      "armorDice": 3,
+      "armorAuto": 1,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 900,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Stealth Suit",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-stealth-suit.svg",
+    "system": {
+      "description": "A full-body suit with integrated light-bending panels and sound-dampening underlayer. Provides moderate ballistic protection while granting +2 dice to Stealth rolls. Panels degrade when the suit takes significant damage.",
+      "armorRating": 2,
+      "armorDice": 2,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 2,
+      "statModTarget": "",
+      "skillModTarget": "stealth",
+      "cost": 2500,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Ebb Deathsuit",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-ebb-deathsuit.svg",
+    "system": {
+      "description": "A ritualistically modified suit of armour channelled with sustained Ebb energy. Worn exclusively by elite Ebon operatives. Provides significant protection and adds +1 die to all Ebb rolls. Non-Ebb users cannot attune it.",
+      "armorRating": 4,
+      "armorDice": 4,
+      "armorAuto": 1,
+      "statMod": 0,
+      "skillMod": 1,
+      "statModTarget": "",
+      "skillModTarget": "ebb",
+      "cost": 5000,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "PP10 HARD Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-hard.svg",
+    "system": {
+      "description": "An uprated HARD Armour system with PP10 composite plating. Heavier than standard HARD but capable of stopping rounds that would punch through lighter suits.",
+      "armorRating": 5,
+      "armorDice": 4,
+      "armorAuto": 2,
+      "statMod": -1,
+      "skillMod": 0,
+      "statModTarget": "agility",
+      "skillModTarget": "",
+      "cost": 2800,
+      "initiativeMod": -1
+    }
+  },
+  {
+    "name": "Light Thresher Suit",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-thresher.svg",
+    "system": {
+      "description": "An industrial hardsuit adapted for combat use. Angular composite plates with mounting points for additional equipment. Designed for hostile environment operations as much as firefights.",
+      "armorRating": 4,
+      "armorDice": 4,
+      "armorAuto": 2,
+      "statMod": 0,
+      "skillMod": -1,
+      "statModTarget": "",
+      "skillModTarget": "stealth",
+      "cost": 3500,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Heavy Thresher Suit",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-thresher.svg",
+    "system": {
+      "description": "Full-coverage industrial combat suit with reinforced joints and integrated sealing system. Capable of operating in vacuum or toxic environments. Movement is restricted but survivability is exceptional.",
+      "armorRating": 5,
+      "armorDice": 5,
+      "armorAuto": 3,
+      "statMod": -1,
+      "skillMod": -2,
+      "statModTarget": "agility",
+      "skillModTarget": "mobility",
+      "cost": 6000,
+      "initiativeMod": -1
+    }
+  },
+  {
+    "name": "DN Power Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/icons/armor/armor-power.svg",
+    "system": {
+      "description": "Department of Nanotech powered combat armour. Lighter than standard power armour but with advanced nano-repair capability \u2014 the suit recovers 1 armour die between scenes. Rare and expensive.",
+      "armorRating": 5,
+      "armorDice": 5,
+      "armorAuto": 2,
+      "statMod": 1,
+      "skillMod": -1,
+      "statModTarget": "strength",
+      "skillModTarget": "stealth",
+      "cost": 7500,
+      "initiativeMod": 0
+    }
   }
 ]

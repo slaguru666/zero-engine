@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wide heavy blade -->
+  <path d="M24,4 L40,4 L42,42 L32,50 L22,42 Z" fill="#1a1a1a"/>
+  <!-- Chain teeth along both edges -->
+  <path d="M24,4 L22,10 L24,14 L22,18 L24,22 L22,26 L24,30 L22,34 L24,38 L22,42 L26,44 Z" fill="white"/>
+  <path d="M40,4 L42,10 L40,14 L42,18 L40,22 L42,26 L40,30 L42,34 L40,38 L42,42 L38,44 Z" fill="white"/>
+  <!-- Drive mechanism in fuller -->
+  <rect x="29" y="8" width="6" height="28" rx="1" fill="white"/>
+  <rect x="30" y="10" width="4" height="4" rx="1" fill="#1a1a1a"/>
+  <rect x="30" y="16" width="4" height="4" rx="1" fill="#1a1a1a"/>
+  <rect x="30" y="22" width="4" height="4" rx="1" fill="#1a1a1a"/>
+  <rect x="30" y="28" width="4" height="4" rx="1" fill="#1a1a1a"/>
+  <!-- Guard -->
+  <rect x="16" y="42" width="32" height="6" rx="2" fill="#1a1a1a"/>
+  <!-- Handle -->
+  <rect x="28" y="48" width="8" height="14" rx="2" fill="#1a1a1a"/>
+  <line x1="28" y1="52" x2="36" y2="52" stroke="white" stroke-width="1.5"/>
+  <line x1="28" y1="56" x2="36" y2="56" stroke="white" stroke-width="1.5"/>
+  <line x1="28" y1="60" x2="36" y2="60" stroke="white" stroke-width="1.5"/>
+</svg>

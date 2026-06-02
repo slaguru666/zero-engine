@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Oversized brutal auto-injector -->
+  <rect x="16" y="10" width="32" height="44" rx="4" fill="#1a1a1a"/>
+  <!-- Inner charge chamber (large) -->
+  <rect x="20" y="14" width="24" height="32" rx="2" fill="white"/>
+  <!-- DANGER chevrons inside -->
+  <polygon points="22,20 32,16 42,20 42,24 32,20 22,24" fill="#1a1a1a"/>
+  <polygon points="22,28 32,24 42,28 42,32 32,28 22,32" fill="#1a1a1a"/>
+  <polygon points="22,36 32,32 42,36 42,40 32,36 22,40" fill="#1a1a1a"/>
+  <!-- Heavy plunger cap -->
+  <rect x="14" y="6" width="36" height="6" rx="2" fill="#1a1a1a"/>
+  <!-- Injection needle (large, brutal) -->
+  <rect x="28" y="54" width="8" height="10" rx="1" fill="#1a1a1a"/>
+  <!-- Tip point -->
+  <polygon points="28,64 36,64 32,68" fill="#1a1a1a"/>
+  <!-- Grip ridges -->
+  <line x1="16" y1="40" x2="48" y2="40" stroke="white" stroke-width="2"/>
+  <line x1="16" y1="44" x2="48" y2="44" stroke="white" stroke-width="2"/>
+  <line x1="16" y1="48" x2="48" y2="48" stroke="white" stroke-width="2"/>
+</svg>

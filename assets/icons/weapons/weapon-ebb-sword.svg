@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Blade with ebb energy glow -->
+  <path d="M28,4 L36,4 L38,44 L32,50 L26,44 Z" fill="#1a1a1a"/>
+  <!-- Ebb energy field (outer glow) -->
+  <path d="M24,4 L28,4 L26,44 L32,50 L24,42 Q18,30 22,16 Z" fill="white" opacity="0.8"/>
+  <path d="M40,4 L36,4 L38,44 L32,50 L40,42 Q46,30 42,16 Z" fill="white" opacity="0.8"/>
+  <!-- Ebb energy nodes along blade -->
+  <ellipse cx="32" cy="14" rx="4" ry="3" fill="white"/>
+  <ellipse cx="32" cy="26" rx="3" ry="2.5" fill="white"/>
+  <ellipse cx="32" cy="38" rx="2" ry="2" fill="white"/>
+  <!-- Guard with ebb crystal -->
+  <path d="M16,44 L48,44 L46,50 L18,50 Z" fill="#1a1a1a"/>
+  <ellipse cx="32" cy="47" rx="6" ry="4" fill="white"/>
+  <ellipse cx="32" cy="47" rx="3" ry="2" fill="#1a1a1a"/>
+  <!-- Handle -->
+  <rect x="28" y="50" width="8" height="12" rx="2" fill="#1a1a1a"/>
+  <line x1="28" y1="54" x2="36" y2="54" stroke="white" stroke-width="2"/>
+  <line x1="28" y1="58" x2="36" y2="58" stroke="white" stroke-width="2"/>
+</svg>

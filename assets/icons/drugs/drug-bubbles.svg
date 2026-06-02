@@ -1,0 +1,16 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Effervescent tablet (round, dissolving) -->
+  <circle cx="32" cy="36" r="22" fill="#1a1a1a"/>
+  <circle cx="32" cy="36" r="18" fill="white"/>
+  <!-- Tablet surface cracks (dissolving) -->
+  <path d="M20,30 Q28,36 20,42" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+  <path d="M44,30 Q36,36 44,42" stroke="#1a1a1a" stroke-width="1.5" fill="none"/>
+  <!-- Centre score line -->
+  <line x1="14" y1="36" x2="50" y2="36" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Rising bubbles above -->
+  <circle cx="24" cy="12" r="3" fill="#1a1a1a"/>
+  <circle cx="32" cy="8" r="4" fill="#1a1a1a"/>
+  <circle cx="40" cy="12" r="3" fill="#1a1a1a"/>
+  <circle cx="28" cy="4" r="2" fill="#1a1a1a"/>
+  <circle cx="36" cy="4" r="2.5" fill="#1a1a1a"/>
+</svg>

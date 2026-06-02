@@ -1,0 +1,24 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wide tube barrel -->
+  <rect x="4" y="24" width="36" height="12" rx="3" fill="#1a1a1a"/>
+  <!-- Muzzle bell (wider at end) -->
+  <path d="M4,22 L10,22 L10,38 L4,38 Q2,36 2,32 Q2,28 4,22Z" fill="#1a1a1a"/>
+  <!-- Receiver/frame -->
+  <rect x="36" y="20" width="16" height="20" rx="2" fill="#1a1a1a"/>
+  <!-- Revolving cylinder (6-round) -->
+  <circle cx="44" cy="30" r="10" fill="#1a1a1a"/>
+  <circle cx="44" cy="30" r="7" fill="white"/>
+  <!-- Cylinder chambers -->
+  <circle cx="44" cy="23" r="2" fill="#1a1a1a"/>
+  <circle cx="49" cy="26" r="2" fill="#1a1a1a"/>
+  <circle cx="51" cy="32" r="2" fill="#1a1a1a"/>
+  <circle cx="48" cy="37" r="2" fill="#1a1a1a"/>
+  <circle cx="40" cy="37" r="2" fill="#1a1a1a"/>
+  <circle cx="37" cy="32" r="2" fill="#1a1a1a"/>
+  <!-- Pistol grip -->
+  <path d="M48,38 L54,38 L56,58 L46,58 L44,40Z" fill="#1a1a1a"/>
+  <!-- Stock -->
+  <path d="M52,20 L62,22 L62,32 L52,34 Z" fill="#1a1a1a"/>
+  <!-- Trigger -->
+  <rect x="42" y="38" width="3" height="7" rx="1" fill="white"/>
+</svg>

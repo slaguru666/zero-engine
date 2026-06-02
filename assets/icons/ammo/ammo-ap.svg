@@ -1,0 +1,21 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- AP round: pointed penetrator bullet -->
+  <rect x="26" y="30" width="12" height="26" rx="2" fill="#1a1a1a"/>
+  <!-- Penetrator tip (hardened steel - black pointed core) -->
+  <path d="M26,30 L32,6 L38,30 Z" fill="#1a1a1a"/>
+  <!-- Copper jacket (white) showing penetrator core (black centre) -->
+  <path d="M28,30 L32,10 L36,30 Z" fill="white"/>
+  <path d="M30,30 L32,16 L34,30 Z" fill="#1a1a1a"/>
+  <!-- Case rim -->
+  <rect x="24" y="54" width="16" height="4" rx="1" fill="#1a1a1a"/>
+  <!-- AP marking on case -->
+  <line x1="28" y1="38" x2="36" y2="38" stroke="white" stroke-width="1.5"/>
+  <line x1="28" y1="43" x2="36" y2="43" stroke="white" stroke-width="1.5"/>
+  <!-- Target circles (armour) in background -->
+  <circle cx="48" cy="20" r="12" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="48" cy="20" r="7" fill="none" stroke="#1a1a1a" stroke-width="2"/>
+  <circle cx="48" cy="20" r="2" fill="#1a1a1a"/>
+  <!-- Arrow through target -->
+  <line x1="38" y1="16" x2="60" y2="24" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="58,22 62,28 56,26" fill="#1a1a1a"/>
+</svg>

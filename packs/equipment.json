@@ -1,0 +1,202 @@
+[
+  {
+    "name": "BOOPA Medical Kit",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-medkit.svg",
+    "system": {
+      "description": "Standard SLA-issue medical kit. Contains wound dressings, haemostatic foam, trauma shears, and two doses of field analgesic. Allows Healing rolls in the field. Without a kit, field healing is at -2 dice.",
+      "isDrug": false, "quantity": 1, "cost": 80, "weight": 1, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":2,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Stim Patch",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-stim-patch.svg",
+    "system": {
+      "description": "A transdermal stimulant patch. Applied to skin and activated by pressing the centre. Delivers a controlled dose of combat stimulant over 10 minutes. Slower than injection but discreet and hands-free.",
+      "isDrug": true, "quantity": 1, "cost": 35, "weight": 0, "active": false,
+      "activeDuration": "1 scene", "activeLabel": "Stim Patch Active",
+      "activeNotes": "+1 Resolve, +1 Strength effective. Slower onset than injected drugs.",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 1, "statPhysicalMod": 1, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Bandage Pack",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-stim-patch.svg",
+    "system": {
+      "description": "A pack of field dressings and pressure bandages. Can stop a bleeding condition with a Healing roll (difficulty 1). No bonus to Healing checks — just the materials to work with. Each pack contains 5 dressings.",
+      "isDrug": false, "quantity": 5, "cost": 15, "weight": 0, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Cutting Charge",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-cutting-charge.svg",
+    "system": {
+      "description": "A shaped explosive charge designed for breaching. Adheres to any surface and detonates directionally. Cuts through a standard door in one detonation. Armoured doors require a Crafting roll (difficulty 2). Timer or remote detonation.",
+      "isDrug": false, "quantity": 1, "cost": 120, "weight": 1, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Klippo Multi-Band Communicator",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-comms.svg",
+    "system": {
+      "description": "A military-grade encrypted multi-band radio. Communicates on SLA operative frequencies, civilian bands, and emergency channels. Encrypted transmissions cannot be monitored without SLA-level decryption hardware.",
+      "isDrug": false, "quantity": 1, "cost": 200, "weight": 1, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":1,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Disposable Camera Drone",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-drone.svg",
+    "system": {
+      "description": "A small quadrotor reconnaissance drone. Controlled via wrist unit, feeds live video to the operator. Silent at low altitude. Range 200m. Battery lasts 20 minutes. Disposable — not intended for recovery. +2 dice on Observation rolls when drone is deployed.",
+      "isDrug": false, "quantity": 1, "cost": 180, "weight": 1, "active": false,
+      "activeDuration": "1 scene (20 min)", "activeLabel": "Drone Deployed",
+      "activeNotes": "+2 dice Observation. Covers areas the operative cannot physically access.",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":2,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Field Tool Kit",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-toolkit.svg",
+    "system": {
+      "description": "A compact tool roll containing multi-tools, wire cutters, lock picks, diagnostic scanner, and patch materials. Required for most Crafting rolls involving mechanical or electronic systems. Without a toolkit, Crafting checks are at -2 dice.",
+      "isDrug": false, "quantity": 1, "cost": 150, "weight": 2, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":2,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Encrypted Comms Unit",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-comms.svg",
+    "system": {
+      "description": "A compact earpiece and throat mic with encrypted SLA-frequency transmission. Squad-range communication without risk of civilian monitoring. Standard issue for most SLA operative squads.",
+      "isDrug": false, "quantity": 1, "cost": 80, "weight": 0, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "UV/Multi-Spectrum Torch",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-toolkit.svg",
+    "system": {
+      "description": "A compact torch with UV, infrared, and visible-light modes. UV mode reveals forensic evidence, blood trails, and certain biogenetic signatures. IR mode functions as basic night vision at Short range. +1 die to Observation in low-light conditions.",
+      "isDrug": false, "quantity": 1, "cost": 60, "weight": 0, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":1,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Oyster Card (ITB Access)",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-comms.svg",
+    "system": {
+      "description": "An ITB-issued corporate access card. Grants entry to ITB-managed facilities, transit networks, and SLA approved zones. Cards can be cloned, forged, or reprogrammed with a Crafting roll (difficulty 3). A real one is worth considerably more than what ITB charges for it.",
+      "isDrug": false, "quantity": 1, "cost": 50, "weight": 0, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  },
+  {
+    "name": "Duct Tape (Heavy Duty)",
+    "type": "equipment",
+    "img": "systems/zero-engine/assets/icons/equipment/equip-toolkit.svg",
+    "system": {
+      "description": "Three metres of military-grade adhesive tape. Can temporarily seal wounds (stops Bleeding as an action, no roll required), restrain a prisoner, patch a breach suit, or fix a vehicle component. The most useful item in any kit, according to every veteran who's ever survived.",
+      "isDrug": false, "quantity": 1, "cost": 5, "weight": 0, "active": false,
+      "activeDuration": "", "activeLabel": "", "activeNotes": "",
+      "withdrawalActive": false, "withdrawalDuration": "", "withdrawalLabel": "", "withdrawalNotes": "",
+      "healthMod": 0, "resolveMod": 0, "statPhysicalMod": 0, "skillAllMod": 0,
+      "panicReduction": 0, "injuryPenaltyIgnore": 0, "stressRecoveryBonus": 0, "postUseStaminaDamage": 0,
+      "wdHealthMod": 0, "wdResolveMod": 0, "wdStatPhysicalMod": 0, "wdSkillAllMod": 0,
+      "wdPanicReduction": 0, "wdInjuryPenaltyIgnore": 0, "wdStressRecoveryBonus": 0, "wdPostUseStaminaDamage": 0,
+      "skillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "wdSkillMods": { "force":0,"melee":0,"stamina":0,"marksmanship":0,"mobility":0,"stealth":0,"crafting":0,"observation":0,"survival":0,"healing":0,"insight":0,"persuasion":0 },
+      "initiativeMod": 0, "equipped": false
+    }
+  }
+]

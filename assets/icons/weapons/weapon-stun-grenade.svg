@@ -1,0 +1,22 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Cylindrical flashbang body -->
+  <rect x="20" y="22" width="24" height="32" rx="4" fill="#1a1a1a"/>
+  <!-- Vent holes (distinctive flashbang pattern) -->
+  <circle cx="28" cy="30" r="2.5" fill="white"/>
+  <circle cx="36" cy="30" r="2.5" fill="white"/>
+  <circle cx="28" cy="38" r="2.5" fill="white"/>
+  <circle cx="36" cy="38" r="2.5" fill="white"/>
+  <circle cx="28" cy="46" r="2.5" fill="white"/>
+  <circle cx="36" cy="46" r="2.5" fill="white"/>
+  <!-- Top cap -->
+  <rect x="18" y="16" width="28" height="8" rx="3" fill="#1a1a1a"/>
+  <!-- Pull ring -->
+  <ellipse cx="46" cy="14" rx="5" ry="4" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <line x1="40" y1="16" x2="44" y2="14" stroke="#1a1a1a" stroke-width="2"/>
+  <!-- Flash burst lines at top -->
+  <line x1="32" y1="4" x2="32" y2="10" stroke="#1a1a1a" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="24" y1="6" x2="26" y2="11" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <line x1="40" y1="6" x2="38" y2="11" stroke="#1a1a1a" stroke-width="2" stroke-linecap="round"/>
+  <!-- Bottom cap -->
+  <rect x="20" y="52" width="24" height="6" rx="3" fill="#1a1a1a"/>
+</svg>

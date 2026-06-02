@@ -1,0 +1,18 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Drone body (central) -->
+  <ellipse cx="32" cy="32" rx="10" ry="8" fill="#1a1a1a"/>
+  <!-- Four arms -->
+  <rect x="2" y="30" width="16" height="4" rx="2" fill="#1a1a1a"/>
+  <rect x="46" y="30" width="16" height="4" rx="2" fill="#1a1a1a"/>
+  <rect x="30" y="2" width="4" height="16" rx="2" fill="#1a1a1a"/>
+  <rect x="30" y="46" width="4" height="16" rx="2" fill="#1a1a1a"/>
+  <!-- Rotors (circles at arm ends) -->
+  <circle cx="8" cy="32" rx="8" ry="6" fill="none" stroke="#1a1a1a" stroke-width="3" cx="8" cy="32" r="7"/>
+  <circle cx="56" cy="32" r="7" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <circle cx="32" cy="8" r="7" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <circle cx="32" cy="56" r="7" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+  <!-- Camera lens on body -->
+  <circle cx="32" cy="32" r="5" fill="white"/>
+  <circle cx="32" cy="32" r="3" fill="#1a1a1a"/>
+  <circle cx="32" cy="32" r="1.5" fill="white"/>
+</svg>

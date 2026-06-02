@@ -1,0 +1,21 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Breaching charge pack (flat rectangular explosive) -->
+  <rect x="10" y="22" width="40" height="24" rx="3" fill="#1a1a1a"/>
+  <!-- Adhesive side strips -->
+  <rect x="10" y="22" width="6" height="24" rx="2" fill="white"/>
+  <rect x="48" y="22" width="6" height="24" rx="2" fill="white"/>
+  <!-- Detonator block -->
+  <rect x="24" y="16" width="16" height="10" rx="2" fill="#1a1a1a"/>
+  <!-- Detonator LED -->
+  <circle cx="32" cy="19" r="3" fill="white"/>
+  <!-- Detonator wire -->
+  <path d="M32,26 L32,22" stroke="white" stroke-width="1.5"/>
+  <!-- Blast/explosion warning marks on charge -->
+  <polygon points="32,26 28,34 36,34" fill="white"/>
+  <polygon points="32,34 28,42 36,42" fill="white"/>
+  <!-- Timer/digital display -->
+  <rect x="26" y="28" width="12" height="6" rx="1" fill="white"/>
+  <line x1="28" y1="29" x2="28" y2="33" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="31" y1="29" x2="31" y2="33" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="34" y1="29" x2="34" y2="33" stroke="#1a1a1a" stroke-width="1.5"/>
+</svg>

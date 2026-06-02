@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Industrial drum/barrel container -->
+  <rect x="14" y="12" width="36" height="44" rx="4" fill="#1a1a1a"/>
+  <!-- Drum rings (3) -->
+  <rect x="12" y="16" width="40" height="5" rx="1" fill="white"/>
+  <rect x="12" y="30" width="40" height="5" rx="1" fill="white"/>
+  <rect x="12" y="46" width="40" height="5" rx="1" fill="white"/>
+  <!-- Bung holes -->
+  <circle cx="26" cy="24" r="3" fill="#1a1a1a"/>
+  <circle cx="38" cy="24" r="3" fill="#1a1a1a"/>
+  <!-- Warning label area -->
+  <rect x="18" y="36" width="28" height="8" rx="1" fill="white"/>
+  <line x1="20" y1="38" x2="44" y2="38" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="20" y1="41" x2="44" y2="41" stroke="#1a1a1a" stroke-width="1.5"/>
+  <!-- Lid -->
+  <ellipse cx="32" cy="12" rx="18" ry="5" fill="#1a1a1a"/>
+  <!-- Handle on lid -->
+  <path d="M26,10 Q32,6 38,10" stroke="white" stroke-width="2" fill="none" stroke-linecap="round"/>
+</svg>

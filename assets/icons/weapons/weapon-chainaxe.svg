@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Axe head -->
+  <path d="M30,4 L44,8 L48,20 L40,28 L28,24 Z" fill="#1a1a1a"/>
+  <!-- Axe edge (white bevel) -->
+  <path d="M44,8 L48,20 L44,18 L40,12 L44,8Z" fill="white"/>
+  <!-- Chain running along spine -->
+  <rect x="28" y="24" width="6" height="36" rx="2" fill="#1a1a1a"/>
+  <!-- Chain links -->
+  <rect x="26" y="28" width="10" height="4" rx="2" fill="white"/>
+  <rect x="26" y="34" width="10" height="4" rx="2" fill="white"/>
+  <rect x="26" y="40" width="10" height="4" rx="2" fill="white"/>
+  <rect x="26" y="46" width="10" height="4" rx="2" fill="white"/>
+  <!-- Motor/drive housing -->
+  <rect x="24" y="18" width="8" height="8" rx="2" fill="#1a1a1a"/>
+  <circle cx="28" cy="22" r="3" fill="white"/>
+  <circle cx="28" cy="22" r="1.5" fill="#1a1a1a"/>
+  <!-- Handle -->
+  <rect x="26" y="56" width="8" height="6" rx="2" fill="#1a1a1a"/>
+</svg>

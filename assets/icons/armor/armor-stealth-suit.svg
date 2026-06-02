@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Sleek full-body suit silhouette -->
+  <path d="M22,10 L16,14 L12,26 L10,58 L54,58 L52,26 L48,14 L42,10
+           C40,8 36,6 32,6 C28,6 24,8 22,10Z" fill="#1a1a1a"/>
+  <!-- Hood/mask section -->
+  <ellipse cx="32" cy="10" rx="12" ry="8" fill="#1a1a1a"/>
+  <!-- Visor strip -->
+  <path d="M22,10 Q32,5 42,10 Q40,14 32,14 Q24,14 22,10Z" fill="white"/>
+  <!-- Suit seams (hexagonal pattern segments) -->
+  <path d="M20,28 L44,28 L46,36 L32,42 L18,36 Z" fill="white" opacity="0.15"/>
+  <!-- Hexagonal cells suggesting stealth panels -->
+  <polygon points="26,30 30,28 34,30 34,34 30,36 26,34" fill="white"/>
+  <polygon points="34,30 38,28 42,30 42,34 38,36 34,34" fill="white"/>
+  <polygon points="26,34 30,36 34,38 34,42 30,44 26,42" fill="white"/>
+  <polygon points="34,34 38,36 42,38 42,42 38,44 34,42" fill="white"/>
+  <!-- Stealth emitter dots -->
+  <circle cx="24" cy="20" r="2" fill="white"/>
+  <circle cx="40" cy="20" r="2" fill="white"/>
+</svg>
