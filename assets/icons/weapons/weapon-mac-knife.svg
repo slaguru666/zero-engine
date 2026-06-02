@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Recurve blade (distinctive curved shape) -->
+  <path d="M28,6 Q38,10 40,22 Q42,34 36,46 L30,48 Q24,42 26,30 Q26,18 28,6Z" fill="#1a1a1a"/>
+  <!-- Blade belly (recurve curve) -->
+  <path d="M28,6 Q34,10 36,22 Q38,34 32,46 L30,48 Q30,42 30,30 Q28,18 28,6Z" fill="white"/>
+  <!-- Guard (prominent, swept) -->
+  <path d="M24,46 L42,46 L44,50 L22,50 Z" fill="#1a1a1a"/>
+  <!-- Quillon tips -->
+  <ellipse cx="22" cy="48" rx="4" ry="3" fill="#1a1a1a"/>
+  <ellipse cx="44" cy="48" rx="4" ry="3" fill="#1a1a1a"/>
+  <!-- Handle with MAC branding line -->
+  <rect x="26" y="50" width="14" height="12" rx="2" fill="#1a1a1a"/>
+  <line x1="26" y1="54" x2="40" y2="54" stroke="white" stroke-width="2"/>
+  <line x1="26" y1="58" x2="40" y2="58" stroke="white" stroke-width="2"/>
+  <!-- Pommel -->
+  <ellipse cx="33" cy="63" rx="6" ry="3" fill="#1a1a1a"/>
+</svg>

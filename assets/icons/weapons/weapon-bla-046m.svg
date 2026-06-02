@@ -1,0 +1,24 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Revolver barrel -->
+  <rect x="8" y="24" width="30" height="8" rx="2" fill="#1a1a1a"/>
+  <!-- Cylinder drum -->
+  <circle cx="28" cy="28" r="12" fill="#1a1a1a"/>
+  <circle cx="28" cy="28" r="8" fill="white"/>
+  <!-- Cylinder chambers (6) -->
+  <circle cx="28" cy="20" r="2.5" fill="#1a1a1a"/>
+  <circle cx="35" cy="24" r="2.5" fill="#1a1a1a"/>
+  <circle cx="35" cy="32" r="2.5" fill="#1a1a1a"/>
+  <circle cx="28" cy="36" r="2.5" fill="#1a1a1a"/>
+  <circle cx="21" cy="32" r="2.5" fill="#1a1a1a"/>
+  <circle cx="21" cy="24" r="2.5" fill="#1a1a1a"/>
+  <!-- Frame -->
+  <rect x="36" y="22" width="10" height="14" rx="1" fill="#1a1a1a"/>
+  <!-- Grip -->
+  <path d="M42,34 L46,34 L48,56 L38,56 L36,36 Z" fill="#1a1a1a"/>
+  <!-- Grip texture -->
+  <line x1="38" y1="40" x2="46" y2="40" stroke="white" stroke-width="1.5"/>
+  <line x1="38" y1="46" x2="46" y2="46" stroke="white" stroke-width="1.5"/>
+  <line x1="38" y1="52" x2="46" y2="52" stroke="white" stroke-width="1.5"/>
+  <!-- Muzzle -->
+  <rect x="6" y="22" width="4" height="12" rx="1" fill="#1a1a1a"/>
+</svg>

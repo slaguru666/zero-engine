@@ -1,0 +1,18 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Straight single-hand blade -->
+  <path d="M29,4 L35,4 L36,44 L32,48 L28,44 Z" fill="#1a1a1a"/>
+  <!-- Single-edge bevel -->
+  <path d="M35,4 L35,40 L32,48 L34,40 L34,4Z" fill="white"/>
+  <!-- Guard (simple cross) -->
+  <rect x="18" y="44" width="28" height="6" rx="3" fill="#1a1a1a"/>
+  <!-- SLA brand mark on guard -->
+  <rect x="28" y="45" width="8" height="4" rx="1" fill="white"/>
+  <!-- Grip -->
+  <rect x="27" y="50" width="10" height="12" rx="2" fill="#1a1a1a"/>
+  <!-- Grip wrapping -->
+  <line x1="27" y1="53" x2="37" y2="53" stroke="white" stroke-width="1.5"/>
+  <line x1="27" y1="57" x2="37" y2="57" stroke="white" stroke-width="1.5"/>
+  <line x1="27" y1="61" x2="37" y2="61" stroke="white" stroke-width="1.5"/>
+  <!-- Pommel -->
+  <ellipse cx="32" cy="62" rx="5" ry="3" fill="#1a1a1a"/>
+</svg>

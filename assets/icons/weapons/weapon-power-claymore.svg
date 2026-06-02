@@ -1,0 +1,21 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Wide double-edged blade -->
+  <path d="M26,4 L38,4 L40,44 L32,50 L24,44 Z" fill="#1a1a1a"/>
+  <!-- Fuller (central groove) -->
+  <rect x="30" y="8" width="4" height="32" rx="1" fill="white"/>
+  <!-- Blade edges (white bevel) -->
+  <path d="M26,4 L28,8 L28,40 L32,50 L30,40 L30,8 L26,4Z" fill="white"/>
+  <!-- Cross guard (wide claymore style) -->
+  <path d="M14,42 Q16,38 26,44 L32,50 L38,44 Q48,38 50,42 L46,50 L32,54 L18,50 Z" fill="#1a1a1a"/>
+  <!-- Quillon details -->
+  <ellipse cx="16" cy="44" rx="5" ry="4" fill="#1a1a1a"/>
+  <ellipse cx="48" cy="44" rx="5" ry="4" fill="#1a1a1a"/>
+  <!-- Power pack on guard -->
+  <rect x="26" y="48" width="12" height="5" rx="1" fill="white"/>
+  <line x1="30" y1="48" x2="30" y2="53" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="34" y1="48" x2="34" y2="53" stroke="#1a1a1a" stroke-width="1.5"/>
+  <!-- Two-handed grip (long) -->
+  <rect x="28" y="53" width="8" height="10" rx="2" fill="#1a1a1a"/>
+  <line x1="28" y1="57" x2="36" y2="57" stroke="white" stroke-width="1.5"/>
+  <line x1="28" y1="61" x2="36" y2="61" stroke="white" stroke-width="1.5"/>
+</svg>

@@ -1,0 +1,20 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Knuckle plate (horizontal bar) -->
+  <rect x="8" y="28" width="42" height="12" rx="3" fill="#1a1a1a"/>
+  <!-- Four forward spikes -->
+  <polygon points="12,28 10,10 16,10 18,28" fill="#1a1a1a"/>
+  <polygon points="22,28 20,8 26,8 28,28" fill="#1a1a1a"/>
+  <polygon points="32,28 30,10 36,10 38,28" fill="#1a1a1a"/>
+  <polygon points="42,28 40,12 46,12 48,28" fill="#1a1a1a"/>
+  <!-- Spike tips (white) -->
+  <polygon points="13,10 10,10 14,14" fill="white"/>
+  <polygon points="23,8 20,8 24,12" fill="white"/>
+  <polygon points="33,10 30,10 34,14" fill="white"/>
+  <polygon points="43,12 40,12 44,16" fill="white"/>
+  <!-- Handle / grip bar -->
+  <rect x="14" y="40" width="26" height="8" rx="3" fill="#1a1a1a"/>
+  <!-- Wrist strap -->
+  <rect x="10" y="50" width="34" height="6" rx="3" fill="#1a1a1a"/>
+  <rect x="14" y="51" width="26" height="4" rx="2" fill="white"/>
+  <rect x="20" y="51" width="14" height="4" rx="2" fill="#1a1a1a"/>
+</svg>

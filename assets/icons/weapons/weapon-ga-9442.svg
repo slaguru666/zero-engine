@@ -1,0 +1,24 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Heavy barrel -->
+  <rect x="4" y="26" width="40" height="8" rx="2" fill="#1a1a1a"/>
+  <!-- Fluted barrel detail -->
+  <line x1="10" y1="26" x2="10" y2="34" stroke="white" stroke-width="1.5"/>
+  <line x1="16" y1="26" x2="16" y2="34" stroke="white" stroke-width="1.5"/>
+  <line x1="22" y1="26" x2="22" y2="34" stroke="white" stroke-width="1.5"/>
+  <!-- Heavy receiver -->
+  <rect x="30" y="20" width="22" height="18" rx="2" fill="#1a1a1a"/>
+  <!-- Scope (large, battle rifle scope) -->
+  <rect x="30" y="14" width="22" height="7" rx="2" fill="#1a1a1a"/>
+  <rect x="32" y="15" width="18" height="5" rx="1" fill="white"/>
+  <!-- Scope eye piece -->
+  <rect x="48" y="13" width="6" height="9" rx="2" fill="#1a1a1a"/>
+  <!-- Box magazine (straight, large) -->
+  <rect x="36" y="38" width="10" height="16" rx="2" fill="#1a1a1a"/>
+  <!-- Bipod legs -->
+  <line x1="12" y1="34" x2="8" y2="52" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="20" y1="34" x2="24" y2="52" stroke="#1a1a1a" stroke-width="3.5" stroke-linecap="round"/>
+  <!-- Pistol grip -->
+  <rect x="48" y="36" width="7" height="14" rx="2" fill="#1a1a1a"/>
+  <!-- Stock (fixed) -->
+  <path d="M50,20 L62,22 L62,34 L50,36 Z" fill="#1a1a1a"/>
+</svg>

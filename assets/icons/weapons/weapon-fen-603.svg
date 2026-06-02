@@ -1,0 +1,19 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Angular slide -->
+  <polygon points="10,20 12,16 46,16 48,20 48,28 10,28" fill="#1a1a1a"/>
+  <!-- Barrel -->
+  <rect x="4" y="21" width="8" height="6" rx="1" fill="#1a1a1a"/>
+  <!-- Frame -->
+  <rect x="18" y="26" width="28" height="8" rx="1" fill="#1a1a1a"/>
+  <!-- Extended magazine (tall, angular) -->
+  <rect x="26" y="34" width="8" height="22" rx="2" fill="#1a1a1a"/>
+  <!-- Mag baseplate -->
+  <rect x="24" y="54" width="12" height="3" rx="1" fill="#1a1a1a"/>
+  <!-- Grip (angular) -->
+  <polygon points="40,28 46,28 50,54 42,54 38,30" fill="#1a1a1a"/>
+  <!-- Ejection cutout -->
+  <rect x="30" y="17" width="10" height="5" rx="1" fill="white"/>
+  <!-- Ambidextrous selector -->
+  <circle cx="20" cy="28" r="3" fill="white"/>
+  <circle cx="20" cy="28" r="1.5" fill="#1a1a1a"/>
+</svg>
