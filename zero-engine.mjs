@@ -304,7 +304,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       const _inc = this.actor.system.finances?.income  || {};
       const _exp = this.actor.system.finances?.expenses || {};
       context.weeklyIncome   = (_inc.salary||0) + (_inc.bpnReward||0) + (_inc.other||0);
-      context.weeklyExpenses = (_exp.accommodation||0) + (_exp.drugs||0) + (_exp.subscriptions||0) + (_exp.other||0);
+      context.weeklyExpenses = (_exp.accommodation||0) + (_exp.drugs||0) + (_exp.subscriptions||0) + (_exp.other||0) + (_exp.bulletTax||0);
       context.weeklyNet      = context.weeklyIncome - context.weeklyExpenses;
       context.weeklyNetSign  = context.weeklyNet >= 0 ? '+' : '';
       context.weeklyNetColor = context.weeklyNet >= 0 ? '#44cc66' : '#cc1111';
@@ -6008,7 +6008,11 @@ async function _applyBulletTax(actor, weaponData, roundsFired) {
 
   // Bullet tax is DOUBLED: base cost (ammo) + tax of equal value = 2×
   const totalCost = costPerRound * roundsFired * 2;
-  const currentCredits = Number(actor.system?.details?.credits ?? 0);
+  // Fall back to 500 (template default) not 0 — actors created before the
+  // credits field existed have undefined here, not zero.
+  const storedCredits = actor.system?.details?.credits;
+  const currentCredits = (storedCredits !== undefined && storedCredits !== null)
+    ? Number(storedCredits) : 500;
   const newCredits = Math.max(0, currentCredits - totalCost);
 
   // ── Credit deduction — critical, standalone update ──────────────────────
@@ -6122,7 +6126,7 @@ class ZeroEngineActorSheetMk2 extends ZeroEngineActorSheet {
     const inc = context.system.finances.income  || {};
     const exp = context.system.finances.expenses || {};
     context.weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
-    context.weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0);
+    context.weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
     context.weeklyNet      = context.weeklyIncome - context.weeklyExpenses;
     context.weeklyNetSign  = context.weeklyNet >= 0 ? '+' : '';
     context.weeklyNetColor = context.weeklyNet >= 0 ? '#44cc66' : '#cc1111';
