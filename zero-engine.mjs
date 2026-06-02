@@ -5559,6 +5559,12 @@ class SLAGMFinanceTool extends Application {
     return $html;
   }
 
+  /** Parse a credit value safely — NaN, null, undefined all become 0 */
+  _safeCredits(val) {
+    const n = Number(val);
+    return isNaN(n) ? 0 : n;
+  }
+
   _getPCData() {
     return (game.actors ?? [])
       .filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter)
@@ -5571,7 +5577,7 @@ class SLAGMFinanceTool extends Application {
         return {
           id:            a.id,
           name:          a.name,
-          credits:       Number(a.system.details?.credits ?? 0),
+          credits:       this._safeCredits(a.system.details?.credits),
           weeklyIncome,
           weeklyExpenses,
           netWeekly
@@ -5588,7 +5594,7 @@ class SLAGMFinanceTool extends Application {
     const weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
     const weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
     const net     = weeklyIncome - weeklyExpenses;
-    const current = Number(actor.system?.details?.credits ?? 0);
+    const current = this._safeCredits(actor.system?.details?.credits);
     const newBal  = current + net;
     await actor.update({ 'system.details.credits': newBal });
     ui.notifications.info(
