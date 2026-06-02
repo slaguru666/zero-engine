@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shaktar Claws: three elegant curved precision talons with a scaled base -->
+  <!-- Scaled wrist band -->
+  <rect x="18" y="50" width="28" height="8" rx="3" fill="#1a1a1a"/>
+  <rect x="20" y="51" width="6" height="6" rx="1" fill="white" opacity="0.15"/>
+  <rect x="29" y="51" width="6" height="6" rx="1" fill="white" opacity="0.15"/>
+  <rect x="38" y="51" width="6" height="6" rx="1" fill="white" opacity="0.15"/>
+  <!-- Left claw — curved inward -->
+  <path d="M21,50 Q14,38 16,20 Q17,12 20,8 Q22,6 23,9 Q22,18 22,34 Q22,44 24,50Z" fill="#1a1a1a"/>
+  <path d="M20,8 Q21.5,6 23,9 Q22,20 22,36 L22,50 L21,50 Q19,42 19,28 Q18,16 20,8Z" fill="white"/>
+  <!-- Centre claw — straight tall -->
+  <path d="M29,50 Q27,36 28,16 Q29,6 32,4 Q35,6 36,16 Q37,36 35,50Z" fill="#1a1a1a"/>
+  <path d="M32,4 Q34,5 36,16 Q37,32 35,48 L33,50 Q31,42 30,28 Q29,14 32,4Z" fill="white"/>
+  <!-- Right claw — curved inward (mirror of left) -->
+  <path d="M43,50 Q50,38 48,20 Q47,12 44,8 Q42,6 41,9 Q42,18 42,34 Q42,44 40,50Z" fill="#1a1a1a"/>
+  <path d="M44,8 Q42.5,6 41,9 Q42,20 42,36 L42,50 L43,50 Q45,42 45,28 Q46,16 44,8Z" fill="white"/>
+</svg>

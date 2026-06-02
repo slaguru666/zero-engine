@@ -1,0 +1,5 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Compassion: heart -->
+  <path d="M32,52 Q10,38 10,24 Q10,14 20,12 Q26,11 32,18 Q38,11 44,12 Q54,14 54,24 Q54,38 32,52Z" fill="#1a1a1a"/>
+  <path d="M32,52 Q11,38 11,24 Q11,15 20,13 Q12,15 12,24 Q12,38 32,50 Z" fill="white" opacity="0.2"/>
+</svg>

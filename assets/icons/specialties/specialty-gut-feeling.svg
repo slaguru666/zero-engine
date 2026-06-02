@@ -1,0 +1,8 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gut Feeling: eye with insight rays -->
+  <ellipse cx="32" cy="32" rx="24" ry="14" fill="#1a1a1a"/>
+  <ellipse cx="32" cy="32" rx="24" ry="14" fill="none" stroke="white" stroke-width="1" opacity="0.3"/>
+  <circle cx="32" cy="32" r="8" fill="white" opacity="0.9"/>
+  <circle cx="32" cy="32" r="5" fill="#1a1a1a"/>
+  <circle cx="30" cy="30" r="1.5" fill="white" opacity="0.6"/>
+</svg>

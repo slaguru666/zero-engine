@@ -1,0 +1,7 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- True Grit: shield with crack showing resilience -->
+  <path d="M32,6 L54,16 L54,36 Q54,52 32,60 Q10,52 10,36 L10,16 Z" fill="#1a1a1a"/>
+  <path d="M32,6 L52,15 L52,36 Q52,50 32,58 Q12,50 12,36 L12,15 Z" fill="none" stroke="white" stroke-width="1" opacity="0.2"/>
+  <!-- Crack lines — showing toughness under damage -->
+  <path d="M32,18 L28,28 L34,30 L30,44" stroke="white" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.6"/>
+</svg>

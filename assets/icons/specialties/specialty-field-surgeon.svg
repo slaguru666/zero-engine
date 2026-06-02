@@ -1,0 +1,7 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Field Surgeon: medical cross -->
+  <rect x="22" y="8" width="20" height="48" rx="4" fill="#1a1a1a"/>
+  <rect x="8" y="22" width="48" height="20" rx="4" fill="#1a1a1a"/>
+  <rect x="24" y="10" width="6" height="44" rx="2" fill="white" opacity="0.2"/>
+  <rect x="10" y="24" width="44" height="6" rx="2" fill="white" opacity="0.2"/>
+</svg>

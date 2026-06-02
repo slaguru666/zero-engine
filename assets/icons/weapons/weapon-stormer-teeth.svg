@@ -1,0 +1,25 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stormer Teeth: massive jaw showing four brutal fangs -->
+  <!-- Upper jaw arc -->
+  <path d="M8,28 Q8,10 32,8 Q56,10 56,28 L52,28 Q50,14 32,12 Q14,14 12,28Z" fill="#1a1a1a"/>
+  <!-- Upper teeth — 4 large fangs -->
+  <path d="M14,28 Q13,18 16,14 Q18,12 19,14 Q18,20 18,28Z" fill="#1a1a1a"/>
+  <path d="M14,28 L18,28 L18,14 Q16,12 14,14Z" fill="white" opacity="0.9"/>
+  <path d="M23,28 Q22,14 25,10 Q27,8 28,10 Q27,18 27,28Z" fill="#1a1a1a"/>
+  <path d="M23,28 L27,28 L27,10 Q25,8 23,10Z" fill="white" opacity="0.9"/>
+  <path d="M37,28 Q37,18 36,10 Q37,8 39,10 Q42,14 41,28Z" fill="#1a1a1a"/>
+  <path d="M37,28 L41,28 L41,10 Q39,8 37,10Z" fill="white" opacity="0.9"/>
+  <path d="M46,28 Q46,20 45,14 Q46,12 48,14 Q51,18 50,28Z" fill="#1a1a1a"/>
+  <path d="M46,28 L50,28 L50,14 Q48,12 46,14Z" fill="white" opacity="0.9"/>
+  <!-- Lower jaw arc -->
+  <path d="M8,32 Q8,50 32,52 Q56,50 56,32 L52,32 Q50,46 32,48 Q14,46 12,32Z" fill="#1a1a1a"/>
+  <!-- Lower teeth — 3 fangs -->
+  <path d="M18,32 Q17,42 20,46 Q22,48 23,46 Q22,38 22,32Z" fill="#1a1a1a"/>
+  <path d="M18,32 L22,32 L22,46 Q20,48 18,46Z" fill="white" opacity="0.7"/>
+  <path d="M30,32 Q29,44 32,48 Q35,44 34,32Z" fill="#1a1a1a"/>
+  <path d="M30,32 L34,32 L34,48 Q32,50 30,48Z" fill="white" opacity="0.7"/>
+  <path d="M42,32 Q42,38 41,46 Q42,48 44,46 Q47,42 46,32Z" fill="#1a1a1a"/>
+  <path d="M42,32 L46,32 L46,46 Q44,48 42,46Z" fill="white" opacity="0.7"/>
+  <!-- Gap between jaws -->
+  <rect x="9" y="28" width="46" height="4" fill="#0a0a0a"/>
+</svg>

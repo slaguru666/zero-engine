@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Vevaphon Claws: morphic/asymmetric claws — different lengths suggesting shapeshifting -->
+  <!-- Fluid base — irregular shape hinting at morphic form -->
+  <path d="M12,50 Q10,56 20,58 Q32,60 44,58 Q54,56 52,50 Q40,48 32,50 Q20,52 12,50Z" fill="#1a1a1a"/>
+  <!-- Left claw — short stubby, morphing -->
+  <path d="M18,50 Q12,38 14,22 Q15,14 18,12 Q20,10 21,13 Q20,24 20,38 Q20,44 22,50Z" fill="#1a1a1a"/>
+  <path d="M14,22 Q15,14 18,12 Q19,10 21,13 Q20,24 20,40 L18,50 Q16,40 14,28 Q12,22 14,22Z" fill="white" opacity="0.25"/>
+  <!-- Centre claw — very tall, dominant -->
+  <path d="M28,50 Q25,36 27,10 Q28,4 32,2 Q36,4 37,10 Q39,36 36,50Z" fill="#1a1a1a"/>
+  <path d="M32,2 Q35,3 37,10 Q39,32 36,48 L34,50 Q36,32 36,16 Q34,4 32,4 Q30,4 28,16 Q28,32 30,50 L28,50Z" fill="white" opacity="0.25"/>
+  <!-- Right claw — medium, curves differently -->
+  <path d="M42,50 Q48,34 46,16 Q45,8 42,6 Q40,4 39,7 Q40,20 40,36 Q40,44 42,50Z" fill="#1a1a1a"/>
+  <path d="M42,6 Q43,4 46,16 Q48,30 46,48 L44,50 Q44,36 44,24 Q43,12 42,6Z" fill="white" opacity="0.25"/>
+  <!-- Morphic drips — suggesting the shifting nature -->
+  <circle cx="20" cy="56" r="2" fill="#1a1a1a" opacity="0.6"/>
+  <circle cx="44" cy="57" r="1.5" fill="#1a1a1a" opacity="0.6"/>
+</svg>

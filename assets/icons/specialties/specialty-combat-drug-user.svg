@@ -1,0 +1,16 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Combat Drug User: syringe -->
+  <!-- Barrel -->
+  <rect x="10" y="28" width="34" height="10" rx="3" fill="#1a1a1a"/>
+  <!-- Plunger -->
+  <rect x="6" y="30" width="6" height="6" rx="1" fill="#1a1a1a"/>
+  <rect x="4" y="28" width="2" height="10" rx="1" fill="#1a1a1a"/>
+  <!-- Needle -->
+  <path d="M44,31 L58,33 L44,35 Z" fill="#1a1a1a"/>
+  <!-- Contents highlight -->
+  <rect x="14" y="30" width="14" height="6" rx="2" fill="white" opacity="0.3"/>
+  <!-- Tick marks on barrel -->
+  <line x1="20" y1="27" x2="20" y2="24" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="27" y1="27" x2="27" y2="24" stroke="#1a1a1a" stroke-width="1.5"/>
+  <line x1="34" y1="27" x2="34" y2="24" stroke="#1a1a1a" stroke-width="1.5"/>
+</svg>

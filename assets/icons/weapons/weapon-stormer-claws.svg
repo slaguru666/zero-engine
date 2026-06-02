@@ -1,0 +1,17 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Stormer Claws: three massive heavy claws with thick base (brutal, wide) -->
+  <!-- Heavy knuckle base -->
+  <rect x="10" y="44" width="44" height="14" rx="4" fill="#1a1a1a"/>
+  <rect x="14" y="46" width="12" height="10" rx="2" fill="white" opacity="0.1"/>
+  <rect x="28" y="46" width="8" height="10" rx="2" fill="white" opacity="0.1"/>
+  <rect x="38" y="46" width="12" height="10" rx="2" fill="white" opacity="0.1"/>
+  <!-- Left claw — wide and heavy -->
+  <path d="M14,44 Q6,32 8,14 Q10,6 14,8 Q17,6 18,10 Q16,26 18,42Z" fill="#1a1a1a"/>
+  <path d="M8,14 Q10,6 14,8 Q16,7 18,10 Q16,26 18,42 L16,44 Q14,34 12,22 Q9,14 8,14Z" fill="white" opacity="0.3"/>
+  <!-- Centre claw — tallest -->
+  <path d="M26,44 Q22,30 24,10 Q26,2 32,2 Q38,2 40,10 Q42,30 38,44Z" fill="#1a1a1a"/>
+  <path d="M32,2 Q36,2 40,10 Q42,28 38,44 L36,44 Q38,28 38,14 Q36,4 32,4 Q28,4 26,14 Q26,28 28,44 L26,44Z" fill="white" opacity="0.3"/>
+  <!-- Right claw — wide and heavy -->
+  <path d="M50,44 Q58,32 56,14 Q54,6 50,8 Q47,6 46,10 Q48,26 46,42Z" fill="#1a1a1a"/>
+  <path d="M56,14 Q54,6 50,8 Q48,7 46,10 Q48,26 46,42 L48,44 Q50,34 52,22 Q55,14 56,14Z" fill="white" opacity="0.3"/>
+</svg>

@@ -2,7 +2,7 @@
   {
     "name": "Sniper",
     "type": "specialty",
-    "img": "icons/svg/combat.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-sniper.svg",
     "system": {
       "description": "You are trained to wait, breathe, and kill from extreme range, using concealment and patience instead of volume of fire.",
       "effects": "+2 Marksmanship (Long+ range, concealment required)",
@@ -16,7 +16,7 @@
   {
     "name": "Fast Reflexes",
     "type": "specialty",
-    "img": "icons/svg/combat.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-fast-reflexes.svg",
     "system": {
       "description": "Your body reacts before your brain finishes the thought; you slip out of danger and act a heartbeat before others.",
       "effects": "Draw 2 initiative cards, choose the better one",
@@ -30,9 +30,9 @@
   {
     "name": "Inquisitive",
     "type": "specialty",
-    "img": "icons/svg/book.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-inquisitive.svg",
     "system": {
-      "description": "You can’t leave a question alone; you pick at loose threads until they reveal the bigger pattern.",
+      "description": "You can\u2019t leave a question alone; you pick at loose threads until they reveal the bigger pattern.",
       "effects": "Push WIT rolls twice per roll",
       "category": "investigation",
       "package": "Investigator",
@@ -44,23 +44,23 @@
   {
     "name": "Gut Feeling",
     "type": "specialty",
-    "img": "icons/svg/book.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-gut-feeling.svg",
     "system": {
-      "description": "You have razor‑sharp instincts; your body spots danger before your conscious mind understands it.",
+      "description": "You have razor\u2011sharp instincts; your body spots danger before your conscious mind understands it.",
       "effects": "Use EMP for Observation (threat detection only)",
       "category": "investigation",
       "package": "Investigator",
       "prerequisites": "Investigator training package",
       "isActive": true,
-      "effect": "Once per encounter, you may ask the GM “Is there an immediate hidden threat here?” and receive an honest yes/no answer plus a short hint if the answer is yes."
+      "effect": "Once per encounter, you may ask the GM \u201cIs there an immediate hidden threat here?\u201d and receive an honest yes/no answer plus a short hint if the answer is yes."
     }
   },
   {
     "name": "Hard Hitter",
     "type": "specialty",
-    "img": "icons/svg/combat.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-hard-hitter.svg",
     "system": {
-      "description": "You don’t waste effort; every swing or shot is committed, brutal, and aimed to break things.",
+      "description": "You don\u2019t waste effort; every swing or shot is committed, brutal, and aimed to break things.",
       "effects": "+1 Melee damage (sacrifice fast action)",
       "category": "combat",
       "package": "Frother",
@@ -72,9 +72,9 @@
   {
     "name": "True Grit",
     "type": "specialty",
-    "img": "icons/svg/shield.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-true-grit.svg",
     "system": {
-      "description": "You simply refuse to stay down; pain and blood loss slow you, but they don’t stop you.",
+      "description": "You simply refuse to stay down; pain and blood loss slow you, but they don\u2019t stop you.",
       "effects": "+1 maximum Health",
       "category": "survival",
       "package": "Frother",
@@ -86,7 +86,7 @@
   {
     "name": "Menacing",
     "type": "specialty",
-    "img": "icons/svg/mystery-man.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-menacing.svg",
     "system": {
       "description": "Your presence, tone, and body language radiate controlled threat; people know you mean everything you say.",
       "effects": "Use STR for Persuasion (intimidation only)",
@@ -100,7 +100,7 @@
   {
     "name": "Compassion",
     "type": "specialty",
-    "img": "icons/svg/mystery-man.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-compassion.svg",
     "system": {
       "description": "You genuinely care, and people feel it; that makes them open up, calm down, or cling to you in crisis.",
       "effects": "Push EMP rolls twice per roll",
@@ -114,21 +114,21 @@
   {
     "name": "Field Surgeon",
     "type": "specialty",
-    "img": "icons/svg/heal.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-field-surgeon.svg",
     "system": {
-      "description": "You’re trained to work fast in filthy alleys and fire‑lit corridors, keeping people alive with whatever is at hand.",
+      "description": "You\u2019re trained to work fast in filthy alleys and fire\u2011lit corridors, keeping people alive with whatever is at hand.",
       "effects": "+1 Healing (critical injuries only)",
       "category": "medical",
       "package": "Medic",
       "prerequisites": "Medic/Field Surgeon training package",
       "isActive": true,
-      "effect": "When you treat a physical Critical Injury with Healing, reduce the required healing time by one step (rounds → stretch, stretch → shift, shift → 2 shifts, etc., to a minimum of 1 stretch)."
+      "effect": "When you treat a physical Critical Injury with Healing, reduce the required healing time by one step (rounds \u2192 stretch, stretch \u2192 shift, shift \u2192 2 shifts, etc., to a minimum of 1 stretch)."
     }
   },
   {
     "name": "Healer",
     "type": "specialty",
-    "img": "icons/svg/heal.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-healer.svg",
     "system": {
       "description": "You focus on stabilizing and restoring others, making the most out of limited supplies and time.",
       "effects": "Critical injuries heal in half the time",
@@ -142,7 +142,7 @@
   {
     "name": "Ebb Sensitive",
     "type": "specialty",
-    "img": "icons/svg/explosion.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-ebb-sensitive.svg",
     "system": {
       "description": "You have an innate feel for flux; the Ebb whispers in your nerves even when you are not actively using it.",
       "effects": "Sense Ebons within ~10m radius",
@@ -156,7 +156,7 @@
   {
     "name": "Ebb Fury",
     "type": "specialty",
-    "img": "icons/svg/explosion.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-ebb-fury.svg",
     "system": {
       "description": "You channel rage into raw psychic force, driving your powers harder than is strictly safe.",
       "effects": "Spend 1 EP: +2 dice to combat roll",
@@ -170,7 +170,7 @@
   {
     "name": "Code of Honor",
     "type": "specialty",
-    "img": "icons/svg/statue.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-code-of-honor.svg",
     "system": {
       "description": "You live by a strict personal or cultural code; breaking it would be worse than death.",
       "effects": "Reroll all dice when upholding honor (once per session)",
@@ -178,15 +178,15 @@
       "package": "Shaktar",
       "prerequisites": "Shaktar race",
       "isActive": true,
-      "effect": "When acting directly in line with your code (GM’s approval), you gain +1 die to a single roll once per scene; if you knowingly break your code, you immediately gain +1 Stress."
+      "effect": "When acting directly in line with your code (GM\u2019s approval), you gain +1 die to a single roll once per scene; if you knowingly break your code, you immediately gain +1 Stress."
     }
   },
   {
     "name": "Cold Adapted",
     "type": "specialty",
-    "img": "icons/svg/statue.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-cold-adapted.svg",
     "system": {
-      "description": "Your body is made for freezing climates; Mort’s bitter winds feel like mild weather.",
+      "description": "Your body is made for freezing climates; Mort\u2019s bitter winds feel like mild weather.",
       "effects": "Ignore cold penalties; +1 Stealth (dim/dark)",
       "category": "racial",
       "package": "Wraith Raider",
@@ -198,7 +198,7 @@
   {
     "name": "Regeneration",
     "type": "specialty",
-    "img": "icons/svg/statue.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-regeneration.svg",
     "system": {
       "description": "Your body knits flesh and bone far faster than humans; wounds close into angry scars in hours.",
       "effects": "Heal 1 Health per hour (automatic)",
@@ -212,7 +212,7 @@
   {
     "name": "Combat Drug User",
     "type": "specialty",
-    "img": "icons/svg/statue.svg",
+    "img": "systems/zero-engine/assets/icons/specialties/specialty-combat-drug-user.svg",
     "system": {
       "description": "You know exactly how to ride the razor edge of combat drugs without immediately burning out.",
       "effects": "Rush drug: +2 combat, -2 mental (addiction risk)",
@@ -220,7 +220,7 @@
       "package": "Frother",
       "prerequisites": "Frother race",
       "isActive": true,
-      "effect": "When you take a combat drug (such as Rush), you may ignore the first –1 die penalty from its side effects for the duration of that dose."
+      "effect": "When you take a combat drug (such as Rush), you may ignore the first \u20131 die penalty from its side effects for the duration of that dose."
     }
   }
 ]
