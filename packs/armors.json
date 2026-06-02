@@ -1,10 +1,10 @@
 [
   {
-    "name": "Downtown Jacket",
+    "name": "Body Blocker",
     "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Downtown Jacket.png",
+    "img": "systems/zero-engine/assets/icons/armor/armor-body-blocker.svg",
     "system": {
-      "description": "Reinforced street jacket with hidden ballistic panels; common among low-level gangers and worried civilians.",
+      "description": "A slim concealable ballistic vest designed to be worn under civilian clothing. Popular with corporate workers, contract personnel, and anyone who wants protection without advertising it. Lightweight and unobtrusive \u2014 you barely notice it until a round hits.",
       "armorRating": 1,
       "armorDice": 1,
       "armorAuto": 0,
@@ -12,7 +12,7 @@
       "skillMod": 0,
       "statModTarget": "",
       "skillModTarget": "",
-      "cost": 150,
+      "cost": 120,
       "initiativeMod": 0
     }
   },
@@ -34,125 +34,6 @@
     }
   },
   {
-    "name": "Scout Armor",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Scout Armor.png",
-    "system": {
-      "description": "Lightweight composite plates over flexible mesh; built for operatives who need to move and climb.",
-      "armorRating": 3,
-      "armorDice": 3,
-      "armorAuto": 1,
-      "statMod": 1,
-      "skillMod": 0,
-      "statModTarget": "agility",
-      "skillModTarget": "",
-      "cost": 700,
-      "initiativeMod": 0
-    }
-  },
-  {
-    "name": "HARD Armor",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Hard Armor.png",
-    "system": {
-      "description": "Full-body ceramic and metal laminate suit for frontline combat and urban assaults.",
-      "armorRating": 4,
-      "armorDice": 4,
-      "armorAuto": 2,
-      "statMod": -1,
-      "skillMod": 1,
-      "statModTarget": "agility",
-      "skillModTarget": "force",
-      "cost": 1200,
-      "initiativeMod": 0
-    }
-  },
-  {
-    "name": "Exo-Rig Armor",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Exo Armor.png",
-    "system": {
-      "description": "Powered exoskeletal frame with armored plates; massively increases carrying and weapon handling at the cost of finesse.",
-      "armorRating": 5,
-      "armorDice": 5,
-      "armorAuto": 2,
-      "statMod": 1,
-      "skillMod": -1,
-      "statModTarget": "strength",
-      "skillModTarget": "mobility",
-      "cost": 3000,
-      "initiativeMod": 0
-    }
-  },
-  {
-    "name": "Squad Shielded Power Armor",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Squad Shieled Power Armor.png",
-    "system": {
-      "description": "Full sealed power armor with integrated energy shielding; rare, expensive, and terrifying on the street.",
-      "armorRating": 6,
-      "armorDice": 6,
-      "armorAuto": 3,
-      "statMod": 1,
-      "skillMod": -2,
-      "statModTarget": "strength",
-      "skillModTarget": "stealth",
-      "cost": 8000,
-      "initiativeMod": 0
-    }
-  },
-  {
-    "name": "Street Clothes",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Street Cloths.png",
-    "system": {
-      "description": "Civilian clothing. Offers essentially no ballistic protection. The only reason to track it is so the GM knows when an operative has forgotten to put their armour on.",
-      "armorRating": 0,
-      "armorDice": 0,
-      "armorAuto": 0,
-      "statMod": 0,
-      "skillMod": 0,
-      "statModTarget": "",
-      "skillModTarget": "",
-      "cost": 20,
-      "initiativeMod": 0
-    }
-  },
-  {
-    "name": "Shiver Flak Vest",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shiver Flak Vest.png",
-    "system": {
-      "description": "Standard-issue soft armour vest worn under uniform by Shivers and patrol officers. Lightweight, concealable under a jacket. Not rated for combat \u2014 rated for surviving a mugging.",
-      "armorRating": 1,
-      "armorDice": 1,
-      "armorAuto": 0,
-      "statMod": 0,
-      "skillMod": 0,
-      "statModTarget": "",
-      "skillModTarget": "",
-      "cost": 200,
-      "initiativeMod": 0
-    }
-  },
-  {
-    "name": "Full Shiver Armour",
-    "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shiver.png",
-    "system": {
-      "description": "Full plate and vest armour used by Shiver combat units. Rated for street operations and riot suppression. Includes shoulder guards, arm vambraces, and shin protection.",
-      "armorRating": 2,
-      "armorDice": 2,
-      "armorAuto": 0,
-      "statMod": 0,
-      "skillMod": 0,
-      "statModTarget": "",
-      "skillModTarget": "",
-      "cost": 450,
-      "initiativeMod": 0
-    }
-  },
-  {
     "name": "Crackshot Armour",
     "type": "armor",
     "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Crackshot.png",
@@ -170,36 +51,36 @@
     }
   },
   {
-    "name": "Shock Armour",
+    "name": "DN Power Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shock Armor.png",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Dark Night Power.png",
     "system": {
-      "description": "Blast-resistant armour with energy-dispersal panels. Designed for operatives who expect to be in the vicinity of explosions, EMP discharges, or Ebb detonations. Reduces Ebb damage by 1 auto.",
-      "armorRating": 3,
-      "armorDice": 3,
-      "armorAuto": 1,
-      "statMod": 0,
-      "skillMod": 0,
-      "statModTarget": "",
-      "skillModTarget": "",
-      "cost": 900,
+      "description": "Department of Nanotech powered combat armour. Lighter than standard power armour but with advanced nano-repair capability \u2014 the suit recovers 1 armour die between scenes. Rare and expensive.",
+      "armorRating": 5,
+      "armorDice": 5,
+      "armorAuto": 2,
+      "statMod": 1,
+      "skillMod": -1,
+      "statModTarget": "strength",
+      "skillModTarget": "stealth",
+      "cost": 7500,
       "initiativeMod": 0
     }
   },
   {
-    "name": "Stealth Suit",
+    "name": "Downtown Jacket",
     "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Stealth Suit.png",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Downtown Jacket.png",
     "system": {
-      "description": "A full-body suit with integrated light-bending panels and sound-dampening underlayer. Provides moderate ballistic protection while granting +2 dice to Stealth rolls. Panels degrade when the suit takes significant damage.",
-      "armorRating": 2,
-      "armorDice": 2,
+      "description": "Reinforced street jacket with hidden ballistic panels; common among low-level gangers and worried civilians.",
+      "armorRating": 1,
+      "armorDice": 1,
       "armorAuto": 0,
       "statMod": 0,
-      "skillMod": 2,
+      "skillMod": 0,
       "statModTarget": "",
-      "skillModTarget": "stealth",
-      "cost": 2500,
+      "skillModTarget": "",
+      "cost": 150,
       "initiativeMod": 0
     }
   },
@@ -221,36 +102,53 @@
     }
   },
   {
-    "name": "PP10 HARD Armour",
+    "name": "Exo-Rig Armor",
     "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Hard Armor.png",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Exo Armor.png",
     "system": {
-      "description": "An uprated HARD Armour system with PP10 composite plating. Heavier than standard HARD but capable of stopping rounds that would punch through lighter suits.",
+      "description": "Powered exoskeletal frame with armored plates; massively increases carrying and weapon handling at the cost of finesse.",
       "armorRating": 5,
-      "armorDice": 4,
+      "armorDice": 5,
       "armorAuto": 2,
-      "statMod": -1,
-      "skillMod": 0,
-      "statModTarget": "agility",
-      "skillModTarget": "",
-      "cost": 2800,
-      "initiativeMod": -1
+      "statMod": 1,
+      "skillMod": -1,
+      "statModTarget": "strength",
+      "skillModTarget": "mobility",
+      "cost": 3000,
+      "initiativeMod": 0
     }
   },
   {
-    "name": "Light Thresher Suit",
+    "name": "Full Shiver Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Light Thresher.png",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shiver.png",
     "system": {
-      "description": "An industrial hardsuit adapted for combat use. Angular composite plates with mounting points for additional equipment. Designed for hostile environment operations as much as firefights.",
+      "description": "Full plate and vest armour used by Shiver combat units. Rated for street operations and riot suppression. Includes shoulder guards, arm vambraces, and shin protection.",
+      "armorRating": 2,
+      "armorDice": 2,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 450,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "HARD Armor",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Hard Armor.png",
+    "system": {
+      "description": "Full-body ceramic and metal laminate suit for frontline combat and urban assaults.",
       "armorRating": 4,
       "armorDice": 4,
       "armorAuto": 2,
-      "statMod": 0,
-      "skillMod": -1,
-      "statModTarget": "",
-      "skillModTarget": "stealth",
-      "cost": 3500,
+      "statMod": -1,
+      "skillMod": 1,
+      "statModTarget": "agility",
+      "skillModTarget": "force",
+      "cost": 1200,
       "initiativeMod": 0
     }
   },
@@ -272,19 +170,138 @@
     }
   },
   {
-    "name": "DN Power Armour",
+    "name": "Light Thresher Suit",
     "type": "armor",
-    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Dark Night Power.png",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Light Thresher.png",
     "system": {
-      "description": "Department of Nanotech powered combat armour. Lighter than standard power armour but with advanced nano-repair capability \u2014 the suit recovers 1 armour die between scenes. Rare and expensive.",
-      "armorRating": 5,
-      "armorDice": 5,
+      "description": "An industrial hardsuit adapted for combat use. Angular composite plates with mounting points for additional equipment. Designed for hostile environment operations as much as firefights.",
+      "armorRating": 4,
+      "armorDice": 4,
       "armorAuto": 2,
-      "statMod": 1,
+      "statMod": 0,
       "skillMod": -1,
+      "statModTarget": "",
+      "skillModTarget": "stealth",
+      "cost": 3500,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "PP10 HARD Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Hard Armor.png",
+    "system": {
+      "description": "An uprated HARD Armour system with PP10 composite plating. Heavier than standard HARD but capable of stopping rounds that would punch through lighter suits.",
+      "armorRating": 5,
+      "armorDice": 4,
+      "armorAuto": 2,
+      "statMod": -1,
+      "skillMod": 0,
+      "statModTarget": "agility",
+      "skillModTarget": "",
+      "cost": 2800,
+      "initiativeMod": -1
+    }
+  },
+  {
+    "name": "Scout Armor",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Scout Armor.png",
+    "system": {
+      "description": "Lightweight composite plates over flexible mesh; built for operatives who need to move and climb.",
+      "armorRating": 3,
+      "armorDice": 3,
+      "armorAuto": 1,
+      "statMod": 1,
+      "skillMod": 0,
+      "statModTarget": "agility",
+      "skillModTarget": "",
+      "cost": 700,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Shiver Flak Vest",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shiver Flak Vest.png",
+    "system": {
+      "description": "Standard-issue soft armour vest worn under uniform by Shivers and patrol officers. Lightweight, concealable under a jacket. Not rated for combat \u2014 rated for surviving a mugging.",
+      "armorRating": 1,
+      "armorDice": 1,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 200,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Shock Armour",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shock Armor.png",
+    "system": {
+      "description": "Blast-resistant armour with energy-dispersal panels. Designed for operatives who expect to be in the vicinity of explosions, EMP discharges, or Ebb detonations. Reduces Ebb damage by 1 auto.",
+      "armorRating": 3,
+      "armorDice": 3,
+      "armorAuto": 1,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 900,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Squad Shielded Power Armor",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Squad Shieled Power Armor.png",
+    "system": {
+      "description": "Full sealed power armor with integrated energy shielding; rare, expensive, and terrifying on the street.",
+      "armorRating": 6,
+      "armorDice": 6,
+      "armorAuto": 3,
+      "statMod": 1,
+      "skillMod": -2,
       "statModTarget": "strength",
       "skillModTarget": "stealth",
-      "cost": 7500,
+      "cost": 8000,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Stealth Suit",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Stealth Suit.png",
+    "system": {
+      "description": "A full-body suit with integrated light-bending panels and sound-dampening underlayer. Provides moderate ballistic protection while granting +2 dice to Stealth rolls. Panels degrade when the suit takes significant damage.",
+      "armorRating": 2,
+      "armorDice": 2,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 2,
+      "statModTarget": "",
+      "skillModTarget": "stealth",
+      "cost": 2500,
+      "initiativeMod": 0
+    }
+  },
+  {
+    "name": "Street Clothes",
+    "type": "armor",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Street Cloths.png",
+    "system": {
+      "description": "Civilian clothing. Offers essentially no ballistic protection. The only reason to track it is so the GM knows when an operative has forgotten to put their armour on.",
+      "armorRating": 0,
+      "armorDice": 0,
+      "armorAuto": 0,
+      "statMod": 0,
+      "skillMod": 0,
+      "statModTarget": "",
+      "skillModTarget": "",
+      "cost": 20,
       "initiativeMod": 0
     }
   }

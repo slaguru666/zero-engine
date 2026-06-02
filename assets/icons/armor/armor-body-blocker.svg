@@ -1,0 +1,22 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body Blocker: slim concealable compression vest, civilian-grade -->
+  <!-- Main body — sleek, close-fitting silhouette -->
+  <path d="M20,20 L20,56 Q20,58 32,58 Q44,58 44,56 L44,20 Q40,14 32,12 Q24,14 20,20Z" fill="#1a1a1a"/>
+  <!-- Shoulder pads — narrow, minimal -->
+  <rect x="16" y="10" width="10" height="12" rx="3" fill="#1a1a1a"/>
+  <rect x="38" y="10" width="10" height="12" rx="3" fill="#1a1a1a"/>
+  <!-- Chest protection panel — single slim panel (concealable) -->
+  <rect x="24" y="22" width="16" height="14" rx="2" fill="white" opacity="0.2"/>
+  <rect x="25" y="23" width="14" height="12" rx="1" fill="none" stroke="white" stroke-width="0.8" opacity="0.5"/>
+  <!-- Horizontal compression lines (soft armor texture) -->
+  <line x1="21" y1="38" x2="43" y2="38" stroke="white" stroke-width="0.8" opacity="0.2"/>
+  <line x1="21" y1="43" x2="43" y2="43" stroke="white" stroke-width="0.8" opacity="0.2"/>
+  <line x1="21" y1="48" x2="43" y2="48" stroke="white" stroke-width="0.8" opacity="0.2"/>
+  <!-- Centre front zip — subtle -->
+  <line x1="32" y1="20" x2="32" y2="58" stroke="white" stroke-width="1" opacity="0.3"/>
+  <!-- Neck opening -->
+  <path d="M26,20 Q32,14 38,20" stroke="white" stroke-width="1.5" fill="none" opacity="0.6"/>
+  <!-- Body Blocker logo: small SLA circle mark on chest -->
+  <circle cx="32" cy="30" r="4" fill="none" stroke="white" stroke-width="1" opacity="0.5"/>
+  <circle cx="32" cy="30" r="1.5" fill="white" opacity="0.4"/>
+</svg>

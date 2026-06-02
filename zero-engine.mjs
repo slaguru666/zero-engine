@@ -827,6 +827,17 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       "system.withdrawalActive": false
     });
 
+    // ── Deduct drug cost from credits ────────────────────────────────────────
+    const drugCost = Math.max(0, Number(item.system?.cost) || 0);
+    if (drugCost > 0) {
+      const currentCredits = Number(this.actor.system?.details?.credits ?? 0);
+      const newCredits = Math.max(0, currentCredits - drugCost);
+      await this.actor.update({ "system.details.credits": newCredits });
+      ui.notifications.info(
+        `${item.name}: ${drugCost}¢ charged to ${this.actor.name}. Credits: ${currentCredits} → ${newCredits}`
+      );
+    }
+
     const stressBonus = Math.max(0, Number(item.system?.stressRecoveryBonus) || 0);
     if (stressBonus > 0) {
       const currentStress = this._getStressValue(this.actor);
