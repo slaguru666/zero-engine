@@ -30,6 +30,36 @@
   },
   "primaryTokenAttribute": "health",
   "secondaryTokenAttribute": null,
+  "packs": [
+    {
+      "name": "sla-armors",
+      "label": "SLA Armors",
+      "path": "packs/sla-armors",
+      "type": "Item",
+      "system": "zero-engine"
+    },
+    {
+      "name": "sla-drugs",
+      "label": "SLA Drugs & Consumables",
+      "path": "packs/sla-drugs",
+      "type": "Item",
+      "system": "zero-engine"
+    },
+    {
+      "name": "sla-ebb-formulae",
+      "label": "SLA Ebb Formulae",
+      "path": "packs/sla-ebb-formulae",
+      "type": "Item",
+      "system": "zero-engine"
+    },
+    {
+      "name": "sla-specialties",
+      "label": "SLA Specialties",
+      "path": "packs/sla-specialties",
+      "type": "Item",
+      "system": "zero-engine"
+    }
+  ],
   "manifest": "https://raw.githubusercontent.com/slaguru666/zero-engine/main/system.json",
   "download": "https://github.com/slaguru666/zero-engine/archive/refs/heads/main.zip",
   "url": "https://github.com/slaguru666/zero-engine"
