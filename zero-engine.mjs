@@ -5484,44 +5484,157 @@ class SLANPCCreator extends Application {
 // ══════════════════════════════════════════════════════════════════════════════
 //   SLA GM FINANCE LEDGER
 //   GM-only tool: lists all Player Character actors, shows current balance,
-//   weekly income/expenses, net weekly, and allows one-click week calculation.
+//   weekly income/expenses, net weekly.
+//   Calculate button: newCredits = credits + income - expenses, then zeros
+//   all income and expense fields on the actor.
 // ══════════════════════════════════════════════════════════════════════════════
 
 class SLAGMFinanceTool extends Application {
+  constructor(...args) {
+    super(...args);
+    this._actorHookId = null;
+  }
+
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       id: 'sla-gm-finance-tool',
       title: 'GM Finance Ledger',
-      width: 660,
+      width: 680,
       height: 'auto',
       resizable: true,
       classes: ['zero-engine', 'gm-finance-tool']
     });
   }
 
-  /** Build inline HTML — no separate .hbs file needed */
-  async _renderInner(data) {
+  // ── Auto-refresh when any actor is updated ────────────────────────────────
+  async _render(force, options) {
+    await super._render(force, options);
+    if (!this._actorHookId) {
+      this._actorHookId = Hooks.on('updateActor', () => {
+        if (this.rendered) this.render(false);
+      });
+    }
+  }
+
+  async close(options) {
+    if (this._actorHookId) {
+      Hooks.off('updateActor', this._actorHookId);
+      this._actorHookId = null;
+    }
+    return super.close(options);
+  }
+
+  // ── Read credits from the actor's raw source data ─────────────────────────
+  // _source bypasses any DataModel computed values and gives the raw DB value.
+  _readCredits(actor) {
+    let raw = actor._source?.system?.details?.credits;
+    if (raw === undefined || raw === null)
+      raw = actor.system?.details?.credits;
+    if (raw === undefined || raw === null)
+      raw = foundry.utils.getProperty(actor, 'system.details.credits');
+    // Fix "500,500" string from duplicate-named form inputs
+    if (typeof raw === 'string' && raw.includes(','))
+      raw = raw.split(',')[0];
+    const n = Number(raw);
+    return isNaN(n) ? 0 : n;
+  }
+
+  // ── Read a finances sub-value safely ─────────────────────────────────────
+  _readFinance(actor, path) {
+    let raw = foundry.utils.getProperty(actor._source ?? {}, `system.${path}`)
+           ?? foundry.utils.getProperty(actor, `system.${path}`);
+    const n = Number(raw);
+    return isNaN(n) ? 0 : n;
+  }
+
+  // ── Build per-actor data row ──────────────────────────────────────────────
+  _getPCData() {
+    return (game.actors ?? [])
+      .filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter)
+      .map(a => {
+        const salary    = this._readFinance(a, 'finances.income.salary');
+        const bpn       = this._readFinance(a, 'finances.income.bpnReward');
+        const incOther  = this._readFinance(a, 'finances.income.other');
+        const accom     = this._readFinance(a, 'finances.expenses.accommodation');
+        const drugs     = this._readFinance(a, 'finances.expenses.drugs');
+        const subs      = this._readFinance(a, 'finances.expenses.subscriptions');
+        const expOther  = this._readFinance(a, 'finances.expenses.other');
+        const btax      = this._readFinance(a, 'finances.expenses.bulletTax');
+        const weeklyIncome   = salary + bpn + incOther;
+        const weeklyExpenses = accom + drugs + subs + expOther + btax;
+        const netWeekly = weeklyIncome - weeklyExpenses;
+        const credits   = this._readCredits(a);
+        return {
+          id: a.id, name: a.name,
+          credits, weeklyIncome, weeklyExpenses, netWeekly
+        };
+      });
+  }
+
+  // ── Apply week: credits += income - expenses, then zero all fields ─────────
+  async _applyWeek(actorId) {
+    if (!game.user?.isGM) return;
+    const actor = game.actors.get(actorId);
+    if (!actor) return;
+
+    const salary   = this._readFinance(actor, 'finances.income.salary');
+    const bpn      = this._readFinance(actor, 'finances.income.bpnReward');
+    const incOther = this._readFinance(actor, 'finances.income.other');
+    const accom    = this._readFinance(actor, 'finances.expenses.accommodation');
+    const drugs    = this._readFinance(actor, 'finances.expenses.drugs');
+    const subs     = this._readFinance(actor, 'finances.expenses.subscriptions');
+    const expOther = this._readFinance(actor, 'finances.expenses.other');
+    const btax     = this._readFinance(actor, 'finances.expenses.bulletTax');
+
+    const income   = salary + bpn + incOther;
+    const expenses = accom + drugs + subs + expOther + btax;
+    const current  = this._readCredits(actor);
+    const newBal   = current + income - expenses;
+
+    await actor.update({
+      'system.details.credits':                  newBal,
+      'system.finances.income.salary':           0,
+      'system.finances.income.bpnReward':        0,
+      'system.finances.income.other':            0,
+      'system.finances.expenses.accommodation':  0,
+      'system.finances.expenses.drugs':          0,
+      'system.finances.expenses.subscriptions':  0,
+      'system.finances.expenses.other':          0,
+      'system.finances.expenses.bulletTax':      0,
+      'system.finances.ammoSpentSession':        0,
+      'system.finances.debt':                    0
+    });
+
+    ui.notifications.info(
+      `${actor.name}: ${current}c + ${income}c income − ${expenses}c expenses = ${newBal}c`
+    );
+  }
+
+  // ── Render the table ──────────────────────────────────────────────────────
+  async _renderInner(_data) {
     const pcs = this._getPCData();
     let rows = '';
+
     if (pcs.length === 0) {
       rows = `<tr><td colspan="6" class="gm-finance-empty">
-        No Player Characters found. Tick the <strong>Player Character</strong> checkbox
-        on the Biography tab of each PC actor sheet.
+        No Player Characters found.<br>
+        Tick <strong>Player Character</strong> on each actor's Biography tab.
       </td></tr>`;
     } else {
       for (const pc of pcs) {
-        const netClass = pc.netWeekly >= 0 ? 'net-positive' : 'net-negative';
-        const netStr   = `${pc.netWeekly >= 0 ? '+' : ''}${pc.netWeekly}c`;
+        const netClass  = pc.netWeekly >= 0 ? 'net-positive' : 'net-negative';
+        const netSign   = pc.netWeekly >= 0 ? '+' : '';
+        const newBal    = pc.credits + pc.netWeekly;
         rows += `
-          <tr class="gm-finance-row" data-actor-id="${pc.id}">
+          <tr class="gm-finance-row">
             <td class="gf-name">${pc.name}</td>
             <td class="gf-balance">${pc.credits}c</td>
-            <td class="gf-income">+${pc.weeklyIncome}c</td>
-            <td class="gf-expenses">−${pc.weeklyExpenses}c</td>
-            <td class="gf-net ${netClass}">${netStr}</td>
+            <td class="gf-income">${pc.weeklyIncome}c</td>
+            <td class="gf-expenses">${pc.weeklyExpenses}c</td>
+            <td class="gf-net ${netClass}">${netSign}${pc.netWeekly}c</td>
             <td class="gf-action">
               <button type="button" class="gm-finance-calc-btn" data-actor-id="${pc.id}"
-                title="Apply net weekly income to balance: ${pc.credits}c ${pc.netWeekly >= 0 ? '+' : ''}${pc.netWeekly}c = ${pc.credits + pc.netWeekly}c">
+                title="${pc.credits}c + ${pc.weeklyIncome}c − ${pc.weeklyExpenses}c = ${newBal}c. Income &amp; expenses reset to 0.">
                 <i class="fas fa-calculator"></i> Calculate
               </button>
             </td>
@@ -5533,15 +5646,16 @@ class SLAGMFinanceTool extends Application {
       <div class="gm-finance-wrap">
         <div class="gm-finance-header-note">
           <i class="fas fa-info-circle"></i>
-          Click <strong>Calculate</strong> to apply one week of net income/expenses to a character's balance.
+          <strong>Calculate</strong>: credits = balance + income − expenses.
+          All income &amp; expense fields are then reset to 0.
         </div>
         <table class="gm-finance-table">
           <thead>
             <tr>
               <th>Character</th>
               <th>Balance</th>
-              <th>Wk Income</th>
-              <th>Wk Expenses</th>
+              <th>Income</th>
+              <th>Expenses</th>
               <th>Net</th>
               <th></th>
             </tr>
@@ -5555,63 +5669,7 @@ class SLAGMFinanceTool extends Application {
         </div>
       </div>`;
 
-    const $html = $(html);
-    return $html;
-  }
-
-  /** Parse a credit value safely, trying multiple read paths */
-  _safeCredits(actor) {
-    // Try direct access, then foundry safe getter, then toObject fallback
-    let raw = actor.system?.details?.credits;
-    if (raw === undefined || raw === null)
-      raw = foundry.utils.getProperty(actor, 'system.details.credits');
-    if (raw === undefined || raw === null)
-      raw = actor.toObject?.()?.system?.details?.credits;
-
-    // Handle "500,500" string corruption from duplicate form inputs
-    if (typeof raw === 'string' && raw.includes(','))
-      raw = raw.split(',')[0];
-
-    const n = Number(raw);
-    console.log(`Zero Engine | Finance Ledger: ${actor.name} credits raw=${JSON.stringify(raw)} → ${n}`);
-    return isNaN(n) ? 0 : n;
-  }
-
-  _getPCData() {
-    return (game.actors ?? [])
-      .filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter)
-      .map(a => {
-        const inc = a.system.finances?.income  || {};
-        const exp = a.system.finances?.expenses || {};
-        const weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
-        const weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
-        const netWeekly = weeklyIncome - weeklyExpenses;
-        return {
-          id:            a.id,
-          name:          a.name,
-          credits:       this._safeCredits(a),
-          weeklyIncome,
-          weeklyExpenses,
-          netWeekly
-        };
-      });
-  }
-
-  async _applyWeek(actorId) {
-    if (!game.user?.isGM) return;
-    const actor = game.actors.get(actorId);
-    if (!actor) return;
-    const inc = actor.system.finances?.income  || {};
-    const exp = actor.system.finances?.expenses || {};
-    const weeklyIncome   = (inc.salary||0) + (inc.bpnReward||0) + (inc.other||0);
-    const weeklyExpenses = (exp.accommodation||0) + (exp.drugs||0) + (exp.subscriptions||0) + (exp.other||0) + (exp.bulletTax||0);
-    const net     = weeklyIncome - weeklyExpenses;
-    const current = this._safeCredits(actor);
-    const newBal  = current + net;
-    await actor.update({ 'system.details.credits': newBal });
-    ui.notifications.info(
-      `${actor.name}: ${current}c ${net >= 0 ? '+' : ''}${net}c → ${newBal}c`
-    );
+    return $(html);
   }
 
   activateListeners(html) {
@@ -5620,15 +5678,15 @@ class SLAGMFinanceTool extends Application {
 
     root.querySelectorAll('.gm-finance-calc-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
+        btn.disabled = true;
         await this._applyWeek(btn.dataset.actorId);
-        this.render(false);
+        // render() fires automatically via the updateActor hook
       });
     });
 
     root.querySelector('.gm-finance-calc-all-btn')?.addEventListener('click', async () => {
       const pcs = this._getPCData();
       for (const pc of pcs) await this._applyWeek(pc.id);
-      this.render(false);
     });
   }
 }
