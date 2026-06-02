@@ -3983,6 +3983,22 @@ Hooks.once("diceSoNiceReady", (dice3d) => {
   });
 });
 
+// Force zero-engine dice system for any user whose saved DiceSoNice flag
+// is pointing at a different system (e.g. Blade Runner defaults from an
+// older session on the remote server). The "preferred" flag only kicks in
+// for users with NO saved appearance — this hook fixes users who have one.
+Hooks.once("ready", async () => {
+  if (!game.modules.get("dice-so-nice")?.active) return;
+  const current = game.user.getFlag("dice-so-nice", "appearance") ?? {};
+  const savedSystem = current?.global?.system ?? "standard";
+  if (savedSystem !== "zero-engine") {
+    await game.user.setFlag("dice-so-nice", "appearance", {
+      ...current,
+      global: { ...(current.global ?? {}), system: "zero-engine" }
+    });
+  }
+});
+
 /**
  * Handle Push button clicks in chat
  * Uses new automatic Push mechanics: re-roll all non-6s, Stress + Panic only if stress bane appears
