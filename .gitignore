@@ -15,6 +15,9 @@ dist/
 *.lock
 .fvtt-*/
 
+# LevelDB lock files — created at runtime, must not be shipped in the zip
+**/LOCK
+
 # Compiled / minified outputs (keep source only)
 *.min.js
 *.min.css
