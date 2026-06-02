@@ -3428,7 +3428,13 @@ Hooks.once('init', function() {
   Handlebars.registerHelper('or', function(...args) {
     const opts = args[args.length - 1];
     const vals = args.slice(0, -1);
-    return vals.some(Boolean) ? opts.fn(this) : opts.inverse(this);
+    const result = vals.some(Boolean);
+    // Block helper usage: {{#or a b}}...{{/or}}
+    if (opts && typeof opts.fn === 'function') {
+      return result ? opts.fn(this) : (typeof opts.inverse === 'function' ? opts.inverse(this) : '');
+    }
+    // Inline helper usage: {{or a b}}
+    return result;
   });
   Handlebars.registerHelper('gte', function(a, b) { return Number(a) >= Number(b); });
   Handlebars.registerHelper('not', function(val) { return !val; });
