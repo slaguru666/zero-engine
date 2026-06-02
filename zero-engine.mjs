@@ -3522,6 +3522,17 @@ Hooks.once('ready', function() {
           updates['system.flux.value'] = parseInt(rawFlux) || 0;
           console.warn(`Zero Engine | Sanitizing corrupt flux on actor "${actor.name}": "${rawFlux}" → ${updates['system.flux.value']}`);
         }
+        // Fix credits corrupted by the duplicate-input "500,500" bug
+        const rawCredits = actor._source?.system?.details?.credits ?? actor.system?.details?.credits;
+        const creditsCorrupt = (typeof rawCredits === 'string' && (rawCredits.includes(',') || rawCredits === 'NaN' || isNaN(Number(rawCredits))))
+          || (typeof rawCredits === 'number' && isNaN(rawCredits));
+        if (creditsCorrupt) {
+          const fixed = typeof rawCredits === 'string' && rawCredits.includes(',')
+            ? parseInt(rawCredits.split(',')[0]) || 0
+            : 0;
+          updates['system.details.credits'] = fixed;
+          console.warn(`Zero Engine | Sanitizing corrupt credits on actor "${actor.name}": "${rawCredits}" → ${fixed}`);
+        }
         if (Object.keys(updates).length > 0) {
           await actor.update(updates);
         }

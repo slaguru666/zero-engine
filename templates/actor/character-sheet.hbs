@@ -873,7 +873,7 @@
 
 				<div class="finances-credits-hero">
 					<span class="fin-credit-label">CURRENT BALANCE</span>
-					<span class="fin-credit-value"><input type="number" name="system.details.credits" value="{{system.details.credits}}" placeholder="500" min="0" /> c</span>
+					<span class="fin-credit-value credits-readonly-wrap"><input type="number" readonly value="{{system.details.credits}}" class="credits-readonly" title="Edit credits in the sheet header" /> c</span>
 					{{#if system.finances.debt}}<span class="fin-debt-badge">⚠ DEBT {{system.finances.debt}}c</span>{{/if}}
 				</div>
 
