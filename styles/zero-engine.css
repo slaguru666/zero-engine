@@ -1519,11 +1519,12 @@
    ======================================== */
 
 .panic-result {
-  background: rgba(139, 0, 0, 0.2);
+  background: #1c0808;
   border: 2px solid #8b0000;
   border-radius: 6px;
   padding: 15px;
   margin: 10px 0;
+  color: #e0e0e0;
 }
 
 .panic-formula {
@@ -1534,16 +1535,16 @@
 
 .panic-total {
   font-size: 20px;
-  color: #ff4444;
+  color: #ff5555;
   font-weight: bold;
 }
 
 .panic-success {
-  background: rgba(0, 128, 0, 0.2);
+  background: #081c08;
   border: 2px solid #00aa00;
   border-radius: 4px;
   padding: 12px;
-  color: #00ff00;
+  color: #55ee55;
   font-weight: bold;
   text-align: center;
   margin-top: 10px;
@@ -1551,15 +1552,16 @@
 }
 
 .panic-effect {
-  background: rgba(0, 0, 0, 0.4);
+  background: #111111;
   border: 1px solid #ff4444;
   border-radius: 4px;
   padding: 12px;
   margin-top: 10px;
+  color: #e0e0e0;
 }
 
 .panic-effect strong {
-  color: #ff6b6b;
+  color: #ff7777;
   font-size: 16px;
   display: block;
   margin-bottom: 8px;
@@ -1568,11 +1570,12 @@
 }
 
 .critical-injury {
-  background: rgba(220, 20, 60, 0.2);
+  background: #1c080d;
   border: 2px solid #dc143c;
   border-radius: 6px;
   padding: 15px;
   margin: 10px 0;
+  color: #e0e0e0;
 }
 
 .crit-roll {
@@ -1598,21 +1601,23 @@
 }
 
 .time-limit {
-  background: rgba(255, 170, 0, 0.2);
+  background: #1a1200;
   border: 1px solid #ffaa00;
   border-radius: 4px;
   padding: 8px;
-  color: #ffaa00;
+  color: #ffbb33;
   font-weight: bold;
   margin: 8px 0;
 }
 
 .crit-effects,
-.crit-healing {
-  background: rgba(0, 0, 0, 0.3);
+.crit-healing,
+.crit-recovery {
+  background: #111111;
   border-radius: 4px;
   padding: 8px;
   margin: 8px 0;
+  color: #d8d8d8;
 }
 
 .crit-effects strong,
@@ -1620,6 +1625,67 @@
   color: #ff6600;
   display: block;
   margin-bottom: 4px;
+}
+
+/* ========================================
+   CHAT CARD — MISSING BACKGROUND FIX
+   All system chat output needs a solid dark background so that
+   coloured text remains readable regardless of Foundry's chat theme.
+   ======================================== */
+
+/* Instability roll result */
+.instability-result {
+  background: #0e1a14;
+  border: 2px solid #ff6600;
+  border-radius: 6px;
+  padding: 10px 14px;
+  margin: 6px 0;
+  color: #e0e0e0;
+}
+.instability-result p { margin: 4px 0; color: #e0e0e0; }
+.instability-result strong { color: #fff; }
+.instability-no-effect { color: #55ee88 !important; font-weight: bold; }
+.instability-effect-text { color: #d8d8d8 !important; font-size: 13px; line-height: 1.5; }
+.instability-auto-note {
+  color: #ffcc55 !important;
+  font-size: 11px;
+  font-style: italic;
+  border-top: 1px solid rgba(255,204,85,0.3);
+  margin-top: 6px;
+  padding-top: 4px;
+}
+
+/* Panic result — auto-note row */
+.panic-auto {
+  background: rgba(255, 200, 0, 0.1);
+  border: 1px solid rgba(255, 200, 0, 0.3);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: #ffcc44;
+  margin-top: 6px;
+}
+.panic-auto strong { color: #ffe066; }
+
+/* Drug GM alert (stamina strain, drug state) */
+.drug-gm-alert {
+  background: #0d0d1a;
+  border: 1px solid rgba(0, 180, 255, 0.4);
+  border-radius: 5px;
+  padding: 8px 12px;
+  color: #c0d8ff;
+  font-size: 13px;
+}
+.drug-gm-alert strong { color: #88ccff; }
+
+/* Weapon reload notification */
+.weapon-reload-chat {
+  background: #0d1a0d;
+  border: 1px solid rgba(0, 200, 100, 0.35);
+  border-radius: 5px;
+  padding: 7px 10px;
+  color: #b8eec8;
+  font-size: 13px;
 }
 
 /* ========================================

@@ -1644,9 +1644,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       ui.notifications.info(`${actor.name} rests — weapons restored: ${names}`);
       await ChatMessage.create({
         speaker: ChatMessage.getSpeaker({ actor }),
-        content: `<div style="border:2px solid #00a860;border-radius:6px;padding:8px 12px;background:rgba(0,60,30,0.3);margin:4px 0;">
+        content: `<div style="border:2px solid #00a860;border-radius:6px;padding:8px 12px;background:#0a1a0e;margin:4px 0;">
           <strong style="color:#55ffaa;font-size:14px;">🛏 ${actor.name} — RESTING</strong><br>
-          <span style="color:#ccc;font-size:12px;">Weapons restored: <strong>${names}</strong></span>
+          <span style="color:#c8c8c8;font-size:12px;">Weapons restored: <strong style="color:#fff;">${names}</strong></span>
         </div>`
       });
     }
@@ -1712,7 +1712,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       await ChatMessage.create({
         speaker: ChatMessage.getSpeaker({ actor }),
         flavor: `<strong>🔀 ${actor.name} — Instability Check</strong>`,
-        content: `<div class="instability-result"><p>Rolled <strong>${dieVal}</strong> + Instability <strong>${currentInstability}</strong> = <strong>${total}</strong></p><p style="color:#44cc88;">✓ Held together. No effect.</p></div>`,
+        content: `<div class="instability-result"><p>Rolled <strong>${dieVal}</strong> + Instability <strong>${currentInstability}</strong> = <strong>${total}</strong></p><p class="instability-no-effect">✓ Held together. No effect.</p></div>`,
         rolls: [roll]
       });
       return;
@@ -1730,7 +1730,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     let content = `<div class="instability-result">`;
     content += `<p>Rolled <strong>${dieVal}</strong> + Instability <strong>${currentInstability}</strong> = <strong>${total}</strong></p>`;
     content += `<p style="color:${severityColour};font-size:14px;font-weight:bold;">${entry.name}</p>`;
-    content += `<p style="color:#333;">${entry.effect}</p>`;
+    content += `<p class="instability-effect-text">${entry.effect}</p>`;
 
     // Auto-apply immediate mechanical effects
     const updates = {};
@@ -1777,7 +1777,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       await actor.update(updates);
     }
     if (notes.length > 0) {
-      content += `<p style="color:#ffcc44;font-size:11px;font-style:italic;">Auto-applied: ${notes.join(' | ')}</p>`;
+      content += `<p class="instability-auto-note">Auto-applied: ${notes.join(' | ')}</p>`;
     }
     content += '</div>';
 
@@ -2588,9 +2588,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         await weaponItem.update({ 'system.ammoEmpty': true });
         await ChatMessage.create({
           speaker: ChatMessage.getSpeaker({ actor }),
-          content: `<div style="border:2px solid #cc4400;border-radius:6px;padding:8px 12px;background:rgba(80,20,0,0.3);margin:4px 0;">
-            <strong style="color:#ff6633;font-size:14px;">🔒 ${weaponInfo.name} — OUT OF AMMO</strong><br>
-            <span style="color:#ccc;font-size:12px;">A stress die came up 1 on the push — the weapon has run dry. Rest to restore ammunition.</span>
+          content: `<div style="border:2px solid #cc4400;border-radius:6px;padding:8px 12px;background:#1a0800;margin:4px 0;">
+            <strong style="color:#ff7755;font-size:14px;">🔒 ${weaponInfo.name} — OUT OF AMMO</strong><br>
+            <span style="color:#c8c8c8;font-size:12px;">A stress die came up 1 on the push — the weapon has run dry. Rest to restore ammunition.</span>
           </div>`
         });
       }
