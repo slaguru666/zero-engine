@@ -1529,7 +1529,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       if (taxPaid > 0) {
         const cpr = _getAmmoCostForWeapon(weaponData);
         ui.notifications.warn(
-          `💸 Bullet Tax: ${ammoSpent} round${ammoSpent !== 1 ? 's' : ''} × ${cpr}c = −${taxPaid}c`
+          `💸 Bullet Tax: ${ammoSpent} × ${cpr}c (×2) = −${taxPaid}c charged to ${this.actor.name}`
         );
       }
     }
@@ -1554,7 +1554,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       fireMode: fireMode,
       ammoType: ammoType,
       ammoSpent: isMelee ? 0 : ammoSpent,
-      bulletTaxPaid: isMelee ? 0 : (ammoSpent * _getAmmoCostForWeapon(weaponData)),
+      bulletTaxPaid: isMelee ? 0 : (ammoSpent * _getAmmoCostForWeapon(weaponData) * 2),
       modeBonusDice: modeBonusDice,
       ammoBonusDice: ammoBonusDice,
       modeDamageBonus: modeDamageBonus,
@@ -2431,11 +2431,11 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         html += `<div class="weapon-damage-breakdown">Mode: ${weaponInfo.fireMode || 'single'} | Ammo: ${weaponInfo.ammoType || 'standard'}</div>`;
       }
       if (weaponInfo.ammoSpent) {
-        const cpr = weaponInfo.bulletTaxPaid > 0
-          ? ` · <span class="bullet-tax-line">💸 Tax: <strong>−${weaponInfo.bulletTaxPaid}c</strong></span>`
-          : '';
         const calLabel = weaponInfo.caliber ? ` [${weaponInfo.caliber} ${weaponInfo.roundType || 'std'}]` : '';
-        html += `<div class="weapon-damage-breakdown">Ammo Spent: ${weaponInfo.ammoSpent}${calLabel} (Remaining ${weaponInfo.ammo}/${weaponInfo.magazine})${cpr}</div>`;
+        const taxLine = weaponInfo.bulletTaxPaid > 0
+          ? `<span class="bullet-tax-line">💸 Bullet Tax: <strong>−${weaponInfo.bulletTaxPaid}c</strong></span>`
+          : '';
+        html += `<div class="weapon-damage-breakdown">Rounds fired: ${weaponInfo.ammoSpent}${calLabel}${taxLine ? ' · ' + taxLine : ''}</div>`;
       }
       html += `<div class="weapon-damage-info">`;
       html += `<span class="wdi"><strong>AP</strong> ${weaponInfo.apEffective ?? weaponInfo.ap}</span>`;
@@ -5802,6 +5802,36 @@ const SLA_AMMO_CATALOG = {
       he:       { name: "10mm High Explosive",    costPerRound: 35,  apBonus: 0, damageMod: 1, blastRadius: 0, description: "+1 damage on impact. Fragmentation effect." }
     }
   },
+  ".44": {
+    label: ".44 Revolver",
+    fitWeaponTypes: ["revolver"],
+    magazineDefault: 6,
+    rounds: {
+      standard: { name: ".44 Standard",           costPerRound: 8,   apBonus: 0, damageMod: 0, blastRadius: 0, description: "Standard heavy revolver round." },
+      ap:       { name: ".44 Armor Piercing",      costPerRound: 24,  apBonus: 2, damageMod: 0, blastRadius: 0, description: "+2 AP. Hardened penetrator." },
+      he:       { name: ".44 High Explosive",      costPerRound: 45,  apBonus: 0, damageMod: 1, blastRadius: 0, description: "+1 damage. Cavity round." }
+    }
+  },
+  ".454": {
+    label: ".454 Heavy Pistol",
+    fitWeaponTypes: ["pistol"],
+    magazineDefault: 12,
+    rounds: {
+      standard: { name: ".454 Standard",           costPerRound: 10,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "Large-bore semi-auto pistol round." },
+      ap:       { name: ".454 Armor Piercing",      costPerRound: 28,  apBonus: 2, damageMod: 0, blastRadius: 0, description: "+2 AP. Corporate armor buster." },
+      he:       { name: ".454 High Explosive",      costPerRound: 50,  apBonus: 0, damageMod: 1, blastRadius: 0, description: "+1 damage. Devastating at close range." }
+    }
+  },
+  ".50": {
+    label: ".50 Heavy Pistol",
+    fitWeaponTypes: ["pistol"],
+    magazineDefault: 8,
+    rounds: {
+      standard: { name: ".50 Standard",            costPerRound: 12,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "Anti-armor pistol cartridge." },
+      ap:       { name: ".50 Armor Piercing",       costPerRound: 35,  apBonus: 3, damageMod: 0, blastRadius: 0, description: "+3 AP. Punches through vehicle glass." },
+      he:       { name: ".50 High Explosive",       costPerRound: 60,  apBonus: 0, damageMod: 2, blastRadius: 0, description: "+2 damage. Explosive tip." }
+    }
+  },
   // ── SMG calibres ─────────────────────────────────────────────────────────
   "9mm": {
     label: "9mm SMG",
@@ -5813,7 +5843,17 @@ const SLA_AMMO_CATALOG = {
       he:       { name: "9mm High Explosive",      costPerRound: 28,  apBonus: 0, damageMod: 1, blastRadius: 0, description: "+1 damage. Micro-charge detonation." }
     }
   },
-  // ── Assault rifle calibres ────────────────────────────────────────────────
+  "3mm": {
+    label: "3mm Machine Pistol",
+    fitWeaponTypes: ["machine pistol"],
+    magazineDefault: 20,
+    rounds: {
+      standard: { name: "3mm Standard",            costPerRound: 3,   apBonus: 0, damageMod: 0, blastRadius: 0, description: "High-rate tiny caliber round. Cheap, disposable." },
+      ap:       { name: "3mm Armor Piercing",       costPerRound: 9,   apBonus: 1, damageMod: 0, blastRadius: 0, description: "+1 AP. Needle penetrator tip." },
+      he:       { name: "3mm High Explosive",       costPerRound: 20,  apBonus: 0, damageMod: 1, blastRadius: 0, description: "+1 damage. Micro-explosive." }
+    }
+  },
+  // ── Assault/Carbine rifle calibres ────────────────────────────────────────
   "5.56mm": {
     label: "5.56mm NATO",
     fitWeaponTypes: ["rifle", "assault rifle", "carbine"],
@@ -5824,7 +5864,17 @@ const SLA_AMMO_CATALOG = {
       he:       { name: "5.56mm High Explosive",    costPerRound: 45,  apBonus: 0, damageMod: 2, blastRadius: 1, description: "+2 damage, 1m blast. Detonates on impact." }
     }
   },
-  // ── Battle rifle / LMG ───────────────────────────────────────────────────
+  "7mm": {
+    label: "7mm SLA Carbine",
+    fitWeaponTypes: ["carbine", "lmg"],
+    magazineDefault: 24,
+    rounds: {
+      standard: { name: "7mm Standard",            costPerRound: 10,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "SLA-standard intermediate carbine round." },
+      ap:       { name: "7mm Armor Piercing",       costPerRound: 28,  apBonus: 3, damageMod: 0, blastRadius: 0, description: "+3 AP. Composite penetrator." },
+      he:       { name: "7mm High Explosive",       costPerRound: 55,  apBonus: 0, damageMod: 2, blastRadius: 1, description: "+2 damage, 1m blast." }
+    }
+  },
+  // ── Battle rifle / Sniper ─────────────────────────────────────────────────
   "7.62mm": {
     label: "7.62mm Battle Rifle",
     fitWeaponTypes: ["battle rifle", "lmg", "sniper"],
@@ -5833,6 +5883,27 @@ const SLA_AMMO_CATALOG = {
       standard: { name: "7.62mm Standard",         costPerRound: 12,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "Heavy battle rifle cartridge." },
       ap:       { name: "7.62mm Armor Piercing",    costPerRound: 35,  apBonus: 4, damageMod: 0, blastRadius: 0, description: "+4 AP. Penetrates medium body armor." },
       he:       { name: "7.62mm High Explosive",    costPerRound: 70,  apBonus: 0, damageMod: 3, blastRadius: 2, description: "+3 damage, 2m blast. Anti-vehicle." }
+    }
+  },
+  "8mm": {
+    label: "8mm Sniper",
+    fitWeaponTypes: ["sniper rifle", "sniper"],
+    magazineDefault: 10,
+    rounds: {
+      standard: { name: "8mm Standard",            costPerRound: 14,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "High-precision sniper cartridge." },
+      ap:       { name: "8mm Armor Piercing",       costPerRound: 40,  apBonus: 4, damageMod: 0, blastRadius: 0, description: "+4 AP. Long-range penetration round." },
+      he:       { name: "8mm High Explosive",       costPerRound: 75,  apBonus: 0, damageMod: 3, blastRadius: 0, description: "+3 damage. Detonates inside target." }
+    }
+  },
+  // ── Shotgun ───────────────────────────────────────────────────────────────
+  "12g": {
+    label: "12-Gauge Shotgun",
+    fitWeaponTypes: ["shotgun"],
+    magazineDefault: 8,
+    rounds: {
+      standard: { name: "12g Buckshot",            costPerRound: 18,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "Multi-pellet scatter. Devastating close range." },
+      ap:       { name: "12g Sabot Slug",          costPerRound: 45,  apBonus: 2, damageMod: 0, blastRadius: 0, description: "+2 AP. Single hardened slug." },
+      he:       { name: "12g Frag Shell",          costPerRound: 80,  apBonus: 0, damageMod: 2, blastRadius: 1, description: "+2 damage, 1m blast. Explosive round." }
     }
   },
   // ── Heavy weapon calibres ─────────────────────────────────────────────────
@@ -5845,21 +5916,51 @@ const SLA_AMMO_CATALOG = {
       ap:       { name: "12.7mm Armor Piercing",     costPerRound: 65,  apBonus: 5, damageMod: 0, blastRadius: 0, description: "+5 AP. Penetrates vehicle hull." },
       he:       { name: "12.7mm High Explosive",     costPerRound: 120, apBonus: 0, damageMod: 4, blastRadius: 3, description: "+4 damage, 3m blast. Anti-materiel." }
     }
+  },
+  // ── Specialist calibres ───────────────────────────────────────────────────
+  "40mm": {
+    label: "40mm Grenade",
+    fitWeaponTypes: ["grenade", "launcher"],
+    magazineDefault: 6,
+    rounds: {
+      standard: { name: "40mm Fragmentation",      costPerRound: 80,  apBonus: 0, damageMod: 0, blastRadius: 3, description: "Standard fragmentation grenade round. 3m blast." },
+      ap:       { name: "40mm HEAT",               costPerRound: 180, apBonus: 5, damageMod: 2, blastRadius: 1, description: "+5 AP, +2 damage. High-explosive anti-tank." },
+      he:       { name: "40mm Incendiary",         costPerRound: 140, apBonus: 0, damageMod: 3, blastRadius: 4, description: "+3 damage, 4m blast. Burns on contact." }
+    }
+  },
+  "Rail": {
+    label: "Rail Cannon Slug",
+    fitWeaponTypes: ["rail gun"],
+    magazineDefault: 5,
+    rounds: {
+      standard: { name: "Rail Slug Standard",       costPerRound: 50,  apBonus: 0, damageMod: 0, blastRadius: 0, description: "Electromagnetically accelerated tungsten slug." },
+      ap:       { name: "Rail Slug AP",             costPerRound: 120, apBonus: 6, damageMod: 0, blastRadius: 0, description: "+6 AP. Penetrates any personal armor." },
+      he:       { name: "Rail Slug Explosive",      costPerRound: 200, apBonus: 0, damageMod: 5, blastRadius: 2, description: "+5 damage, 2m blast. Catastrophic terminal effect." }
+    }
   }
 };
 
 // Weapon type → default caliber mapping (matches weaponType field)
+// Used as fallback only — explicit caliber on the item always takes priority.
 const SLA_WEAPON_DEFAULT_CALIBER = {
-  "Pistol":        "10mm",
-  "SMG":           "9mm",
-  "Rifle":         "5.56mm",
-  "Assault Rifle": "5.56mm",
-  "Battle Rifle":  "7.62mm",
-  "Sniper":        "7.62mm",
-  "LMG":           "7.62mm",
-  "HW":            "12.7mm",
-  "Heavy Weapon":  "12.7mm",
-  "Autocannon":    "12.7mm"
+  "Revolver":       ".44",
+  "Pistol":         "10mm",
+  "Machine Pistol": "3mm",
+  "SMG":            "9mm",
+  "Carbine":        "7mm",
+  "Rifle":          "5.56mm",
+  "Assault Rifle":  "5.56mm",
+  "Battle Rifle":   "7.62mm",
+  "Sniper":         "7.62mm",
+  "Sniper Rifle":   "8mm",
+  "LMG":            "7mm",
+  "HW":             "12.7mm",
+  "Heavy Weapon":   "12.7mm",
+  "Autocannon":     "12.7mm",
+  "Shotgun":        "12g",
+  "Launcher":       "40mm",
+  "Grenade":        "40mm",
+  "Rail Gun":       "Rail"
 };
 
 /**
@@ -5896,16 +5997,18 @@ function _getAmmoModifiers(weaponData) {
 
 /**
  * Deduct bullet tax from actor credits and update session ammo log.
- * Called after a weapon fires.
+ * Bullet tax = 2× the base round cost (ammo purchase price + field levy).
+ * Called immediately when a weapon fires.
  */
 async function _applyBulletTax(actor, weaponData, roundsFired) {
   if (!actor || roundsFired <= 0) return 0;
   const costPerRound = _getAmmoCostForWeapon(weaponData);
   if (costPerRound <= 0) return 0;
 
-  const totalCost = costPerRound * roundsFired;
+  // Bullet tax is DOUBLED: base cost (ammo) + tax of equal value = 2×
+  const totalCost = costPerRound * roundsFired * 2;
   const currentCredits = Number(actor.system?.details?.credits ?? 0);
-  const newCredits = currentCredits - totalCost;
+  const newCredits = Math.max(0, currentCredits - totalCost);
 
   // Deduct from credits; track session bullet tax
   const sessionSpent = Number(actor.system?.finances?.ammoSpentSession ?? 0) + totalCost;
