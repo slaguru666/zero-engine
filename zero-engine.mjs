@@ -438,14 +438,14 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Attribute increment/decrement buttons (new template)
     html.find('.attr-btn').click(this._onAttributeChange.bind(this));
 
-    // Attribute roll buttons
-    html.find('.attr-roll-btn').click(this._onAttributeRoll.bind(this));
+    // Attribute roll buttons — both the header button and the die badge
+    html.find('.attr-roll-btn, .ze-attr-roll-btn').click(this._onAttributeRoll.bind(this));
 
     // Skill increment/decrement buttons (new template)
     html.find('.skill-increment, .skill-decrement').click(this._onSkillChange.bind(this));
 
-    // Skill roll buttons
-    html.find('.skill-roll').click(this._onSkillRoll.bind(this));
+    // Skill roll — clicking the name link OR the existing .skill-roll elements
+    html.find('.skill-roll, .ze-skill-name').click(this._onSkillRoll.bind(this));
 
     // Critical Injury roll buttons
     html.find('.roll-physical-crit-btn').click(this._onRollPhysicalCrit.bind(this));
@@ -476,12 +476,8 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       }
     });
 
-    // Weapon interactions - click name to open sheet
-    html.find('.weapon-item .weapon-name').click(ev => {
-      const itemId = ev.currentTarget.closest('.weapon-item').dataset.itemId;
-      const item = this.actor.items.get(itemId);
-      if (item) item.sheet.render(true);
-    });
+    // Weapon name click → trigger the roll (same as the ATTACK button)
+    html.find('.weapon-item .weapon-name').click(this._onWeaponRoll.bind(this));
 
     // Roll weapon attack
     html.find('.weapon-roll-btn').click(this._onWeaponRoll.bind(this));
@@ -1376,7 +1372,8 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     event.stopPropagation();
 
     const button = event.currentTarget;
-    const itemId = button.dataset.itemId;
+    // Roll button has data-item-id directly; weapon name span does not — walk up to .weapon-item
+    const itemId = button.dataset.itemId ?? button.closest('.weapon-item')?.dataset.itemId;
     const item = this.actor.items.get(itemId);
     if (!item) return;
 
@@ -1693,11 +1690,10 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const dieVal = roll.dice[0].results[0].result;
     const total  = dieVal + currentInstability;
 
-    // Apply alien dice skin
+    // Apply alien dice skin — force zero-engine system via appearance (bypasses user's saved DSN setting)
     for (const term of (roll.dice || [])) {
       term.options = term.options || {};
-      term.options.colorset = 'ze-normal';
-      term.options.system   = 'zero-engine';
+      term.options.appearance = { system: 'zero-engine' };
     }
 
     if (total < 7) {
@@ -2695,11 +2691,10 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const roll = new Roll(`1d6 + ${stress}`, {});
     await roll.evaluate();
 
-    // Apply alien dice skin — DsN picks this up automatically from rolls:[roll] in ChatMessage
+    // Apply alien dice skin — force zero-engine system via appearance
     for (const term of (roll.dice || [])) {
       term.options = term.options || {};
-      term.options.colorset = "ze-normal";
-      term.options.system = "zero-engine";
+      term.options.appearance = { system: "zero-engine" };
     }
 
     const rawTotal = roll.total;
@@ -3055,15 +3050,13 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Normal dice → yellow Alien RPG d6 (skull on 1, blank 2-5, success on 6)
     if (normalIndex !== null && diceTerms[normalIndex]) {
       diceTerms[normalIndex].options = diceTerms[normalIndex].options || {};
-      diceTerms[normalIndex].options.colorset = "ze-normal";
-      diceTerms[normalIndex].options.system = "zero-engine";
+      diceTerms[normalIndex].options.appearance = { system: "zero-engine" };
     }
 
     // Stress dice → black Alien RPG d6 (blank 1-5, success on 6)
     if (stressIndex !== null && diceTerms[stressIndex]) {
       diceTerms[stressIndex].options = diceTerms[stressIndex].options || {};
-      diceTerms[stressIndex].options.colorset = "ze-stress";
-      diceTerms[stressIndex].options.system = "zero-engine";
+      diceTerms[stressIndex].options.appearance = { system: "ze-stress-dice" };
     }
   }
 
@@ -3143,11 +3136,10 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const d66Roll = new Roll('1d6 + 1d6', {});
     await d66Roll.evaluate();
 
-    // Apply alien dice skin — DsN picks this up automatically from rolls:[d66Roll] in ChatMessage
+    // Apply alien dice skin — force zero-engine system via appearance
     for (const term of (d66Roll.dice || [])) {
       term.options = term.options || {};
-      term.options.colorset = "ze-normal";
-      term.options.system = "zero-engine";
+      term.options.appearance = { system: "zero-engine" };
     }
 
     const tens = d66Roll.dice[0].results[0].result;
@@ -3255,11 +3247,10 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const d66Roll = new Roll('1d6 + 1d6', {});
     await d66Roll.evaluate();
 
-    // Apply alien dice skin — DsN picks this up automatically from rolls:[d66Roll] in ChatMessage
+    // Apply alien dice skin — force zero-engine system via appearance
     for (const term of (d66Roll.dice || [])) {
       term.options = term.options || {};
-      term.options.colorset = "ze-normal";
-      term.options.system = "zero-engine";
+      term.options.appearance = { system: "zero-engine" };
     }
 
     const tens = d66Roll.dice[0].results[0].result;
@@ -3915,12 +3906,12 @@ Hooks.on("renderCombatTracker", (app, html) => {
   });
 });
 
-// Dice So Nice: Stress dice color set
 // ══ Zero Engine — Dice So Nice: Alien RPG dice skin ══════════════════════════
-// Normal pool dice use the Alien yellow d6 (blank/skull/success faces).
-// Stress pool dice use the Alien black d6 (blank/success faces).
-// Both reference the Alien RPG system's DsN images — that system must be
-// Dice images are bundled in systems/zero-engine/assets/dice/alien/ — no dependency on alienrpg.
+// Normal pool dice: Alien yellow d6 (skull on 1, blank 2-5, success on 6).
+// Stress pool dice: Alien black d6 (blank 1-5, success on 6).
+// Two separate DSN systems so the presets don't overwrite each other.
+// Roll code forces the correct system via term.options.appearance — this
+// completely bypasses the user's saved DSN system preference.
 Hooks.once("diceSoNiceReady", (dice3d) => {
   // ── Colorsets ───────────────────────────────────────────────────────────────
   dice3d.addColorset({
@@ -3947,10 +3938,11 @@ Hooks.once("diceSoNiceReady", (dice3d) => {
     visibility: "visible"
   });
 
-  // ── Register the Zero Engine dice system ────────────────────────────────────
-  dice3d.addSystem({ id: "zero-engine", name: "Zero Engine (SLA Industries)" }, "preferred");
+  // ── Two systems — one per die type so presets don't overwrite each other ────
+  dice3d.addSystem({ id: "zero-engine",       name: "Zero Engine — Normal Dice" }, "preferred");
+  dice3d.addSystem({ id: "ze-stress-dice",    name: "Zero Engine — Stress Dice" });
 
-  // ── Normal d6: Alien yellow dice ────────────────────────────────────────────
+  // ── Normal d6: Alien yellow dice (system: zero-engine) ──────────────────────
   // Face 1 = skull (bane), 2-5 = blank, 6 = alien success symbol
   dice3d.addDicePreset({
     type: "d6",
@@ -3966,8 +3958,8 @@ Hooks.once("diceSoNiceReady", (dice3d) => {
     system: "zero-engine",
   });
 
-  // ── Stress d6: Alien black dice ─────────────────────────────────────────────
-  // Face 1-5 = blank, 6 = success symbol (always triggers panic check on push)
+  // ── Stress d6: Alien black dice (system: ze-stress-dice) ────────────────────
+  // Face 1-5 = blank, 6 = success symbol
   dice3d.addDicePreset({
     type: "d6",
     labels: [
@@ -3979,24 +3971,8 @@ Hooks.once("diceSoNiceReady", (dice3d) => {
       "systems/zero-engine/assets/dice/alien/alien-dice-b6.png",
     ],
     colorset: "ze-stress",
-    system: "zero-engine",
+    system: "ze-stress-dice",
   });
-});
-
-// Force zero-engine dice system for any user whose saved DiceSoNice flag
-// is pointing at a different system (e.g. Blade Runner defaults from an
-// older session on the remote server). The "preferred" flag only kicks in
-// for users with NO saved appearance — this hook fixes users who have one.
-Hooks.once("ready", async () => {
-  if (!game.modules.get("dice-so-nice")?.active) return;
-  const current = game.user.getFlag("dice-so-nice", "appearance") ?? {};
-  const savedSystem = current?.global?.system ?? "standard";
-  if (savedSystem !== "zero-engine") {
-    await game.user.setFlag("dice-so-nice", "appearance", {
-      ...current,
-      global: { ...(current.global ?? {}), system: "zero-engine" }
-    });
-  }
 });
 
 /**
