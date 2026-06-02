@@ -2,7 +2,7 @@
   {
     "name": "Downtown Jacket",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-downtown-jacket.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Downtown Jacket.png",
     "system": {
       "description": "Reinforced street jacket with hidden ballistic panels; common among low-level gangers and worried civilians.",
       "armorRating": 1,
@@ -19,7 +19,7 @@
   {
     "name": "CAF Armor",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-caf.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/CAF Armour.png",
     "system": {
       "description": "Standard CAF tactical vest and pads; decent protection without much extra bulk.",
       "armorRating": 2,
@@ -36,7 +36,7 @@
   {
     "name": "Scout Armor",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-scout.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Scout Armor.png",
     "system": {
       "description": "Lightweight composite plates over flexible mesh; built for operatives who need to move and climb.",
       "armorRating": 3,
@@ -53,7 +53,7 @@
   {
     "name": "HARD Armor",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-hard.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Hard Armor.png",
     "system": {
       "description": "Full-body ceramic and metal laminate suit for frontline combat and urban assaults.",
       "armorRating": 4,
@@ -70,7 +70,7 @@
   {
     "name": "Exo-Rig Armor",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-exo-rig.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Exo Armor.png",
     "system": {
       "description": "Powered exoskeletal frame with armored plates; massively increases carrying and weapon handling at the cost of finesse.",
       "armorRating": 5,
@@ -87,7 +87,7 @@
   {
     "name": "Squad Shielded Power Armor",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-power.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Squad Shieled Power Armor.png",
     "system": {
       "description": "Full sealed power armor with integrated energy shielding; rare, expensive, and terrifying on the street.",
       "armorRating": 6,
@@ -104,7 +104,7 @@
   {
     "name": "Street Clothes",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-downtown-jacket.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Street Cloths.png",
     "system": {
       "description": "Civilian clothing. Offers essentially no ballistic protection. The only reason to track it is so the GM knows when an operative has forgotten to put their armour on.",
       "armorRating": 0,
@@ -121,7 +121,7 @@
   {
     "name": "Shiver Flak Vest",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-flak-vest.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shiver Flak Vest.png",
     "system": {
       "description": "Standard-issue soft armour vest worn under uniform by Shivers and patrol officers. Lightweight, concealable under a jacket. Not rated for combat \u2014 rated for surviving a mugging.",
       "armorRating": 1,
@@ -138,7 +138,7 @@
   {
     "name": "Full Shiver Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-caf.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shiver.png",
     "system": {
       "description": "Full plate and vest armour used by Shiver combat units. Rated for street operations and riot suppression. Includes shoulder guards, arm vambraces, and shin protection.",
       "armorRating": 2,
@@ -155,7 +155,7 @@
   {
     "name": "Crackshot Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-scout.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Crackshot.png",
     "system": {
       "description": "Lightweight precision-operative armour designed for marksmanship. Minimal shoulder and torso coverage to avoid restricting aiming motion. Includes integrated rangefinder mounting point.",
       "armorRating": 2,
@@ -172,7 +172,7 @@
   {
     "name": "Shock Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-hard.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Shock Armor.png",
     "system": {
       "description": "Blast-resistant armour with energy-dispersal panels. Designed for operatives who expect to be in the vicinity of explosions, EMP discharges, or Ebb detonations. Reduces Ebb damage by 1 auto.",
       "armorRating": 3,
@@ -189,7 +189,7 @@
   {
     "name": "Stealth Suit",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-stealth-suit.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Stealth Suit.png",
     "system": {
       "description": "A full-body suit with integrated light-bending panels and sound-dampening underlayer. Provides moderate ballistic protection while granting +2 dice to Stealth rolls. Panels degrade when the suit takes significant damage.",
       "armorRating": 2,
@@ -206,7 +206,7 @@
   {
     "name": "Ebb Deathsuit",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-ebb-deathsuit.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Ebb Dethsuit.png",
     "system": {
       "description": "A ritualistically modified suit of armour channelled with sustained Ebb energy. Worn exclusively by elite Ebon operatives. Provides significant protection and adds +1 die to all Ebb rolls. Non-Ebb users cannot attune it.",
       "armorRating": 4,
@@ -223,7 +223,7 @@
   {
     "name": "PP10 HARD Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-hard.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/Hard Armor.png",
     "system": {
       "description": "An uprated HARD Armour system with PP10 composite plating. Heavier than standard HARD but capable of stopping rounds that would punch through lighter suits.",
       "armorRating": 5,
@@ -240,7 +240,7 @@
   {
     "name": "Light Thresher Suit",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-thresher.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Light Thresher.png",
     "system": {
       "description": "An industrial hardsuit adapted for combat use. Angular composite plates with mounting points for additional equipment. Designed for hostile environment operations as much as firefights.",
       "armorRating": 4,
@@ -257,7 +257,7 @@
   {
     "name": "Heavy Thresher Suit",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-thresher.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Heavy Thresher.png",
     "system": {
       "description": "Full-coverage industrial combat suit with reinforced joints and integrated sealing system. Capable of operating in vacuum or toxic environments. Movement is restricted but survivability is exceptional.",
       "armorRating": 5,
@@ -274,7 +274,7 @@
   {
     "name": "DN Power Armour",
     "type": "armor",
-    "img": "systems/zero-engine/assets/icons/armor/armor-power.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Dark Night Power.png",
     "system": {
       "description": "Department of Nanotech powered combat armour. Lighter than standard power armour but with advanced nano-repair capability \u2014 the suit recovers 1 armour die between scenes. Rare and expensive.",
       "armorRating": 5,

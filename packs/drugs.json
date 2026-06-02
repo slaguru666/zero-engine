@@ -2,7 +2,7 @@
   {
     "name": "Painkillers (Analgesic)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-painkillers.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/Painkiller.png",
     "system": {
       "description": "Prescription-grade painkillers used by Medics to keep operatives moving on broken bones and bullet wounds.",
       "isDrug": true,
@@ -65,7 +65,7 @@
   {
     "name": "Stimulant (Focus/Wake-up)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-stimulant.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/Stimulant.png",
     "system": {
       "description": "Corporate-grade stimulant chips; keep you awake, sharp, and moving long after your body wants to shut down.",
       "isDrug": true,
@@ -128,7 +128,7 @@
   {
     "name": "Sedative (Downer)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-sedative.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/Sedative.png",
     "system": {
       "description": "Heavy sedative used to shut down panic, control Frothers, or help Ebons come down after bad Ebb feedback.",
       "isDrug": true,
@@ -191,7 +191,7 @@
   {
     "name": "Redline (Overclock Combat Booster)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-redline.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/Redline.png",
     "system": {
       "description": "Illegal DarkNight derivative of Rush; pushes the body past safe limits into true overdrive.",
       "isDrug": true,
@@ -254,7 +254,7 @@
   {
     "name": "Calm-Line (Anti-Panic Neuroregulator)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-calm-line.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/Calmline.png",
     "system": {
       "description": "Corporate anti-anxiety drug; standard issue for some Shiver units and corporate VIPs who still have to go on-site.",
       "isDrug": true,
@@ -317,7 +317,7 @@
   {
     "name": "Rush (Combat Stimulant)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-rush.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/Rush.png",
     "system": {
       "description": "Standard Frother combat drug; a violent mix of stimulants, painkillers, and combat enhancers widely available on Mort.",
       "isDrug": true,
@@ -380,7 +380,7 @@
   {
     "name": "UV (Ultra-Violence Combat Drug)",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-uv.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/UV.png",
     "system": {
       "description": "Restricted UV-grade combat cocktail reserved for black ops and suicidal Frothers; massively amplifies aggression and physical output at severe mental cost.",
       "isDrug": true,
@@ -443,7 +443,7 @@
   {
     "name": "Shatter",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-shatter.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/shatter.png",
     "system": {
       "description": "A combat stimulant that shatters the body's pain inhibitors and fatigue limiters simultaneously. Users feel no injury penalties for the duration but sustain damage they don't notice until it wears off.",
       "isDrug": true,
@@ -509,7 +509,7 @@
   {
     "name": "Blaze UV",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-blaze-uv.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Blaze UV.png",
     "system": {
       "description": "An enhanced variant of UV combat formula. Burns hotter and faster than base UV with correspondingly worse crash. Operatives on Blaze UV are difficult to tell from lightly possessed individuals.",
       "isDrug": true,
@@ -575,7 +575,7 @@
   {
     "name": "Drum",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-drum.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Drum.png",
     "system": {
       "description": "A heavy-duty military stimulant dispensed from an industrial container. Bulk combat drug used to dose entire squads. Less refined than other stimulants but extremely effective and cheap per dose.",
       "isDrug": true,
@@ -641,7 +641,7 @@
   {
     "name": "Honesty",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-honesty.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Honesty.png",
     "system": {
       "description": "A truth serum used by interrogators and intelligence operatives. Targets under Honesty cannot attempt deception or actively lie. They can remain silent. Used with or without consent depending on who's asking.",
       "isDrug": true,
@@ -707,7 +707,7 @@
   {
     "name": "Flip",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-flip.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Flip.png",
     "system": {
       "description": "A social lubricant and inhibitor suppressor. Flip makes subjects highly agreeable and talkative. Used recreationally in clubs and professionally in negotiations and after-action debriefs where full truth is desired.",
       "isDrug": true,
@@ -773,7 +773,7 @@
   {
     "name": "Bozerker",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-bozerker.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Bozerker.png",
     "system": {
       "description": "An experimental overdose-level combat stimulant. Bozerker was never cleared for operational use. Operatives who take it fight at terrifying effectiveness until they collapse. The crash is violent.",
       "isDrug": true,
@@ -839,7 +839,7 @@
   {
     "name": "Push",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-push.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Push.png",
     "system": {
       "description": "A medical auto-injector that restores consciousness and stabilises critical injuries. Push is used by combat medics to bring downed operatives back into the fight. It does not heal \u2014 it delays.",
       "isDrug": true,
@@ -905,7 +905,7 @@
   {
     "name": "Bubbles",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-bubbles.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Bubbles.png",
     "system": {
       "description": "A recreational effervescent tablet. Mild euphoric and stress reducer. Widely available and technically legal in most Mort districts. Commonly taken before social events, interrogations, or anything that requires appearing calm.",
       "isDrug": true,
@@ -971,7 +971,7 @@
   {
     "name": "Slosh",
     "type": "equipment",
-    "img": "systems/zero-engine/assets/icons/drugs/drug-slosh.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Drugs/2nd try/Slosh.png",
     "system": {
       "description": "A cheap Mort street alcohol in a hip flask. Poor quality, universally available, and culturally ubiquitous. Reduces stress but impairs everything else. The unofficial recreational drug of SLA operatives on down time.",
       "isDrug": true,

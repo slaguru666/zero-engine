@@ -2,7 +2,7 @@
   {
     "name": "BLA 046M Blitzer",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-bla-046m.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/BLA Blitzer.png",
     "system": {
       "description": "The BLA 046M is a heavy-framed revolver with a six-round cylinder. Reliable, powerful, and simple enough to maintain in the field. Favoured by veterans who don't trust magazines.",
       "weaponType": "Revolver",
@@ -30,7 +30,7 @@
   {
     "name": "CAF SMG",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-caf-smg.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/CAF SMG.png",
     "system": {
       "description": "CAF-issue submachine gun with top-feed magazine and folding stock. Favoured by patrol officers who need more firepower than a sidearm but less bulk than a rifle.",
       "weaponType": "SMG",
@@ -59,7 +59,7 @@
   {
     "name": "FEN 204 Heavy Pistol",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-204.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 204.png",
     "system": {
       "description": "The FEN 204 is a large-frame semi-automatic pistol with a ported compensator and underbarrel rail. Hits significantly harder than standard sidearms. The preferred sidearm of Dark Finders.",
       "weaponType": "Pistol",
@@ -87,7 +87,7 @@
   {
     "name": "FEN 30-30 Rail Cannon",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-30-30.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 30-30.png",
     "system": {
       "description": "An electromagnetic rail-accelerated precision weapon. The 30-30 fires a tungsten slug at velocities that make most armour irrelevant. Requires a power pack per five shots. Extreme range, extreme penetration.",
       "weaponType": "Rail Gun",
@@ -115,7 +115,7 @@
   {
     "name": "FEN 603 Auto Pistol",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-603.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 603 Auto Pistol.png",
     "system": {
       "description": "An angular, high-capacity automatic pistol with an extended magazine. Fires in fully automatic bursts at close range. Less accurate than single-fire sidearms but devastating in a corridor.",
       "weaponType": "Pistol",
@@ -144,7 +144,7 @@
   {
     "name": "FEN 706 Power Reaper",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-706.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 706.png",
     "system": {
       "description": "A rotary-barrel heavy weapon that fires high-velocity rounds at catastrophic volume. The Power Reaper is not a precision instrument \u2014 it is a statement. Requires a harness or mounting point to use effectively.",
       "weaponType": "HW",
@@ -172,7 +172,7 @@
   {
     "name": "FEN AR Assault Rifle",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-ar.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN AR Assault Rifle.png",
     "system": {
       "description": "The FEN AR is a reliable gas-operated assault rifle with a distinctive carry handle and three fire modes. A workhorse weapon used across SLA's operative divisions. Easy to maintain, hard to break.",
       "weaponType": "Rifle",
@@ -202,7 +202,7 @@
   {
     "name": "GA 9442 Browbeater Rifle",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-ga-9442.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/GA 9442.png",
     "system": {
       "description": "A heavy battle rifle with a fluted barrel, integrated bipod, and large magnification scope. The Browbeater is built for long-range precision in sustained engagements. Not subtle. Extremely effective.",
       "weaponType": "Rifle",
@@ -231,7 +231,7 @@
   {
     "name": "GA 9443 Mini-Browbeater",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-ga-9443.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/GA 9443.png",
     "system": {
       "description": "A bullpup-configured compact variant of the Browbeater. The magazine sits behind the pistol grip, keeping overall length short while retaining most of the parent rifle's hitting power. Popular with vehicle crews and scouts.",
       "weaponType": "Rifle",
@@ -260,7 +260,7 @@
   {
     "name": "Gash Fist",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-gash-fist.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/GASH First.png",
     "system": {
       "description": "A spiked knuckle weapon with four reinforced blades extending from a metal plate. Worn over the fist. Brutal in close quarters, and leaves wounds that are difficult to stitch. Favoured by Frothers and Carrien-hunters.",
       "weaponType": "Natural",
@@ -286,7 +286,7 @@
   {
     "name": "KPS Combat Shotgun",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-kps-shotgun.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/KPS Shotgun.png",
     "system": {
       "description": "A pump-action double-barrel combat shotgun. Each pump chambers two shells simultaneously. Devastating at close range and capable of knocking targets off their feet. Not a weapon for long corridors.",
       "weaponType": "Shotgun",
@@ -314,7 +314,7 @@
   {
     "name": "MAC Knife",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-mac-knife.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/MAC Knife.png",
     "system": {
       "description": "A recurve combat knife with a distinctive swept quillon guard. The MAC blade is heavier than a standard knife and designed for penetrating body armour through gaps and joints. Issue blade for several SLA divisions.",
       "weaponType": "Knife",
@@ -340,7 +340,7 @@
   {
     "name": "Pacifier Baton",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-pacifier-baton.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Pacifier Baton.png",
     "system": {
       "description": "A T-handled riot control baton with a built-in electroshock tip. Used by Shivers and crowd-control units. On a successful hit, the target must pass a Stamina roll or gain the Stunned condition.",
       "weaponType": "Baton",
@@ -366,7 +366,7 @@
   {
     "name": "Power Claymore",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-power-claymore.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Powerclaymore.png",
     "system": {
       "description": "A two-handed power-assisted claymore with a wide double-edged blade and integrated power cell in the guard. Capable of cleaving through armour plating. Requires two hands and the will to use it.",
       "weaponType": "Blade",
@@ -392,7 +392,7 @@
   {
     "name": "SLA Blade",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-sla-blade.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/SLA Blade.png",
     "system": {
       "description": "Standard single-handed combat blade issued across SLA operative divisions. A straight, single-edged weapon optimised for quick thrusting attacks. Reliable, balanced, and unremarkable \u2014 exactly as intended.",
       "weaponType": "Blade",
@@ -418,7 +418,7 @@
   {
     "name": "Vibro Sabre",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-vibro-sabre.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Vibro Sabre.png",
     "system": {
       "description": "A curved sabre with a high-frequency vibration spine that disrupts molecular cohesion on contact. The Vibro Sabre cuts through armour as easily as flesh. The whine it produces before a strike is unmistakable \u2014 and terrifying.",
       "weaponType": "Blade",
@@ -444,7 +444,7 @@
   {
     "name": "GA 50 Finisher",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-204.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/GA 50 Finisher.png",
     "system": {
       "description": "A heavy-frame semi-automatic pistol firing .50 calibre rounds. Slower than lighter sidearms but hits significantly harder. Standard sidearm for SLA special division operatives.",
       "weaponType": "Pistol",
@@ -472,7 +472,7 @@
   {
     "name": "FEN 401 Shiver Pistol",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-pistol.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 401 Shiver Pistol.png",
     "system": {
       "description": "Standard-issue sidearm for SLA law enforcement and Shivers. Reliable, accurate, and built to survive being dropped in a drain. Nothing special \u2014 which is exactly what CAF wanted.",
       "weaponType": "Pistol",
@@ -500,7 +500,7 @@
   {
     "name": "FEN 209 Machine Pistol",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-fen-603.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 209 Machine PIstol.png",
     "system": {
       "description": "A fully-automatic machine pistol. Fires 3mm rounds at high velocity from a compact frame. Devastating in close quarters; nearly useless beyond that. Favoured by operatives who need concealment over reach.",
       "weaponType": "Machine Pistol",
@@ -529,7 +529,7 @@
   {
     "name": "FEN 981 Sniper Rifle",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-sniper-rifle.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN 981 Sniper Rifle.png",
     "system": {
       "description": "A bolt-action precision rifle with integrated suppressor, large magnification scope, and bipod. The FEN 981 is the weapon of choice for long-range elimination. Requires a prepared position and patience.",
       "weaponType": "Sniper Rifle",
@@ -557,7 +557,7 @@
   {
     "name": "FEN 701 Urban Carbine",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-ga-9443.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN701 Urban Carbine.png",
     "system": {
       "description": "A compact carbine designed for urban operations. Short enough for vehicle use, powerful enough for street-level engagements. Used extensively by SLA rapid response teams.",
       "weaponType": "Carbine",
@@ -586,7 +586,7 @@
   {
     "name": "FEN 10 Street Sweeper",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-auto-shotgun.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN10 Street Sweeper.png",
     "system": {
       "description": "A drum-fed automatic shotgun. The Street Sweeper fires 12-gauge rounds from a 12-round drum at semi-automatic speed. At close range it is catastrophic. At any other range it is mostly theatrical.",
       "weaponType": "Shotgun",
@@ -615,7 +615,7 @@
   {
     "name": "FEN Reaper LMG",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-lmg.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/FEN Reaper LMG.png",
     "system": {
       "description": "A belt-fed light machine gun. The Reaper provides sustained suppressive fire. Fires until the belt runs out or the operator passes out \u2014 whichever comes first. Requires a bipod or resting position to use accurately.",
       "weaponType": "LMG",
@@ -643,7 +643,7 @@
   {
     "name": "MILA Grenade Launcher",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-grenade-launcher.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/MILA Grenage Launcher.png",
     "system": {
       "description": "A six-round revolving cylinder grenade launcher. Fires 40mm fragmentation, smoke, or stun grenades. The MILA is a crowd-control and area-denial weapon. Anything within its blast radius disagrees with the concept of cover.",
       "weaponType": "Launcher",
@@ -671,7 +671,7 @@
   {
     "name": "ITB Mutilator Sword",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-mutilator-sword.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Chain Knife.png",
     "system": {
       "description": "A two-handed chain-edged claymore produced by ITB. The motorised chain teeth run continuously along both edges. It does not cut \u2014 it tears. Wounds from a Mutilator are extremely difficult to stabilise.",
       "weaponType": "Blade",
@@ -697,7 +697,7 @@
   {
     "name": "Chainaxe",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-chainaxe.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Chainaxe1.png",
     "system": {
       "description": "A one-handed axe with a motorised chain running along the blade edge. The Chainaxe is louder than it needs to be. This is intentional. Favoured by Frothers and anyone who wants witnesses.",
       "weaponType": "Axe",
@@ -723,7 +723,7 @@
   {
     "name": "Chainsaw (Improvised)",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-chainsaw.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Chainsaw1.png",
     "system": {
       "description": "An industrial power tool repurposed as a close-range weapon. Technically not a weapon. Technically. On a fumble, the operator takes 1d3 damage instead of the target.",
       "weaponType": "Improvised",
@@ -749,7 +749,7 @@
   {
     "name": "Riot Shield",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-riot-shield.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Armor/2nd try/Riot Shield.png",
     "system": {
       "description": "A full-body ballistic shield used by Shivers and riot control units. While carried, the user gains +1 automatic armour against ranged attacks from the front. Can be used to bash for 1d4 damage.",
       "weaponType": "Shield",
@@ -775,7 +775,7 @@
   {
     "name": "Fragmentation Grenade",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-grenade.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Frag Grenade.png",
     "system": {
       "description": "A standard-pattern fragmentation grenade. On detonation, everyone within Short range takes DMG 3 (no armour dice, only auto). Between Short and Medium range takes DMG 1. Roll Mobility vs difficulty 2 to avoid the blast zone.",
       "weaponType": "Grenade",
@@ -803,7 +803,7 @@
   {
     "name": "Stun Grenade",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-stun-grenade.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Gear/FlashBang .png",
     "system": {
       "description": "A flashbang/stun grenade. On detonation, all targets within Short range must pass a Stamina roll (difficulty 2) or gain the Stunned condition (-3 dice to all rolls until end of next turn). No physical damage.",
       "weaponType": "Grenade",
@@ -831,7 +831,7 @@
   {
     "name": "Ebb Sword",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-ebb-sword.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Ebb Infused Blade.png",
     "system": {
       "description": "A blade channelled with focused Ebb energy. The weapon strikes with physical force and Ebb disruption simultaneously. Only Ebon and Brain Waster operatives can maintain the Ebb channel required to use it at full effectiveness. Others can wield it but gain no Ebb bonus.",
       "weaponType": "Blade",
@@ -857,7 +857,7 @@
   {
     "name": "Stormer Chuckleduster",
     "type": "weapon",
-    "img": "systems/zero-engine/assets/icons/weapons/weapon-gash-fist.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Weapons/Spike Gauntlet.png",
     "system": {
       "description": "A reinforced brass-knuckle weapon scaled for Stormer-class physiques. The mass and density of the weapon combined with a Stormer's natural strength make it capable of structural damage. The name was coined by the first squad to use one.",
       "weaponType": "Natural",

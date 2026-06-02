@@ -2,7 +2,7 @@
   {
     "name": "Empathic Pulse",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-awareness.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Awareness.png",
     "system": {
       "description": "The Ebon reaches outward with focused ebb energy, sensing the emotional landscape of nearby minds. Used by investigators to read a room before entering and by field operatives to detect concealed hostiles.",
       "discipline": "awareness",
@@ -17,7 +17,7 @@
   {
     "name": "Precognition",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-awareness.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Awareness.png",
     "system": {
       "description": "The Ebon projects their awareness a handful of seconds into the future, glimpsing outcomes before they crystallise. Even a brief forewarning can mean the difference between survival and oblivion on the streets of Mort.",
       "discipline": "awareness",
@@ -32,7 +32,7 @@
   {
     "name": "Danger Sense",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-awareness.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Awareness.png",
     "system": {
       "description": "The Ebon maintains a perpetual low-level awareness field, turning the ebb into an early-warning system. Ambushes become nearly impossible and hostiles register as a cold prickle at the base of the skull before they act.",
       "discipline": "awareness",
@@ -47,7 +47,7 @@
   {
     "name": "Ebb Bolt",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-blast.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Blast.png",
     "system": {
       "description": "The most fundamental offensive formula \u2014 raw ebb energy concentrated into a kinetic projectile. Every trained combat Ebon learns this first. Fast, reliable, and visible as a crackling blue-white streak.",
       "discipline": "blast",
@@ -62,7 +62,7 @@
   {
     "name": "Hellfire",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-blast.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Blast.png",
     "system": {
       "description": "A concentrated ebb detonation that releases stored energy in a single catastrophic burst. The air turns orange-white and the impact leaves scorched craters. SLA is cautious about licensing Ebons who favour this formula \u2014 it is extremely effective and even more visible.",
       "discipline": "blast",
@@ -77,7 +77,7 @@
   {
     "name": "Ebb Storm",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-blast.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Blast.png",
     "system": {
       "description": "The most destructive Blast formula in common circulation, Ebb Storm saturates an area with rapidly cycling ebb frequencies until everything inside is shredded. Restricted to Department of Ebb-use oversight. Usage reports are mandatory.",
       "discipline": "blast",
@@ -92,7 +92,7 @@
   {
     "name": "Mind-Link",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-communicate.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Communicate.png",
     "system": {
       "description": "A direct, unmediated channel between two minds. Words, images, and intent pass faster than speech. Standard kit for any Ebon working alongside non-ebb teammates who lack radio discipline.",
       "discipline": "communicate",
@@ -107,7 +107,7 @@
   {
     "name": "Broadcast",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-communicate.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Communicate.png",
     "system": {
       "description": "A one-way mental shout projected into every nearby mind simultaneously. Useful for mass commands, warnings, or demoralisation. Brain Wasters favour this formula for spreading raw terror.",
       "discipline": "communicate",
@@ -122,7 +122,7 @@
   {
     "name": "Compel",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-communicate.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Communicate.png",
     "system": {
       "description": "The Ebon reaches into a target's decision-making architecture and plants a simple directive that feels entirely like the target's own idea. Extremely illegal without SLA authorisation. Used extensively by the Department of Investigation.",
       "discipline": "communicate",
@@ -137,7 +137,7 @@
   {
     "name": "Surge",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-enhance.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Enhancement.png",
     "system": {
       "description": "A rapid-onset ebb boost that floods the target's neural pathways with enhanced signal clarity. Physical or mental performance spikes sharply for a brief window \u2014 long enough to matter.",
       "discipline": "enhance",
@@ -152,7 +152,7 @@
   {
     "name": "Iron Flesh",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-enhance.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Enhancement.png",
     "system": {
       "description": "The Ebon's skin hardens as ebb energy reinforces cellular structure \u2014 faint crackling can be heard if you listen close. The effect is temporary but renders them significantly harder to injure.",
       "discipline": "enhance",
@@ -167,7 +167,7 @@
   {
     "name": "Heightened State",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-enhance.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Enhancement.png",
     "system": {
       "description": "The pinnacle of Enhance: the Ebon exists at the absolute limit of their potential for a brief, perfect moment. Operatives who have experienced this describe it as the most alive they have ever felt \u2014 immediately before the crash.",
       "discipline": "enhance",
@@ -182,7 +182,7 @@
   {
     "name": "Mend",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-heal.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Heal.png",
     "system": {
       "description": "The Heal discipline's most basic application \u2014 the Ebon channels ebb energy directly into biological tissue, accelerating natural repair processes. Routine field medicine for any squad with an Ebon operative.",
       "discipline": "heal",
@@ -197,7 +197,7 @@
   {
     "name": "Restore",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-heal.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Heal.png",
     "system": {
       "description": "A significant investment of flux that triggers deep biological regeneration. Bone knits, blood stops. On exceptional rolls, even light critical injuries can be suppressed \u2014 though not truly healed.",
       "discipline": "heal",
@@ -212,7 +212,7 @@
   {
     "name": "Calm",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-heal.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Heal.png",
     "system": {
       "description": "The Ebon reaches into the ebb frequencies associated with panic and distress, smoothing them into something bearable. Standard issue for any operative working in trauma zones or prolonged high-stress environments.",
       "discipline": "heal",
@@ -227,7 +227,7 @@
   {
     "name": "Ebb Shield",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-protect.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Protect.png",
     "system": {
       "description": "A reactive personal barrier of condensed ebb energy that interposes itself between the caster and incoming harm. The shimmer is visible \u2014 blue-white, flickering at impact. It does not last long but can turn the critical strike.",
       "discipline": "protect",
@@ -242,7 +242,7 @@
   {
     "name": "Ward",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-protect.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Protect.png",
     "system": {
       "description": "The Ebon extends a protective field to cover an ally, wrapping them in deflection energy. The ward holds until it absorbs a direct ebb attack or expires naturally.",
       "discipline": "protect",
@@ -257,7 +257,7 @@
   {
     "name": "Phase Shell",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-protect.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Protect.png",
     "system": {
       "description": "The Ebon shifts their personal ebb signature out of phase with normal matter, causing incoming projectiles and blows to partially pass through. The most extreme defensive formula available \u2014 and the most taxing.",
       "discipline": "protect",
@@ -272,7 +272,7 @@
   {
     "name": "Blink",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-realityfold.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Reality Fold.png",
     "system": {
       "description": "Short-range teleportation via a momentary fold in local space-time. The Ebon vanishes with a crack of displaced air and reappears somewhere within sight. Extremely useful in enclosed firefights.",
       "discipline": "realityFold",
@@ -287,7 +287,7 @@
   {
     "name": "Fold Space",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-realityfold.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Reality Fold.png",
     "system": {
       "description": "Two points in space become adjacent for a brief window. Tactically absurd. The GM decides who can react fast enough when a wall suddenly has a window to a point fifty metres away.",
       "discipline": "realityFold",
@@ -302,7 +302,7 @@
   {
     "name": "Phase Through",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-realityfold.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Reality Fold.png",
     "system": {
       "description": "The Ebon shifts their atomic structure briefly out of alignment with normal matter, allowing them to walk through a single solid non-living obstacle. The sensation is described as cold static filling every cell.",
       "discipline": "realityFold",
@@ -317,7 +317,7 @@
   {
     "name": "Ebb Sight",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-senses.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Senses.png",
     "system": {
       "description": "The Ebon perceives the ebb spectrum \u2014 active formulae glow like flares, dormant Ebons are visible as faint heat shimmer, and residual ebb discharge lingers like burn marks on reality.",
       "discipline": "senses",
@@ -332,7 +332,7 @@
   {
     "name": "Mind's Eye",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-senses.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Senses.png",
     "system": {
       "description": "All five senses sharpen to preternatural levels simultaneously. The Ebon can read a serial number at Long range, hear whispers through walls, and track by scent. Over-reliance leads to the sensation of perpetual information overload.",
       "discipline": "senses",
@@ -347,7 +347,7 @@
   {
     "name": "Remote View",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-senses.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Senses.png",
     "system": {
       "description": "The Ebon projects their senses to a remote location, seeing and hearing as though present. The body remains inert and vulnerable while the mind wanders. Standard operational use requires a minder.",
       "discipline": "senses",
@@ -362,7 +362,7 @@
   {
     "name": "Push",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-telekinesis.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Telekinesis.png",
     "system": {
       "description": "The most common Telekinesis formula and a staple of Ebon combat training. A directed burst of kinetic force that can clear corridors, send opponents sprawling, or shove obstacles.",
       "discipline": "telekinesis",
@@ -377,7 +377,7 @@
   {
     "name": "Grip",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-telekinesis.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Telekinesis.png",
     "system": {
       "description": "An invisible hand seizes the target and holds them immobile. The hold is not gentle \u2014 internal pressure builds noticeably. Prolonged use causes real physical damage.",
       "discipline": "telekinesis",
@@ -392,7 +392,7 @@
   {
     "name": "Levitate",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-telekinesis.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Telekinesis.png",
     "system": {
       "description": "The Ebon defies gravity with casual elegance. Movement is in any direction \u2014 vertical, horizontal, diagonal \u2014 at normal walking speed. A discreet entrance through a third-storey window is standard procedure.",
       "discipline": "telekinesis",
@@ -407,7 +407,7 @@
   {
     "name": "Heat Touch",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-thermal.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Thermal Blue.png",
     "system": {
       "description": "Superheating the immediate cellular layer through Thermal manipulation is a brutal and intimate formula. Equipment melts, flesh chars. Favoured by Ebons who prefer to work at close quarters.",
       "discipline": "thermal",
@@ -422,7 +422,7 @@
   {
     "name": "Flame Burst",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-thermal.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Thermal Blue.png",
     "system": {
       "description": "A ranged thermal projection \u2014 concentrated heat launched as a coherent bolt. The Ebon's eyes typically take on a faint orange glow while channelling. The impact smells of burning ozone and scorched metal.",
       "discipline": "thermal",
@@ -437,7 +437,7 @@
   {
     "name": "Freeze",
     "type": "ebb",
-    "img": "systems/zero-engine/assets/icons/ebb/ebb-thermal.svg",
+    "img": "systems/zero-engine/assets/SLA_Assets/Ebb/Thermal Blue.png",
     "system": {
       "description": "Thermal extraction removes heat from the target rapidly. Ice crystals form in joint fluid, synaptic firing slows, and movement becomes laboured agony. Objects frozen in this manner become dangerously brittle.",
       "discipline": "thermal",
