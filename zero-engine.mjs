@@ -5710,6 +5710,420 @@ class SLAGMFinanceTool extends Application {
   }
 }
 
+// ══════════════════════════════════════════════════════════════════════════════
+//   SLA GROUP NPC GENERATOR
+//   GM tool: quickly generate and track groups of Carrions, Serial Killers,
+//   Monstarets or Machines. Compact editable stat cards, HP tracking,
+//   reroll per card, and one-click export to World actors.
+// ══════════════════════════════════════════════════════════════════════════════
+
+const SLA_NPC_GROUP_ARCHETYPES = {
+  carrion: {
+    label: 'Carrion',  color: '#cc4422', icon: 'fas fa-biohazard',
+    nameParts: ['Bloated', 'Feral', 'Stalking', 'Gnawing', 'Lurching', 'Rabid', 'Rotting', 'Hulking'],
+    nameBase:  ['Carrion', 'Carrion', 'Carrien', 'Feeder', 'Gnawer'],
+    stats:  { str:[2,4], agi:[1,2], wit:[1,1], emp:[1,1] },
+    health:[3,6],  armor:[0,1], damage:[2,3], threat:[1,2],
+    abilities:[
+      'Pack Aggression — +1 die per Carrion adjacent to the same target',
+      'Bite — 2 damage, ignores 1 armour point',
+      'Mindless — immune to Panic and social effects',
+      'Hard to Kill — rolls Physical Critical even at 0 HP (once per fight)',
+      'Swarm — 3+ attack same target simultaneously: +2 damage total',
+    ]
+  },
+  serialkiller: {
+    label: 'Serial Killer', color: '#882244', icon: 'fas fa-skull',
+    nameParts: ['The', 'The', 'The', ''],
+    nameBase:  ['Butcher','Flenser','Ghost','Surgeon','Reaper','Cutter','Shadow','Wraith','Stalker'],
+    stats:  { str:[2,4], agi:[2,4], wit:[2,3], emp:[1,2] },
+    health:[3,5], armor:[0,2], damage:[3,4], threat:[3,4],
+    abilities:[
+      'Signature Weapon — +1 die with preferred weapon type',
+      'Predator Focus — ignores cover when attacking chosen target',
+      'Surprise Strike — first attack each combat deals +2 damage',
+      'Psychotic Endurance — ignores one level of injury penalties',
+      'Brutal Efficiency — 3+ successes on attack: target is Stunned',
+      'Stealth — 3 free Stealth dice when ambushing from concealment',
+    ]
+  },
+  monstaret: {
+    label: 'Monstaret', color: '#226622', icon: 'fas fa-dragon',
+    nameParts: ['Alpha','Juvenile','Mature','Mutant','Corrupted','Ancient','Feral'],
+    nameBase:  ['Monstaret','Rend-Beast','Fang-Beast','Pit-Thing','Lurker','Crawler','Howler'],
+    stats:  { str:[4,6], agi:[2,3], wit:[1,1], emp:[1,1] },
+    health:[6,12], armor:[1,4], damage:[3,5], threat:[3,5],
+    abilities:[
+      'Natural Weapons — claws/fangs; always counts as armed',
+      'Pack Hunter — flanking bonus: +1 die when 2+ present',
+      'Toughened Hide — ignore first 1 damage from each attack',
+      'Frenzy — at ≤ half HP, +2 damage on all attacks',
+      'Leap — charge-attack targets up to 10m away',
+      'Predatory Instinct — always acts in initiative phase 1',
+    ]
+  },
+  machine: {
+    label: 'Machine', color: '#334488', icon: 'fas fa-robot',
+    nameParts: ['MK-','Unit-','Model-','DES-','SYS-'],
+    nameBase:  ['7','12','19X','44','3B','Alpha','Delta','Sigma','Rho'],
+    stats:  { str:[3,5], agi:[2,3], wit:[2,4], emp:[0,0] },
+    health:[5,10], armor:[3,6], damage:[3,5], threat:[3,5],
+    abilities:[
+      'Targeting — re-roll one miss die per attack',
+      'Weapon Array — attack 2 targets in one action (−1 die each)',
+      'Armoured Shell — natural armour 3; stacks before equipped armour',
+      'Diagnostic — regain 2 HP at start of turn if not attacked that round',
+      'Overload — on death, 3 damage to all within 5m',
+      'EMP Resistant — immune to electrical and shock effects',
+    ]
+  }
+};
+
+class SLAGroupNPCTool extends Application {
+  constructor(...args) {
+    super(...args);
+    this._npcs         = [];
+    this._selectedType = 'carrion';
+    this._count        = 4;
+    this._root         = null;
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id:        'sla-group-npc-tool',
+      title:     'Group NPC Generator',
+      width:     860,
+      height:    600,
+      resizable: true,
+      classes:   ['zero-engine', 'group-npc-tool']
+    });
+  }
+
+  // ── Utilities ─────────────────────────────────────────────────────────────
+  _rng(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+  _pick(arr)     { return arr[Math.floor(Math.random() * arr.length)]; }
+  _hexRgb(hex) {
+    const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return r ? `${parseInt(r[1],16)},${parseInt(r[2],16)},${parseInt(r[3],16)}` : '128,128,128';
+  }
+  _esc(s) { return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+
+  // ── Generate one NPC ──────────────────────────────────────────────────────
+  _generateOne(typeKey) {
+    const arch = SLA_NPC_GROUP_ARCHETYPES[typeKey];
+    if (!arch) return null;
+    const prefix = this._pick(arch.nameParts);
+    const base   = this._pick(arch.nameBase);
+    const name   = prefix ? `${prefix}${prefix.endsWith('-') ? '' : ' '}${base}` : base;
+    const str    = this._rng(...arch.stats.str);
+    const agi    = this._rng(...arch.stats.agi);
+    const wit    = this._rng(...arch.stats.wit);
+    const emp    = this._rng(...arch.stats.emp);
+    const hpMax  = this._rng(...arch.health);
+    const armor  = this._rng(...arch.armor);
+    const damage = this._rng(...arch.damage);
+    const threat = this._rng(...arch.threat);
+    const pool   = [...arch.abilities].sort(() => Math.random() - 0.5);
+    return {
+      id: foundry.utils.randomID(), typeKey,
+      typeLabel: arch.label, color: arch.color, icon: arch.icon,
+      name, str, agi, wit, emp,
+      hp: hpMax, hpMax, armor, damage, threat,
+      abilities: pool.slice(0, 2),
+      notes: '', defeated: false
+    };
+  }
+
+  // ── Save in-progress edits before re-render ───────────────────────────────
+  _saveState() {
+    const root = this._root;
+    if (!root) return;
+    root.querySelectorAll('.gnpc-name-input').forEach(el => {
+      const n = this._npcs.find(x => x.id === el.dataset.npcId);
+      if (n) n.name = el.value;
+    });
+    root.querySelectorAll('.gnpc-stat-input').forEach(el => {
+      const n = this._npcs.find(x => x.id === el.dataset.npcId);
+      if (n && el.dataset.field) n[el.dataset.field] = parseInt(el.value) || 0;
+    });
+    root.querySelectorAll('.gnpc-notes-input').forEach(el => {
+      const n = this._npcs.find(x => x.id === el.dataset.npcId);
+      if (n) n.notes = el.value;
+    });
+  }
+
+  // ── Build one NPC card ────────────────────────────────────────────────────
+  _buildCard(npc) {
+    const rgb      = this._hexRgb(npc.color);
+    const hpPct    = npc.hpMax > 0 ? Math.max(0, Math.min(100, (npc.hp / npc.hpMax) * 100)) : 0;
+    const hpColor  = hpPct > 60 ? '#44cc66' : hpPct > 30 ? '#ffaa00' : '#cc3333';
+    const defeated = npc.defeated ? ' gnpc-defeated' : '';
+    const abils    = npc.abilities.map(a =>
+      `<div class="gnpc-ability"><i class="fas fa-caret-right"></i> ${this._esc(a)}</div>`
+    ).join('');
+    return `
+      <div class="gnpc-card${defeated}" data-npc-id="${npc.id}" style="border-left:3px solid ${npc.color}">
+        <div class="gnpc-card-top">
+          <input class="gnpc-name-input" type="text" data-npc-id="${npc.id}" value="${this._esc(npc.name)}" />
+          <span class="gnpc-type-tag" style="background:rgba(${rgb},0.15);color:${npc.color};border-color:${npc.color}80">
+            <i class="${npc.icon}"></i> ${npc.typeLabel}
+          </span>
+          <span class="gnpc-threat-tag">T${npc.threat}</span>
+          <div class="gnpc-card-btns">
+            <button type="button" class="gnpc-btn gnpc-defeat-btn" data-npc-id="${npc.id}"
+              title="${npc.defeated ? 'Mark Active' : 'Mark Defeated'}" style="color:${npc.defeated ? '#888' : '#cc3333'}">
+              <i class="fas fa-${npc.defeated ? 'undo' : 'skull-crossbones'}"></i>
+            </button>
+            <button type="button" class="gnpc-btn gnpc-reroll-btn" data-npc-id="${npc.id}" title="Reroll this NPC">
+              <i class="fas fa-dice"></i>
+            </button>
+            <button type="button" class="gnpc-btn gnpc-remove-btn" data-npc-id="${npc.id}" title="Remove">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        </div>
+        <div class="gnpc-card-stats">
+          <label class="gnpc-stat-lbl">STR<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="str" value="${npc.str}" min="0" max="10"/></label>
+          <label class="gnpc-stat-lbl">AGI<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="agi" value="${npc.agi}" min="0" max="10"/></label>
+          <label class="gnpc-stat-lbl">WIT<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="wit" value="${npc.wit}" min="0" max="10"/></label>
+          <label class="gnpc-stat-lbl">EMP<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="emp" value="${npc.emp}" min="0" max="10"/></label>
+          <span class="gnpc-sep">|</span>
+          <div class="gnpc-hp-group">
+            <span class="gnpc-stat-lbl-plain">HP</span>
+            <button type="button" class="gnpc-hp-btn gnpc-hp-down" data-npc-id="${npc.id}" title="−1 HP">−</button>
+            <input class="gnpc-stat-input gnpc-hp-val" type="number" data-npc-id="${npc.id}" data-field="hp" value="${npc.hp}" min="0"/>
+            <span class="gnpc-hp-sep">/</span>
+            <input class="gnpc-stat-input gnpc-hp-max" type="number" data-npc-id="${npc.id}" data-field="hpMax" value="${npc.hpMax}" min="1"/>
+            <button type="button" class="gnpc-hp-btn gnpc-hp-up" data-npc-id="${npc.id}" title="+1 HP">+</button>
+            <div class="gnpc-hp-bar-wrap"><div class="gnpc-hp-bar" style="width:${hpPct}%;background:${hpColor}"></div></div>
+          </div>
+          <span class="gnpc-sep">|</span>
+          <label class="gnpc-stat-lbl">ARM<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="armor" value="${npc.armor}" min="0"/></label>
+          <label class="gnpc-stat-lbl">DMG<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="damage" value="${npc.damage}" min="1"/></label>
+        </div>
+        <div class="gnpc-abilities">${abils}</div>
+        <textarea class="gnpc-notes-input" data-npc-id="${npc.id}" rows="1" placeholder="Notes…">${this._esc(npc.notes)}</textarea>
+      </div>`;
+  }
+
+  // ── Full render ───────────────────────────────────────────────────────────
+  async _renderInner(_data) {
+    const types = Object.keys(SLA_NPC_GROUP_ARCHETYPES);
+
+    const typeBtns = types.map(k => {
+      const a   = SLA_NPC_GROUP_ARCHETYPES[k];
+      const act = k === this._selectedType;
+      const rgb = this._hexRgb(a.color);
+      return `<button type="button" class="gnpc-type-btn${act ? ' active' : ''}" data-type="${k}"
+        style="${act ? `background:rgba(${rgb},0.25);color:${a.color};border-color:${a.color}` : `border-color:${a.color}60;color:#aaa`}">
+        <i class="${a.icon}"></i> ${a.label}</button>`;
+    }).join('');
+
+    const countOpts = [1,2,3,4,5,6,8,10].map(n =>
+      `<option value="${n}"${n === this._count ? ' selected' : ''}>${n}</option>`
+    ).join('');
+
+    const alive    = this._npcs.filter(n => !n.defeated).length;
+    const defeated = this._npcs.filter(n =>  n.defeated).length;
+    const cards    = this._npcs.map(n => this._buildCard(n)).join('');
+    const empty    = `<div class="gnpc-empty">Choose a type and press <strong>Generate</strong> to create NPCs.</div>`;
+
+    const footer = this._npcs.length ? `
+      <div class="gnpc-footer">
+        <span class="gnpc-tally">
+          ${this._npcs.length} total &nbsp;·&nbsp;
+          <span style="color:#44cc66">${alive} active</span>
+          ${defeated ? `&nbsp;·&nbsp;<span style="color:#888">${defeated} defeated</span>` : ''}
+        </span>
+        <div class="gnpc-footer-btns">
+          <button type="button" class="gnpc-reset-hp-btn" title="Reset all HP to maximum">
+            <i class="fas fa-heart"></i> Reset HP
+          </button>
+          <button type="button" class="gnpc-create-btn">
+            <i class="fas fa-user-plus"></i> Create as World Actors
+          </button>
+        </div>
+      </div>` : '';
+
+    return $(`
+      <div class="gnpc-wrap">
+        <div class="gnpc-toolbar">
+          <div class="gnpc-type-row">${typeBtns}</div>
+          <div class="gnpc-action-row">
+            <label class="gnpc-count-lbl">Count <select class="gnpc-count-sel">${countOpts}</select></label>
+            <button type="button" class="gnpc-gen-btn"><i class="fas fa-random"></i> Generate</button>
+            <button type="button" class="gnpc-add-btn"><i class="fas fa-plus"></i> Add More</button>
+            <button type="button" class="gnpc-clr-btn"><i class="fas fa-trash-alt"></i> Clear All</button>
+          </div>
+        </div>
+        <div class="gnpc-list">${this._npcs.length ? cards : empty}</div>
+        ${footer}
+      </div>`);
+  }
+
+  // ── Listeners ─────────────────────────────────────────────────────────────
+  activateListeners(html) {
+    super.activateListeners(html);
+    const root = html instanceof jQuery ? html[0] : html;
+    this._root = root;
+
+    // Type tab selection
+    root.querySelectorAll('.gnpc-type-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        this._saveState();
+        this._selectedType = btn.dataset.type;
+        this.render(false);
+      })
+    );
+
+    // Count selector
+    root.querySelector('.gnpc-count-sel')?.addEventListener('change', e => {
+      this._count = parseInt(e.target.value) || 4;
+    });
+
+    // Generate (replace all)
+    root.querySelector('.gnpc-gen-btn')?.addEventListener('click', () => {
+      this._npcs = [];
+      for (let i = 0; i < this._count; i++) {
+        const n = this._generateOne(this._selectedType);
+        if (n) this._npcs.push(n);
+      }
+      this.render(false);
+    });
+
+    // Add more (append)
+    root.querySelector('.gnpc-add-btn')?.addEventListener('click', () => {
+      this._saveState();
+      for (let i = 0; i < this._count; i++) {
+        const n = this._generateOne(this._selectedType);
+        if (n) this._npcs.push(n);
+      }
+      this.render(false);
+    });
+
+    // Clear all
+    root.querySelector('.gnpc-clr-btn')?.addEventListener('click', () => {
+      this._npcs = [];
+      this.render(false);
+    });
+
+    // Defeat toggle
+    root.querySelectorAll('.gnpc-defeat-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        this._saveState();
+        const n = this._npcs.find(x => x.id === btn.dataset.npcId);
+        if (n) { n.defeated = !n.defeated; this.render(false); }
+      })
+    );
+
+    // Reroll one
+    root.querySelectorAll('.gnpc-reroll-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        this._saveState();
+        const idx = this._npcs.findIndex(x => x.id === btn.dataset.npcId);
+        if (idx < 0) return;
+        const fresh = this._generateOne(this._npcs[idx].typeKey);
+        if (fresh) { fresh.notes = this._npcs[idx].notes; this._npcs[idx] = fresh; }
+        this.render(false);
+      })
+    );
+
+    // Remove one
+    root.querySelectorAll('.gnpc-remove-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        this._saveState();
+        this._npcs = this._npcs.filter(x => x.id !== btn.dataset.npcId);
+        this.render(false);
+      })
+    );
+
+    // HP ± buttons (no full re-render — update DOM directly)
+    root.querySelectorAll('.gnpc-hp-down').forEach(btn =>
+      btn.addEventListener('click', () => {
+        const n = this._npcs.find(x => x.id === btn.dataset.npcId);
+        if (!n) return;
+        n.hp = Math.max(0, n.hp - 1);
+        const card = root.querySelector(`.gnpc-card[data-npc-id="${n.id}"]`);
+        if (card) {
+          card.querySelector('.gnpc-hp-val').value = n.hp;
+          const pct   = n.hpMax > 0 ? Math.max(0, (n.hp / n.hpMax) * 100) : 0;
+          const color = pct > 60 ? '#44cc66' : pct > 30 ? '#ffaa00' : '#cc3333';
+          const bar   = card.querySelector('.gnpc-hp-bar');
+          if (bar) { bar.style.width = `${pct}%`; bar.style.background = color; }
+        }
+      })
+    );
+    root.querySelectorAll('.gnpc-hp-up').forEach(btn =>
+      btn.addEventListener('click', () => {
+        const n = this._npcs.find(x => x.id === btn.dataset.npcId);
+        if (!n) return;
+        n.hp = Math.min(n.hpMax, n.hp + 1);
+        const card = root.querySelector(`.gnpc-card[data-npc-id="${n.id}"]`);
+        if (card) {
+          card.querySelector('.gnpc-hp-val').value = n.hp;
+          const pct   = n.hpMax > 0 ? Math.max(0, (n.hp / n.hpMax) * 100) : 0;
+          const color = pct > 60 ? '#44cc66' : pct > 30 ? '#ffaa00' : '#cc3333';
+          const bar   = card.querySelector('.gnpc-hp-bar');
+          if (bar) { bar.style.width = `${pct}%`; bar.style.background = color; }
+        }
+      })
+    );
+
+    // Reset all HP to max
+    root.querySelector('.gnpc-reset-hp-btn')?.addEventListener('click', () => {
+      this._saveState();
+      this._npcs.forEach(n => { n.hp = n.hpMax; n.defeated = false; });
+      this.render(false);
+    });
+
+    // Inline stat edits — save to state on input (no re-render)
+    root.querySelectorAll('.gnpc-stat-input').forEach(el =>
+      el.addEventListener('input', () => {
+        const n = this._npcs.find(x => x.id === el.dataset.npcId);
+        if (n && el.dataset.field) n[el.dataset.field] = parseInt(el.value) || 0;
+      })
+    );
+    root.querySelectorAll('.gnpc-name-input').forEach(el =>
+      el.addEventListener('input', () => {
+        const n = this._npcs.find(x => x.id === el.dataset.npcId);
+        if (n) n.name = el.value;
+      })
+    );
+    root.querySelectorAll('.gnpc-notes-input').forEach(el =>
+      el.addEventListener('input', () => {
+        const n = this._npcs.find(x => x.id === el.dataset.npcId);
+        if (n) n.notes = el.value;
+      })
+    );
+
+    // Create as World Actors
+    root.querySelector('.gnpc-create-btn')?.addEventListener('click', async () => {
+      if (!game.user?.isGM) return;
+      this._saveState();
+      let created = 0;
+      for (const npc of this._npcs) {
+        try {
+          await Actor.create({
+            name: npc.name, type: 'npc',
+            system: {
+              biography: `Type: ${npc.typeLabel}\n\nAbilities:\n${npc.abilities.join('\n')}${npc.notes ? '\n\nNotes:\n' + npc.notes : ''}`,
+              threat:     npc.threat,
+              attributes: { strength: npc.str, agility: npc.agi, wits: npc.wit, empathy: npc.emp },
+              health:     { value: npc.hp, max: npc.hpMax },
+              armor:      npc.armor,
+              damage:     npc.damage
+            }
+          });
+          created++;
+        } catch(err) {
+          console.error(`Zero Engine | Group NPC: failed to create "${npc.name}"`, err);
+        }
+      }
+      ui.notifications.info(`Created ${created} NPC actor${created !== 1 ? 's' : ''} in the world.`);
+    });
+  }
+}
+
 // ── ACTOR DIRECTORY BUTTONS ──────────────────────────────────────────────────
 Hooks.on('renderActorDirectory', (app, html) => {
   const root = html instanceof jQuery ? html[0] : html;
@@ -5742,6 +6156,16 @@ Hooks.on('renderActorDirectory', (app, html) => {
       game.slaGMFinanceTool.render(true);
     });
     actions.append(finBtn);
+
+    const grpBtn = document.createElement('button');
+    grpBtn.className = 'sla-group-npc-btn';
+    grpBtn.innerHTML = '<i class="fas fa-users"></i> Group NPCs';
+    grpBtn.style.cssText = 'font-size:11px;padding:2px 7px;margin-left:4px;background:rgba(100,200,80,0.15);border:1px solid #66cc44;color:#66cc44;border-radius:3px;cursor:pointer;';
+    grpBtn.addEventListener('click', () => {
+      if (!game.slaGroupNPCTool) game.slaGroupNPCTool = new SLAGroupNPCTool();
+      game.slaGroupNPCTool.render(true);
+    });
+    actions.append(grpBtn);
   }
 
   actions.append(pcBtn, npcBtn);

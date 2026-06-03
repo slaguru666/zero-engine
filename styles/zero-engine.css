@@ -4386,3 +4386,137 @@ body > .ze-pause-root .ze-sat-inner {
   background: rgba(255,200,0,0.35);
   box-shadow: 0 0 10px rgba(255,200,0,0.3);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   GROUP NPC GENERATOR
+   ══════════════════════════════════════════════════════════════════════════════ */
+.group-npc-tool .window-content { padding: 0; overflow: hidden; }
+.group-npc-tool .gnpc-wrap {
+  display: flex; flex-direction: column; height: 100%; background: #1a1a1a;
+}
+/* Toolbar */
+.group-npc-tool .gnpc-toolbar {
+  padding: 8px 10px 6px; border-bottom: 1px solid #2a2a2a;
+  display: flex; flex-direction: column; gap: 6px; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-type-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.group-npc-tool .gnpc-type-btn {
+  padding: 4px 12px; font-size: 12px; font-weight: bold; border-radius: 4px;
+  border: 1px solid; cursor: pointer; background: transparent;
+  transition: all 0.15s; white-space: nowrap;
+}
+.group-npc-tool .gnpc-type-btn:hover { opacity: 0.85; }
+.group-npc-tool .gnpc-action-row {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+}
+.group-npc-tool .gnpc-count-lbl {
+  display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa;
+}
+.group-npc-tool .gnpc-count-sel {
+  background: rgba(255,255,255,0.08); border: 1px solid #444;
+  color: #eee; border-radius: 3px; padding: 2px 4px; font-size: 12px;
+}
+.group-npc-tool .gnpc-gen-btn  { background:rgba(255,200,0,0.15); border:1px solid #ffcc00; color:#ffcc00; border-radius:3px; padding:3px 10px; font-size:12px; font-weight:bold; cursor:pointer; }
+.group-npc-tool .gnpc-add-btn  { background:rgba(0,180,100,0.12); border:1px solid #00bb66; color:#00bb66; border-radius:3px; padding:3px 10px; font-size:12px; cursor:pointer; }
+.group-npc-tool .gnpc-clr-btn  { background:rgba(200,50,50,0.1);  border:1px solid #884444; color:#bb6666; border-radius:3px; padding:3px 10px; font-size:12px; cursor:pointer; margin-left:auto; }
+.group-npc-tool .gnpc-gen-btn:hover { background:rgba(255,200,0,0.3); }
+.group-npc-tool .gnpc-add-btn:hover { background:rgba(0,180,100,0.25); }
+.group-npc-tool .gnpc-clr-btn:hover { background:rgba(200,50,50,0.25); }
+/* Card list */
+.group-npc-tool .gnpc-list {
+  flex: 1; overflow-y: auto; padding: 8px 10px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 8px; align-content: start;
+}
+.group-npc-tool .gnpc-empty {
+  text-align: center; padding: 40px 20px; color: #555;
+  font-style: italic; grid-column: 1 / -1;
+}
+/* NPC card */
+.group-npc-tool .gnpc-card {
+  background: rgba(255,255,255,0.03); border-radius: 5px;
+  padding: 8px 10px; display: flex; flex-direction: column; gap: 5px;
+  transition: opacity 0.2s;
+}
+.group-npc-tool .gnpc-card.gnpc-defeated { opacity: 0.4; }
+.group-npc-tool .gnpc-card-top {
+  display: flex; align-items: center; gap: 6px;
+}
+.group-npc-tool .gnpc-name-input {
+  flex: 1; min-width: 0; background: rgba(255,255,255,0.06);
+  border: 1px solid #333; border-radius: 3px; color: #eee;
+  padding: 3px 6px; font-size: 13px; font-weight: bold;
+}
+.group-npc-tool .gnpc-name-input:focus { border-color: #555; outline: none; }
+.group-npc-tool .gnpc-type-tag {
+  font-size: 10px; padding: 2px 7px; border-radius: 10px; border: 1px solid;
+  white-space: nowrap; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-threat-tag { font-size: 11px; color: #666; white-space: nowrap; flex-shrink: 0; }
+.group-npc-tool .gnpc-card-btns { display: flex; gap: 3px; flex-shrink: 0; }
+.group-npc-tool .gnpc-btn {
+  background: transparent; border: 1px solid #333; border-radius: 3px;
+  color: #888; padding: 2px 5px; cursor: pointer; font-size: 11px; transition: all 0.15s;
+}
+.group-npc-tool .gnpc-btn:hover { background: rgba(255,255,255,0.08); color: #ccc; }
+.group-npc-tool .gnpc-remove-btn:hover { border-color: #cc4444; color: #cc4444; }
+/* Stats row */
+.group-npc-tool .gnpc-card-stats {
+  display: flex; align-items: center; gap: 7px; flex-wrap: wrap; font-size: 11px;
+}
+.group-npc-tool .gnpc-stat-lbl {
+  display: flex; align-items: center; gap: 3px; color: #777;
+}
+.group-npc-tool .gnpc-stat-lbl-plain { color: #777; font-size: 11px; }
+.group-npc-tool .gnpc-stat-input {
+  width: 34px; text-align: center; background: rgba(255,255,255,0.07);
+  border: 1px solid #2a2a2a; border-radius: 3px; color: #ddd;
+  padding: 2px 2px; font-size: 12px;
+}
+.group-npc-tool .gnpc-sep { color: #333; }
+.group-npc-tool .gnpc-hp-group {
+  display: flex; align-items: center; gap: 3px;
+}
+.group-npc-tool .gnpc-hp-val  { width: 30px; color: #88eeaa; }
+.group-npc-tool .gnpc-hp-max  { width: 30px; color: #aaa; }
+.group-npc-tool .gnpc-hp-sep  { color: #444; font-size: 11px; }
+.group-npc-tool .gnpc-hp-btn  {
+  background: rgba(255,255,255,0.06); border: 1px solid #333; border-radius: 3px;
+  color: #888; padding: 0 4px; cursor: pointer; font-size: 13px; line-height: 1.4;
+  flex-shrink: 0; transition: all 0.1s;
+}
+.group-npc-tool .gnpc-hp-btn:hover { background: rgba(255,255,255,0.15); color: #eee; }
+.group-npc-tool .gnpc-hp-bar-wrap {
+  width: 50px; height: 5px; background: #222; border-radius: 3px;
+  overflow: hidden; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-hp-bar { height: 100%; border-radius: 3px; transition: width 0.2s, background 0.3s; }
+/* Abilities */
+.group-npc-tool .gnpc-abilities { display: flex; flex-direction: column; gap: 1px; }
+.group-npc-tool .gnpc-ability { font-size: 10.5px; color: #888; padding: 0 2px; line-height: 1.4; }
+.group-npc-tool .gnpc-ability i { color: #555; margin-right: 3px; }
+/* Notes */
+.group-npc-tool .gnpc-notes-input {
+  width: 100%; background: rgba(255,255,255,0.03); border: 1px solid #222;
+  border-radius: 3px; color: #888; font-size: 11px; padding: 3px 6px;
+  resize: vertical; box-sizing: border-box; font-family: inherit;
+}
+.group-npc-tool .gnpc-notes-input:focus { border-color: #444; outline: none; color: #bbb; }
+/* Footer */
+.group-npc-tool .gnpc-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 10px; border-top: 1px solid #2a2a2a; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-tally { font-size: 12px; color: #666; }
+.group-npc-tool .gnpc-footer-btns { display: flex; gap: 8px; }
+.group-npc-tool .gnpc-reset-hp-btn {
+  padding: 4px 12px; font-size: 11px; background: rgba(255,100,100,0.1);
+  border: 1px solid #884444; color: #cc8888; border-radius: 3px; cursor: pointer;
+}
+.group-npc-tool .gnpc-reset-hp-btn:hover { background: rgba(255,100,100,0.2); }
+.group-npc-tool .gnpc-create-btn {
+  padding: 4px 12px; font-size: 11px; font-weight: bold;
+  background: rgba(255,200,0,0.15); border: 1px solid #ffcc00;
+  color: #ffcc00; border-radius: 3px; cursor: pointer;
+}
+.group-npc-tool .gnpc-create-btn:hover { background: rgba(255,200,0,0.3); }
