@@ -13,7 +13,8 @@
         "scl": 10,
         "credits": 500,
         "isPlayerCharacter": false,
-        "ladAccount": false
+        "ladAccount": false,
+        "showingOff": 0
       },
       "race": [],
       "training": [],

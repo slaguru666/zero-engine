@@ -891,6 +891,14 @@
 					<span class="fin-credit-value credits-readonly-wrap"><input type="number" readonly value="{{system.details.credits}}" class="credits-readonly" title="Edit credits in the sheet header" /> c</span>
 					{{#if system.finances.debt}}<span class="fin-debt-badge">⚠ DEBT {{system.finances.debt}}c</span>{{/if}}
 				</div>
+				<div class="finances-showing-off-hero">
+					<span class="fin-so-label">✨ SHOWING OFF</span>
+					<div class="fin-so-value-wrap">
+						<input type="number" name="system.details.showingOff" value="{{system.details.showingOff}}" class="fin-so-value" min="0" title="Accumulated showing off points" />
+						<span class="fin-so-unit">pts</span>
+					</div>
+					{{#if (gte system.details.showingOff 20)}}<span class="fin-so-milestone">⚠ 20 PT MILESTONE — GM TO ACT</span>{{/if}}
+				</div>
 
 				<div class="finances-grid">
 					<div class="fin-panel income-panel">

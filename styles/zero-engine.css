@@ -3926,6 +3926,20 @@
 .zero-engine .fin-credit-value { font-size: 28px; font-weight: bold; color: #00d4ff; }
 .zero-engine .fin-credit-value input { background: transparent; border: none; color: #00d4ff; font-size: 26px; font-weight: bold; width: 100px; }
 .zero-engine .fin-debt-badge { background: rgba(220,40,40,0.2); border: 1px solid #cc2222; border-radius: 4px; padding: 3px 8px; color: #ff4444; font-size: 12px; font-weight: bold; margin-left: auto; }
+/* ── Showing Off hero panel ─────────────────────────────── */
+.zero-engine .finances-showing-off-hero {
+  display: flex; align-items: center; gap: 16px;
+  background: rgba(255,200,0,0.07); border: 2px solid rgba(255,190,0,0.35);
+  border-radius: 6px; padding: 10px 18px; margin-bottom: 14px;
+}
+.zero-engine .fin-so-label { font-size: 11px; color: #cc9900; text-transform: uppercase; letter-spacing: 1px; }
+.zero-engine .fin-so-value-wrap { display: flex; align-items: baseline; gap: 4px; }
+.zero-engine .fin-so-value { background: transparent; border: none; color: #ffdd44; font-size: 26px; font-weight: bold; width: 60px; }
+.zero-engine .fin-so-unit { font-size: 13px; color: #aa8800; }
+.zero-engine .fin-so-milestone {
+  margin-left: auto; background: rgba(220,40,0,0.2); border: 1px solid #cc2200;
+  border-radius: 4px; padding: 3px 8px; color: #ff4422; font-size: 11px; font-weight: bold;
+}
 .zero-engine .finances-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
 .zero-engine .fin-panel { background: rgba(0,0,0,0.25); border: 1px solid rgba(255,102,0,0.2); border-radius: 6px; padding: 10px; }
 .zero-engine .fin-panel-title { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); }

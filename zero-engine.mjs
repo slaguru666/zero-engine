@@ -44,6 +44,10 @@ class YZEDiceDialog extends Dialog {
 
   static async show(baseDice, label, formula = '', options = {}) {
     return new Promise((resolve) => {
+
+      // ── Showing Off counter (shared between render + roll callback) ──────────
+      let showingOff = 0;
+
       const normalizedFireModes = Array.isArray(options.fireModes)
         ? options.fireModes
         : (typeof options.fireModes === "string"
@@ -56,9 +60,9 @@ class YZEDiceDialog extends Dialog {
       const modeBonusMap = options.modeBonusMap || {};
       const ammoBonusMap = options.ammoBonusMap || {};
       const showAttackMods = !!options.showAttackMods;
-      // Multi-shot options (passed from _onWeaponRoll)
       const shotOptions = Array.isArray(options.shotOptions) ? options.shotOptions : [];
       const showShotSelector = shotOptions.length > 1;
+
       const dialog = new Dialog({
         title: `Roll ${label}`,
         content: `
@@ -91,6 +95,19 @@ class YZEDiceDialog extends Dialog {
                 ${baseDice}d6
               </div>
             </div>
+
+            <div class="form-group" style="margin:10px 0 4px;">
+              <button type="button" id="showing-off-btn" style="
+                width:100%; padding:10px 16px; font-size:15px; font-weight:bold;
+                text-transform:uppercase; letter-spacing:2px; cursor:pointer;
+                background:linear-gradient(135deg,rgba(255,215,0,0.22),rgba(255,120,0,0.18));
+                border:2px solid #ffaa00; border-radius:6px; color:#ffdd44;
+                text-shadow:0 0 8px rgba(255,200,0,0.6); transition:all 0.2s;">
+                ✨ SHOWING OFF ✨
+              </button>
+              <div id="so-display" style="text-align:center;font-size:11px;color:#cc9900;min-height:16px;margin-top:3px;"></div>
+            </div>
+
             ${showShotSelector ? `
             <div class="form-group" style="background:rgba(204,17,17,0.08);border:1px solid rgba(204,17,17,0.25);border-radius:4px;padding:6px 8px;">
               <label style="color:#cc6655;font-weight:bold;">⚡ Shots Fired:</label>
@@ -139,25 +156,25 @@ class YZEDiceDialog extends Dialog {
             icon: '<i class="fas fa-dice-d6"></i>',
             label: "Roll",
             callback: (html) => {
-              const modifier = parseInt(html.find('[name="modifier"]').val()) || 0;
-              const fireMode = html.find('[name="fireMode"]').val() || defaultFireMode;
-              const ammoType = html.find('[name="ammoType"]').val() || defaultAmmoType;
-              const rangeBand = html.find('[name="rangeBand"]').val() || "normal";
-              const useScope = html.find('[name="useScope"]').is(':checked');
-              const useAI = html.find('[name="useAI"]').is(':checked');
-              const modeBonus = parseInt(modeBonusMap[fireMode]) || 0;
-              const ammoBonus = parseInt(ammoBonusMap[ammoType]) || 0;
+              const modifier   = parseInt(html.find('[name="modifier"]').val()) || 0;
+              const fireMode   = html.find('[name="fireMode"]').val()   || defaultFireMode;
+              const ammoType   = html.find('[name="ammoType"]').val()   || defaultAmmoType;
+              const rangeBand  = html.find('[name="rangeBand"]').val()  || "normal";
+              const useScope   = html.find('[name="useScope"]').is(':checked');
+              const useAI      = html.find('[name="useAI"]').is(':checked');
+              const modeBonus  = parseInt(modeBonusMap[fireMode]) || 0;
+              const ammoBonus  = parseInt(ammoBonusMap[ammoType]) || 0;
               const rangeBonus = rangeBand === "point_blank" ? 1 : (rangeBand === "extreme" ? -2 : 0);
               const scopeBonus = (useScope && (rangeBand === "long" || rangeBand === "extreme")) ? 2 : 0;
-              const aiBonus = useAI ? 2 : 0;
-              // Multi-shot bonus from shot selector
-              const shotIdx = parseInt(html.find('[name="shotCount"]').val()) || 0;
-              const chosenShot = shotOptions[shotIdx] || shotOptions[0] || { shots: 1, diceBonus: 0 };
+              const aiBonus    = useAI ? 2 : 0;
+              const shotIdx      = parseInt(html.find('[name="shotCount"]').val()) || 0;
+              const chosenShot   = shotOptions[shotIdx] || shotOptions[0] || { shots: 1, diceBonus: 0 };
               const shotDiceBonus = chosenShot.diceBonus || 0;
-              const shotsChosen  = chosenShot.shots || 1;
-              const totalDice = Math.max(0, baseDice + modifier + modeBonus + ammoBonus + rangeBonus + scopeBonus + aiBonus + shotDiceBonus);
+              const shotsChosen   = chosenShot.shots || 1;
+              // Showing off reduces pool — minimum 1d6
+              const totalDice = Math.max(1, baseDice + modifier + modeBonus + ammoBonus + rangeBonus + scopeBonus + aiBonus + shotDiceBonus - showingOff);
               if (options.returnDetails) {
-                resolve({ totalDice, fireMode, ammoType, modifier, rangeBand, useScope, useAI, rangeBonus, scopeBonus, aiBonus, shotsChosen, shotDiceBonus });
+                resolve({ totalDice, fireMode, ammoType, modifier, rangeBand, useScope, useAI, rangeBonus, scopeBonus, aiBonus, shotsChosen, shotDiceBonus, showingOff });
               } else {
                 resolve(totalDice);
               }
@@ -172,23 +189,27 @@ class YZEDiceDialog extends Dialog {
         default: "roll",
         render: (html) => {
           const modifierInput = html.find('[name="modifier"]');
-          const totalDisplay = html.find('#total-dice');
+          const totalDisplay  = html.find('#total-dice');
+          const soDisplay     = html.find('#so-display');
 
-          // Update total when input changes
           const updateTotal = () => {
-            const modifier = parseInt(modifierInput.val()) || 0;
-            const fireMode = html.find('[name="fireMode"]').val() || defaultFireMode;
-            const ammoType = html.find('[name="ammoType"]').val() || defaultAmmoType;
-            const rangeBand = html.find('[name="rangeBand"]').val() || "normal";
-            const useScope = html.find('[name="useScope"]').is(':checked');
-            const useAI = html.find('[name="useAI"]').is(':checked');
-            const modeBonus = parseInt(modeBonusMap[fireMode]) || 0;
-            const ammoBonus = parseInt(ammoBonusMap[ammoType]) || 0;
+            const modifier   = parseInt(modifierInput.val()) || 0;
+            const fireMode   = html.find('[name="fireMode"]').val()   || defaultFireMode;
+            const ammoType   = html.find('[name="ammoType"]').val()   || defaultAmmoType;
+            const rangeBand  = html.find('[name="rangeBand"]').val()  || "normal";
+            const useScope   = html.find('[name="useScope"]').is(':checked');
+            const useAI      = html.find('[name="useAI"]').is(':checked');
+            const modeBonus  = parseInt(modeBonusMap[fireMode]) || 0;
+            const ammoBonus  = parseInt(ammoBonusMap[ammoType]) || 0;
             const rangeBonus = rangeBand === "point_blank" ? 1 : (rangeBand === "extreme" ? -2 : 0);
             const scopeBonus = (useScope && (rangeBand === "long" || rangeBand === "extreme")) ? 2 : 0;
-            const aiBonus = useAI ? 2 : 0;
-            const total = Math.max(0, baseDice + modifier + modeBonus + ammoBonus + rangeBonus + scopeBonus + aiBonus);
+            const aiBonus    = useAI ? 2 : 0;
+            const total = Math.max(1, baseDice + modifier + modeBonus + ammoBonus + rangeBonus + scopeBonus + aiBonus - showingOff);
             totalDisplay.text(`${total}d6`);
+            if (showingOff > 0) {
+              totalDisplay.css('color', '#ffaa00');
+              soDisplay.html(`✨ Showing Off: <strong>${showingOff}</strong> ×  (−${showingOff} dice)`);
+            }
           };
 
           modifierInput.on('input', updateTotal);
@@ -198,16 +219,94 @@ class YZEDiceDialog extends Dialog {
           html.find('[name="useScope"]').on('change', updateTotal);
           html.find('[name="useAI"]').on('change', updateTotal);
 
-          // Handle modifier buttons
           html.find('.modify-dice').on('click', (event) => {
             const modifier = parseInt(event.currentTarget.dataset.modifier);
             const currentValue = parseInt(modifierInput.val()) || 0;
             modifierInput.val(currentValue + modifier);
             updateTotal();
           });
+
+          // ── SHOWING OFF button ─────────────────────────────────────────────
+          html.find('#showing-off-btn').on('click', () => {
+            // Check current pool would stay >= 1
+            const modifier   = parseInt(modifierInput.val()) || 0;
+            const rangeBonus = (() => {
+              const rb = html.find('[name="rangeBand"]').val() || "normal";
+              return rb === "point_blank" ? 1 : (rb === "extreme" ? -2 : 0);
+            })();
+            const currentTotal = baseDice + modifier + rangeBonus - showingOff;
+            if (currentTotal <= 1) {
+              ui.notifications.warn("Can't show off any more — pool is already at 1d6 minimum!");
+              return;
+            }
+
+            showingOff++;
+            updateTotal();
+            _playShowingOffFanfare();
+
+            // Async side-effects — update actor tally + chat message
+            (async () => {
+              const actorId   = options.actorId;
+              const actorName = options.actorName ?? 'Someone';
+              let newTally = showingOff; // fallback if no actor
+
+              if (actorId) {
+                const actor = game.actors.get(actorId);
+                if (actor) {
+                  const prev  = Number(actor.system.details?.showingOff ?? 0);
+                  newTally = prev + 1;
+                  await actor.update({ 'system.details.showingOff': newTally });
+                }
+              }
+
+              const exclamations = ['!', ' AGAIN!', ' EVEN MORE!', ' OUTRAGEOUSLY!', ' SPECTACULARLY!', ' BRAZENLY!'];
+              const excl = exclamations[Math.min(showingOff - 1, exclamations.length - 1)];
+              const starBar = '✨'.repeat(Math.min(showingOff, 5));
+
+              await ChatMessage.create({
+                speaker: { alias: actorName },
+                content: `
+                  <div style="
+                    text-align:center; padding:14px 12px;
+                    background:linear-gradient(135deg,rgba(255,215,0,0.2),rgba(255,100,0,0.15));
+                    border:2px solid #ffcc00; border-radius:8px;">
+                    <div style="font-size:30px;font-weight:bold;color:#ffdd22;
+                                text-shadow:0 0 12px rgba(255,200,0,0.7);letter-spacing:3px;">
+                      ${starBar} SHOWING OFF${excl} ${starBar}
+                    </div>
+                    <div style="font-size:14px;color:#ff9900;margin-top:6px;">
+                      ${actorName} is playing to the cameras!
+                    </div>
+                    <div style="font-size:12px;color:#cc8800;margin-top:4px;">
+                      This roll: −${showingOff} dice &nbsp;|&nbsp; Career total: <strong>${newTally}</strong> pt${newTally !== 1 ? 's' : ''}
+                    </div>
+                  </div>`
+              });
+
+              // 20-point milestone — broadcast publicly
+              if (actorId && newTally === 20) {
+                await ChatMessage.create({
+                  speaker: { alias: '⚠ Zero Engine' },
+                  content: `
+                    <div style="
+                      text-align:center; padding:14px 12px;
+                      background:linear-gradient(135deg,rgba(255,30,0,0.25),rgba(180,0,0,0.2));
+                      border:2px solid #ff3300; border-radius:8px;">
+                      <div style="font-size:22px;font-weight:bold;color:#ff4422;letter-spacing:2px;">
+                        ⚠ 20 POINTS OF SHOWING OFF ⚠
+                      </div>
+                      <div style="font-size:14px;color:#ff6644;margin-top:6px;">
+                        ${actorName} has reached <strong>20 points</strong> of showing off.<br>
+                        GM — time to make them pay for it.
+                      </div>
+                    </div>`
+                });
+              }
+            })();
+          });
         }
       }, {
-        width: 400,
+        width: 420,
         classes: ["zero-engine", "dialog"]
       });
 
@@ -1617,7 +1716,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
           modeBonusMap: { single: 0, burst: 1, auto: 2 },
           ammoBonusMap: { standard: 0, ap: 1, he: 0 },
           showAttackMods: true,
-          shotOptions: dialogShotOptions   // ← multi-shot selector
+          shotOptions: dialogShotOptions,
+          actorId:   this.actor?.id,
+          actorName: this.actor?.name
         }
       );
 
@@ -2423,7 +2524,10 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     let modifiedDice = baseDice;
     if (!rollOptions.skipDialog) {
       // Show dialog to modify dice pool
-      modifiedDice = await YZEDiceDialog.show(baseDice, label, formula);
+      modifiedDice = await YZEDiceDialog.show(baseDice, label, formula, {
+        actorId:   this.actor?.id,
+        actorName: this.actor?.name
+      });
       if (modifiedDice === null) return; // Dialog was cancelled
     } else if (typeof rollOptions.preModifiedDice === "number") {
       modifiedDice = rollOptions.preModifiedDice;
@@ -7726,6 +7830,31 @@ const SLA_CONDITIONS = [
 // ─── CONDITION MODIFIER HELPER ────────────────────────────────────────────────
 
 /**
+ * Play a short "ta-da" fanfare using the Web Audio API — no external files needed.
+ */
+function _playShowingOffFanfare() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    // Ascending major arpeggio: C5 E5 G5 C6
+    const notes = [523.25, 659.25, 783.99, 1046.5];
+    notes.forEach((freq, i) => {
+      const osc  = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.type = 'sine';
+      osc.frequency.value = freq;
+      const t = ctx.currentTime + i * 0.13;
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.35, t + 0.04);
+      gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+      osc.start(t);
+      osc.stop(t + 0.30);
+    });
+  } catch(_) { /* WebAudio unavailable — silent fallback */ }
+}
+
+/**
  * Post a whispered GM report of every PC's current conditions, HP, Resolve, and Stress.
  * Called hourly from the ready hook and on demand from the STATUS button on any sheet.
  */
@@ -7753,9 +7882,11 @@ async function _broadcastPCConditions() {
     const resMax  = Number(pc.system.derivedStats?.resolve?.max   ?? 0);
     const stress  = Number(pc.system.derivedStats?.stress         ?? 0);
 
+    const soTally  = Number(pc.system.details?.showingOff ?? 0);
     const hpColour     = hp <= 0 ? '#ff2222' : hp <= hpMax * 0.3 ? '#ff8800' : '#44cc66';
     const resColour    = res <= 0 ? '#ff2222' : res <= resMax * 0.3 ? '#ff8800' : '#44ccff';
     const stressColour = stress >= 8 ? '#ff2222' : stress >= 5 ? '#ff8800' : '#aaaaaa';
+    const soColour     = soTally >= 20 ? '#ff2222' : soTally >= 10 ? '#ff8800' : soTally > 0 ? '#ffcc00' : '#555';
 
     const activeConds = [...(pc.statuses ?? new Set())]
       .filter(id => condLabels[id])
@@ -7768,7 +7899,8 @@ async function _broadcastPCConditions() {
         <div style="font-size:11px;line-height:1.6;">
           <span style="color:${hpColour}">❤ HP ${hp}/${hpMax}</span> &nbsp;
           <span style="color:${resColour}">🧠 Resolve ${res}/${resMax}</span> &nbsp;
-          <span style="color:${stressColour}">⚡ Stress ${stress}</span>
+          <span style="color:${stressColour}">⚡ Stress ${stress}</span> &nbsp;
+          <span style="color:${soColour}">✨ Showing Off ${soTally}</span>
         </div>
         <div style="font-size:11px;margin-top:2px;">
           ${activeConds || '<span style="color:#44cc66;font-size:10px;">No active conditions</span>'}
