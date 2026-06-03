@@ -4520,3 +4520,21 @@ body > .ze-pause-root .ze-sat-inner {
   color: #ffcc00; border-radius: 3px; cursor: pointer;
 }
 .group-npc-tool .gnpc-create-btn:hover { background: rgba(255,200,0,0.3); }
+
+/* Group NPC Generator — weapons & armor additions */
+.group-npc-tool .gnpc-weapons-block {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.group-npc-tool .gnpc-weapon-row {
+  display: flex; align-items: baseline; gap: 5px;
+  font-size: 10.5px; padding: 1px 2px;
+}
+.group-npc-tool .gnpc-weapon-row.natural    { color: #77bb66; }
+.group-npc-tool .gnpc-weapon-row.conventional { color: #7799cc; }
+.group-npc-tool .gnpc-weapon-icon { flex-shrink: 0; width: 14px; }
+.group-npc-tool .gnpc-weapon-row strong { color: inherit; font-size: 11px; }
+.group-npc-tool .gnpc-weapon-detail { color: #666; font-size: 10px; }
+.group-npc-tool .gnpc-armor-row {
+  font-size: 10.5px; color: #aaa88a; padding: 1px 2px;
+}
+.group-npc-tool .gnpc-armor-row i { margin-right: 4px; color: #887755; }

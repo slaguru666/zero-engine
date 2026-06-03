@@ -5718,63 +5718,291 @@ class SLAGMFinanceTool extends Application {
 // ══════════════════════════════════════════════════════════════════════════════
 
 const SLA_NPC_GROUP_ARCHETYPES = {
-  carrion: {
-    label: 'Carrion',  color: '#cc4422', icon: 'fas fa-biohazard',
-    nameParts: ['Bloated', 'Feral', 'Stalking', 'Gnawing', 'Lurching', 'Rabid', 'Rotting', 'Hulking'],
-    nameBase:  ['Carrion', 'Carrion', 'Carrien', 'Feeder', 'Gnawer'],
-    stats:  { str:[2,4], agi:[1,2], wit:[1,1], emp:[1,1] },
-    health:[3,6],  armor:[0,1], damage:[2,3], threat:[1,2],
+
+  streetgang: {
+    label: 'Street Gang', color: '#cc8800', icon: 'fas fa-street-view',
+    nameParts: ['','','','Big','Mad','Dead','Crazy','One-Eye'],
+    nameBase:  ['Sloper','Ganger','Thug','Punk','Ratter','Knife-Boy','Street Dog','Scrapper','Slum Rat'],
+    stats: { str:[2,3], agi:[2,3], wit:[1,2], emp:[1,3] },
+    health:[2,4], armor:[0,2], damage:[1,3], threat:[1,2],
+    armorPool:[
+      'None','None','None',
+      'Street Leathers (ARM 1)','Street Leathers (ARM 1)',
+      'Padded Jacket (ARM 1)',
+      'Scavenged Vest (ARM 2)',
+      'Old Combat Jacket (ARM 2)',
+    ],
+    weaponPool:[
+      // Slot 1 — always a melee weapon
+      [
+        {name:'Lead Pipe',    damage:2,ap:0,range:'Engaged'},
+        {name:'Knife',        damage:1,ap:1,range:'Engaged'},
+        {name:'Baseball Bat', damage:2,ap:0,range:'Engaged'},
+        {name:'Crowbar',      damage:2,ap:1,range:'Engaged'},
+        {name:'Machete',      damage:2,ap:1,range:'Engaged'},
+        {name:'Broken Bottle',damage:1,ap:0,range:'Engaged'},
+        {name:'Chain',        damage:1,ap:0,range:'Engaged'},
+        {name:'Hatchet',      damage:2,ap:1,range:'Engaged'},
+        {name:'Knuckleduster',damage:1,ap:0,range:'Engaged',note:'bonus: free grab on hit'},
+      ],
+      // Slot 2 — 40% chance of a ranged weapon (nulls reduce probability)
+      [
+        null,null,null,null,null,null,
+        {name:'Cheap Pistol',     damage:2,ap:0,range:'Short'},
+        {name:'Sawn-Off Shotgun', damage:3,ap:0,range:'Engaged'},
+        {name:'Crossbow',         damage:2,ap:1,range:'Medium'},
+        {name:'Cheap SMG',        damage:2,ap:0,range:'Short',note:'ROF 3'},
+      ],
+    ],
     abilities:[
-      'Pack Aggression — +1 die per Carrion adjacent to the same target',
-      'Bite — 2 damage, ignores 1 armour point',
-      'Mindless — immune to Panic and social effects',
-      'Hard to Kill — rolls Physical Critical even at 0 HP (once per fight)',
-      'Swarm — 3+ attack same target simultaneously: +2 damage total',
+      'Gang Up — when 2+ attack same target, one gets +1 die',
+      'Street Smarts — +1 Observation die in urban environments',
+      'Intimidation — Force roll success triggers Panic check in civilians',
+      'Mob Mentality — +1 die when within 5m of 2+ allies',
+      'Dirty Fighter — free grab attempt on any melee hit',
+      'Numbers Game — group of 5+ gains +2 morale threshold',
+      'Scavenger — minor action: grab a nearby dropped weapon or item',
     ]
   },
+
+  carrion: {
+    label: 'Carrion', color: '#cc4422', icon: 'fas fa-biohazard',
+    nameParts: ['Bloated','Feral','Stalking','Gnawing','Lurching','Rabid','Rotting','Hulking',''],
+    nameBase:  ['Carrion','Carrion','Carrien','Feeder','Gnawer','Pack Carrion','Shambler'],
+    stats: { str:[2,4], agi:[1,2], wit:[1,1], emp:[1,1] },
+    health:[3,6], armor:[0,1], damage:[2,3], threat:[1,2],
+    armorPool:['None','None','None','Matted Flesh (ARM 1)'],
+    naturalWeapons:[
+      {name:'Bite',  damage:2, ap:1, note:'ignores 1 armour; target STR check or Bleeding'},
+      {name:'Claws', damage:1, ap:0, note:'always counts as armed; can rake two targets'},
+    ],
+    abilities:[
+      'Pack Aggression — +1 die per Carrion adjacent to the same target',
+      'Mindless — immune to Panic and all psychological/social effects',
+      'Hard to Kill — rolls Physical Critical even at 0 HP (once per fight)',
+      'Swarm — 3+ Carrion attacking same target simultaneously: +2 damage total',
+      'Contagion — bite victims must pass STR check or contract Rot Fever',
+      'Shamble — moves half speed but ignores difficult terrain',
+      'Death Rattle — on death, adjacent targets must make a Morale check',
+    ]
+  },
+
   serialkiller: {
     label: 'Serial Killer', color: '#882244', icon: 'fas fa-skull',
-    nameParts: ['The', 'The', 'The', ''],
-    nameBase:  ['Butcher','Flenser','Ghost','Surgeon','Reaper','Cutter','Shadow','Wraith','Stalker'],
-    stats:  { str:[2,4], agi:[2,4], wit:[2,3], emp:[1,2] },
+    nameParts: ['The','The','The',''],
+    nameBase:  ['Butcher','Flenser','Ghost','Surgeon','Reaper','Cutter','Shadow','Wraith','Stalker','Hollow','Hunter'],
+    stats: { str:[2,4], agi:[2,4], wit:[2,3], emp:[1,2] },
     health:[3,5], armor:[0,2], damage:[3,4], threat:[3,4],
+    armorPool:[
+      'None','None','None',
+      'Leather Coat (ARM 1)','Leather Coat (ARM 1)',
+      'Tactical Vest (ARM 2)',
+      'Scavenged Body Armour (ARM 2)',
+    ],
+    weaponPool:[
+      // Slot 1 — signature melee weapon (always present)
+      [
+        {name:'Hunting Knife',    damage:2,ap:1,range:'Engaged'},
+        {name:'Butcher Cleaver',  damage:3,ap:0,range:'Engaged'},
+        {name:'Surgical Scalpel', damage:2,ap:2,range:'Engaged',note:'ignores 2 ARM'},
+        {name:'Combat Knife',     damage:2,ap:1,range:'Engaged'},
+        {name:'Chainsaw',         damage:4,ap:1,range:'Engaged',note:'Loud — breaks Stealth'},
+        {name:'Hatchet',          damage:3,ap:1,range:'Engaged'},
+        {name:'Piano Wire',       damage:2,ap:0,range:'Engaged',note:'Grapple: auto 2 DMG/turn'},
+        {name:'Bone Saw',         damage:3,ap:2,range:'Engaged'},
+        {name:'Stiletto',         damage:2,ap:2,range:'Engaged',note:'ignores soft armour'},
+      ],
+      // Slot 2 — 30% chance of secondary ranged weapon
+      [
+        null,null,null,null,null,null,null,
+        {name:'Pistol',      damage:2,ap:0,range:'Short'},
+        {name:'Sniper Rifle',damage:3,ap:2,range:'Long',note:'ignores cover'},
+        {name:'Crossbow',    damage:2,ap:1,range:'Medium',note:'Silent'},
+      ],
+    ],
     abilities:[
-      'Signature Weapon — +1 die with preferred weapon type',
-      'Predator Focus — ignores cover when attacking chosen target',
-      'Surprise Strike — first attack each combat deals +2 damage',
+      'Signature Weapon — +1 die when using preferred weapon type',
+      'Predator Focus — ignores cover against a chosen target',
+      'Surprise Strike — first attack each combat: +2 damage',
       'Psychotic Endurance — ignores one level of injury penalties',
       'Brutal Efficiency — 3+ successes on attack: target is Stunned',
       'Stealth — 3 free Stealth dice when ambushing from concealment',
+      'Trophies — each kill this session: cumulative +1 to next damage roll',
+      'Evasion — once per round: negate one melee hit on a 4+',
     ]
   },
+
   monstaret: {
     label: 'Monstaret', color: '#226622', icon: 'fas fa-dragon',
-    nameParts: ['Alpha','Juvenile','Mature','Mutant','Corrupted','Ancient','Feral'],
-    nameBase:  ['Monstaret','Rend-Beast','Fang-Beast','Pit-Thing','Lurker','Crawler','Howler'],
-    stats:  { str:[4,6], agi:[2,3], wit:[1,1], emp:[1,1] },
-    health:[6,12], armor:[1,4], damage:[3,5], threat:[3,5],
-    abilities:[
-      'Natural Weapons — claws/fangs; always counts as armed',
-      'Pack Hunter — flanking bonus: +1 die when 2+ present',
-      'Toughened Hide — ignore first 1 damage from each attack',
-      'Frenzy — at ≤ half HP, +2 damage on all attacks',
-      'Leap — charge-attack targets up to 10m away',
-      'Predatory Instinct — always acts in initiative phase 1',
+    // Subtypes define the full stat profile, natural weapons and abilities
+    subtypes:[
+      {
+        name:'Fang Beast',
+        modifiers:['Alpha ','Juvenile ','Mutant ',''],
+        stats:{str:[4,5],agi:[3,4],wit:[1,1],emp:[1,1]},
+        health:[7,10], armor:[1,2], damage:[3,4], threat:[3,4],
+        naturalWeapons:[
+          {name:'Bite',       damage:3,ap:2,note:'target STR check or Bleeding (1 DMG/turn)'},
+          {name:'Claw Swipe', damage:2,ap:0,note:'can hit 2 adjacent targets in one action'},
+        ],
+        abilities:[
+          'Pack Hunter — +1 die when 2+ Fang Beasts are present',
+          'Pounce — charge up to 10m as a free move before attacking',
+          'Bleeding Bite — on hit: target gains Bleeding condition (1 DMG/turn)',
+          'Frenzy — at ≤ half HP, gains an additional attack per round',
+        ]
+      },
+      {
+        name:'Rend Beast',
+        modifiers:['Ancient ','Elder ','Corrupted ',''],
+        stats:{str:[5,6],agi:[1,2],wit:[1,1],emp:[1,1]},
+        health:[9,13], armor:[2,4], damage:[4,5], threat:[4,5],
+        naturalWeapons:[
+          {name:'Rending Claws',damage:4,ap:1,note:'3+ successes: Rend — ongoing 1 DMG/turn'},
+          {name:'Crushing Grip',damage:2,ap:0,note:'target Grappled; STR vs STR to escape'},
+        ],
+        abilities:[
+          'Unstoppable — not stopped by barriers; pushes through obstacles',
+          'Rending Strike — 3+ successes: target gains Bleeding condition',
+          'Toughened Hide — ignore first 1 damage from each attack',
+          'Slow — only moves Short range per turn but cannot be tripped',
+        ]
+      },
+      {
+        name:'Pit-Thing',
+        modifiers:['Corrupted ','Mutant ','',''],
+        stats:{str:[3,4],agi:[3,4],wit:[1,1],emp:[1,1]},
+        health:[5,8], armor:[1,2], damage:[2,3], threat:[3,4],
+        naturalWeapons:[
+          {name:'Acid Spit', damage:2,ap:3,note:'range Short; hit: −1 ARM permanently'},
+          {name:'Bite',      damage:2,ap:1,note:'acid contact: attacker takes 1 DMG on hit'},
+        ],
+        abilities:[
+          'Acid Resistance — immune to acid and corrosive effects',
+          'Wall Crawl — moves freely on vertical and overhead surfaces',
+          'Spit Barrage — acid spit at 2 targets per round (−1 die each)',
+          'Dissolve Armour — each acid hit permanently reduces target ARM by 1',
+        ]
+      },
+      {
+        name:'Lurker',
+        modifiers:['Shadow ','Deep ','',''],
+        stats:{str:[3,4],agi:[3,5],wit:[1,2],emp:[1,1]},
+        health:[5,8], armor:[0,2], damage:[2,3], threat:[3,4],
+        naturalWeapons:[
+          {name:'Tentacle Lash',damage:2,ap:0,note:'reach 5m; 3+ successes: target Grappled'},
+          {name:'Constrict',    damage:3,ap:0,note:'only vs Grappled targets; auto each turn'},
+        ],
+        abilities:[
+          'Camouflage — 4 free Stealth dice; invisible unless moving',
+          'Ambush — first attack from hidden: +3 dice',
+          'Multi-Grab — can Grapple up to 3 targets (one tentacle each)',
+          'Squeeze — Constrict deals +1 DMG per round target remains Grappled',
+        ]
+      },
+      {
+        name:'Howler',
+        modifiers:['Alpha ','Pack ','',''],
+        stats:{str:[3,4],agi:[4,5],wit:[1,1],emp:[1,1]},
+        health:[4,7], armor:[0,1], damage:[2,3], threat:[3,4],
+        naturalWeapons:[
+          {name:'Sonic Screech',damage:2,ap:0,note:'all in Short range; 2+ successes: Stunned'},
+          {name:'Claw',         damage:2,ap:0,note:'fast — can attack twice per round'},
+        ],
+        abilities:[
+          'Screech — area attack within Short range; all targets check vs Stun',
+          'Speed — always acts initiative phase 1; attacks twice per round',
+          'Pack Call — if alive after round 1, summons 1d3 additional Howlers',
+          'Fragile — only ARM 0–1 but extremely agile and hard to hit',
+        ]
+      },
+      {
+        name:'Crawler',
+        modifiers:['Giant ','Armoured ','Brood ',''],
+        stats:{str:[4,5],agi:[2,3],wit:[1,1],emp:[1,1]},
+        health:[7,11], armor:[2,4], damage:[3,4], threat:[3,4],
+        naturalWeapons:[
+          {name:'Mandibles',damage:3,ap:1,note:'STR check or Paralysed for 1 round'},
+          {name:'Leg Spike',damage:2,ap:0,note:'free attack against rear arc targets'},
+        ],
+        abilities:[
+          'Predatory Instinct — always acts in initiative phase 1',
+          'Paralytic Bite — on hit: target STR check or Paralysed 1 round',
+          'Carapace — ARM 2 on top/sides; 0 from below; called shots can bypass',
+          'Many-Legged — immune to trip/knockdown effects',
+        ]
+      },
     ]
   },
+
   machine: {
     label: 'Machine', color: '#334488', icon: 'fas fa-robot',
-    nameParts: ['MK-','Unit-','Model-','DES-','SYS-'],
-    nameBase:  ['7','12','19X','44','3B','Alpha','Delta','Sigma','Rho'],
-    stats:  { str:[3,5], agi:[2,3], wit:[2,4], emp:[0,0] },
-    health:[5,10], armor:[3,6], damage:[3,5], threat:[3,5],
-    abilities:[
-      'Targeting — re-roll one miss die per attack',
-      'Weapon Array — attack 2 targets in one action (−1 die each)',
-      'Armoured Shell — natural armour 3; stacks before equipped armour',
-      'Diagnostic — regain 2 HP at start of turn if not attacked that round',
-      'Overload — on death, 3 damage to all within 5m',
-      'EMP Resistant — immune to electrical and shock effects',
+    subtypes:[
+      {
+        name:'Combat Unit',
+        designation:['MK-','Unit-',''],
+        stats:{str:[4,5],agi:[2,3],wit:[3,4],emp:[0,0]},
+        health:[6,10], armor:[3,5], damage:[3,4], threat:[3,4],
+        integratedWeapons:[
+          {name:'Integrated Rifle', damage:3,ap:1,range:'Long',  note:'ROF 1'},
+          {name:'Combat Blade',     damage:3,ap:1,range:'Engaged'},
+        ],
+        abilities:[
+          'Targeting — re-roll one miss die per attack',
+          'Armoured Shell — natural ARM 3 (already in stats)',
+          'Threat Assessment — always knows current HP of visible targets',
+          'Suppression Protocol — target that failed to hit: −1 die next attack',
+        ]
+      },
+      {
+        name:'Scout Drone',
+        designation:['DES-','SD-',''],
+        stats:{str:[2,3],agi:[4,5],wit:[3,4],emp:[0,0]},
+        health:[3,5], armor:[1,2], damage:[2,3], threat:[2,3],
+        integratedWeapons:[
+          {name:'Shock Taser', damage:2,ap:0,range:'Engaged',note:'Stunned on hit'},
+          {name:'Dart Pistol', damage:1,ap:0,range:'Short',  note:'sedative: STR check or unconscious'},
+        ],
+        abilities:[
+          'Flight — ignores ground terrain; moves in full 3D space',
+          'Sensor Suite — detects all living targets within 20m regardless of cover',
+          'Relay — allies gain +1 die against targets the drone has acquired',
+          'Emergency Protocol — at ≤2 HP: transmits distress signal (reinforcements in 3 rounds)',
+        ]
+      },
+      {
+        name:'Heavy Assault Unit',
+        designation:['HAU-','MK-',''],
+        stats:{str:[5,6],agi:[1,2],wit:[2,3],emp:[0,0]},
+        health:[9,14], armor:[5,7], damage:[4,6], threat:[4,5],
+        integratedWeapons:[
+          {name:'Minigun',      damage:3,ap:0,range:'Medium',note:'ROF 6; suppression-fire area attack'},
+          {name:'Flamethrower', damage:4,ap:2,range:'Short', note:'On Fire condition; Short cone area'},
+          {name:'Armour Fist',  damage:5,ap:2,range:'Engaged',note:'knockback 5m on hit'},
+        ],
+        abilities:[
+          'Weapon Array — fires two weapons at different targets simultaneously',
+          'Overload — on death: 4 damage to all within 5m',
+          'Juggernaut — immune to Grapple; ignores terrain and barriers',
+          'Targeting Computer — re-rolls all miss dice once per attack',
+        ]
+      },
+      {
+        name:'Maintenance Unit',
+        designation:['MU-','SYS-',''],
+        stats:{str:[3,4],agi:[2,3],wit:[3,4],emp:[0,0]},
+        health:[4,7], armor:[2,3], damage:[2,3], threat:[2,3],
+        integratedWeapons:[
+          {name:'Cutting Laser',damage:2,ap:3,range:'Engaged',note:'fully ignores armour AP'},
+          {name:'Shock Wrench', damage:2,ap:0,range:'Engaged',note:'EMP: short-circuits electronics'},
+        ],
+        abilities:[
+          'Field Repairs — restore 2 HP to another Machine unit as a full action',
+          'Structural Knowledge — +2 AP vs armoured targets (joint strikes)',
+          'EMP Pulse — once per combat: all electronics within 5m offline for 1 round',
+          'Diagnostic Mode — immune to Blinded and Stunned conditions',
+        ]
+      },
     ]
   }
 };
@@ -5812,25 +6040,77 @@ class SLAGroupNPCTool extends Application {
   _generateOne(typeKey) {
     const arch = SLA_NPC_GROUP_ARCHETYPES[typeKey];
     if (!arch) return null;
-    const prefix = this._pick(arch.nameParts);
-    const base   = this._pick(arch.nameBase);
-    const name   = prefix ? `${prefix}${prefix.endsWith('-') ? '' : ' '}${base}` : base;
-    const str    = this._rng(...arch.stats.str);
-    const agi    = this._rng(...arch.stats.agi);
-    const wit    = this._rng(...arch.stats.wit);
-    const emp    = this._rng(...arch.stats.emp);
-    const hpMax  = this._rng(...arch.health);
-    const armor  = this._rng(...arch.armor);
-    const damage = this._rng(...arch.damage);
-    const threat = this._rng(...arch.threat);
-    const pool   = [...arch.abilities].sort(() => Math.random() - 0.5);
+
+    let name, str, agi, wit, emp, hpMax, armor, damage, threat;
+    let weapons = [], naturalWeapons = [], abilities = [], armorDesc = 'None';
+
+    if (arch.subtypes) {
+      // --- Subtype-based generation (Monstaret, Machine) ---
+      const sub = this._pick(arch.subtypes);
+      // Build name with optional prefix
+      const desParts = sub.modifiers ?? sub.designation ?? [''];
+      const des = this._pick(desParts);
+      const serial = (sub.designation) ? this._rng(1,99).toString().padStart(2,'0') : '';
+      name = des ? `${des}${sub.name}${serial ? ' #'+serial : ''}` : `${sub.name}${serial ? ' #'+serial : ''}`;
+
+      str    = this._rng(...sub.stats.str);
+      agi    = this._rng(...sub.stats.agi);
+      wit    = this._rng(...sub.stats.wit);
+      emp    = this._rng(...sub.stats.emp);
+      hpMax  = this._rng(...sub.health);
+      armor  = this._rng(...sub.armor);
+      damage = this._rng(...sub.damage);
+      threat = this._rng(...sub.threat);
+
+      if (sub.naturalWeapons)    naturalWeapons = [...sub.naturalWeapons];
+      if (sub.integratedWeapons) weapons        = [...sub.integratedWeapons];
+
+      const pool = [...(sub.abilities ?? [])].sort(() => Math.random() - 0.5);
+      abilities  = pool.slice(0, 2);
+      armorDesc  = `Built-in ARM ${armor}`;
+    } else {
+      // --- Standard flat generation (Street Gang, Carrion, Serial Killer) ---
+      const prefix = this._pick(arch.nameParts);
+      const base   = this._pick(arch.nameBase);
+      name   = prefix ? `${prefix}${prefix.endsWith('-') ? '' : ' '}${base}` : base;
+
+      str    = this._rng(...arch.stats.str);
+      agi    = this._rng(...arch.stats.agi);
+      wit    = this._rng(...arch.stats.wit);
+      emp    = this._rng(...arch.stats.emp);
+      hpMax  = this._rng(...arch.health);
+      armor  = this._rng(...arch.armor);
+      damage = this._rng(...arch.damage);
+      threat = this._rng(...arch.threat);
+
+      if (arch.naturalWeapons) naturalWeapons = [...arch.naturalWeapons];
+
+      if (arch.weaponPool) {
+        for (const slot of arch.weaponPool) {
+          const pick = this._pick(slot);
+          if (pick) weapons.push(pick);
+        }
+      }
+
+      const pool = [...(arch.abilities ?? [])].sort(() => Math.random() - 0.5);
+      abilities  = pool.slice(0, 2);
+
+      if (arch.armorPool) {
+        const ap = this._pick(arch.armorPool);
+        armorDesc = ap ?? 'None';
+      } else {
+        armorDesc = armor > 0 ? `ARM ${armor}` : 'None';
+      }
+    }
+
     return {
       id: foundry.utils.randomID(), typeKey,
-      typeLabel: arch.label, color: arch.color, icon: arch.icon,
+      typeLabel: arch.label,
+      color: arch.color, icon: arch.icon,
       name, str, agi, wit, emp,
       hp: hpMax, hpMax, armor, damage, threat,
-      abilities: pool.slice(0, 2),
-      notes: '', defeated: false
+      weapons, naturalWeapons, armorDesc,
+      abilities, notes: '', defeated: false
     };
   }
 
@@ -5858,9 +6138,27 @@ class SLAGroupNPCTool extends Application {
     const hpPct    = npc.hpMax > 0 ? Math.max(0, Math.min(100, (npc.hp / npc.hpMax) * 100)) : 0;
     const hpColor  = hpPct > 60 ? '#44cc66' : hpPct > 30 ? '#ffaa00' : '#cc3333';
     const defeated = npc.defeated ? ' gnpc-defeated' : '';
-    const abils    = npc.abilities.map(a =>
+
+    // Natural weapons (creatures only)
+    const natHtml = (npc.naturalWeapons ?? []).map(w => {
+      const detail = `DMG ${w.damage}${w.ap ? ` AP ${w.ap}` : ''}${w.note ? ` — ${w.note}` : ''}`;
+      return `<div class="gnpc-weapon-row natural"><span class="gnpc-weapon-icon"><i class="fas fa-paw"></i></span><strong>${this._esc(w.name)}</strong><span class="gnpc-weapon-detail">${detail}</span></div>`;
+    }).join('');
+
+    // Conventional / integrated weapons
+    const wepHtml = (npc.weapons ?? []).map(w => {
+      const detail = `DMG ${w.damage}${w.ap ? ` AP ${w.ap}` : ''}${w.range ? ` [${w.range}]` : ''}${w.note ? ` — ${w.note}` : ''}`;
+      return `<div class="gnpc-weapon-row conventional"><span class="gnpc-weapon-icon"><i class="fas fa-crosshairs"></i></span><strong>${this._esc(w.name)}</strong><span class="gnpc-weapon-detail">${detail}</span></div>`;
+    }).join('');
+
+    // Abilities
+    const abils = (npc.abilities ?? []).map(a =>
       `<div class="gnpc-ability"><i class="fas fa-caret-right"></i> ${this._esc(a)}</div>`
     ).join('');
+
+    const armorLine = npc.armorDesc && npc.armorDesc !== 'None'
+      ? `<div class="gnpc-armor-row"><i class="fas fa-shield-alt"></i> ${this._esc(npc.armorDesc)}</div>` : '';
+
     return `
       <div class="gnpc-card${defeated}" data-npc-id="${npc.id}" style="border-left:3px solid ${npc.color}">
         <div class="gnpc-card-top">
@@ -5883,24 +6181,26 @@ class SLAGroupNPCTool extends Application {
           </div>
         </div>
         <div class="gnpc-card-stats">
-          <label class="gnpc-stat-lbl">STR<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="str" value="${npc.str}" min="0" max="10"/></label>
-          <label class="gnpc-stat-lbl">AGI<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="agi" value="${npc.agi}" min="0" max="10"/></label>
-          <label class="gnpc-stat-lbl">WIT<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="wit" value="${npc.wit}" min="0" max="10"/></label>
-          <label class="gnpc-stat-lbl">EMP<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="emp" value="${npc.emp}" min="0" max="10"/></label>
+          <label class="gnpc-stat-lbl">STR<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="str"    value="${npc.str}"    min="0" max="12"/></label>
+          <label class="gnpc-stat-lbl">AGI<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="agi"    value="${npc.agi}"    min="0" max="12"/></label>
+          <label class="gnpc-stat-lbl">WIT<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="wit"    value="${npc.wit}"    min="0" max="12"/></label>
+          <label class="gnpc-stat-lbl">EMP<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="emp"    value="${npc.emp}"    min="0" max="12"/></label>
           <span class="gnpc-sep">|</span>
           <div class="gnpc-hp-group">
             <span class="gnpc-stat-lbl-plain">HP</span>
             <button type="button" class="gnpc-hp-btn gnpc-hp-down" data-npc-id="${npc.id}" title="−1 HP">−</button>
-            <input class="gnpc-stat-input gnpc-hp-val" type="number" data-npc-id="${npc.id}" data-field="hp" value="${npc.hp}" min="0"/>
+            <input class="gnpc-stat-input gnpc-hp-val" type="number" data-npc-id="${npc.id}" data-field="hp"    value="${npc.hp}"    min="0"/>
             <span class="gnpc-hp-sep">/</span>
             <input class="gnpc-stat-input gnpc-hp-max" type="number" data-npc-id="${npc.id}" data-field="hpMax" value="${npc.hpMax}" min="1"/>
             <button type="button" class="gnpc-hp-btn gnpc-hp-up" data-npc-id="${npc.id}" title="+1 HP">+</button>
             <div class="gnpc-hp-bar-wrap"><div class="gnpc-hp-bar" style="width:${hpPct}%;background:${hpColor}"></div></div>
           </div>
           <span class="gnpc-sep">|</span>
-          <label class="gnpc-stat-lbl">ARM<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="armor" value="${npc.armor}" min="0"/></label>
+          <label class="gnpc-stat-lbl">ARM<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="armor"  value="${npc.armor}"  min="0"/></label>
           <label class="gnpc-stat-lbl">DMG<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="damage" value="${npc.damage}" min="1"/></label>
         </div>
+        ${armorLine}
+        <div class="gnpc-weapons-block">${natHtml}${wepHtml}</div>
         <div class="gnpc-abilities">${abils}</div>
         <textarea class="gnpc-notes-input" data-npc-id="${npc.id}" rows="1" placeholder="Notes…">${this._esc(npc.notes)}</textarea>
       </div>`;
