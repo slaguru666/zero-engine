@@ -6118,66 +6118,94 @@ class SLAGroupNPCTool extends Application {
     };
   }
 
-  // ── Icon helpers ─────────────────────────────────────────────────────────
+  // ── Icon helpers — SLA-specific art ─────────────────────────────────────
+  static _SLA = 'systems/zero-engine/assets/npc-art';
 
   /** Portrait icon for the NPC actor based on type */
   _getNPCIcon(typeKey) {
+    const p = SLAGroupNPCTool._SLA + '/portraits';
     return {
-      streetgang:   'icons/svg/mystery-man.svg',
-      carrion:      'icons/svg/skull.svg',
-      serialkiller: 'icons/svg/skull.svg',
-      monstaret:    'icons/svg/hazard.svg',
-      machine:      'icons/svg/daze.svg',
-    }[typeKey] ?? 'icons/svg/mystery-man.svg';
+      streetgang:   `${p}/streetgang.png`,
+      carrion:      `${p}/carrion.png`,
+      serialkiller: `${p}/serialkiller.png`,
+      monstaret:    `${p}/monstaret.png`,
+      machine:      `${p}/machine.png`,
+    }[typeKey] ?? `${p}/enemy-generic.png`;
   }
 
-  /** Choose weapon item icon based on name / range */
+  /** Choose weapon item icon from SLA art */
   _getWeaponIcon(weapon) {
     const n = (weapon.name || '').toLowerCase();
     const r = (weapon.range || '').toLowerCase();
+    const W = SLAGroupNPCTool._SLA + '/weapons';
     // Natural
-    if (n.includes('bite') || n.includes('mandible') || n.includes('screech'))
-      return 'icons/skills/melee/unarmed-punch-fist.webp';
-    if (n.includes('claw') || n.includes('rend') || n.includes('constrict') || n.includes('tentacle') || n.includes('grip') || n.includes('fist'))
-      return 'icons/skills/melee/unarmed-punch-fist.webp';
-    if (n.includes('spit') || n.includes('acid'))
+    if (n.includes('bite') || n.includes('mandible') || n.includes('constrict') || n.includes('grip'))
+      return `${W}/natural-weapon.png`;
+    if (n.includes('claw') || n.includes('rend') || n.includes('tentacle') || n.includes('talon'))
+      return `${W}/claws.png`;
+    if (n.includes('spit') || n.includes('acid') || n.includes('screech') || n.includes('sonic'))
       return 'icons/svg/aura.svg';
     // Ranged
-    if (n.includes('rifle') || n.includes('minigun') || n.includes('sniper'))
-      return 'icons/weapons/guns/rifle-bayonet.webp';
-    if (n.includes('shotgun') || n.includes('blunderbuss'))
-      return 'icons/weapons/guns/gun-blunderbuss.webp';
-    if (n.includes('pistol') || n.includes('smg') || n.includes('dart') || n.includes('crossbow'))
-      return 'icons/weapons/guns/gun-pistol-flintlock-metal.webp';
-    if (n.includes('flamethrower') || n.includes('laser') || n.includes('taser') || n.includes('shock'))
-      return 'icons/weapons/guns/gun-pistol-flintlock-metal.webp';
-    // Blunt melee
-    if (n.includes('pipe') || n.includes('bat') || n.includes('baton') || n.includes('chain') || n.includes('crowbar') || n.includes('knuckle') || n.includes('wrench') || n.includes('fist'))
-      return 'icons/weapons/clubs/club-simple-black.webp';
-    // Sharp melee
-    if (n.includes('knife') || n.includes('blade') || n.includes('scalpel') || n.includes('stiletto') || n.includes('cleaver') || n.includes('machete') || n.includes('hatchet') || n.includes('axe') || n.includes('wire') || n.includes('saw'))
-      return 'icons/weapons/daggers/dagger-straight-sharp.webp';
+    if (n.includes('sniper') || n.includes('marksman'))
+      return `${W}/sniper.png`;
+    if (n.includes('rifle') || n.includes('minigun') || n.includes('autocannon') || n.includes('lmg') || n.includes('flamethrower'))
+      return `${W}/rifle.png`;
+    if (n.includes('shotgun') || n.includes('street sweeper') || n.includes('sawn'))
+      return `${W}/shotgun.png`;
+    if (n.includes('smg') || n.includes('submachine'))
+      return `${W}/smg.png`;
+    if (n.includes('pistol') || n.includes('handgun') || n.includes('dart') || n.includes('taser') || n.includes('shock') || n.includes('laser'))
+      return `${W}/pistol.png`;
+    if (n.includes('crossbow'))
+      return `${W}/pistol.png`;
+    // Melee — blunt
+    if (n.includes('pipe') || n.includes('bat') || n.includes('baton') || n.includes('chain') || n.includes('crowbar') || n.includes('knuckle') || n.includes('wrench') || n.includes('hammer'))
+      return `${W}/baton.png`;
+    // Melee — cutting
+    if (n.includes('chainsaw') || n.includes('saw'))
+      return `${W}/chainsaw.png`;
+    if (n.includes('hatchet') || n.includes('axe') || n.includes('cleaver'))
+      return `${W}/hatchet.png`;
+    if (n.includes('machete') || n.includes('sabre') || n.includes('sword') || n.includes('blade') || n.includes('vibro'))
+      return `${W}/sabre.png`;
+    if (n.includes('wire') || n.includes('stiletto') || n.includes('scalpel') || n.includes('bone saw'))
+      return `${W}/combat-knife.png`;
+    if (n.includes('knife') || n.includes('dagger'))
+      return `${W}/knife.png`;
+    if (n.includes('fist') || n.includes('punch') || n.includes('slam'))
+      return `${W}/natural-weapon.png`;
     // Fallback by range
-    if (r && r !== 'engaged') return 'icons/weapons/guns/gun-pistol-flintlock-metal.webp';
-    return 'icons/weapons/daggers/dagger-straight-sharp.webp';
+    if (r && r !== 'engaged') return `${W}/pistol.png`;
+    return `${W}/knife.png`;
   }
 
-  /** Choose ability/specialty icon based on text */
+  /** Choose ability/specialty icon — SLA trait art where possible */
   _getAbilityIcon(text) {
     const t = (text || '').toLowerCase();
+    const A = SLAGroupNPCTool._SLA + '/abilities';
     if (t.includes('stealth') || t.includes('camouflage') || t.includes('hidden') || t.includes('ambush'))
       return 'icons/svg/cowled.svg';
-    if (t.includes('acid') || t.includes('poison') || t.includes('contagion') || t.includes('venom'))
-      return 'icons/svg/aura.svg';
+    if (t.includes('acid') || t.includes('contagion') || t.includes('venom') || t.includes('poison') || t.includes('dissolve'))
+      return `${A}/contagion.png`;
     if (t.includes('fire') || t.includes('burn') || t.includes('flame'))
       return 'icons/svg/fire.svg';
-    if (t.includes('stun') || t.includes('emp') || t.includes('shock') || t.includes('electric'))
+    if (t.includes('stun') || t.includes('emp') || t.includes('shock') || t.includes('paralys'))
       return 'icons/svg/daze.svg';
-    if (t.includes('bleed') || t.includes('rend') || t.includes('gore'))
+    if (t.includes('bleed') || t.includes('rend') || t.includes('gore') || t.includes('bite'))
       return 'icons/svg/blood.svg';
     if (t.includes('heal') || t.includes('repair') || t.includes('recover') || t.includes('diagnos'))
-      return 'icons/svg/regen.svg';
-    return 'icons/svg/lightning.svg';
+      return `${A}/regeneration.png`;
+    if (t.includes('pack') || t.includes('swarm') || t.includes('gang') || t.includes('mob') || t.includes('flank'))
+      return `${A}/enemy.png`;
+    if (t.includes('frenzy') || t.includes('unstoppable') || t.includes('brutal') || t.includes('hard hit'))
+      return `${A}/hard-hitting.png`;
+    if (t.includes('fast') || t.includes('speed') || t.includes('sprint') || t.includes('leap') || t.includes('pounce'))
+      return `${A}/fast-reflexes.png`;
+    if (t.includes('intimidat') || t.includes('menac') || t.includes('fear') || t.includes('screech'))
+      return `${A}/menacing.png`;
+    if (t.includes('psycho') || t.includes('endurance') || t.includes('mindless') || t.includes('ignore'))
+      return `${A}/psychosis.png`;
+    return `${A}/attack.png`;
   }
 
   /** Find or create an Actor folder by name, optionally under a parent */
@@ -6558,12 +6586,14 @@ class SLAGroupNPCTool extends Application {
           // Armor item
           if (npc.armor > 0 && npc.armorDesc && npc.armorDesc !== 'None' && !npc.armorDesc.startsWith('Built-in')) {
             const armorName = npc.armorDesc.replace(/\s*\(ARM \d+\)/, '').trim() || 'Armour';
-            const heavyArmor = npc.armor >= 3;
+            const ART = SLAGroupNPCTool._SLA + '/armor';
+            const armorImg = npc.armor >= 5 ? `${ART}/exo.png`
+                           : npc.armor >= 3 ? `${ART}/heavy.png`
+                           : npc.armorDesc.toLowerCase().includes('street') ? `${ART}/street.png`
+                           : `${ART}/light.png`;
             embeds.push({
               name: armorName, type: 'armor',
-              img: heavyArmor
-                ? 'icons/equipment/chest/breastplate-banded-steel.webp'
-                : 'icons/equipment/chest/vest-simple-leather-brown.webp',
+              img: armorImg,
               system: {
                 description: npc.armorDesc, armorDice: npc.armor, armorAuto: 0,
                 armorRating: npc.armor, statMod: 0, skillMod: 0, statModTarget: '',
