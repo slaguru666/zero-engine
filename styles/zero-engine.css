@@ -4538,3 +4538,11 @@ body > .ze-pause-root .ze-sat-inner {
   font-size: 10.5px; color: #aaa88a; padding: 1px 2px;
 }
 .group-npc-tool .gnpc-armor-row i { margin-right: 4px; color: #887755; }
+
+/* Group NPC — count as number input */
+.group-npc-tool .gnpc-count-sel {
+  width: 44px; text-align: center;
+  background: rgba(255,255,255,0.08); border: 1px solid #555;
+  color: #eee; border-radius: 3px; padding: 3px 4px; font-size: 13px;
+  font-weight: bold;
+}

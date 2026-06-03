@@ -6137,7 +6137,8 @@ class SLAGroupNPCTool extends Application {
     const rgb      = this._hexRgb(npc.color);
     const hpPct    = npc.hpMax > 0 ? Math.max(0, Math.min(100, (npc.hp / npc.hpMax) * 100)) : 0;
     const hpColor  = hpPct > 60 ? '#44cc66' : hpPct > 30 ? '#ffaa00' : '#cc3333';
-    const defeated = npc.defeated ? ' gnpc-defeated' : '';
+    const defeated  = npc.defeated ? ' gnpc-defeated' : '';
+    const bgStyle   = `border-left:3px solid ${npc.color};background:rgba(${rgb},0.07)`;
 
     // Natural weapons (creatures only)
     const natHtml = (npc.naturalWeapons ?? []).map(w => {
@@ -6160,7 +6161,7 @@ class SLAGroupNPCTool extends Application {
       ? `<div class="gnpc-armor-row"><i class="fas fa-shield-alt"></i> ${this._esc(npc.armorDesc)}</div>` : '';
 
     return `
-      <div class="gnpc-card${defeated}" data-npc-id="${npc.id}" style="border-left:3px solid ${npc.color}">
+      <div class="gnpc-card${defeated}" data-npc-id="${npc.id}" style="${bgStyle}">
         <div class="gnpc-card-top">
           <input class="gnpc-name-input" type="text" data-npc-id="${npc.id}" value="${this._esc(npc.name)}" />
           <span class="gnpc-type-tag" style="background:rgba(${rgb},0.15);color:${npc.color};border-color:${npc.color}80">
@@ -6219,9 +6220,7 @@ class SLAGroupNPCTool extends Application {
         <i class="${a.icon}"></i> ${a.label}</button>`;
     }).join('');
 
-    const countOpts = [1,2,3,4,5,6,8,10].map(n =>
-      `<option value="${n}"${n === this._count ? ' selected' : ''}>${n}</option>`
-    ).join('');
+    const countVal = this._count;
 
     const alive    = this._npcs.filter(n => !n.defeated).length;
     const defeated = this._npcs.filter(n =>  n.defeated).length;
@@ -6250,7 +6249,7 @@ class SLAGroupNPCTool extends Application {
         <div class="gnpc-toolbar">
           <div class="gnpc-type-row">${typeBtns}</div>
           <div class="gnpc-action-row">
-            <label class="gnpc-count-lbl">Count <select class="gnpc-count-sel">${countOpts}</select></label>
+            <label class="gnpc-count-lbl">Count <input type="number" class="gnpc-count-sel" min="1" max="10" value="${countVal}" /></label>
             <button type="button" class="gnpc-gen-btn"><i class="fas fa-random"></i> Generate</button>
             <button type="button" class="gnpc-add-btn"><i class="fas fa-plus"></i> Add More</button>
             <button type="button" class="gnpc-clr-btn"><i class="fas fa-trash-alt"></i> Clear All</button>
@@ -6276,9 +6275,9 @@ class SLAGroupNPCTool extends Application {
       })
     );
 
-    // Count selector
-    root.querySelector('.gnpc-count-sel')?.addEventListener('change', e => {
-      this._count = parseInt(e.target.value) || 4;
+    // Count selector (number input, 1–10)
+    root.querySelector('.gnpc-count-sel')?.addEventListener('input', e => {
+      this._count = Math.max(1, Math.min(10, parseInt(e.target.value) || 1));
     });
 
     // Generate (replace all)
@@ -6396,17 +6395,33 @@ class SLAGroupNPCTool extends Application {
       })
     );
 
-    // Create as World Actors
+    // Create as World Actors — with embedded weapon, armor, and specialty items
     root.querySelector('.gnpc-create-btn')?.addEventListener('click', async () => {
       if (!game.user?.isGM) return;
       this._saveState();
       let created = 0;
       for (const npc of this._npcs) {
         try {
-          await Actor.create({
+          // Formatted biography
+          const bio = [];
+          bio.push(`Type: ${npc.typeLabel}  |  Threat: ${npc.threat}`);
+          if (npc.armorDesc && npc.armorDesc !== 'None') bio.push(`Armour: ${npc.armorDesc}`);
+          const allWep = [...(npc.naturalWeapons ?? []), ...(npc.weapons ?? [])];
+          if (allWep.length) {
+            bio.push('\nWeapons:');
+            allWep.forEach(w => bio.push(`  ${w.name} — DMG ${w.damage}${w.ap ? ` AP ${w.ap}` : ''}${w.range ? ` [${w.range}]` : ''}${w.note ? ` — ${w.note}` : ''}`));
+          }
+          if (npc.abilities?.length) {
+            bio.push('\nAbilities:');
+            npc.abilities.forEach(a => bio.push(`  ${a}`));
+          }
+          if (npc.notes) bio.push(`\nNotes:\n  ${npc.notes}`);
+
+          // Create base actor
+          const actorDoc = await Actor.create({
             name: npc.name, type: 'npc',
             system: {
-              biography: `Type: ${npc.typeLabel}\n\nAbilities:\n${npc.abilities.join('\n')}${npc.notes ? '\n\nNotes:\n' + npc.notes : ''}`,
+              biography: bio.join('\n'),
               threat:     npc.threat,
               attributes: { strength: npc.str, agility: npc.agi, wits: npc.wit, empathy: npc.emp },
               health:     { value: npc.hp, max: npc.hpMax },
@@ -6414,6 +6429,64 @@ class SLAGroupNPCTool extends Application {
               damage:     npc.damage
             }
           });
+          if (!actorDoc) continue;
+
+          // Build embedded items
+          const embeds = [];
+
+          // Weapon items (natural + conventional/integrated)
+          for (const w of allWep) {
+            const isRanged = w.range && w.range !== 'Engaged';
+            const rofMatch = w.note?.match(/ROF\s*(\d+)/i);
+            embeds.push({
+              name: w.name, type: 'weapon',
+              img: isRanged
+                ? 'icons/weapons/guns/gun-pistol-flintlock-metal.webp'
+                : 'icons/weapons/daggers/dagger-straight-sharp.webp',
+              system: {
+                description: w.note || '', weaponType: w.name,
+                category: isRanged ? 'ranged' : 'melee',
+                damage: w.damage, range: w.range || 'Engaged', ap: w.ap || 0,
+                gearBonus: 0, rof: rofMatch ? parseInt(rofMatch[1]) : 1,
+                magazine: isRanged ? 12 : 0, ammo: isRanged ? 12 : 0,
+                fireModes: isRanged ? ['single'] : [], equipped: true,
+                ammoType: 'standard', autoAmmoUse: 8, initiativeMod: 0, ammoEmpty: false
+              }
+            });
+          }
+
+          // Armor item (skip Built-in; machines use their armor stat directly)
+          if (npc.armor > 0 && npc.armorDesc && npc.armorDesc !== 'None' && !npc.armorDesc.startsWith('Built-in')) {
+            const armorName = npc.armorDesc.replace(/\s*\(ARM \d+\)/, '').trim() || 'Armour';
+            embeds.push({
+              name: armorName, type: 'armor',
+              img: 'icons/equipment/chest/vest-simple-leather-brown.webp',
+              system: {
+                description: npc.armorDesc, armorDice: npc.armor, armorAuto: 0,
+                armorRating: npc.armor, statMod: 0, skillMod: 0, statModTarget: '',
+                skillModTarget: '', healthMod: 0, resolveMod: 0, initiativeMod: 0, equipped: true
+              }
+            });
+          }
+
+          // Specialty items for abilities
+          for (const ability of (npc.abilities ?? [])) {
+            const title = ability.match(/^([^—\-]+)/)?.[1]?.trim() ?? ability.slice(0, 30);
+            embeds.push({
+              name: title, type: 'specialty',
+              img: 'icons/skills/social/intimidation-impressing.webp',
+              system: {
+                description: ability, effects: ability, category: 'general',
+                package: npc.typeLabel, prerequisites: '', isActive: true,
+                healthMod: 0, resolveMod: 0
+              }
+            });
+          }
+
+          if (embeds.length) {
+            try { await actorDoc.createEmbeddedDocuments('Item', embeds); }
+            catch(e) { console.warn(`Zero Engine | Group NPC: embed failed for "${npc.name}"`, e); }
+          }
           created++;
         } catch(err) {
           console.error(`Zero Engine | Group NPC: failed to create "${npc.name}"`, err);
