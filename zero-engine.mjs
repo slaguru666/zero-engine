@@ -6118,6 +6118,96 @@ class SLAGroupNPCTool extends Application {
     };
   }
 
+  // ── Icon helpers ─────────────────────────────────────────────────────────
+
+  /** Portrait icon for the NPC actor based on type */
+  _getNPCIcon(typeKey) {
+    return {
+      streetgang:   'icons/svg/mystery-man.svg',
+      carrion:      'icons/svg/skull.svg',
+      serialkiller: 'icons/svg/skull.svg',
+      monstaret:    'icons/svg/hazard.svg',
+      machine:      'icons/svg/daze.svg',
+    }[typeKey] ?? 'icons/svg/mystery-man.svg';
+  }
+
+  /** Choose weapon item icon based on name / range */
+  _getWeaponIcon(weapon) {
+    const n = (weapon.name || '').toLowerCase();
+    const r = (weapon.range || '').toLowerCase();
+    // Natural
+    if (n.includes('bite') || n.includes('mandible') || n.includes('screech'))
+      return 'icons/skills/melee/unarmed-punch-fist.webp';
+    if (n.includes('claw') || n.includes('rend') || n.includes('constrict') || n.includes('tentacle') || n.includes('grip') || n.includes('fist'))
+      return 'icons/skills/melee/unarmed-punch-fist.webp';
+    if (n.includes('spit') || n.includes('acid'))
+      return 'icons/svg/aura.svg';
+    // Ranged
+    if (n.includes('rifle') || n.includes('minigun') || n.includes('sniper'))
+      return 'icons/weapons/guns/rifle-bayonet.webp';
+    if (n.includes('shotgun') || n.includes('blunderbuss'))
+      return 'icons/weapons/guns/gun-blunderbuss.webp';
+    if (n.includes('pistol') || n.includes('smg') || n.includes('dart') || n.includes('crossbow'))
+      return 'icons/weapons/guns/gun-pistol-flintlock-metal.webp';
+    if (n.includes('flamethrower') || n.includes('laser') || n.includes('taser') || n.includes('shock'))
+      return 'icons/weapons/guns/gun-pistol-flintlock-metal.webp';
+    // Blunt melee
+    if (n.includes('pipe') || n.includes('bat') || n.includes('baton') || n.includes('chain') || n.includes('crowbar') || n.includes('knuckle') || n.includes('wrench') || n.includes('fist'))
+      return 'icons/weapons/clubs/club-simple-black.webp';
+    // Sharp melee
+    if (n.includes('knife') || n.includes('blade') || n.includes('scalpel') || n.includes('stiletto') || n.includes('cleaver') || n.includes('machete') || n.includes('hatchet') || n.includes('axe') || n.includes('wire') || n.includes('saw'))
+      return 'icons/weapons/daggers/dagger-straight-sharp.webp';
+    // Fallback by range
+    if (r && r !== 'engaged') return 'icons/weapons/guns/gun-pistol-flintlock-metal.webp';
+    return 'icons/weapons/daggers/dagger-straight-sharp.webp';
+  }
+
+  /** Choose ability/specialty icon based on text */
+  _getAbilityIcon(text) {
+    const t = (text || '').toLowerCase();
+    if (t.includes('stealth') || t.includes('camouflage') || t.includes('hidden') || t.includes('ambush'))
+      return 'icons/svg/cowled.svg';
+    if (t.includes('acid') || t.includes('poison') || t.includes('contagion') || t.includes('venom'))
+      return 'icons/svg/aura.svg';
+    if (t.includes('fire') || t.includes('burn') || t.includes('flame'))
+      return 'icons/svg/fire.svg';
+    if (t.includes('stun') || t.includes('emp') || t.includes('shock') || t.includes('electric'))
+      return 'icons/svg/daze.svg';
+    if (t.includes('bleed') || t.includes('rend') || t.includes('gore'))
+      return 'icons/svg/blood.svg';
+    if (t.includes('heal') || t.includes('repair') || t.includes('recover') || t.includes('diagnos'))
+      return 'icons/svg/regen.svg';
+    return 'icons/svg/lightning.svg';
+  }
+
+  /** Find or create an Actor folder by name, optionally under a parent */
+  async _ensureFolder(name, parentId = null) {
+    let folder = (game.folders ?? []).find(f =>
+      f.type === 'Actor' && f.name === name && (f.folder?.id ?? null) === parentId
+    );
+    if (!folder) {
+      try {
+        const colors = {
+          'Generated NPCs': '#442211',
+          'Street Gang':    '#996611',
+          'Carrion':        '#883311',
+          'Serial Killer':  '#661133',
+          'Monstaret':      '#224411',
+          'Machine':        '#112244',
+        };
+        folder = await Folder.create({
+          name, type: 'Actor',
+          folder: parentId,
+          sorting: 'a',
+          color: colors[name] ?? '#333333'
+        });
+      } catch(e) {
+        console.warn(`Zero Engine | Could not create folder "${name}":`, e);
+      }
+    }
+    return folder ?? null;
+  }
+
   // ── Save in-progress edits before re-render ───────────────────────────────
   _saveState() {
     const root = this._root;
@@ -6399,16 +6489,22 @@ class SLAGroupNPCTool extends Application {
       })
     );
 
-    // Create as World Actors — with embedded weapon, armor, and specialty items
+    // Create as World Actors — folder + icons + embedded items
     root.querySelector('.gnpc-create-btn')?.addEventListener('click', async () => {
       if (!game.user?.isGM) return;
       this._saveState();
+
+      // Get/create folder hierarchy: Generated NPCs > Type
+      const rootFolder = await this._ensureFolder('Generated NPCs');
+      const typeLabel  = SLA_NPC_GROUP_ARCHETYPES[this._selectedType]?.label ?? 'NPCs';
+      const typeFolder = await this._ensureFolder(typeLabel, rootFolder?.id ?? null);
+      const folderId   = typeFolder?.id ?? rootFolder?.id ?? null;
+
       let created = 0;
       for (const npc of this._npcs) {
         try {
-          // Formatted biography
-          const bio = [];
-          bio.push(`Type: ${npc.typeLabel}  |  Threat: ${npc.threat}`);
+          // Biography
+          const bio = [`Type: ${npc.typeLabel}  |  Threat: ${npc.threat}`];
           if (npc.armorDesc && npc.armorDesc !== 'None') bio.push(`Armour: ${npc.armorDesc}`);
           const allWep = [...(npc.naturalWeapons ?? []), ...(npc.weapons ?? [])];
           if (allWep.length) {
@@ -6421,16 +6517,18 @@ class SLAGroupNPCTool extends Application {
           }
           if (npc.notes) bio.push(`\nNotes:\n  ${npc.notes}`);
 
-          // Create base actor
+          // Create actor with portrait icon
           const actorDoc = await Actor.create({
             name: npc.name, type: 'npc',
+            img: this._getNPCIcon(npc.typeKey),
+            folder: folderId,
             system: {
               biography: bio.join('\n'),
-              threat:     npc.threat,
+              threat:    npc.threat,
               attributes: { strength: npc.str, agility: npc.agi, wits: npc.wit, empathy: npc.emp },
-              health:     { value: npc.hp, max: npc.hpMax },
-              armor:      npc.armor,
-              damage:     npc.damage
+              health:    { value: npc.hp, max: npc.hpMax },
+              armor:     npc.armor,
+              damage:    npc.damage
             }
           });
           if (!actorDoc) continue;
@@ -6438,15 +6536,13 @@ class SLAGroupNPCTool extends Application {
           // Build embedded items
           const embeds = [];
 
-          // Weapon items (natural + conventional/integrated)
+          // Weapon items
           for (const w of allWep) {
             const isRanged = w.range && w.range !== 'Engaged';
             const rofMatch = w.note?.match(/ROF\s*(\d+)/i);
             embeds.push({
               name: w.name, type: 'weapon',
-              img: isRanged
-                ? 'icons/weapons/guns/gun-pistol-flintlock-metal.webp'
-                : 'icons/weapons/daggers/dagger-straight-sharp.webp',
+              img: this._getWeaponIcon(w),
               system: {
                 description: w.note || '', weaponType: w.name,
                 category: isRanged ? 'ranged' : 'melee',
@@ -6459,12 +6555,15 @@ class SLAGroupNPCTool extends Application {
             });
           }
 
-          // Armor item (skip Built-in; machines use their armor stat directly)
+          // Armor item
           if (npc.armor > 0 && npc.armorDesc && npc.armorDesc !== 'None' && !npc.armorDesc.startsWith('Built-in')) {
             const armorName = npc.armorDesc.replace(/\s*\(ARM \d+\)/, '').trim() || 'Armour';
+            const heavyArmor = npc.armor >= 3;
             embeds.push({
               name: armorName, type: 'armor',
-              img: 'icons/equipment/chest/vest-simple-leather-brown.webp',
+              img: heavyArmor
+                ? 'icons/equipment/chest/breastplate-banded-steel.webp'
+                : 'icons/equipment/chest/vest-simple-leather-brown.webp',
               system: {
                 description: npc.armorDesc, armorDice: npc.armor, armorAuto: 0,
                 armorRating: npc.armor, statMod: 0, skillMod: 0, statModTarget: '',
@@ -6478,7 +6577,7 @@ class SLAGroupNPCTool extends Application {
             const title = ability.match(/^([^—\-]+)/)?.[1]?.trim() ?? ability.slice(0, 30);
             embeds.push({
               name: title, type: 'specialty',
-              img: 'icons/skills/social/intimidation-impressing.webp',
+              img: this._getAbilityIcon(ability),
               system: {
                 description: ability, effects: ability, category: 'general',
                 package: npc.typeLabel, prerequisites: '', isActive: true,
@@ -6496,7 +6595,7 @@ class SLAGroupNPCTool extends Application {
           console.error(`Zero Engine | Group NPC: failed to create "${npc.name}"`, err);
         }
       }
-      ui.notifications.info(`Created ${created} NPC actor${created !== 1 ? 's' : ''} in the world.`);
+      ui.notifications.info(`Created ${created} NPC${created !== 1 ? 's' : ''} in folder: Generated NPCs / ${typeLabel}`);
     });
   }
 }
