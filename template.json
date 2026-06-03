@@ -12,7 +12,8 @@
         "weight": "",
         "scl": 10,
         "credits": 500,
-        "isPlayerCharacter": false
+        "isPlayerCharacter": false,
+        "ladAccount": false
       },
       "race": [],
       "training": [],

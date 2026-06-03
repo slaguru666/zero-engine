@@ -138,6 +138,11 @@
 				<button type="button" class="rest-btn" data-actor-id="{{actor._id}}" title="Rest: clear weapon lockouts and restore ammo">
 					<i class="fas fa-bed"></i> REST
 				</button>
+				{{#if isGM}}
+				<button type="button" class="pc-status-btn" title="Post all PC conditions to chat">
+					<i class="fas fa-clipboard-list"></i> STATUS
+				</button>
+				{{/if}}
 			</div>
 			{{#if isEbbUser}}
 			<div class="vital-box flux-vital">
@@ -213,9 +218,12 @@
 			{{#if activeConditions.length}}
 			<div class="active-conditions-row">
 				{{#each activeConditions}}
-				<div class="condition-tag {{this.id}}" title="{{this.description}}">
-					<i class="{{this.icon}}"></i>
-					<span class="condition-label">{{this.label}}</span>
+				<div class="condition-tag {{this.id}}">
+					<div class="condition-tag-body">
+						<i class="{{this.icon}}"></i>
+						<span class="condition-label">{{this.label}}</span>
+						<span class="condition-penalty">{{this.description}}</span>
+					</div>
 					<button type="button" class="condition-clear-btn" data-condition-id="{{this.id}}" title="Clear condition">✕</button>
 				</div>
 				{{/each}}
@@ -890,6 +898,12 @@
 						<div class="fin-row"><label>Accommodation</label><div class="fin-amount"><input type="number" name="system.finances.expenses.accommodation" value="{{system.finances.expenses.accommodation}}" /><span>c</span></div></div>
 						<div class="fin-row"><label>Drug Costs</label><div class="fin-amount"><input type="number" name="system.finances.expenses.drugs" value="{{system.finances.expenses.drugs}}" /><span>c</span></div></div>
 						<div class="fin-row"><label>Subscriptions</label><div class="fin-amount"><input type="number" name="system.finances.expenses.subscriptions" value="{{system.finances.expenses.subscriptions}}" /><span>c</span></div></div>
+						{{#if system.details.ladAccount}}
+						<div class="fin-row lad-expense-row">
+							<label><i class="fas fa-broadcast-tower"></i> LAD Account</label>
+							<div class="fin-amount fin-amount-locked"><input type="number" value="50" disabled /><span>c</span></div>
+						</div>
+						{{/if}}
 						<div class="fin-row"><label>Other</label><div class="fin-amount"><input type="number" name="system.finances.expenses.other" value="{{system.finances.expenses.other}}" /><span>c</span></div></div>
 						<div class="fin-row"><label>💸 Bullet Tax (session)</label><span class="fin-btax">{{system.finances.expenses.bulletTax}}c</span></div>
 						<div class="fin-row"><label>Debt</label><div class="fin-amount"><input type="number" name="system.finances.debt" value="{{system.finances.debt}}" /><span>c</span></div></div>
@@ -964,6 +978,13 @@
 						<i class="fas fa-user-shield"></i> Player Character
 					</label>
 					<span class="pc-flag-hint">When ticked, this actor appears in the GM Finance Ledger.</span>
+				</div>
+				<div class="pc-flag-row">
+					<label class="pc-flag-label">
+						<input type="checkbox" name="system.details.ladAccount" {{#if system.details.ladAccount}}checked{{/if}} />
+						<i class="fas fa-broadcast-tower"></i> LAD Account
+					</label>
+					<span class="pc-flag-hint">Life After Death media subscription — costs 50c per week (auto-added to Finances).</span>
 				</div>
 
 				<h3>Background</h3>

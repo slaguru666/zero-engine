@@ -297,6 +297,8 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     context.equippedArmorName = context.armors[0]?.name || null;
 
     // Finances summary (used by both Mk1 and Mk2 sheets)
+    context.isGM = game.user?.isGM ?? false;
+    const ladCost = (this.actor.system.details?.ladAccount === true) ? 50 : 0;
     if (!this.actor.system.finances) {
       context.weeklyIncome = 0; context.weeklyExpenses = 0; context.weeklyNet = 0;
       context.weeklyNetSign = '+'; context.weeklyNetColor = '#44cc66';
@@ -304,7 +306,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       const _inc = this.actor.system.finances?.income  || {};
       const _exp = this.actor.system.finances?.expenses || {};
       context.weeklyIncome   = (_inc.salary||0) + (_inc.bpnReward||0) + (_inc.other||0);
-      context.weeklyExpenses = (_exp.accommodation||0) + (_exp.drugs||0) + (_exp.subscriptions||0) + (_exp.other||0) + (_exp.bulletTax||0);
+      context.weeklyExpenses = (_exp.accommodation||0) + (_exp.drugs||0) + (_exp.subscriptions||0) + (_exp.other||0) + (_exp.bulletTax||0) + ladCost;
       context.weeklyNet      = context.weeklyIncome - context.weeklyExpenses;
       context.weeklyNetSign  = context.weeklyNet >= 0 ? '+' : '';
       context.weeklyNetColor = context.weeklyNet >= 0 ? '#44cc66' : '#cc1111';
@@ -457,6 +459,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     // Health / Resolve save rolls — click the vital label name
     html.find('.vital-save-label').click(this._onVitalSave.bind(this));
+
+    // GM PC condition status report
+    html.find('.pc-status-btn').click(ev => { ev.preventDefault(); _broadcastPCConditions(); });
 
     // Delete injury buttons
     html.find('.delete-injury-btn').click(this._onDeleteInjury.bind(this));
@@ -663,9 +668,14 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       if (!condId) return;
       try {
         await this.actor.toggleStatusEffect(condId, { active: false });
-        ui.notifications.info(`Condition cleared: ${condId.replace('sla-','')} on ${this.actor.name}`);
       } catch(e) {
-        console.warn('Zero Engine | Could not clear condition:', e);
+        // Fallback: find and delete the matching ActiveEffect directly
+        console.warn(`Zero Engine | toggleStatusEffect(false) failed for "${condId}", trying direct delete:`, e);
+        const effect = this.actor.effects.find(ef => ef.statuses?.has(condId));
+        if (effect) await effect.delete();
+      }
+      if (!this.actor.statuses?.has(condId)) {
+        ui.notifications.info(`Condition cleared: ${condId.replace('sla-','')} on ${this.actor.name}`);
       }
     });
 
@@ -1832,10 +1842,8 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       notes.push('Reverted to base form');
     }
     if (entry.applyCondition) {
-      try {
-        await actor.toggleStatusEffect(entry.applyCondition, { active: true });
-        notes.push(`Condition applied: ${entry.applyCondition.replace('sla-','')}`);
-      } catch(_) {}
+      await _applyStatusCondition(actor, entry.applyCondition);
+      notes.push(`Condition applied: ${entry.applyCondition.replace('sla-','')}`);
     }
 
     if (Object.keys(updates).length > 0) {
@@ -2810,16 +2818,14 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     });
 
     // Apply condition based on panic severity
-    try {
-      const panicLevel = total || 0;
-      if (panicLevel >= 10) {
-        await actor.toggleStatusEffect('sla-panicking', { active: true });
-        ui.notifications.warn(`${actor.name} is PANICKING! (-2 dice to all rolls)`);
-      } else if (panicLevel >= 7) {
-        await actor.toggleStatusEffect('sla-shaken', { active: true });
-        ui.notifications.warn(`${actor.name} is SHAKEN! (-1 die to all rolls)`);
-      }
-    } catch(_) {}
+    const panicLevel = total || 0;
+    if (panicLevel >= 10) {
+      await _applyStatusCondition(actor, 'sla-panicking', 'Panicking', 'icons/svg/terror.svg');
+      ui.notifications.warn(`${actor.name} is PANICKING! (-2 dice to all rolls)`);
+    } else if (panicLevel >= 7) {
+      await _applyStatusCondition(actor, 'sla-shaken', 'Shaken', 'icons/svg/terror.svg');
+      ui.notifications.warn(`${actor.name} is SHAKEN! (-1 die to all rolls)`);
+    }
 
     if (total > 6) {
       const panicEffect = this._getPanicEffect(total);
@@ -3279,10 +3285,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     };
     const mCondIds = MENTAL_CRIT_CONDITIONS[key] || [];
     for (const condId of mCondIds) {
-      try {
-        const already = actor.statuses?.has(condId);
-        if (!already) await actor.toggleStatusEffect(condId, { active: true });
-      } catch(_) {}
+      await _applyStatusCondition(actor, condId);
     }
 
     // If instant death
@@ -3392,10 +3395,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     };
     const condIds = PHYS_CRIT_CONDITIONS[key] || [];
     for (const condId of condIds) {
-      try {
-        const already = actor.statuses?.has(condId);
-        if (!already) await actor.toggleStatusEffect(condId, { active: true });
-      } catch(_) {}
+      await _applyStatusCondition(actor, condId);
     }
 
     // If instant death
@@ -3562,6 +3562,11 @@ Hooks.once("setup", () => {
  */
 Hooks.once('ready', function() {
   console.log('Zero Engine | Ready');
+
+  // Hourly PC condition report — whispered to GM (fires once per hour while Foundry is running)
+  if (game.user?.isGM) {
+    setInterval(() => _broadcastPCConditions(), 60 * 60 * 1000);
+  }
 
   // ── ONE-TIME DATA SANITIZATION ────────────────────────────────────────
   // Fix actors whose skill/flux values were corrupted by duplicate form inputs
@@ -7615,6 +7620,113 @@ const SLA_CONDITIONS = [
 // Conditions are registered in the main init hook (search for "SLA_CONDITIONS" above this line)
 
 // ─── CONDITION MODIFIER HELPER ────────────────────────────────────────────────
+
+/**
+ * Post a whispered GM report of every PC's current conditions, HP, Resolve, and Stress.
+ * Called hourly from the ready hook and on demand from the STATUS button on any sheet.
+ */
+async function _broadcastPCConditions() {
+  if (!game.user?.isGM) return;
+
+  const pcs = (game.actors ?? []).filter(a =>
+    a.type === 'character' && a.system?.details?.isPlayerCharacter === true
+  );
+
+  if (pcs.length === 0) {
+    ui.notifications.info('Zero Engine | No PCs found for condition report.');
+    return;
+  }
+
+  const condLabels = Object.fromEntries(
+    SLA_CONDITIONS.map(c => [c.id, { label: c.label, desc: c.description }])
+  );
+
+  let rows = '';
+  for (const pc of pcs) {
+    const hp      = Number(pc.system.derivedStats?.health?.value  ?? 0);
+    const hpMax   = Number(pc.system.derivedStats?.health?.max    ?? 0);
+    const res     = Number(pc.system.derivedStats?.resolve?.value ?? 0);
+    const resMax  = Number(pc.system.derivedStats?.resolve?.max   ?? 0);
+    const stress  = Number(pc.system.derivedStats?.stress         ?? 0);
+
+    const hpColour     = hp <= 0 ? '#ff2222' : hp <= hpMax * 0.3 ? '#ff8800' : '#44cc66';
+    const resColour    = res <= 0 ? '#ff2222' : res <= resMax * 0.3 ? '#ff8800' : '#44ccff';
+    const stressColour = stress >= 8 ? '#ff2222' : stress >= 5 ? '#ff8800' : '#aaaaaa';
+
+    const activeConds = [...(pc.statuses ?? new Set())]
+      .filter(id => condLabels[id])
+      .map(id => `<span style="color:#ff6644;font-weight:bold;">${condLabels[id].label}</span> <span style="color:#cc8844;font-size:10px;">(${condLabels[id].desc})</span>`)
+      .join(', ');
+
+    rows += `
+      <div style="margin:4px 0;padding:5px 6px;background:rgba(255,255,255,0.04);border-left:3px solid #ff6600;border-radius:2px;">
+        <div style="font-weight:bold;color:#ff9922;margin-bottom:3px;">${pc.name}</div>
+        <div style="font-size:11px;line-height:1.6;">
+          <span style="color:${hpColour}">❤ HP ${hp}/${hpMax}</span> &nbsp;
+          <span style="color:${resColour}">🧠 Resolve ${res}/${resMax}</span> &nbsp;
+          <span style="color:${stressColour}">⚡ Stress ${stress}</span>
+        </div>
+        <div style="font-size:11px;margin-top:2px;">
+          ${activeConds || '<span style="color:#44cc66;font-size:10px;">No active conditions</span>'}
+        </div>
+      </div>`;
+  }
+
+  const now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+  await ChatMessage.create({
+    speaker: { alias: '⚠ Zero Engine — PC Status Report' },
+    content: `<div class="yze-roll-result" style="padding:6px;">
+      <div style="font-size:12px;color:#888;margin-bottom:6px;">Status Report — ${now} — ${pcs.length} PC${pcs.length !== 1 ? 's' : ''}</div>
+      ${rows}
+    </div>`,
+    whisper: [game.user.id]
+  });
+}
+
+/**
+ * Apply a status condition to an actor reliably.
+ * Tries actor.toggleStatusEffect first (Foundry v14 API). If that fails or
+ * the condition still isn't in actor.statuses afterward, falls back to creating
+ * an ActiveEffect directly so conditions always land even if toggleStatusEffect
+ * is unavailable or throws.
+ * @param {Actor} actor
+ * @param {string} condId   e.g. "sla-panicking"
+ * @param {string} [label]  display name fallback
+ * @param {string} [icon]   icon path fallback
+ */
+async function _applyStatusCondition(actor, condId, label, icon) {
+  // Skip if already active
+  if (actor.statuses?.has(condId)) return;
+
+  // Try the standard API first
+  let applied = false;
+  try {
+    await actor.toggleStatusEffect(condId, { active: true });
+    applied = actor.statuses?.has(condId) ?? false;
+  } catch(e) {
+    console.warn(`Zero Engine | toggleStatusEffect failed for "${condId}":`, e);
+  }
+
+  if (!applied) {
+    // Fallback: look up from SLA_CONDITIONS or use provided label/icon
+    const condDef = SLA_CONDITIONS.find(c => c.id === condId);
+    const effectName  = condDef?.label ?? label ?? condId;
+    const effectIcon  = condDef?.icon  ?? icon  ?? 'icons/svg/aura.svg';
+    try {
+      await actor.createEmbeddedDocuments('ActiveEffect', [{
+        name:     effectName,
+        img:      effectIcon,
+        icon:     effectIcon,
+        statuses: [condId],
+        disabled: false
+      }]);
+      console.log(`Zero Engine | Applied "${condId}" via fallback ActiveEffect on ${actor.name}`);
+    } catch(e2) {
+      console.error(`Zero Engine | Could not apply condition "${condId}" on ${actor.name}:`, e2);
+    }
+  }
+}
 
 /**
  * Returns dice-pool penalty from any active SLA conditions on this actor.

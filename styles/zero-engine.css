@@ -3973,15 +3973,47 @@
   box-shadow: inset 0 0 12px rgba(220,80,0,0.08);
 }
 
+/* ── LAD Account locked expense row ─────────────────────── */
+.zero-engine .lad-expense-row label {
+  color: #888; font-style: italic;
+}
+.zero-engine .fin-amount-locked input {
+  background: #1a1a1a; color: #666; cursor: not-allowed;
+  border-color: #333; opacity: 0.7;
+}
+.zero-engine .fin-amount-locked span {
+  color: #666;
+}
+
+/* ── PC Status button (GM only) ─────────────────────────── */
+.zero-engine .pc-status-btn {
+  display: block; width: 100%; margin-top: 4px;
+  background: rgba(80,120,180,0.2); border: 1px solid rgba(80,120,200,0.4);
+  color: #88aadd; border-radius: 3px; padding: 3px 6px;
+  font-size: 10px; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.zero-engine .pc-status-btn:hover {
+  background: rgba(80,120,180,0.4); color: #aaccff;
+}
+
 /* ── Active Conditions Row ──────────────────────────────── */
 .zero-engine .active-conditions-row {
   display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; padding: 5px 0;
 }
 .zero-engine .condition-tag {
-  display: flex; align-items: center; gap: 4px;
+  display: flex; align-items: center; gap: 6px;
   background: rgba(200,80,0,0.15); border: 1px solid rgba(200,100,0,0.4);
-  border-radius: 3px; padding: 3px 7px; font-size: 11px; color: #e0a060;
-  font-family: "SLA Borg UI", sans-serif; text-transform: uppercase; letter-spacing: 0.5px;
+  border-radius: 3px; padding: 4px 8px; font-size: 11px; color: #e0a060;
+  font-family: "SLA Borg UI", sans-serif;
+}
+.zero-engine .condition-tag-body {
+  display: flex; flex-direction: column; gap: 1px;
+}
+.zero-engine .condition-label {
+  text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold;
+}
+.zero-engine .condition-penalty {
+  font-size: 10px; opacity: 0.85; font-style: italic; text-transform: none; letter-spacing: 0;
 }
 .zero-engine .condition-tag.sla-bleeding { border-color: #aa2222; background: rgba(160,20,20,0.2); color: #ff6666; }
 .zero-engine .condition-tag.sla-stunned  { border-color: #aaaa22; background: rgba(140,140,20,0.18); color: #ffff88; }
