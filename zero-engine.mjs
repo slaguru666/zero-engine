@@ -1003,8 +1003,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const skill = button.dataset.skill;
     const attribute = button.dataset.attribute;
 
-    const skillValue = parseInt(this.actor.system.skills[skill]?.value) || 0;
-    const attributeValue = parseInt(this.actor.system.attributes[attribute]?.value) || 2;
+    const skillValue    = parseInt(this.actor.system.skills?.[skill]?.value) || 0;
+    const rawAttrRoll   = this.actor.system.attributes?.[attribute];
+    const attributeValue = (typeof rawAttrRoll === 'object' ? parseInt(rawAttrRoll?.value) : parseInt(rawAttrRoll)) || 2;
     const armorMods  = this._getArmorRollModifiers(this.actor, { attribute, skill });
     const drugMods   = this._getDrugRollModifiers(this.actor, { attribute, skill });
     const racialMods = this._getRacialDiceBonus(this.actor, { skill, attribute });
@@ -1402,8 +1403,11 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const attribute = isMelee ? "strength" : "agility";
     const skill = isMelee ? "melee" : "marksmanship";
 
-    const attrValue = parseInt(this.actor.system.attributes[attribute]?.value) || 2;
-    const skillValue = parseInt(this.actor.system.skills[skill]?.value) || 0;
+    // Attributes: characters store { value: N }, NPCs store a flat number.
+    const rawAttr  = this.actor.system.attributes?.[attribute];
+    const attrValue = (typeof rawAttr === 'object' ? parseInt(rawAttr?.value) : parseInt(rawAttr)) || 2;
+    // Skills: NPC actors have no skills object — fall back to 0.
+    const skillValue = parseInt(this.actor.system.skills?.[skill]?.value) || 0;
     const attrLabel = attribute.charAt(0).toUpperCase() + attribute.slice(1);
     const skillLabel = skill.charAt(0).toUpperCase() + skill.slice(1);
     const gearBonus = parseInt(weaponData.gearBonus) || 0;
