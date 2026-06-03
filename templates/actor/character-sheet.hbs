@@ -477,6 +477,13 @@
 								<div class="specialty-name-row">
 									<span class="specialty-name">{{this.name}}</span>
 									<span class="specialty-package">{{this.system.package}}</span>
+									{{!-- Natural weapon STRIKE button --}}
+									{{#if this.system.isNaturalWeapon}}
+									<button type="button" class="natural-weapon-roll-btn" data-item-id="{{this._id}}"
+											title="Strike: STR + Melee | DMG {{this.system.naturalWeaponDamage}}, AP {{this.system.naturalWeaponAP}}, ROF {{this.system.naturalWeaponROF}}">
+										<i class="fas fa-fist-raised"></i> STRIKE
+									</button>
+									{{/if}}
 									{{!-- Morph form SHIFT button for Vevaphon forms --}}
 									{{#if (eq this.system.prerequisites "Vevaphon")}}
 										{{#unless (eq this.name "Morphic Strike")}}

@@ -310,7 +310,11 @@
       "package": "",
       "healthMod": 0,
       "resolveMod": 0,
-      "isActive": true
+      "isActive": true,
+      "isNaturalWeapon": false,
+      "naturalWeaponDamage": 0,
+      "naturalWeaponAP": 0,
+      "naturalWeaponROF": 0
     },
     "ebb": {
       "description": "",

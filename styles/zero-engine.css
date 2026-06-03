@@ -971,6 +971,7 @@
   align-items: center;
   gap: 8px;
   margin-bottom: 2px;
+  flex-wrap: wrap;
 }
 
 .zero-engine .specialty-name {
@@ -978,6 +979,8 @@
   font-size: 13px;
   color: #fff;
   cursor: pointer;
+  flex: 1;
+  min-width: 0;
 }
 
 .zero-engine .specialty-name:hover {
@@ -4278,12 +4281,23 @@ body > .ze-pause-root .ze-sat-inner {
   padding: 2px 10px; font-size: 10px; font-weight: bold; text-transform: uppercase;
   letter-spacing: 0.5px; border-radius: 3px; cursor: pointer; transition: all 0.2s;
   background: rgba(0,180,255,0.1); border: 1px solid #0090cc; color: #44bbff;
-  white-space: nowrap; flex-shrink: 0;
+  white-space: nowrap; flex: 0 0 auto; max-width: 110px;
 }
 .zero-engine .morph-shift-btn:hover { background: rgba(0,180,255,0.25); }
 .zero-engine .morph-shift-btn.morph-shift-active {
   background: rgba(0,212,255,0.2); border-color: #00d4ff; color: #00d4ff;
   box-shadow: 0 0 8px rgba(0,200,255,0.3);
+}
+
+/* Natural weapon STRIKE button */
+.zero-engine .natural-weapon-roll-btn {
+  padding: 2px 10px; font-size: 10px; font-weight: bold; text-transform: uppercase;
+  letter-spacing: 0.5px; border-radius: 3px; cursor: pointer; transition: all 0.2s;
+  background: rgba(255,80,0,0.15); border: 1px solid #cc4400; color: #ff7733;
+  white-space: nowrap; flex: 0 0 auto;
+}
+.zero-engine .natural-weapon-roll-btn:hover {
+  background: rgba(255,80,0,0.3); border-color: #ff6600; color: #ffaa55;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

@@ -460,6 +460,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Health / Resolve save rolls — click the vital label name
     html.find('.vital-save-label').click(this._onVitalSave.bind(this));
 
+    // Natural weapon attack roll (Morphic Strike, Wraith Teeth & Claw, etc.)
+    html.find('.natural-weapon-roll-btn').click(this._onNaturalWeaponRoll.bind(this));
+
     // GM PC condition status report
     html.find('.pc-status-btn').click(ev => { ev.preventDefault(); _broadcastPCConditions(); });
 
@@ -1228,6 +1231,53 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         }
       }
     }
+  }
+
+  /**
+   * Handle a natural weapon attack roll from a specialty (Morphic Strike, Wraith Teeth & Claw, etc.)
+   * Uses STR + Melee, same pipeline as a melee weapon attack, with the weapon's own DMG/AP/ROF.
+   * @param {Event} event
+   * @private
+   */
+  async _onNaturalWeaponRoll(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const itemId = event.currentTarget.dataset.itemId;
+    const item   = this.actor.items.get(itemId);
+    if (!item) return;
+
+    const s       = item.system;
+    const damage  = Number(s.naturalWeaponDamage) || 2;
+    const ap      = Number(s.naturalWeaponAP)     || 1;
+    const rof     = Number(s.naturalWeaponROF)    || 2;
+
+    const attrValue  = parseInt(this.actor.system.attributes?.strength?.value)  || 2;
+    const skillValue = parseInt(this.actor.system.skills?.melee?.value)          || 0;
+    const armorMods  = this._getArmorRollModifiers(this.actor, { attribute: 'strength', skill: 'melee' });
+    const drugMods   = this._getDrugRollModifiers(this.actor,  { attribute: 'strength', skill: 'melee' });
+    const racialMods = this._getRacialDiceBonus(this.actor,    { skill: 'melee', attribute: 'strength' });
+    const condMods   = _getConditionModifiers(this.actor,       { attribute: 'strength', skill: 'melee' });
+    const baseDice   = attrValue + skillValue + armorMods.total + drugMods.total + racialMods.bonus + condMods.bonus;
+
+    const formulaStr = `STR ${attrValue} + Melee ${skillValue}` +
+      `${armorMods.total !== 0 ? ` + Armor ${armorMods.total}` : ''}` +
+      `${drugMods.total !== 0  ? ` + Drug ${drugMods.total}`   : ''}` +
+      `${racialMods.bonus !== 0 ? ` + Racial ${racialMods.bonus}` : ''}` +
+      `${condMods.bonus !== 0   ? ` + Conditions ${condMods.bonus}` : ''}` +
+      ` = ${baseDice}d6 | DMG ${damage}, AP ${ap}, ROF ${rof}`;
+
+    const weaponInfo = {
+      name:     item.name,
+      damage,
+      ap,
+      range:    'Engaged',
+      rof,
+      category: 'melee',
+      weaponType: 'Natural'
+    };
+
+    return this._rollYZEDice(baseDice, item.name, formulaStr, 'strength', weaponInfo);
   }
 
   /**
@@ -6858,6 +6908,20 @@ const SLA_RACIAL_ABILITY_DATA = {
         prerequisites: "Wraith Raider",
         isActive: true, healthMod: 0, resolveMod: 0
       }
+    },
+    {
+      name: "Wraith Teeth & Claw",
+      type: "specialty",
+      img: "systems/zero-engine/assets/racial/natural-weapons.svg",
+      system: {
+        category: "racial",
+        description: "Bone-hard teeth and razor claws grown through decades of cold-world adaptation. Natural melee weapons — Damage 2, AP 1, ROF 2. Always counts as armed.",
+        effects: "Natural weapon: DMG 2, AP 1, ROF 2. Always armed.",
+        racialBonuses: [],
+        prerequisites: "Wraith Raider",
+        isActive: true, healthMod: 0, resolveMod: 0,
+        isNaturalWeapon: true, naturalWeaponDamage: 2, naturalWeaponAP: 1, naturalWeaponROF: 2
+      }
     }
   ],
 
@@ -6946,10 +7010,11 @@ const SLA_RACIAL_ABILITY_DATA = {
       name: "Morphic Strike",
       type: "specialty", img: "systems/zero-engine/assets/racial/natural-weapons.svg",
       system: {
-        category: "racial", description: "Natural biogenetic weapon formed from the Vevaphon's own mass. Damage 2, AP 1. Always available regardless of morph form. Counts as melee weapon for skill rolls.",
-        effects: "Natural weapon: DMG 2, AP 1. Always available.",
+        category: "racial", description: "Natural biogenetic weapon formed from the Vevaphon's own mass. Damage 2, AP 1, ROF 2. Always available regardless of morph form. Counts as melee weapon for skill rolls.",
+        effects: "Natural weapon: DMG 2, AP 1, ROF 2. Always available.",
         racialBonuses: [],
-        prerequisites: "Vevaphon", isActive: true, healthMod: 0, resolveMod: 0
+        prerequisites: "Vevaphon", isActive: true, healthMod: 0, resolveMod: 0,
+        isNaturalWeapon: true, naturalWeaponDamage: 2, naturalWeaponAP: 1, naturalWeaponROF: 2
       }
     }
   ]
@@ -6970,20 +7035,28 @@ async function _ensureRacialAbilities(actor) {
   if (!abilities || !abilities.length) return;
 
   const toCreate = [];
-  const toUpdateImg = [];
+  const toUpdate  = [];
   for (const ability of abilities) {
     const existing = actor.items.find(
       i => i.type === "specialty" && i.name === ability.name
     );
     if (!existing) {
       toCreate.push(ability);
-    } else if (ability.img && existing.img !== ability.img) {
-      // Update stale icon on existing item
-      toUpdateImg.push({ _id: existing.id, img: ability.img });
+    } else {
+      const patch = {};
+      if (ability.img && existing.img !== ability.img) patch.img = ability.img;
+      // Patch natural weapon fields if missing or stale
+      if (ability.system?.isNaturalWeapon && !existing.system?.isNaturalWeapon) {
+        patch["system.isNaturalWeapon"]      = true;
+        patch["system.naturalWeaponDamage"]  = ability.system.naturalWeaponDamage ?? 2;
+        patch["system.naturalWeaponAP"]      = ability.system.naturalWeaponAP      ?? 1;
+        patch["system.naturalWeaponROF"]     = ability.system.naturalWeaponROF     ?? 2;
+      }
+      if (Object.keys(patch).length) toUpdate.push({ _id: existing.id, ...patch });
     }
   }
-  if (toUpdateImg.length) {
-    try { await actor.updateEmbeddedDocuments("Item", toUpdateImg); } catch(_) {}
+  if (toUpdate.length) {
+    try { await actor.updateEmbeddedDocuments("Item", toUpdate); } catch(_) {}
   }
   if (!toCreate.length) return;
 
