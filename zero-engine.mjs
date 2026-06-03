@@ -1157,16 +1157,19 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     // Build dice pool: Empathy attribute + Ebb skill
     // Use parseInt() || 0 — robust against corrupt stored values ("3,3", "NaN", etc.)
-    const empathy = parseInt(this.actor.system.attributes?.empathy?.value) || 2;
+    const empathy  = parseInt(this.actor.system.attributes?.empathy?.value) || 2;
     const ebbSkill = parseInt(this.actor.system.skills?.ebb?.value) || 0;
-    const totalDice = (empathy + ebbSkill) || 1; // fallback to 1 die minimum
+    const condMods = _getConditionModifiers(this.actor, { attribute: 'empathy', skill: 'ebb' });
+    const totalDice = Math.max(0, empathy + ebbSkill + condMods.bonus) || 1; // fallback to 1 die minimum
     const requiredSuccesses = Number(formula.successes ?? 1);
     const disciplineLabel = formula.discipline
       ? formula.discipline.charAt(0).toUpperCase() + formula.discipline.slice(1)
       : "Ebb";
 
     const label = `${item.name} [${disciplineLabel}]`;
-    const formulaStr = `Empathy ${empathy} + Ebb ${ebbSkill} = ${totalDice}d6 | ` +
+    const formulaStr = `Empathy ${empathy} + Ebb ${ebbSkill}` +
+      `${condMods.bonus !== 0 ? ` + Conditions ${condMods.bonus}` : ''}` +
+      ` = ${totalDice}d6 | ` +
       `Flux: ${currentFlux} → ${newFlux} (cost ${fluxCost}) | Need ${requiredSuccesses} suc`;
 
     const ebbInfo = {
@@ -1247,8 +1250,28 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       return;
     }
 
-    // Roll current value in d6 — no stress dice, no dialog
-    const roll = new Roll(`${current}d6`);
+    // Apply condition modifiers — conditions penalise all rolls including saves
+    const condMods = _getConditionModifiers(this.actor);
+    const pool     = Math.max(0, current + condMods.bonus);
+    const condNote = condMods.bonus !== 0
+      ? ` + Conditions ${condMods.bonus} = ${pool}d6`
+      : '';
+
+    if (pool <= 0) {
+      ui.notifications.warn(`${this.actor.name}: condition penalties reduce the ${label} pool to 0 — automatic failure. +1 Stress.`);
+      const curStress = this._getStressValue(this.actor);
+      const newStress = Math.min(10, curStress + 1);
+      await this.actor.update(this._buildStressUpdate(this.actor, newStress));
+      await ChatMessage.create({
+        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+        flavor:  `<strong>${this.actor.name} — ${label}</strong>`,
+        content: `<div class="yze-roll-result"><div class="yze-summary" style="color:#ff4444"><strong>AUTO-FAIL</strong> — 0 dice after condition penalties. +1 Stress (now ${newStress}).</div></div>`,
+      });
+      return;
+    }
+
+    // Roll the conditioned pool in d6 — no stress dice, no dialog
+    const roll = new Roll(`${pool}d6`);
     await roll.evaluate();
 
     if (game.dice3d) await game.dice3d.showForRoll(roll, game.user, true);
@@ -1276,7 +1299,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
 
     await ChatMessage.create({
       speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-      flavor:  `<strong>${this.actor.name} — ${label}</strong><br><small>${current}d6 (current ${saveType === 'health' ? 'Health' : 'Resolve'})</small>`,
+      flavor:  `<strong>${this.actor.name} — ${label}</strong><br><small>${current}d6${condNote}</small>`,
       content: `<div class="yze-roll-result"><div class="yze-dice-display">${diceHtml}</div>${resultLine}</div>`,
       style:   CONST.CHAT_MESSAGE_STYLES?.ROLL,
       type:    CONST.CHAT_MESSAGE_TYPES?.ROLL,
@@ -1398,12 +1421,14 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
 
       const attributeValue = this.actor.system.attributes[attribute].value || 2;
       const armorMods = this._getArmorRollModifiers(this.actor, { attribute });
-      const drugMods = this._getDrugRollModifiers(this.actor, { attribute });
-      const totalDice = Math.max(0, attributeValue + armorMods.total + drugMods.total);
+      const drugMods  = this._getDrugRollModifiers(this.actor, { attribute });
+      const condMods  = _getConditionModifiers(this.actor, { attribute });
+      const totalDice = Math.max(0, attributeValue + armorMods.total + drugMods.total + condMods.bonus);
       const label = attribute.charAt(0).toUpperCase() + attribute.slice(1);
       const formula = `${label} ${attributeValue}` +
         `${armorMods.statMod !== 0 ? ` + Armor Stat ${armorMods.statMod}` : ''}` +
         `${drugMods.statMod !== 0 ? ` + Drug Stat ${drugMods.statMod}` : ''}` +
+        `${condMods.bonus !== 0 ? ` + Conditions ${condMods.bonus}` : ''}` +
         ` = ${totalDice}d6`;
 
       return this._rollYZEDice(totalDice, label, formula, attribute);
@@ -1424,12 +1449,13 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         return;
       }
 
-      const skillValue = this.actor.system.skills[skill].value || 0;
+      const skillValue     = this.actor.system.skills[skill].value || 0;
       const attributeValue = this.actor.system.attributes[attribute].value || 2;
       const armorMods = this._getArmorRollModifiers(this.actor, { attribute, skill });
-      const drugMods = this._getDrugRollModifiers(this.actor, { attribute, skill });
-      const totalDice = Math.max(0, attributeValue + skillValue + armorMods.total + drugMods.total);
-      const attrLabel = attribute.charAt(0).toUpperCase() + attribute.slice(1);
+      const drugMods  = this._getDrugRollModifiers(this.actor, { attribute, skill });
+      const condMods  = _getConditionModifiers(this.actor, { attribute, skill });
+      const totalDice = Math.max(0, attributeValue + skillValue + armorMods.total + drugMods.total + condMods.bonus);
+      const attrLabel  = attribute.charAt(0).toUpperCase() + attribute.slice(1);
       const skillLabel = skill.charAt(0).toUpperCase() + skill.slice(1);
       const label = `${skillLabel} (${attribute.substring(0, 3).toUpperCase()})`;
       const formula = `${attrLabel} ${attributeValue} + ${skillLabel} ${skillValue}` +
@@ -1437,6 +1463,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         `${armorMods.skillMod !== 0 ? ` + Armor Skill ${armorMods.skillMod}` : ''}` +
         `${drugMods.statMod !== 0 ? ` + Drug Stat ${drugMods.statMod}` : ''}` +
         `${drugMods.skillMod !== 0 ? ` + Drug Skill ${drugMods.skillMod}` : ''}` +
+        `${condMods.bonus !== 0 ? ` + Conditions ${condMods.bonus}` : ''}` +
         ` = ${totalDice}d6`;
 
       return this._rollYZEDice(totalDice, label, formula, attribute);
@@ -2856,8 +2883,11 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Base score is fixed — attribute + skill value
     const baseScore = attrVal + skillVal;
 
+    // ── Condition penalties reduce the roll pool (conditions affect all rolls) ─
+    const initCondMods = _getConditionModifiers(actor, { attribute: attrKey, skill: skillKey });
+
     // ── Roll the same pool for the bonus successes (no stress dice) ──────────
-    const pool = Math.max(1, baseScore);
+    const pool = Math.max(1, baseScore + initCondMods.bonus);
     const roll = new Roll(`${pool}d6`);
     await roll.evaluate();
 
@@ -2970,6 +3000,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         <div class="yze-initiative-dice">Roll (${pool}d6): ${diceHTML}</div>
         <div class="yze-initiative-successes">Successes: <strong class="init-suc">+${rollSuccesses}</strong></div>
         ${totalBonus !== 0 ? `<div class="yze-initiative-bonus">Bonuses: <strong class="init-bon">${totalBonus > 0 ? '+' : ''}${totalBonus}</strong> <span class="init-breakdown">(${bonusLine})</span></div>` : ''}
+        ${initCondMods.bonus !== 0 ? `<div class="yze-initiative-bonus" style="color:#ff6644">Conditions: <strong>${initCondMods.bonus}</strong> <span class="init-breakdown">(${initCondMods.breakdown.join(', ')})</span></div>` : ''}
         <div class="yze-initiative-total">Final Initiative: <strong class="init-final">${finalInit}</strong></div>
         <div class="yze-initiative-tiebreak">Tie-breaker d6: <span class="inline-die-face">${tieVal}</span></div>
       </div>`;
