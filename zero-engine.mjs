@@ -455,6 +455,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     html.find('.manual-panic-button').click(this._onManualPanic.bind(this));
     html.find('.manual-armor-button').click(this._onManualArmorCheck.bind(this));
 
+    // Health / Resolve save rolls — click the vital label name
+    html.find('.vital-save-label').click(this._onVitalSave.bind(this));
+
     // Delete injury buttons
     html.find('.delete-injury-btn').click(this._onDeleteInjury.bind(this));
 
@@ -1212,6 +1215,64 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         }
       }
     }
+  }
+
+  /**
+   * Handle Health or Resolve save roll — clicking the vital label name.
+   * Rolls current value in plain d6 (no stress dice, no dialog).
+   * A failure (zero successes) adds +1 Stress.
+   * @param {Event} event
+   * @private
+   */
+  async _onVitalSave(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const saveType = event.currentTarget.dataset.saveType; // "health" or "resolve"
+    const label    = saveType === "health" ? "Health Save" : "Resolve Save";
+    const current  = Number(this.actor.system.derivedStats?.[saveType]?.value) || 0;
+
+    if (current <= 0) {
+      ui.notifications.warn(`${this.actor.name} has no ${saveType} remaining — cannot make a ${label}.`);
+      return;
+    }
+
+    // Roll current value in d6 — no stress dice, no dialog
+    const roll = new Roll(`${current}d6`);
+    await roll.evaluate();
+
+    if (game.dice3d) await game.dice3d.showForRoll(roll, game.user, true);
+
+    const results   = roll.dice[0]?.results || [];
+    const successes = results.filter(r => r.result === 6).length;
+    const failed    = successes === 0;
+
+    // Build dice display using existing yze-die classes
+    const diceHtml = results.map(r => {
+      let cls = 'yze-die';
+      if (r.result === 6) cls += ' yze-success';
+      return `<div class="${cls}">${r.result}</div>`;
+    }).join('');
+
+    let resultLine;
+    if (failed) {
+      const curStress = this._getStressValue(this.actor);
+      const newStress = Math.min(10, curStress + 1);
+      await this.actor.update(this._buildStressUpdate(this.actor, newStress));
+      resultLine = `<div class="yze-summary" style="color:#ff4444"><strong>FAILED</strong> — no successes. +1 Stress (now ${newStress}).</div>`;
+    } else {
+      resultLine = `<div class="yze-summary" style="color:#44cc66"><strong>SUCCESS</strong> — ${successes} success${successes !== 1 ? 'es' : ''}!</div>`;
+    }
+
+    await ChatMessage.create({
+      speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+      flavor:  `<strong>${this.actor.name} — ${label}</strong><br><small>${current}d6 (current ${saveType === 'health' ? 'Health' : 'Resolve'})</small>`,
+      content: `<div class="yze-roll-result"><div class="yze-dice-display">${diceHtml}</div>${resultLine}</div>`,
+      style:   CONST.CHAT_MESSAGE_STYLES?.ROLL,
+      type:    CONST.CHAT_MESSAGE_TYPES?.ROLL,
+      roll:    roll,
+      rollMode: game.settings.get('core', 'rollMode')
+    });
   }
 
   /**

@@ -257,6 +257,15 @@
   letter-spacing: 0.8px;
 }
 
+.zero-engine .vital-save-label {
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.zero-engine .vital-save-label:hover {
+  opacity: 0.75;
+  text-decoration: underline dotted;
+}
+
 .zero-engine .vital-values {
   display: flex;
   align-items: center;

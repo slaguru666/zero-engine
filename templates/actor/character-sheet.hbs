@@ -109,7 +109,7 @@
 		{{!-- VITALS ROW: Health, Resolve, Stress, Ebb --}}
 		<div class="header-vitals-row">
 			<div class="vital-box health-box">
-				<label>Health</label>
+				<label class="vital-save-label" data-save-type="health" title="Click to roll Health Save (no successes = +1 Stress)">Health</label>
 				<div class="vital-values">
 					<input type="number" name="system.derivedStats.health.value" value="{{system.derivedStats.health.value}}" />
 					<span class="vital-separator">/</span>
@@ -117,7 +117,7 @@
 				</div>
 			</div>
 			<div class="vital-box resolve-box">
-				<label>Resolve</label>
+				<label class="vital-save-label" data-save-type="resolve" title="Click to roll Resolve Save (no successes = +1 Stress)">Resolve</label>
 				<div class="vital-values">
 					<input type="number" name="system.derivedStats.resolve.value" value="{{system.derivedStats.resolve.value}}" />
 					<span class="vital-separator">/</span>
