@@ -419,8 +419,7 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     context.drugAlerts = this._buildDrugAlerts(this.actor);
 
     // EBB user detection — Ebon and Brain Waster are ebb users
-    const raceRaw = this.actor.system.race;
-    const race = String(Array.isArray(raceRaw) ? (raceRaw[0] || "") : (raceRaw || "")).toLowerCase();
+    const race = String(this.actor.system.race || "").toLowerCase();
     // Flat string versions for dropdown selected-state matching in templates
     context.raceStr = race;
     const trainingRaw = this.actor.system.training;
@@ -7128,8 +7127,7 @@ const SLA_RACIAL_ABILITY_DATA = {
 
 async function _ensureRacialAbilities(actor) {
   if (!actor || actor.type !== "character") return;
-  const raceRaw = actor.system?.race;
-  const race = String(Array.isArray(raceRaw) ? (raceRaw[0] || "") : (raceRaw || ""))
+  const race = String(actor.system?.race || "")
     .toLowerCase()
     .replace(/[\s-]/g, "")
     .replace("313-s", "")
@@ -7189,8 +7187,7 @@ Hooks.once("ready", function() {
     let count = 0;
     for (const actor of game.actors ?? []) {
       if (actor.type !== "character") continue;
-      const raceRaw = actor.system?.race;
-      const race = String(Array.isArray(raceRaw) ? (raceRaw[0] || "") : (raceRaw || "")).toLowerCase();
+      const race = String(actor.system?.race || "").toLowerCase();
       if (!race || race === "undefined") continue;
       const before = actor.items.filter(i => i.system?.category === "racial").length;
       await _ensureRacialAbilities(actor);
