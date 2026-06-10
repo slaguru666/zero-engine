@@ -4615,3 +4615,59 @@ body > .ze-pause-root .ze-sat-inner {
   color: #eee; border-radius: 3px; padding: 3px 4px; font-size: 13px;
   font-weight: bold;
 }
+
+/* ── GM Status Window ────────────────────────────────────────────────────── */
+.gm-status-window .gsw-wrap {
+  display: flex; flex-direction: column; gap: 0;
+  background: #111; color: #ddd; font-family: var(--font-primary, sans-serif);
+  min-width: 300px;
+}
+.gm-status-window .gsw-header-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 6px 10px; background: rgba(255,255,255,0.05);
+  border-bottom: 1px solid #333;
+}
+.gm-status-window .gsw-post-chat {
+  font-size: 11px; padding: 3px 10px;
+  background: rgba(0,150,255,0.2); border: 1px solid #0099ff;
+  color: #66bbff; border-radius: 3px; cursor: pointer;
+}
+.gm-status-window .gsw-post-chat:hover { background: rgba(0,150,255,0.4); }
+.gm-status-window .gsw-actor-list { display: flex; flex-direction: column; }
+.gm-status-window .gsw-actor-row {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 8px 10px; border-bottom: 1px solid #222;
+}
+.gm-status-window .gsw-actor-row:last-child { border-bottom: none; }
+.gm-status-window .gsw-portrait {
+  width: 42px; height: 42px; border-radius: 50%;
+  object-fit: cover; border: 2px solid #444; flex-shrink: 0;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.gm-status-window .gsw-portrait:hover { border-color: #ff6600; }
+.gm-status-window .gsw-actor-body { flex: 1; min-width: 0; }
+.gm-status-window .gsw-actor-name {
+  font-size: 13px; font-weight: bold; color: #ff6600;
+  cursor: pointer; margin-bottom: 3px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.gm-status-window .gsw-actor-name:hover { text-decoration: underline; }
+.gm-status-window .gsw-stats-row {
+  display: flex; gap: 12px; flex-wrap: wrap;
+  font-size: 12px; margin-bottom: 5px;
+}
+.gm-status-window .gsw-stat { font-variant-numeric: tabular-nums; }
+.gm-status-window .gsw-conds-row {
+  display: flex; flex-wrap: wrap; gap: 4px; font-size: 11px;
+}
+.gm-status-window .gsw-cond-tag {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: rgba(200,50,50,0.25); border: 1px solid #aa3333;
+  border-radius: 3px; padding: 2px 6px; color: #ff9999;
+}
+.gm-status-window .gsw-no-cond { color: #444; font-style: italic; font-size: 11px; }
+.gm-status-window .gsw-remove-cond {
+  background: none; border: none; color: #ff6666; cursor: pointer;
+  font-size: 10px; padding: 0 1px; line-height: 1;
+}
+.gm-status-window .gsw-remove-cond:hover { color: #ff0000; }

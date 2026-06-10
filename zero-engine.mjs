@@ -3742,31 +3742,32 @@ Hooks.once("setup", () => {
  * Ready hook
  */
 // ── GM SCENE CONTROLS: PC STATUS BUTTON ──────────────────────────────────────
-// Adds a standalone clipboard icon to the scene controls toolbar (GM only).
-// Foundry v14 uses an object-keyed API; v13 uses an array — handle both.
+// Opens the draggable SLAGMStatusWindow (GM only).
+// Foundry v14: controls is an object; v13: controls is an array.
 Hooks.on("getSceneControlButtons", (controls) => {
   if (!game.user?.isGM) return;
 
+  const openStatus = () => SLAGMStatusWindow.open();
+
   const tool = {
     name:     "sla-pc-status",
-    title:    "PC Status Report",
+    title:    "PC Status Board",
     icon:     "fas fa-clipboard-list",
     visible:  true,
     button:   true,
-    onChange: () => _broadcastPCConditions(), // v14
-    onClick:  () => _broadcastPCConditions()  // v13 compat
+    onChange: openStatus, // v14
+    onClick:  openStatus  // v13 compat
   };
 
   // Foundry v14: controls is a plain object keyed by group name
   if (controls && !Array.isArray(controls)) {
-    // Add as a standalone top-level button (no sub-tools; fires on click)
     controls["sla-gm-tools"] = {
       name:     "sla-gm-tools",
       title:    "SLA GM Tools",
       icon:     "fas fa-clipboard-list",
       visible:  true,
       button:   true,
-      onChange: () => _broadcastPCConditions()
+      onChange: openStatus
     };
     return;
   }
@@ -3775,11 +3776,8 @@ Hooks.on("getSceneControlButtons", (controls) => {
   const tokenGroup = controls.find(c => c.name === "token" || c.name === "tokens");
   if (tokenGroup) {
     tokenGroup.tools ??= [];
-    if (Array.isArray(tokenGroup.tools)) {
-      tokenGroup.tools.push(tool);
-    } else {
-      tokenGroup.tools["sla-pc-status"] = tool;
-    }
+    if (Array.isArray(tokenGroup.tools)) tokenGroup.tools.push(tool);
+    else tokenGroup.tools["sla-pc-status"] = tool;
   }
 });
 
@@ -6918,6 +6916,171 @@ class SLAGroupNPCTool extends Application {
     });
   }
 }
+
+// ── GM PC STATUS WINDOW ───────────────────────────────────────────────────────
+/**
+ * SLAGMStatusWindow — a draggable, auto-refreshing window showing all PC
+ * conditions at a glance. Open via the scene-controls clipboard button.
+ * The GM can also click "Post to Chat" to whisper the same report.
+ */
+class SLAGMStatusWindow extends Application {
+  constructor(...args) {
+    super(...args);
+    this._hooks = [];
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id:        'sla-gm-status-window',
+      title:     '⚡ PC Status Board',
+      width:     540,
+      height:    'auto',
+      resizable: true,
+      classes:   ['zero-engine', 'gm-status-window']
+    });
+  }
+
+  /** Singleton open / focus */
+  static open() {
+    if (!SLAGMStatusWindow._inst) SLAGMStatusWindow._inst = new SLAGMStatusWindow();
+    SLAGMStatusWindow._inst.render(true);
+    return SLAGMStatusWindow._inst;
+  }
+
+  _pcActors() {
+    return (game.actors ?? []).filter(a =>
+      a.type === 'character' && a.system?.details?.isPlayerCharacter
+    );
+  }
+
+  _activeConditions(actor) {
+    const statuses = actor.statuses ?? new Set();
+    return SLA_CONDITIONS.filter(c => statuses.has(c.id));
+  }
+
+  _hpColor(cur, max) {
+    const pct = max > 0 ? cur / max : 1;
+    if (pct > 0.5) return '#44cc66';
+    if (pct > 0.25) return '#ffaa00';
+    return '#cc2222';
+  }
+
+  async _renderInner() {
+    const pcs = this._pcActors();
+    const rows = pcs.map(actor => {
+      const sys  = actor.system;
+      const hp   = sys.derivedStats?.health ?? { value: 0, max: 0 };
+      const res  = sys.derivedStats?.resolve ?? { value: 0, max: 0 };
+      const stress = sys.derivedStats?.stress ?? 0;
+      const showOff = sys.details?.showingOff ?? 0;
+      const conds  = this._activeConditions(actor);
+      const img    = actor.img ?? 'icons/svg/mystery-man.svg';
+
+      const condTags = conds.length ? conds.map(c => {
+        const allMod = c.diceModifiers?.all ?? 0;
+        const penalty = allMod ? ` (${allMod > 0 ? '+' : ''}${allMod} all)` : '';
+        return `<span class="gsw-cond-tag" title="${c.description}">
+          <i class="${c.icon ?? 'fas fa-exclamation-triangle'}"></i> ${c.label}${penalty}
+          <button class="gsw-remove-cond" data-actor-id="${actor.id}" data-cond-id="${c.id}" title="Remove condition">✕</button>
+        </span>`;
+      }).join('') : '<span class="gsw-no-cond">— clean —</span>';
+
+      const stressColor = stress === 0 ? '#44cc66' : stress <= 2 ? '#ffaa00' : '#cc2222';
+      const soColor     = showOff >= 20 ? '#ff4444' : showOff >= 10 ? '#ff9900' : showOff > 0 ? '#ffcc00' : '#888';
+
+      return `<div class="gsw-actor-row">
+        <img class="gsw-portrait" src="${img}" title="${actor.name}"
+             data-actor-id="${actor.id}" />
+        <div class="gsw-actor-body">
+          <div class="gsw-actor-name" data-actor-id="${actor.id}">${actor.name}</div>
+          <div class="gsw-stats-row">
+            <span class="gsw-stat" title="Health">
+              ❤ <span style="color:${this._hpColor(hp.value, hp.max)}">${hp.value}</span>/<span style="opacity:.6">${hp.max}</span>
+            </span>
+            <span class="gsw-stat" title="Resolve">
+              🔵 <span style="color:${this._hpColor(res.value, res.max)}">${res.value}</span>/<span style="opacity:.6">${res.max}</span>
+            </span>
+            <span class="gsw-stat" title="Stress" style="color:${stressColor}">
+              ⚡ ${stress}
+            </span>
+            ${showOff > 0 ? `<span class="gsw-stat" title="Showing Off tally" style="color:${soColor}">✨ ${showOff}pts</span>` : ''}
+          </div>
+          <div class="gsw-conds-row">${condTags}</div>
+        </div>
+      </div>`;
+    }).join('');
+
+    const noPC = pcs.length === 0
+      ? '<div style="text-align:center;color:#888;padding:20px;">No player characters found.</div>'
+      : '';
+
+    const html = `<div class="gsw-wrap">
+      <div class="gsw-header-bar">
+        <span style="opacity:.6;font-size:11px;">Auto-refreshes on actor changes</span>
+        <button class="gsw-post-chat" title="Whisper full status report to yourself">
+          <i class="fas fa-comment-dots"></i> Post to Chat
+        </button>
+      </div>
+      <div class="gsw-actor-list">${noPC}${rows}</div>
+    </div>`;
+
+    const el = document.createElement('div');
+    el.innerHTML = html;
+    return $(el);
+  }
+
+  async _render(force, options) {
+    await super._render(force, options);
+    // Register auto-refresh hooks once
+    if (!this._hooks.length) {
+      const refresh = () => { if (this.rendered) this.render(false); };
+      this._hooks.push(
+        Hooks.on('updateActor',        refresh),
+        Hooks.on('createActiveEffect', refresh),
+        Hooks.on('deleteActiveEffect', refresh),
+        Hooks.on('updateActiveEffect', refresh)
+      );
+    }
+  }
+
+  async close(options) {
+    this._hooks.forEach((id, i) => {
+      const evts = ['updateActor','createActiveEffect','deleteActiveEffect','updateActiveEffect'];
+      Hooks.off(evts[i], id);
+    });
+    this._hooks = [];
+    SLAGMStatusWindow._inst = null;
+    return super.close(options);
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    // Open sheet on portrait or name click
+    html[0].querySelectorAll('.gsw-portrait, .gsw-actor-name').forEach(el => {
+      el.addEventListener('click', () => {
+        game.actors.get(el.dataset.actorId)?.sheet?.render(true);
+      });
+    });
+    // Remove condition
+    html[0].querySelectorAll('.gsw-remove-cond').forEach(btn => {
+      btn.addEventListener('click', async (ev) => {
+        ev.stopPropagation();
+        const actor = game.actors.get(btn.dataset.actorId);
+        if (!actor) return;
+        const condId = btn.dataset.condId;
+        // Remove matching active effects
+        const toDelete = actor.effects.filter(e =>
+          e.statuses?.has(condId) || e.flags?.core?.statusId === condId
+        ).map(e => e.id);
+        if (toDelete.length) await actor.deleteEmbeddedDocuments('ActiveEffect', toDelete);
+        else await actor.toggleStatusEffect(condId, { active: false });
+      });
+    });
+    // Post to chat
+    html[0].querySelector('.gsw-post-chat')?.addEventListener('click', () => _broadcastPCConditions());
+  }
+}
+SLAGMStatusWindow._inst = null;
 
 // ── ACTOR DIRECTORY BUTTONS ──────────────────────────────────────────────────
 Hooks.on('renderActorDirectory', (app, html) => {
