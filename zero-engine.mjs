@@ -870,8 +870,11 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const panicReduction = Number(isWithdrawal ? s.wdPanicReduction : s.panicReduction) || 0;
     const injuryIgnore = Number(isWithdrawal ? s.wdInjuryPenaltyIgnore : s.injuryPenaltyIgnore) || 0;
 
+    const healthHeal = (!isWithdrawal) ? (Number(s.healthHeal) || 0) : 0;
+
     const parts = [];
-    if (health !== 0) parts.push(`Health ${health > 0 ? "+" : ""}${health}`);
+    if (healthHeal > 0) parts.push(`Heals ${healthHeal} HP`);
+    if (health !== 0) parts.push(`Max Health ${health > 0 ? "+" : ""}${health}`);
     if (resolve !== 0) parts.push(`Resolve ${resolve > 0 ? "+" : ""}${resolve}`);
     if (stat !== 0) parts.push(`Physical ${stat > 0 ? "+" : ""}${stat}`);
     if (skillAll !== 0) parts.push(`All Skills ${skillAll > 0 ? "+" : ""}${skillAll}`);
@@ -955,6 +958,22 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       const nextStress = Math.max(0, currentStress - stressBonus);
       if (nextStress !== currentStress) {
         await this.actor.update(this._buildStressUpdate(this.actor, nextStress));
+      }
+    }
+
+    // ── Instant HP heal (healthHeal): restore current HP, clamped at max ────────
+    const healthHeal = Math.max(0, Number(item.system?.healthHeal) || 0);
+    if (healthHeal > 0 && this.actor) {
+      const rawHp = this.actor.system?.derivedStats?.health;
+      const currentHp = Number((typeof rawHp === "object" ? rawHp?.value : rawHp) ?? 0);
+      const hpMax = Number(this.actor.system?.derivedStats?.health?.max ?? 0);
+      if (hpMax > 0) {
+        const newHp = Math.min(hpMax, currentHp + healthHeal);
+        const actual = newHp - currentHp;
+        if (actual > 0) {
+          await this.actor.update({ "system.derivedStats.health.value": newHp });
+          ui.notifications.info(`${item.name}: healed ${actual} HP (${currentHp} → ${newHp} / ${hpMax})`);
+        }
       }
     }
 
@@ -3960,7 +3979,7 @@ Hooks.once('ready', function() {
       if (data.withdrawalDuration === undefined || data.withdrawalDuration === null) updates["system.withdrawalDuration"] = "";
 
       const numericPaths = [
-        "healthMod", "resolveMod", "statPhysicalMod", "skillAllMod", "panicReduction",
+        "healthMod", "healthHeal", "resolveMod", "statPhysicalMod", "skillAllMod", "panicReduction",
         "injuryPenaltyIgnore", "stressRecoveryBonus", "postUseStaminaDamage",
         "wdHealthMod", "wdResolveMod", "wdStatPhysicalMod", "wdSkillAllMod", "wdPanicReduction",
         "wdInjuryPenaltyIgnore", "wdStressRecoveryBonus", "wdPostUseStaminaDamage"
