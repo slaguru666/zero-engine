@@ -1,5 +1,9 @@
-2026/06/02-21:42:16.909458 171efb000 Delete type=3 #1
-2026/06/02-21:42:16.910238 171f87000 Level-0 table #5: started
-2026/06/02-21:42:16.910504 171f87000 Level-0 table #5: 10823 bytes OK
-2026/06/02-21:42:16.910564 171f87000 Delete type=0 #3
-2026/06/02-21:42:16.910610 171f87000 Manual compaction at level-0 from '\x00' @ 72057594037927935 : 1 .. '\xc3\xbf' @ 0 : 0; will stop at (end)
+2026/06/10-19:00:40.626229 ef3d6afdefa0 Recovering log #11
+2026/06/10-19:00:40.632846 ef3d6afdefa0 Delete type=0 #7
+2026/06/10-19:00:40.633093 ef3d6afdefa0 Delete type=0 #4
+2026/06/10-19:00:40.633425 ef3d6afdefa0 Delete type=0 #11
+2026/06/10-19:00:40.633539 ef3d6afdefa0 Delete type=3 #8
+2026/06/10-19:00:40.633698 ef3d6afdefa0 Delete type=3 #6
+2026/06/10-19:00:40.633835 ef3d6afdefa0 Delete type=3 #10
+2026/06/10-19:00:40.633940 ef3d6afdefa0 Delete type=3 #2
+2026/06/10-19:00:40.634055 ef3d6afdefa0 Delete type=0 #9
