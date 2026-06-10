@@ -4671,3 +4671,1847 @@ body > .ze-pause-root .ze-sat-inner {
   font-size: 10px; padding: 0 1px; line-height: 1;
 }
 .gm-status-window .gsw-remove-cond:hover { color: #ff0000; }
+
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SLA GM TOOLS — v1.7.0
+   ══════════════════════════════════════════════════════════════════════════ */
+
+
+/* ── 💳 CREDIT DISTRIBUTION TOOL ──────────────────────────────────────────────────── */
+/* ============================================================
+   SLA Credit Distribution Tool — .credit-tool-window scoped
+   Dark sci-fi aesthetic: navy/midnight backgrounds, cyan + orange neon
+   ============================================================ */
+
+.credit-tool-window .window-content {
+  background: #0d1117;
+  color: #c9d1d9;
+  padding: 0;
+  font-family: "SLA Borg UI", "Rajdhani", "Oxanium", monospace, sans-serif;
+}
+
+/* ── Wrapper ─────────────────────────────────────────────── */
+.credit-tool-window .ctw-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+/* ── Section containers ──────────────────────────────────── */
+.credit-tool-window .ctw-section {
+  padding: 10px 12px;
+  border-bottom: 1px solid #1e2d3d;
+}
+
+.credit-tool-window .ctw-section:last-child {
+  border-bottom: none;
+}
+
+.credit-tool-window .ctw-section-title {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #00d4ff;
+  margin: 0 0 8px 0;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.25);
+}
+
+/* ── Table ───────────────────────────────────────────────── */
+.credit-tool-window .ctw-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.credit-tool-window .ctw-header-row {
+  background: #111927;
+}
+
+.credit-tool-window .ctw-th {
+  padding: 5px 6px;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7d8fa1;
+  border-bottom: 1px solid #1e2d3d;
+  white-space: nowrap;
+}
+
+.credit-tool-window .ctw-th-name {
+  text-align: left;
+}
+
+.credit-tool-window .ctw-row {
+  transition: background 0.15s ease;
+  border-bottom: 1px solid #161d27;
+}
+
+.credit-tool-window .ctw-row:hover {
+  background: rgba(0, 212, 255, 0.04);
+}
+
+.credit-tool-window .ctw-row:last-child {
+  border-bottom: none;
+}
+
+.credit-tool-window .ctw-cell {
+  padding: 5px 6px;
+  text-align: center;
+  vertical-align: middle;
+  font-family: "Courier New", "Consolas", monospace;
+  font-size: 11px;
+}
+
+/* ── Name cell ───────────────────────────────────────────── */
+.credit-tool-window .ctw-name {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 6px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.credit-tool-window .ctw-portrait {
+  width: 28px;
+  height: 28px;
+  border-radius: 3px;
+  object-fit: cover;
+  border: 1px solid #2a3a4a;
+  flex-shrink: 0;
+}
+
+.credit-tool-window .ctw-actor-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #e6edf3;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+}
+
+.credit-tool-window .ctw-scl {
+  font-size: 9px;
+  color: #7d8fa1;
+  font-family: "Courier New", monospace;
+  flex-shrink: 0;
+}
+
+/* ── Credits input ───────────────────────────────────────── */
+.credit-tool-window .ctw-credits-input {
+  width: 70px;
+  background: #0d1117;
+  border: 1px solid #2a3a4a;
+  border-radius: 3px;
+  color: #00d4ff;
+  font-family: "Courier New", "Consolas", monospace;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+  padding: 3px 4px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.credit-tool-window .ctw-credits-input:focus {
+  outline: none;
+  border-color: #00d4ff;
+  box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+}
+
+/* Remove browser spin buttons */
+.credit-tool-window .ctw-credits-input::-webkit-inner-spin-button,
+.credit-tool-window .ctw-credits-input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ── Colour helpers ──────────────────────────────────────── */
+.credit-tool-window .ctw-positive {
+  color: #3fb950;
+  font-weight: 700;
+}
+
+.credit-tool-window .ctw-negative {
+  color: #f85149;
+  font-weight: 700;
+}
+
+.credit-tool-window .ctw-greyed {
+  color: #7d8fa1;
+}
+
+.credit-tool-window .ctw-debt {
+  color: #ff6b35;
+  font-weight: 700;
+}
+
+/* ── Empty state ─────────────────────────────────────────── */
+.credit-tool-window .ctw-empty {
+  text-align: center;
+  padding: 18px 12px;
+  color: #7d8fa1;
+  font-size: 11px;
+  font-style: italic;
+}
+
+/* ── Buttons ─────────────────────────────────────────────── */
+.credit-tool-window .ctw-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  font-family: "SLA Borg UI", "Rajdhani", monospace, sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.credit-tool-window .ctw-btn-save {
+  background: rgba(0, 212, 255, 0.1);
+  border-color: rgba(0, 212, 255, 0.4);
+  color: #00d4ff;
+}
+
+.credit-tool-window .ctw-btn-save:hover {
+  background: rgba(0, 212, 255, 0.22);
+  border-color: #00d4ff;
+  box-shadow: 0 0 6px rgba(0, 212, 255, 0.3);
+}
+
+.credit-tool-window .ctw-btn-pay-all {
+  background: rgba(63, 185, 80, 0.12);
+  border-color: rgba(63, 185, 80, 0.5);
+  color: #3fb950;
+}
+
+.credit-tool-window .ctw-btn-pay-all:hover {
+  background: rgba(63, 185, 80, 0.25);
+  border-color: #3fb950;
+  box-shadow: 0 0 6px rgba(63, 185, 80, 0.3);
+}
+
+.credit-tool-window .ctw-btn-danger {
+  background: rgba(248, 81, 73, 0.1);
+  border-color: rgba(248, 81, 73, 0.4);
+  color: #f85149;
+}
+
+.credit-tool-window .ctw-btn-danger:hover {
+  background: rgba(248, 81, 73, 0.22);
+  border-color: #f85149;
+  box-shadow: 0 0 6px rgba(248, 81, 73, 0.3);
+}
+
+.credit-tool-window .ctw-btn:active {
+  transform: scale(0.96);
+}
+
+/* ── Bulk panel ──────────────────────────────────────────── */
+.credit-tool-window .ctw-bulk-panel {
+  background: rgba(0, 212, 255, 0.02);
+}
+
+.credit-tool-window .ctw-bulk-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.credit-tool-window .ctw-label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #7d8fa1;
+  white-space: nowrap;
+}
+
+.credit-tool-window .ctw-bulk-amount {
+  width: 80px;
+}
+
+.credit-tool-window .ctw-radio-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.credit-tool-window .ctw-radio-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #c9d1d9;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.credit-tool-window .ctw-radio-label input[type="radio"] {
+  accent-color: #ff6b35;
+  width: 12px;
+  height: 12px;
+  cursor: pointer;
+}
+
+.credit-tool-window .ctw-radio-label:hover {
+  color: #ff6b35;
+}
+
+.credit-tool-window .ctw-bulk-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+/* ── Scrollable tbody if many actors ─────────────────────── */
+.credit-tool-window .ctw-table tbody {
+  display: table-row-group;
+}
+
+.credit-tool-window.credit-tool-window .window-content {
+  overflow-y: auto;
+}
+
+/* ── 📒 SHIFT LEDGER TOOL ──────────────────────────────────────────────────── */
+/* ═══════════════════════════════════════════════════════════════════════════
+   SLA Shift Ledger — temp_ledger.css
+   All rules scoped to .shift-ledger-window
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.shift-ledger-window .window-content {
+  padding: 0;
+  background: #0d0d1a;
+  color: #c8d0e0;
+  font-family: 'Signika', 'Palatino Linotype', serif;
+}
+
+/* ── Root container ────────────────────────────────────────────────────────── */
+.shift-ledger-window .slw-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  min-height: 100%;
+}
+
+/* ── Shared colour utilities ───────────────────────────────────────────────── */
+.shift-ledger-window .slw-positive  { color: #44cc66; }
+.shift-ledger-window .slw-negative  { color: #cc2222; }
+.shift-ledger-window .slw-debt      { color: #ff6b35; }
+.shift-ledger-window .slw-credits   { color: #00d4ff; }
+.shift-ledger-window .slw-neutral   { color: #888; }
+.shift-ledger-window .slw-mono      { font-family: 'Courier New', Courier, monospace; }
+
+/* ── Summary bar ───────────────────────────────────────────────────────────── */
+.shift-ledger-window .slw-summary-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+  border-bottom: 2px solid #00d4ff44;
+  padding: 10px 14px;
+}
+
+.shift-ledger-window .slw-summary-item {
+  flex: 1 1 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 10px;
+  border-right: 1px solid #ffffff12;
+}
+
+.shift-ledger-window .slw-summary-item:last-child {
+  border-right: none;
+}
+
+.shift-ledger-window .slw-summary-label {
+  font-size: 0.68em;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #8899aa;
+  margin-bottom: 3px;
+  white-space: nowrap;
+}
+
+.shift-ledger-window .slw-summary-value {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.25em;
+  font-weight: bold;
+}
+
+/* ── PC list container ─────────────────────────────────────────────────────── */
+.shift-ledger-window .slw-pc-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 10px 10px 4px 10px;
+}
+
+.shift-ledger-window .slw-empty {
+  color: #667;
+  font-style: italic;
+  text-align: center;
+  padding: 20px;
+}
+
+/* ── Individual PC card ────────────────────────────────────────────────────── */
+.shift-ledger-window .slw-pc-card {
+  background: #12122a;
+  border: 1px solid #2a2a4a;
+  border-left: 3px solid #00d4ff55;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  transition: border-left-color 0.15s ease;
+}
+
+.shift-ledger-window .slw-pc-card:hover {
+  border-left-color: #00d4ff;
+}
+
+/* PC card header */
+.shift-ledger-window .slw-pc-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  background: linear-gradient(90deg, #1a1a3a 0%, #16213e 100%);
+  border-bottom: 1px solid #2a2a4a;
+}
+
+.shift-ledger-window .slw-pc-name {
+  flex: 1;
+  font-size: 1em;
+  font-weight: bold;
+  color: #e0e8f0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.shift-ledger-window .slw-scl-badge {
+  background: #ff6b3522;
+  color: #ff6b35;
+  border: 1px solid #ff6b3566;
+  border-radius: 3px;
+  font-size: 0.72em;
+  font-weight: bold;
+  padding: 2px 7px;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.shift-ledger-window .slw-pc-credits {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.15em;
+  font-weight: bold;
+  color: #00d4ff;
+  white-space: nowrap;
+}
+
+/* PC card body — three columns */
+.shift-ledger-window .slw-pc-body {
+  display: flex;
+  gap: 0;
+  padding: 8px 0 10px 0;
+}
+
+.shift-ledger-window .slw-finance-col {
+  flex: 1;
+  padding: 0 12px;
+  border-right: 1px solid #1e1e3a;
+}
+
+.shift-ledger-window .slw-finance-col:last-child {
+  border-right: none;
+}
+
+.shift-ledger-window .slw-finance-col--summary {
+  flex: 0 0 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.shift-ledger-window .slw-col-title {
+  font-size: 0.7em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #667788;
+  margin-bottom: 5px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #1e2a3a;
+}
+
+/* Finance rows */
+.shift-ledger-window .slw-finance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 1px 0;
+  font-size: 0.8em;
+}
+
+.shift-ledger-window .slw-finance-label {
+  color: #8899aa;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+
+.shift-ledger-window .slw-finance-val {
+  text-align: right;
+  min-width: 52px;
+  color: #b0bcc8;
+}
+
+/* Total row emphasis */
+.shift-ledger-window .slw-total-row {
+  border-top: 1px solid #2a2a4a;
+  margin-top: 3px;
+  padding-top: 3px;
+  font-weight: bold;
+}
+
+.shift-ledger-window .slw-total-row .slw-finance-label {
+  color: #aabbc8;
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────────── */
+.shift-ledger-window .slw-btn {
+  display: inline-block;
+  padding: 5px 10px;
+  font-size: 0.78em;
+  font-family: 'Signika', sans-serif;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: filter 0.12s ease, transform 0.08s ease;
+  white-space: nowrap;
+}
+
+.shift-ledger-window .slw-btn:hover {
+  filter: brightness(1.2);
+  transform: translateY(-1px);
+}
+
+.shift-ledger-window .slw-btn:active {
+  transform: translateY(0);
+  filter: brightness(0.9);
+}
+
+/* Per-PC process button */
+.shift-ledger-window .slw-btn--process {
+  background: linear-gradient(135deg, #1a3a2a 0%, #224433 100%);
+  color: #44cc66;
+  border: 1px solid #44cc6655;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.shift-ledger-window .slw-btn--process:hover {
+  background: linear-gradient(135deg, #224433 0%, #2a5540 100%);
+  border-color: #44cc66aa;
+}
+
+/* ── Action bar (bottom) ───────────────────────────────────────────────────── */
+.shift-ledger-window .slw-action-bar {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px 12px 10px 12px;
+  background: #0d0d1a;
+  border-top: 1px solid #1e1e3a;
+}
+
+/* Process all */
+.shift-ledger-window .slw-btn--all {
+  background: linear-gradient(135deg, #1a2a3a 0%, #162030 100%);
+  color: #00d4ff;
+  border: 1px solid #00d4ff55;
+}
+
+.shift-ledger-window .slw-btn--all:hover {
+  background: linear-gradient(135deg, #1e3040 0%, #1a2838 100%);
+  border-color: #00d4ffaa;
+}
+
+/* Export to chat */
+.shift-ledger-window .slw-btn--export {
+  background: linear-gradient(135deg, #2a1a2a 0%, #221422 100%);
+  color: #cc88ff;
+  border: 1px solid #cc88ff55;
+}
+
+.shift-ledger-window .slw-btn--export:hover {
+  background: linear-gradient(135deg, #311e31 0%, #291828 100%);
+  border-color: #cc88ffaa;
+}
+
+/* ── Scrollbar theming ─────────────────────────────────────────────────────── */
+.shift-ledger-window .window-content::-webkit-scrollbar {
+  width: 6px;
+}
+
+.shift-ledger-window .window-content::-webkit-scrollbar-track {
+  background: #0d0d1a;
+}
+
+.shift-ledger-window .window-content::-webkit-scrollbar-thumb {
+  background: #2a2a4a;
+  border-radius: 3px;
+}
+
+.shift-ledger-window .window-content::-webkit-scrollbar-thumb:hover {
+  background: #00d4ff44;
+}
+
+/* ── ☠ NPC THREAT BOARD ──────────────────────────────────────────────────── */
+/* ──────────────────────────────────────────────────────────────────────────────
+   SLANPCThreatBoard — dark sci-fi NPC tactical overview
+   All rules scoped to .npc-threat-board
+   ────────────────────────────────────────────────────────────────────────────── */
+
+/* ── Window shell ─────────────────────────────────────────────────────────── */
+.npc-threat-board {
+  background: #0d0d1a;
+  color: #c8d0e0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+}
+
+.npc-threat-board .window-content {
+  background: #0d0d1a;
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Outer wrapper ────────────────────────────────────────────────────────── */
+.npc-threat-board .ntb-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ── Filter bar ───────────────────────────────────────────────────────────── */
+.npc-threat-board .ntb-filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 6px 8px;
+  background: #111126;
+  border-bottom: 1px solid #2a2a4a;
+  flex-shrink: 0;
+}
+
+.npc-threat-board .ntb-filter-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.npc-threat-board .ntb-sort-label {
+  color: #6a7090;
+  font-size: 11px;
+  margin-right: 2px;
+}
+
+.npc-threat-board .ntb-filter-btn,
+.npc-threat-board .ntb-threat-filter,
+.npc-threat-board .ntb-sort-btn {
+  background: #1a1a2e;
+  border: 1px solid #2e2e50;
+  color: #8890aa;
+  border-radius: 3px;
+  padding: 2px 7px;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  white-space: nowrap;
+  line-height: 1.6;
+}
+
+.npc-threat-board .ntb-filter-btn:hover,
+.npc-threat-board .ntb-threat-filter:hover,
+.npc-threat-board .ntb-sort-btn:hover {
+  background: #22224a;
+  color: #c8d0e0;
+  border-color: #4a4a88;
+}
+
+.npc-threat-board .ntb-filter-btn.ntb-active,
+.npc-threat-board .ntb-threat-filter.ntb-active,
+.npc-threat-board .ntb-sort-btn.ntb-active {
+  background: #2a2a5c;
+  color: #e0e8ff;
+  border-color: #5555aa;
+}
+
+/* Active threat filters — color-coded active state */
+.npc-threat-board .ntb-threat-filter[data-threat="low"].ntb-active  { background: #1a3a22; border-color: #44cc66; color: #7deeaa; }
+.npc-threat-board .ntb-threat-filter[data-threat="med"].ntb-active  { background: #3a2e10; border-color: #ffaa00; color: #ffd055; }
+.npc-threat-board .ntb-threat-filter[data-threat="high"].ntb-active { background: #3a1212; border-color: #cc2222; color: #ff6666; }
+.npc-threat-board .ntb-threat-filter[data-threat="elite"].ntb-active{ background: #2a1040; border-color: #9933cc; color: #cc77ff; }
+
+/* Dead toggle active */
+.npc-threat-board .ntb-toggle-dead.ntb-active {
+  background: #2a1010;
+  border-color: #882222;
+  color: #ff8888;
+}
+
+/* ── Scrollable card grid ─────────────────────────────────────────────────── */
+.npc-threat-board .ntb-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 8px;
+  overflow-y: auto;
+  flex: 1 1 0;
+  align-content: flex-start;
+}
+
+/* Thin scrollbar */
+.npc-threat-board .ntb-grid::-webkit-scrollbar       { width: 6px; }
+.npc-threat-board .ntb-grid::-webkit-scrollbar-track  { background: #0d0d1a; }
+.npc-threat-board .ntb-grid::-webkit-scrollbar-thumb  { background: #2a2a4a; border-radius: 3px; }
+.npc-threat-board .ntb-grid::-webkit-scrollbar-thumb:hover { background: #4a4a88; }
+
+/* ── Empty state ──────────────────────────────────────────────────────────── */
+.npc-threat-board .ntb-empty {
+  width: 100%;
+  text-align: center;
+  padding: 40px 20px;
+  color: #4a5070;
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* ── NPC Card ─────────────────────────────────────────────────────────────── */
+.npc-threat-board .ntb-card {
+  position: relative;
+  background: #13132a;
+  border: 1px solid #2a2a4a;
+  border-radius: 5px;
+  padding: 7px 8px 6px;
+  width: 175px;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.2s, transform 0.1s;
+  overflow: hidden;
+}
+
+.npc-threat-board .ntb-card:hover {
+  background: #1a1a38;
+  border-color: #4a4a88;
+  transform: translateY(-1px);
+}
+
+/* Card threat border accent — left bar */
+.npc-threat-board .ntb-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 3px;
+  border-radius: 5px 0 0 5px;
+}
+.npc-threat-board .ntb-card.threat-low::before   { background: #44cc66; }
+.npc-threat-board .ntb-card.threat-med::before   { background: #ffaa00; }
+.npc-threat-board .ntb-card.threat-high::before  { background: #cc3333; }
+.npc-threat-board .ntb-card.threat-elite::before { background: #9933cc; }
+
+/* Dead card dimming */
+.npc-threat-board .ntb-card.ntb-dead {
+  opacity: 0.55;
+  filter: grayscale(60%);
+}
+
+/* Dead skull overlay */
+.npc-threat-board .ntb-skull-overlay {
+  position: absolute;
+  top: 4px; right: 5px;
+  font-size: 16px;
+  pointer-events: none;
+  opacity: 0.8;
+  z-index: 2;
+}
+
+/* ── Card header: portrait + name + threat badge ──────────────────────────── */
+.npc-threat-board .ntb-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-bottom: 6px;
+}
+
+.npc-threat-board .ntb-portrait-wrap {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid #2a2a4a;
+  overflow: hidden;
+}
+
+/* Portrait border color mirrors threat */
+.npc-threat-board .ntb-border-threat-low   { border-color: #44cc66; }
+.npc-threat-board .ntb-border-threat-med   { border-color: #ffaa00; }
+.npc-threat-board .ntb-border-threat-high  { border-color: #cc3333; }
+.npc-threat-board .ntb-border-threat-elite { border-color: #9933cc; }
+
+.npc-threat-board .ntb-portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.npc-threat-board .ntb-name-block {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 1px;
+}
+
+.npc-threat-board .ntb-name {
+  font-weight: bold;
+  font-size: 12px;
+  color: #d8e0f0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+/* Scene indicator badge */
+.npc-threat-board .ntb-scene-badge {
+  display: inline-block;
+  margin-left: 4px;
+  color: #44aaff;
+  font-size: 10px;
+  vertical-align: middle;
+}
+
+/* ── Threat badge ─────────────────────────────────────────────────────────── */
+.npc-threat-board .ntb-threat-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 1px 5px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1.5;
+  align-self: flex-start;
+}
+
+.npc-threat-board .ntb-threat-badge.threat-low   { background: #1a3a22; color: #7deeaa; border: 1px solid #44cc66; }
+.npc-threat-board .ntb-threat-badge.threat-med   { background: #3a2e10; color: #ffd055; border: 1px solid #ffaa00; }
+.npc-threat-board .ntb-threat-badge.threat-high  { background: #3a1212; color: #ff7070; border: 1px solid #cc3333; }
+.npc-threat-board .ntb-threat-badge.threat-elite { background: #2a1040; color: #cc77ff; border: 1px solid #9933cc; }
+
+/* ── HP bar + controls ────────────────────────────────────────────────────── */
+.npc-threat-board .ntb-hp-row {
+  margin-bottom: 5px;
+}
+
+.npc-threat-board .ntb-hp-track {
+  width: 100%;
+  height: 6px;
+  background: #0a0a18;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 3px;
+  border: 1px solid #1e1e38;
+}
+
+.npc-threat-board .ntb-hp-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.3s ease, background 0.3s ease;
+  min-width: 1px;
+}
+
+.npc-threat-board .ntb-hp-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}
+
+.npc-threat-board .ntb-hp-text {
+  font-size: 11px;
+  color: #9090b8;
+  min-width: 40px;
+  text-align: center;
+  flex: 1;
+}
+
+.npc-threat-board .ntb-hp-btn {
+  background: #1c1c38;
+  border: 1px solid #2e2e50;
+  color: #8890aa;
+  border-radius: 3px;
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.npc-threat-board .ntb-hp-btn:hover {
+  background: #28284e;
+  color: #d0d8ee;
+  border-color: #5555aa;
+}
+
+.npc-threat-board .ntb-hp-dec:hover { color: #ff6666; border-color: #882222; }
+.npc-threat-board .ntb-hp-inc:hover { color: #66dd88; border-color: #226644; }
+
+/* ── Attribute mini-grid ──────────────────────────────────────────────────── */
+.npc-threat-board .ntb-attrs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  margin-bottom: 5px;
+  background: #0f0f22;
+  border-radius: 3px;
+  padding: 4px 2px;
+  border: 1px solid #1e1e38;
+}
+
+.npc-threat-board .ntb-attr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1px;
+}
+
+.npc-threat-board .ntb-attr-label {
+  font-size: 9px;
+  color: #5a6080;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.npc-threat-board .ntb-attr-val {
+  font-size: 13px;
+  font-weight: bold;
+  color: #b8c8e0;
+  line-height: 1.1;
+}
+
+/* ── Damage / Armor badges + status dots ──────────────────────────────────── */
+.npc-threat-board .ntb-badges {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+}
+
+.npc-threat-board .ntb-badge {
+  display: inline-block;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 3px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.npc-threat-board .ntb-badge-dmg {
+  background: #2a1010;
+  color: #ff9090;
+  border: 1px solid #551111;
+}
+
+.npc-threat-board .ntb-badge-armor {
+  background: #10202a;
+  color: #70bbee;
+  border: 1px solid #11334a;
+}
+
+.npc-threat-board .ntb-statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: center;
+}
+
+.npc-threat-board .ntb-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #aa8800;
+  border: 1px solid #ffcc44;
+  cursor: default;
+}
+
+/* ── 📋 BPN TRACKER ──────────────────────────────────────────────────── */
+/* ============================================================
+   BPN Tracker — scoped to .bpn-tracker-window
+   Dark sci-fi aesthetic, SLA Industries
+   ============================================================ */
+
+.bpn-tracker-window .window-content {
+  background: #0f1117;
+  color: #c8cdd8;
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 13px;
+  padding: 0;
+  overflow-y: auto;
+}
+
+/* ── Inner wrapper ─────────────────────────────────────────── */
+.bpn-tracker-window .bpn-tracker-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+}
+
+/* ── Empty state ───────────────────────────────────────────── */
+.bpn-tracker-window .bpn-empty-state {
+  color: #555;
+  font-style: italic;
+  text-align: center;
+  padding: 20px 0;
+}
+
+/* ── Mission card ──────────────────────────────────────────── */
+.bpn-tracker-window .bpn-mission-card {
+  background: #14181f;
+  border: 1px solid #2a2d35;
+  border-left: 4px solid #3399ff; /* overridden inline per type */
+  border-radius: 4px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Card header row */
+.bpn-tracker-window .bpn-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* BPN code — monospace, prominent */
+.bpn-tracker-window .bpn-code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
+  font-weight: 700;
+  color: #e0e6f0;
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Type badge */
+.bpn-tracker-window .bpn-type-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  border: 1px solid;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* Status badge */
+.bpn-tracker-window .bpn-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.bpn-tracker-window .bpn-status-pending  { background: #2a2a2a; color: #888; border: 1px solid #555; }
+.bpn-tracker-window .bpn-status-active   { background: #0d2a2a; color: #00e5e5; border: 1px solid #00bfbf; }
+.bpn-tracker-window .bpn-status-complete { background: #0d2a1a; color: #44dd66; border: 1px solid #33aa44; }
+.bpn-tracker-window .bpn-status-failed   { background: #2a0d0d; color: #ff5555; border: 1px solid #cc2222; }
+
+/* Clear button — right-aligned */
+.bpn-tracker-window .bpn-clear-btn {
+  margin-left: auto;
+  background: transparent;
+  border: 1px solid #443333;
+  color: #885555;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  flex-shrink: 0;
+}
+.bpn-tracker-window .bpn-clear-btn:hover {
+  background: #3a1a1a;
+  color: #ff6666;
+  border-color: #cc2222;
+}
+
+/* ── Card rows ─────────────────────────────────────────────── */
+.bpn-tracker-window .bpn-card-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.bpn-tracker-window .bpn-label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+.bpn-tracker-window .bpn-label-type {
+  margin-left: 8px;
+}
+
+.bpn-tracker-window .bpn-status-select,
+.bpn-tracker-window .bpn-type-select {
+  background: #1a1e26;
+  border: 1px solid #2e323c;
+  color: #c8cdd8;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+}
+.bpn-tracker-window .bpn-status-select:focus,
+.bpn-tracker-window .bpn-type-select:focus {
+  outline: none;
+  border-color: #3399ff;
+}
+
+/* Reward row */
+.bpn-tracker-window .bpn-reward-row {
+  align-items: center;
+}
+
+.bpn-tracker-window .bpn-reward-label {
+  font-size: 12px;
+  color: #8899aa;
+}
+.bpn-tracker-window .bpn-reward-label strong {
+  color: #c8b46e;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+/* Pay Out button — gold/amber */
+.bpn-tracker-window .bpn-payout-btn {
+  background: #3a2a00;
+  border: 1px solid #8a6a00;
+  color: #ffc233;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background 0.15s;
+  margin-left: auto;
+}
+.bpn-tracker-window .bpn-payout-btn:hover {
+  background: #5a4400;
+  border-color: #ccaa00;
+  color: #ffe066;
+}
+
+/* ── Description / Objectives fields ──────────────────────── */
+.bpn-tracker-window .bpn-card-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bpn-tracker-window .bpn-textarea {
+  background: #0d1014;
+  border: 1px solid #252830;
+  color: #b0b8c8;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  line-height: 1.5;
+  padding: 6px 8px;
+  border-radius: 3px;
+  resize: vertical;
+  width: 100%;
+  box-sizing: border-box;
+  transition: border-color 0.15s;
+}
+.bpn-tracker-window .bpn-textarea:focus {
+  outline: none;
+  border-color: #3399ff;
+  background: #0f1318;
+}
+.bpn-tracker-window .bpn-textarea::placeholder {
+  color: #3a3f4a;
+}
+
+/* ── Card footer ───────────────────────────────────────────── */
+.bpn-tracker-window .bpn-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-top: 4px;
+  border-top: 1px solid #1e2228;
+}
+
+/* PC badge strip */
+.bpn-tracker-window .bpn-pc-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.bpn-tracker-window .bpn-pc-badge {
+  background: #1a2030;
+  border: 1px solid #2e3a50;
+  color: #7899cc;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.03em;
+}
+
+.bpn-tracker-window .bpn-pc-badge-unassigned {
+  background: #1a1a1a;
+  border-color: #333;
+  color: #555;
+}
+
+/* Save button */
+.bpn-tracker-window .bpn-save-btn {
+  background: #0d2233;
+  border: 1px solid #1a5080;
+  color: #55aadd;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: 3px;
+  cursor: pointer;
+  letter-spacing: 0.03em;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.bpn-tracker-window .bpn-save-btn:hover {
+  background: #163348;
+  border-color: #3399ff;
+  color: #88ccff;
+}
+
+/* ── Unassigned section ────────────────────────────────────── */
+.bpn-tracker-window .bpn-unassigned-section {
+  background: #111318;
+  border: 1px dashed #2a2a2a;
+  border-radius: 4px;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bpn-tracker-window .bpn-unassigned-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #444;
+}
+
+/* ── Assign BPN Panel ──────────────────────────────────────── */
+.bpn-tracker-window .bpn-assign-panel {
+  background: #111520;
+  border: 1px solid #1e2535;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bpn-tracker-window .bpn-assign-header {
+  background: #151a28;
+  border-bottom: 1px solid #1e2535;
+  color: #6688bb;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  padding: 7px 12px;
+}
+
+.bpn-tracker-window .bpn-assign-body {
+  display: flex;
+  gap: 12px;
+  padding: 10px 12px;
+}
+
+/* PC checklist — left column */
+.bpn-tracker-window .bpn-assign-pcs {
+  min-width: 130px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bpn-tracker-window .bpn-pc-checklist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 160px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.bpn-tracker-window .bpn-pc-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #8899aa;
+  cursor: pointer;
+}
+.bpn-tracker-window .bpn-pc-check:hover {
+  color: #aabbcc;
+}
+.bpn-tracker-window .bpn-pc-check input[type="checkbox"] {
+  accent-color: #3399ff;
+  cursor: pointer;
+}
+
+/* Fields — right column */
+.bpn-tracker-window .bpn-assign-fields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.bpn-tracker-window .bpn-assign-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.bpn-tracker-window .bpn-assign-code,
+.bpn-tracker-window .bpn-assign-reward {
+  background: #0d1014;
+  border: 1px solid #252830;
+  color: #c8cdd8;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  flex: 1;
+  min-width: 80px;
+}
+.bpn-tracker-window .bpn-assign-code:focus,
+.bpn-tracker-window .bpn-assign-reward:focus {
+  outline: none;
+  border-color: #3399ff;
+}
+
+.bpn-tracker-window .bpn-assign-type,
+.bpn-tracker-window .bpn-assign-status {
+  background: #1a1e26;
+  border: 1px solid #2e323c;
+  color: #c8cdd8;
+  font-size: 12px;
+  padding: 3px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  flex: 1;
+  min-width: 70px;
+}
+.bpn-tracker-window .bpn-assign-type:focus,
+.bpn-tracker-window .bpn-assign-status:focus {
+  outline: none;
+  border-color: #3399ff;
+}
+
+.bpn-tracker-window .bpn-assign-submit-row {
+  justify-content: flex-end;
+  padding-top: 4px;
+  border-top: 1px solid #1e2228;
+  margin-top: 2px;
+}
+
+/* Assign BPN submit button */
+.bpn-tracker-window .bpn-assign-btn {
+  background: #0d2a18;
+  border: 1px solid #1a6640;
+  color: #44cc88;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  padding: 5px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.15s;
+}
+.bpn-tracker-window .bpn-assign-btn:hover {
+  background: #164030;
+  border-color: #33cc77;
+  color: #88ffbb;
+}
+
+/* ── Scrollbar styling (webkit) ────────────────────────────── */
+.bpn-tracker-window .window-content::-webkit-scrollbar,
+.bpn-tracker-window .bpn-pc-checklist::-webkit-scrollbar {
+  width: 5px;
+}
+.bpn-tracker-window .window-content::-webkit-scrollbar-track,
+.bpn-tracker-window .bpn-pc-checklist::-webkit-scrollbar-track {
+  background: #0a0c10;
+}
+.bpn-tracker-window .window-content::-webkit-scrollbar-thumb,
+.bpn-tracker-window .bpn-pc-checklist::-webkit-scrollbar-thumb {
+  background: #2a3040;
+  border-radius: 3px;
+}
+.bpn-tracker-window .window-content::-webkit-scrollbar-thumb:hover,
+.bpn-tracker-window .bpn-pc-checklist::-webkit-scrollbar-thumb:hover {
+  background: #3a4455;
+}
+
+/* ── ⚡ CONDITION APPLICATOR ──────────────────────────────────────────────────── */
+/* ============================================================
+   SLA Condition Applicator — temp_condapp.css
+   Scoped to .condition-applicator-window
+   ============================================================ */
+
+.condition-applicator-window .window-content {
+  padding: 0;
+  background: #0d0d1a;
+  color: #c8d0e0;
+  font-family: 'Roboto Condensed', 'Arial Narrow', Arial, sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---- Wrapper ---- */
+.condition-applicator-window .cap-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.condition-applicator-window .cap-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #13132b;
+  border-bottom: 1px solid #00d4ff33;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.condition-applicator-window .cap-header-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.condition-applicator-window .cap-header-label {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #6a7a9a;
+}
+
+.condition-applicator-window .cap-selected-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #00d4ff;
+  text-shadow: 0 0 8px #00d4ff88;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.condition-applicator-window .cap-header-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* ---- Buttons ---- */
+.condition-applicator-window .cap-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #2a2a4a;
+  border-radius: 3px;
+  background: #1a1a2e;
+  color: #8a9bbf;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.condition-applicator-window .cap-btn:hover {
+  background: #22224a;
+  border-color: #00d4ff55;
+  color: #c8d0e0;
+}
+
+.condition-applicator-window .cap-btn--toggle.cap-btn--active {
+  background: #0a2a3a;
+  border-color: #00d4ff;
+  color: #00d4ff;
+  box-shadow: 0 0 6px #00d4ff44;
+}
+
+.condition-applicator-window .cap-btn--danger {
+  border-color: #3a1a1a;
+  color: #c05050;
+}
+
+.condition-applicator-window .cap-btn--danger:hover {
+  background: #2a0f0f;
+  border-color: #ff4444;
+  color: #ff6666;
+}
+
+/* ============================================================
+   BODY — two-column layout
+   ============================================================ */
+.condition-applicator-window .cap-body {
+  display: flex;
+  flex: 1 1 0;
+  overflow: hidden;
+}
+
+/* ============================================================
+   LEFT PANEL — PC Roster (30%)
+   ============================================================ */
+.condition-applicator-window .cap-pc-list {
+  width: 30%;
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #1e1e3a;
+  background: #0a0a18;
+  flex-shrink: 0;
+}
+
+.condition-applicator-window .cap-pc-list-header {
+  padding: 6px 10px;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #4a5a7a;
+  background: #0d0d22;
+  border-bottom: 1px solid #1a1a30;
+  flex-shrink: 0;
+}
+
+.condition-applicator-window .cap-pc-list-scroll {
+  overflow-y: auto;
+  flex: 1 1 0;
+  scrollbar-width: thin;
+  scrollbar-color: #1e2a4a #0a0a18;
+}
+
+.condition-applicator-window .cap-pc-list-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.condition-applicator-window .cap-pc-list-scroll::-webkit-scrollbar-track {
+  background: #0a0a18;
+}
+.condition-applicator-window .cap-pc-list-scroll::-webkit-scrollbar-thumb {
+  background: #1e2a4a;
+  border-radius: 2px;
+}
+
+/* PC Row */
+.condition-applicator-window .cap-pc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #111128;
+  border-left: 3px solid transparent;
+  transition: background 0.12s, border-left-color 0.12s;
+  gap: 4px;
+}
+
+.condition-applicator-window .cap-pc-row:hover {
+  background: #12122a;
+  border-left-color: #3a3a6a;
+}
+
+.condition-applicator-window .cap-pc-row--selected {
+  background: #141430;
+  border-left-color: #ff8800;
+}
+
+.condition-applicator-window .cap-pc-row--selected .cap-pc-name {
+  color: #ffaa44;
+}
+
+.condition-applicator-window .cap-pc-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #a8b8d8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 0;
+}
+
+.condition-applicator-window .cap-pc-dots {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  max-width: 60px;
+}
+
+.condition-applicator-window .cap-cond-dot {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #00d4ff22;
+  border: 1px solid #00d4ff66;
+  font-size: 0.45rem;
+  color: #00d4ff;
+}
+
+.condition-applicator-window .cap-no-pcs {
+  padding: 12px 10px;
+  font-size: 0.75rem;
+  color: #4a5a7a;
+  font-style: italic;
+}
+
+/* ============================================================
+   RIGHT PANEL — Condition Grid (70%)
+   ============================================================ */
+.condition-applicator-window .cap-cond-panel {
+  flex: 1 1 0;
+  overflow-y: auto;
+  padding: 8px;
+  background: #0d0d1a;
+  scrollbar-width: thin;
+  scrollbar-color: #1e2a4a #0d0d1a;
+}
+
+.condition-applicator-window .cap-cond-panel::-webkit-scrollbar {
+  width: 4px;
+}
+.condition-applicator-window .cap-cond-panel::-webkit-scrollbar-track {
+  background: #0d0d1a;
+}
+.condition-applicator-window .cap-cond-panel::-webkit-scrollbar-thumb {
+  background: #1e2a4a;
+  border-radius: 2px;
+}
+
+.condition-applicator-window .cap-cond-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-content: flex-start;
+}
+
+/* Condition Tile */
+.condition-applicator-window .cap-cond-tile {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  padding: 6px 4px 4px;
+  border-radius: 4px;
+  background: #111128;
+  border: 1px solid #1e1e3a;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+  gap: 4px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.condition-applicator-window .cap-cond-tile:hover {
+  background: #181838;
+  border-color: #3a3a7a;
+}
+
+.condition-applicator-window .cap-cond-tile--active {
+  background: #062030;
+  border: 1px solid #00d4ff;
+  box-shadow: 0 0 8px #00d4ff44, inset 0 0 12px #00d4ff18;
+}
+
+.condition-applicator-window .cap-cond-tile--active .cap-cond-icon,
+.condition-applicator-window .cap-cond-tile--active .cap-cond-label {
+  color: #00d4ff;
+  text-shadow: 0 0 6px #00d4ff88;
+}
+
+.condition-applicator-window .cap-cond-icon {
+  font-size: 1.4rem;
+  color: #6a7a9a;
+  line-height: 1;
+  transition: color 0.15s, text-shadow 0.15s;
+}
+
+.condition-applicator-window .cap-cond-label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7a8aaa;
+  line-height: 1.2;
+  word-break: break-word;
+  transition: color 0.15s, text-shadow 0.15s;
+}
+
+/* Dice Modifier Badge */
+.condition-applicator-window .cap-mod-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  background: #8b0000;
+  color: #ffaaaa;
+  border-radius: 2px;
+  padding: 1px 3px;
+  line-height: 1.3;
+  white-space: nowrap;
+  border: 1px solid #cc222233;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.condition-applicator-window .cap-no-conds {
+  padding: 16px;
+  font-size: 0.8rem;
+  color: #4a5a7a;
+  font-style: italic;
+}
+
+/* ============================================================
+   STATUS BAR
+   ============================================================ */
+.condition-applicator-window .cap-statusbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: #0a0a18;
+  border-top: 1px solid #1a1a30;
+  flex-shrink: 0;
+  min-height: 30px;
+  overflow: hidden;
+}
+
+.condition-applicator-window .cap-statusbar-label {
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #4a5a7a;
+  flex-shrink: 0;
+}
+
+.condition-applicator-window .cap-statusbar-tags {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  align-items: center;
+}
+
+.condition-applicator-window .cap-statusbar-tags::-webkit-scrollbar {
+  display: none;
+}
+
+.condition-applicator-window .cap-status-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: #062030;
+  border: 1px solid #00d4ff55;
+  color: #00d4ff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.condition-applicator-window .cap-status-none {
+  font-size: 0.7rem;
+  color: #3a4a6a;
+  font-style: italic;
+}
+
+.condition-applicator-window .cap-status-mode {
+  font-size: 0.7rem;
+  color: #00d4ff88;
+  font-style: italic;
+}

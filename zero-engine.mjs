@@ -3741,34 +3741,34 @@ Hooks.once("setup", () => {
 /**
  * Ready hook
  */
-// ── GM SCENE CONTROLS: PC STATUS BUTTON ──────────────────────────────────────
-// Opens the draggable SLAGMStatusWindow (GM only).
+// ── GM SCENE CONTROLS: SLA TOOLS ─────────────────────────────────────────────
+// Adds all SLA GM tool buttons to the scene controls (GM only).
 // Foundry v14: controls is an object; v13: controls is an array.
 Hooks.on("getSceneControlButtons", (controls) => {
   if (!game.user?.isGM) return;
 
-  const openStatus = () => SLAGMStatusWindow.open();
-
-  const tool = {
-    name:     "sla-pc-status",
-    title:    "PC Status Board",
-    icon:     "fas fa-clipboard-list",
-    visible:  true,
-    button:   true,
-    onChange: openStatus, // v14
-    onClick:  openStatus  // v13 compat
-  };
+  const SLA_TOOLS = [
+    { name: "sla-pc-status", title: "PC Status Board",       icon: "fas fa-clipboard-list",  fn: () => SLAGMStatusWindow.open() },
+    { name: "sla-credit",    title: "Credit Distribution",   icon: "fas fa-credit-card",     fn: () => SLACreditDistributionTool.open() },
+    { name: "sla-ledger",    title: "Shift Ledger",          icon: "fas fa-book-open",       fn: () => SLAShiftLedger.open() },
+    { name: "sla-threat",    title: "NPC Threat Board",      icon: "fas fa-skull",           fn: () => SLANPCThreatBoard.open() },
+    { name: "sla-bpn",       title: "BPN Tracker",           icon: "fas fa-clipboard-check", fn: () => SLABPNTracker.open() },
+    { name: "sla-condapp",   title: "Condition Applicator",  icon: "fas fa-bolt",            fn: () => SLAConditionApplicator.open() },
+  ];
 
   // Foundry v14: controls is a plain object keyed by group name
   if (controls && !Array.isArray(controls)) {
-    controls["sla-gm-tools"] = {
-      name:     "sla-gm-tools",
-      title:    "SLA GM Tools",
-      icon:     "fas fa-clipboard-list",
-      visible:  true,
-      button:   true,
-      onChange: openStatus
-    };
+    const grp = controls.tokens ?? controls.token ?? null;
+    if (grp) {
+      grp.tools ??= {};
+      for (const t of SLA_TOOLS) {
+        grp.tools[t.name] = {
+          name: t.name, title: t.title, icon: t.icon,
+          visible: true, button: true, toggle: false,
+          onChange: t.fn
+        };
+      }
+    }
     return;
   }
 
@@ -3776,8 +3776,15 @@ Hooks.on("getSceneControlButtons", (controls) => {
   const tokenGroup = controls.find(c => c.name === "token" || c.name === "tokens");
   if (tokenGroup) {
     tokenGroup.tools ??= [];
-    if (Array.isArray(tokenGroup.tools)) tokenGroup.tools.push(tool);
-    else tokenGroup.tools["sla-pc-status"] = tool;
+    for (const t of SLA_TOOLS) {
+      const entry = {
+        name: t.name, title: t.title, icon: t.icon,
+        visible: true, button: true,
+        onChange: t.fn, onClick: t.fn
+      };
+      if (Array.isArray(tokenGroup.tools)) tokenGroup.tools.push(entry);
+      else tokenGroup.tools[t.name] = entry;
+    }
   }
 });
 
@@ -7050,6 +7057,1596 @@ class SLAGMStatusWindow extends Application {
     });
     this._hooks = [];
     SLAGMStatusWindow._inst = null;
+
+// ── 💳 CREDIT DISTRIBUTION ────────────────────────────────────────────────────────────
+class SLACreditDistributionTool extends Application {
+  constructor(...args) {
+    super(...args);
+    this._hooks = [];
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: 'sla-credit-tool',
+      title: '💳 Credit Distribution',
+      width: 560,
+      height: 'auto',
+      resizable: true,
+      classes: ['zero-engine', 'credit-tool-window']
+    });
+  }
+
+  static open() {
+    if (!SLACreditDistributionTool._inst) SLACreditDistributionTool._inst = new SLACreditDistributionTool();
+    SLACreditDistributionTool._inst.render(true);
+    return SLACreditDistributionTool._inst;
+  }
+
+  _pcActors() {
+    return (game.actors ?? []).filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter);
+  }
+
+  _calcIncome(actor) {
+    const fin = actor.system?.finances?.income ?? {};
+    return (fin.salary ?? 0) + (fin.bpnReward ?? 0) + (fin.other ?? 0);
+  }
+
+  _calcExpenses(actor) {
+    const exp = actor.system?.finances?.expenses ?? {};
+    return (exp.accommodation ?? 0) + (exp.drugs ?? 0) + (exp.subscriptions ?? 0) + (exp.other ?? 0) + (exp.bulletTax ?? 0);
+  }
+
+  async _renderInner() {
+    const pcs = this._pcActors();
+
+    // Build rows for each PC
+    const rows = pcs.map(actor => {
+      const credits  = actor.system?.details?.credits ?? 0;
+      const scl      = actor.system?.details?.scl ?? 0;
+      const income   = this._calcIncome(actor);
+      const expenses = this._calcExpenses(actor);
+      const debt     = actor.system?.finances?.debt ?? 0;
+      const net      = income - expenses;
+
+      const netClass    = net >= 0 ? 'ctw-positive' : 'ctw-negative';
+      const debtClass   = debt > 0 ? 'ctw-debt'     : '';
+      const imgSrc      = actor.img ?? 'icons/svg/mystery-man.svg';
+
+      return `
+        <tr class="ctw-row" data-actor-id="${actor.id}">
+          <td class="ctw-name">
+            <img class="ctw-portrait" src="${imgSrc}" alt="${actor.name}" />
+            <span class="ctw-actor-name">${actor.name}</span>
+            <span class="ctw-scl">SCL ${scl}</span>
+          </td>
+          <td class="ctw-cell">
+            <input
+              class="ctw-credits-input"
+              id="credits-input-${actor.id}"
+              type="number"
+              value="${credits}"
+              min="0"
+              data-actor-id="${actor.id}"
+            />
+          </td>
+          <td class="ctw-cell ctw-greyed">${income}</td>
+          <td class="ctw-cell ctw-negative">${expenses}</td>
+          <td class="ctw-cell ${debtClass}">${debt}</td>
+          <td class="ctw-cell ${netClass}">${net}</td>
+          <td class="ctw-cell">
+            <button class="ctw-btn ctw-btn-save" data-actor-id="${actor.id}" title="Save credits">Save</button>
+          </td>
+        </tr>`;
+    }).join('');
+
+    const emptyMsg = pcs.length === 0
+      ? `<tr><td colspan="7" class="ctw-empty">No player characters found. Mark actors as Player Characters on their sheets.</td></tr>`
+      : '';
+
+    const html = `
+      <div class="ctw-wrapper">
+
+        <section class="ctw-section">
+          <h3 class="ctw-section-title">Player Credit Ledger</h3>
+          <table class="ctw-table">
+            <thead>
+              <tr class="ctw-header-row">
+                <th class="ctw-th ctw-th-name">Character</th>
+                <th class="ctw-th">Credits ¢</th>
+                <th class="ctw-th ctw-greyed">Income</th>
+                <th class="ctw-th ctw-negative">Expenses</th>
+                <th class="ctw-th">Debt</th>
+                <th class="ctw-th">Net</th>
+                <th class="ctw-th"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${rows}
+              ${emptyMsg}
+            </tbody>
+          </table>
+        </section>
+
+        <section class="ctw-section ctw-bulk-panel">
+          <h3 class="ctw-section-title">Bulk Distribution</h3>
+          <div class="ctw-bulk-controls">
+            <label class="ctw-label" for="ctw-bulk-amount">Amount ¢</label>
+            <input class="ctw-credits-input ctw-bulk-amount" id="ctw-bulk-amount" type="number" value="0" min="0" />
+            <div class="ctw-radio-group">
+              <label class="ctw-radio-label">
+                <input type="radio" name="ctw-pay-type" value="salary" checked /> Salary
+              </label>
+              <label class="ctw-radio-label">
+                <input type="radio" name="ctw-pay-type" value="bpnReward" /> BPN Reward
+              </label>
+              <label class="ctw-radio-label">
+                <input type="radio" name="ctw-pay-type" value="custom" /> Custom Amount
+              </label>
+            </div>
+            <div class="ctw-bulk-buttons">
+              <button class="ctw-btn ctw-btn-pay-all" id="ctw-pay-all-btn">
+                ▶ Pay All PCs
+              </button>
+              <button class="ctw-btn ctw-btn-danger" id="ctw-deduct-expenses-btn">
+                ⬇ Deduct All Expenses
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>`;
+
+    return $(html);
+  }
+
+  async _render(force, options) {
+    await super._render(force, options);
+    if (!this._hooks.length) {
+      const refresh = () => { if (this.rendered) this.render(false); };
+      this._hooks.push(
+        Hooks.on('updateActor', refresh)
+      );
+    }
+  }
+
+  async close(options) {
+    this._hooks.forEach((id) => {
+      Hooks.off('updateActor', id);
+    });
+    this._hooks = [];
+    SLACreditDistributionTool._inst = null;
+    return super.close(options);
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // --- Save individual credits ---
+    html.find('.ctw-btn-save').on('click', async (ev) => {
+      const actorId = ev.currentTarget.dataset.actorId;
+      const actor   = game.actors.get(actorId);
+      if (!actor) return ui.notifications.error(`Actor not found: ${actorId}`);
+
+      const input    = html.find(`#credits-input-${actorId}`);
+      const newValue = parseInt(input.val(), 10);
+
+      if (isNaN(newValue) || newValue < 0) {
+        return ui.notifications.error(`Invalid credit value for ${actor.name}.`);
+      }
+
+      try {
+        await actor.update({ 'system.details.credits': newValue });
+        ui.notifications.info(`${actor.name}: credits set to ¢${newValue}.`);
+      } catch (err) {
+        console.error('SLACreditDistributionTool | save error', err);
+        ui.notifications.error(`Failed to update credits for ${actor.name}.`);
+      }
+    });
+
+    // --- Pay All PCs ---
+    html.find('#ctw-pay-all-btn').on('click', async () => {
+      const pcs    = this._pcActors();
+      if (pcs.length === 0) return ui.notifications.error('No player characters found.');
+
+      const amount = parseInt(html.find('#ctw-bulk-amount').val(), 10);
+      if (isNaN(amount) || amount <= 0) {
+        return ui.notifications.error('Enter a valid amount greater than 0.');
+      }
+
+      const payType = html.find('input[name="ctw-pay-type"]:checked').val();
+
+      let successCount = 0;
+      for (const actor of pcs) {
+        try {
+          if (payType === 'custom') {
+            // Custom: add directly to credits balance
+            const currentCredits = actor.system?.details?.credits ?? 0;
+            await actor.update({ 'system.details.credits': currentCredits + amount });
+          } else if (payType === 'salary') {
+            await actor.update({ 'system.finances.income.salary': amount });
+          } else if (payType === 'bpnReward') {
+            await actor.update({ 'system.finances.income.bpnReward': amount });
+          }
+          successCount++;
+        } catch (err) {
+          console.error(`SLACreditDistributionTool | pay error for ${actor.name}`, err);
+          ui.notifications.error(`Failed to pay ${actor.name}.`);
+        }
+      }
+
+      if (successCount > 0) {
+        const label = payType === 'custom' ? `¢${amount} credits` : `${payType} set to ¢${amount}`;
+        ui.notifications.info(`Paid ${successCount} PC(s): ${label}.`);
+      }
+    });
+
+    // --- Deduct All Expenses ---
+    html.find('#ctw-deduct-expenses-btn').on('click', async () => {
+      const pcs = this._pcActors();
+      if (pcs.length === 0) return ui.notifications.error('No player characters found.');
+
+      let successCount = 0;
+      for (const actor of pcs) {
+        try {
+          const currentCredits = actor.system?.details?.credits ?? 0;
+          const totalExpenses  = this._calcExpenses(actor);
+          const newCredits     = Math.max(0, currentCredits - totalExpenses);
+          await actor.update({ 'system.details.credits': newCredits });
+          successCount++;
+        } catch (err) {
+          console.error(`SLACreditDistributionTool | deduct error for ${actor.name}`, err);
+          ui.notifications.error(`Failed to deduct expenses for ${actor.name}.`);
+        }
+      }
+
+      if (successCount > 0) {
+        ui.notifications.info(`Expenses deducted from ${successCount} PC(s).`);
+      }
+    });
+  }
+}
+
+SLACreditDistributionTool._inst = null;
+
+// ── 📒 SHIFT LEDGER ────────────────────────────────────────────────────────────
+class SLAShiftLedger extends Application {
+  constructor(...args) {
+    super(...args);
+    this._hooks = [];
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: 'sla-shift-ledger',
+      title: '📒 Shift Ledger',
+      width: 700,
+      height: 'auto',
+      resizable: true,
+      classes: ['zero-engine', 'shift-ledger-window']
+    });
+  }
+
+  static open() {
+    if (!SLAShiftLedger._inst) SLAShiftLedger._inst = new SLAShiftLedger();
+    SLAShiftLedger._inst.render(true);
+    return SLAShiftLedger._inst;
+  }
+
+  _pcActors() {
+    return (game.actors ?? []).filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter);
+  }
+
+  _calcNet(actor) {
+    const fin = actor.system?.finances ?? {};
+    const inc = fin.income ?? {};
+    const exp = fin.expenses ?? {};
+    const totalIncome = (inc.salary || 0) + (inc.bpnReward || 0) + (inc.other || 0);
+    const totalExpenses = (exp.accommodation || 0) + (exp.drugs || 0) + (exp.subscriptions || 0) + (exp.other || 0) + (exp.bulletTax || 0);
+    return { totalIncome, totalExpenses, net: totalIncome - totalExpenses };
+  }
+
+  async _processShift(actor) {
+    const { totalIncome, totalExpenses } = this._calcNet(actor);
+    const currentCredits = actor.system?.details?.credits ?? 0;
+    const currentDebt = actor.system?.finances?.debt ?? 0;
+
+    let newCredits = currentCredits + totalIncome - totalExpenses;
+    let newDebt = currentDebt;
+
+    if (newCredits < 0) {
+      newDebt = currentDebt + Math.abs(newCredits);
+      newCredits = 0;
+    }
+
+    try {
+      await actor.update({
+        'system.details.credits': newCredits,
+        'system.finances.debt': newDebt
+      });
+      ui.notifications.info(`Shift processed for ${actor.name}: ${newCredits}¢ credits, ${newDebt}¢ debt.`);
+    } catch (err) {
+      console.error('SLAShiftLedger | Failed to process shift for', actor.name, err);
+      ui.notifications.error(`Failed to process shift for ${actor.name}. See console for details.`);
+    }
+  }
+
+  async _processAllShifts() {
+    const pcs = this._pcActors();
+    if (!pcs.length) {
+      ui.notifications.error('No player characters found to process.');
+      return;
+    }
+    for (const actor of pcs) {
+      await this._processShift(actor);
+    }
+    ui.notifications.info(`Shift processed for all ${pcs.length} player character(s).`);
+  }
+
+  async _exportToChat() {
+    const pcs = this._pcActors();
+    if (!pcs.length) {
+      ui.notifications.error('No player characters found to export.');
+      return;
+    }
+
+    let lines = ['<h3>📒 Shift Ledger Summary</h3><table style="width:100%;border-collapse:collapse">'];
+    lines.push('<tr><th style="text-align:left">Character</th><th>SCL</th><th>Credits</th><th>Income</th><th>Expenses</th><th>Net</th><th>Debt</th></tr>');
+
+    let totalCredits = 0, totalIncome = 0, totalExpenses = 0, totalDebt = 0;
+
+    for (const actor of pcs) {
+      const { totalIncome: inc, totalExpenses: exp, net } = this._calcNet(actor);
+      const credits = actor.system?.details?.credits ?? 0;
+      const scl = actor.system?.details?.scl ?? '–';
+      const debt = actor.system?.finances?.debt ?? 0;
+      totalCredits += credits;
+      totalIncome += inc;
+      totalExpenses += exp;
+      totalDebt += debt;
+      const netColor = net >= 0 ? '#44cc66' : '#cc2222';
+      const debtColor = debt > 0 ? '#cc2222' : 'inherit';
+      lines.push(
+        `<tr>` +
+        `<td><b>${actor.name}</b></td>` +
+        `<td style="text-align:center">${scl}</td>` +
+        `<td style="text-align:right">${credits}¢</td>` +
+        `<td style="text-align:right;color:#44cc66">+${inc}¢</td>` +
+        `<td style="text-align:right;color:#cc2222">-${exp}¢</td>` +
+        `<td style="text-align:right;color:${netColor}">${net >= 0 ? '+' : ''}${net}¢</td>` +
+        `<td style="text-align:right;color:${debtColor}">${debt}¢</td>` +
+        `</tr>`
+      );
+    }
+
+    const groupNet = totalIncome - totalExpenses;
+    const groupNetColor = groupNet >= 0 ? '#44cc66' : '#cc2222';
+    lines.push(
+      `<tr style="border-top:1px solid #555;font-weight:bold">` +
+      `<td colspan="2">GROUP TOTALS</td>` +
+      `<td style="text-align:right">${totalCredits}¢</td>` +
+      `<td style="text-align:right;color:#44cc66">+${totalIncome}¢</td>` +
+      `<td style="text-align:right;color:#cc2222">-${totalExpenses}¢</td>` +
+      `<td style="text-align:right;color:${groupNetColor}">${groupNet >= 0 ? '+' : ''}${groupNet}¢</td>` +
+      `<td style="text-align:right;color:${totalDebt > 0 ? '#cc2222' : 'inherit'}">${totalDebt}¢</td>` +
+      `</tr>`
+    );
+    lines.push('</table>');
+
+    try {
+      await ChatMessage.create({
+        content: lines.join(''),
+        whisper: [game.user.id],
+        speaker: { alias: 'Shift Ledger' }
+      });
+      ui.notifications.info('Shift ledger exported to chat (GM only).');
+    } catch (err) {
+      console.error('SLAShiftLedger | Failed to export to chat:', err);
+      ui.notifications.error('Failed to export ledger to chat. See console for details.');
+    }
+  }
+
+  async _renderInner() {
+    const pcs = this._pcActors();
+
+    // ── Aggregate totals ──────────────────────────────────────────────────────
+    let aggCredits = 0, aggIncome = 0, aggExpenses = 0, aggDebt = 0;
+    for (const actor of pcs) {
+      const { totalIncome, totalExpenses } = this._calcNet(actor);
+      aggCredits   += actor.system?.details?.credits ?? 0;
+      aggIncome    += totalIncome;
+      aggExpenses  += totalExpenses;
+      aggDebt      += actor.system?.finances?.debt ?? 0;
+    }
+    const aggNet = aggIncome - aggExpenses;
+
+    // ── Summary bar ──────────────────────────────────────────────────────────
+    const summaryBar = `
+      <div class="slw-summary-bar">
+        <div class="slw-summary-item">
+          <span class="slw-summary-label">Group Credits</span>
+          <span class="slw-summary-value slw-credits">${aggCredits}¢</span>
+        </div>
+        <div class="slw-summary-item">
+          <span class="slw-summary-label">Total Income</span>
+          <span class="slw-summary-value slw-positive">+${aggIncome}¢</span>
+        </div>
+        <div class="slw-summary-item">
+          <span class="slw-summary-label">Total Expenses</span>
+          <span class="slw-summary-value slw-negative">-${aggExpenses}¢</span>
+        </div>
+        <div class="slw-summary-item">
+          <span class="slw-summary-label">Net This Shift</span>
+          <span class="slw-summary-value ${aggNet >= 0 ? 'slw-positive' : 'slw-negative'}">${aggNet >= 0 ? '+' : ''}${aggNet}¢</span>
+        </div>
+        <div class="slw-summary-item">
+          <span class="slw-summary-label">Total Debt</span>
+          <span class="slw-summary-value ${aggDebt > 0 ? 'slw-debt' : 'slw-neutral'}">${aggDebt}¢</span>
+        </div>
+      </div>`;
+
+    // ── Per-PC cards ─────────────────────────────────────────────────────────
+    let pcCards = '';
+    if (pcs.length === 0) {
+      pcCards = '<div class="slw-empty">No player characters found. Mark actors as Player Characters in their sheet details.</div>';
+    } else {
+      for (const actor of pcs) {
+        const det  = actor.system?.details ?? {};
+        const fin  = actor.system?.finances ?? {};
+        const inc  = fin.income ?? {};
+        const exp  = fin.expenses ?? {};
+        const { totalIncome, totalExpenses, net } = this._calcNet(actor);
+        const credits = det.credits ?? 0;
+        const scl     = det.scl ?? '–';
+        const debt    = fin.debt ?? 0;
+
+        pcCards += `
+          <div class="slw-pc-card" data-actor-id="${actor.id}">
+            <div class="slw-pc-header">
+              <span class="slw-pc-name">${actor.name}</span>
+              <span class="slw-scl-badge">SCL ${scl}</span>
+              <span class="slw-pc-credits">${credits}¢</span>
+            </div>
+
+            <div class="slw-pc-body">
+              <div class="slw-finance-col">
+                <div class="slw-col-title slw-positive">Income</div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Salary</span>
+                  <span class="slw-finance-val slw-mono">${inc.salary ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">BPN Reward</span>
+                  <span class="slw-finance-val slw-mono">${inc.bpnReward ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Other</span>
+                  <span class="slw-finance-val slw-mono">${inc.other ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row slw-total-row">
+                  <span class="slw-finance-label">Total Income</span>
+                  <span class="slw-finance-val slw-mono slw-positive">+${totalIncome}¢</span>
+                </div>
+              </div>
+
+              <div class="slw-finance-col">
+                <div class="slw-col-title slw-negative">Expenses</div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Accommodation</span>
+                  <span class="slw-finance-val slw-mono">${exp.accommodation ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Drugs</span>
+                  <span class="slw-finance-val slw-mono">${exp.drugs ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Subscriptions</span>
+                  <span class="slw-finance-val slw-mono">${exp.subscriptions ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Other</span>
+                  <span class="slw-finance-val slw-mono">${exp.other ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Bullet Tax</span>
+                  <span class="slw-finance-val slw-mono">${exp.bulletTax ?? 0}¢</span>
+                </div>
+                <div class="slw-finance-row slw-total-row">
+                  <span class="slw-finance-label">Total Expenses</span>
+                  <span class="slw-finance-val slw-mono slw-negative">-${totalExpenses}¢</span>
+                </div>
+              </div>
+
+              <div class="slw-finance-col slw-finance-col--summary">
+                <div class="slw-col-title">Summary</div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Net Balance</span>
+                  <span class="slw-finance-val slw-mono ${net >= 0 ? 'slw-positive' : 'slw-negative'}">${net >= 0 ? '+' : ''}${net}¢</span>
+                </div>
+                <div class="slw-finance-row">
+                  <span class="slw-finance-label">Debt</span>
+                  <span class="slw-finance-val slw-mono ${debt > 0 ? 'slw-debt' : 'slw-neutral'}">${debt}¢</span>
+                </div>
+                <button class="slw-btn slw-btn--process" data-actor-id="${actor.id}">
+                  Process Shift
+                </button>
+              </div>
+            </div>
+          </div>`;
+      }
+    }
+
+    // ── Global action bar ────────────────────────────────────────────────────
+    const actionBar = `
+      <div class="slw-action-bar">
+        <button class="slw-btn slw-btn--all" id="slw-process-all">
+          ⚙ Process All Shifts
+        </button>
+        <button class="slw-btn slw-btn--export" id="slw-export-chat">
+          💬 Export to Chat
+        </button>
+      </div>`;
+
+    const html = `
+      <div class="slw-root">
+        ${summaryBar}
+        <div class="slw-pc-list">
+          ${pcCards}
+        </div>
+        ${actionBar}
+      </div>`;
+
+    return $(html);
+  }
+
+  async _render(force, options) {
+    await super._render(force, options);
+    if (!this._hooks.length) {
+      const refresh = () => { if (this.rendered) this.render(false); };
+      this._hooks.push(Hooks.on('updateActor', refresh));
+    }
+  }
+
+  async close(options) {
+    this._hooks.forEach(id => Hooks.off('updateActor', id));
+    this._hooks = [];
+    SLAShiftLedger._inst = null;
+    return super.close(options);
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // Per-PC process shift buttons
+    html.find('.slw-btn--process').on('click', async (ev) => {
+      const actorId = ev.currentTarget.dataset.actorId;
+      const actor = game.actors.get(actorId);
+      if (!actor) {
+        ui.notifications.error('Actor not found.');
+        return;
+      }
+      await this._processShift(actor);
+    });
+
+    // Process all shifts button
+    html.find('#slw-process-all').on('click', async () => {
+      await this._processAllShifts();
+    });
+
+    // Export to chat button
+    html.find('#slw-export-chat').on('click', async () => {
+      await this._exportToChat();
+    });
+  }
+}
+
+SLAShiftLedger._inst = null;
+
+// ── ☠ NPC THREAT BOARD ────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────────────
+// SLANPCThreatBoard — GM tactical overview of all NPC actors
+// ──────────────────────────────────────────────────────────────────────────────
+
+function threatLabel(val) {
+  if (!val || val <= 2) return { label: 'Low',   cls: 'threat-low'   };
+  if (val  <= 3)        return { label: 'Med',   cls: 'threat-med'   };
+  if (val  <= 5)        return { label: 'High',  cls: 'threat-high'  };
+  return                       { label: 'Elite', cls: 'threat-elite' };
+}
+
+function hpColor(cur, max) {
+  const pct = max > 0 ? cur / max : 1;
+  if (pct > 0.50) return '#44cc66';
+  if (pct > 0.25) return '#ffaa00';
+  return '#cc2222';
+}
+
+class SLANPCThreatBoard extends Application {
+  constructor(...args) {
+    super(...args);
+    this._hooks        = [];
+    this._filterThreat = 'all';   // 'all' | 'low' | 'med' | 'high' | 'elite'
+    this._filterScene  = false;   // show only actors present in the active scene
+    this._showDead     = false;   // include dead actors
+    this._sortBy       = 'threat'; // 'name' | 'threat' | 'health'
+  }
+
+  // ── AppV1 config ─────────────────────────────────────────────────────────────
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id:        'sla-npc-threat-board',
+      title:     '☠ NPC Threat Board',
+      width:     640,
+      height:    500,
+      resizable: true,
+      classes:   ['zero-engine', 'npc-threat-board']
+    });
+  }
+
+  static open() {
+    if (!SLANPCThreatBoard._inst) SLANPCThreatBoard._inst = new SLANPCThreatBoard();
+    SLANPCThreatBoard._inst.render(true);
+    return SLANPCThreatBoard._inst;
+  }
+
+  // ── Data helpers ──────────────────────────────────────────────────────────────
+
+  _npcActors() {
+    return (game.actors ?? []).filter(
+      a => a.type === 'npc' || (a.type === 'character' && !a.system?.details?.isPlayerCharacter)
+    );
+  }
+
+  /** Returns a Set of actorIds present in the currently active scene. */
+  _sceneActorIds() {
+    const ids = new Set();
+    const tokens = game.scenes?.active?.tokens ?? [];
+    for (const t of tokens) {
+      if (t.actorId) ids.add(t.actorId);
+    }
+    return ids;
+  }
+
+  // ── HTML builder ──────────────────────────────────────────────────────────────
+
+  async _renderInner() {
+    const sceneIds    = this._sceneActorIds();
+    let   actors      = this._npcActors();
+
+    // ── Filter: scene ────────────────────────────────────────────────────────
+    if (this._filterScene) {
+      actors = actors.filter(a => sceneIds.has(a.id));
+    }
+
+    // ── Filter: dead ─────────────────────────────────────────────────────────
+    if (!this._showDead) {
+      actors = actors.filter(a => {
+        const dead  = a.statuses?.has('dead') ?? false;
+        const hpVal = a.system?.health?.value ?? 0;
+        return !dead && hpVal > 0;
+      });
+    }
+
+    // ── Filter: threat tier ──────────────────────────────────────────────────
+    if (this._filterThreat !== 'all') {
+      actors = actors.filter(a => {
+        const t = a.system?.threat || 0;
+        const { cls } = threatLabel(t);
+        return cls === `threat-${this._filterThreat}`;
+      });
+    }
+
+    // ── Sort ─────────────────────────────────────────────────────────────────
+    if (this._sortBy === 'name') {
+      actors.sort((a, b) => (a.name ?? '').localeCompare(b.name ?? ''));
+    } else if (this._sortBy === 'threat') {
+      actors.sort((a, b) => (b.system?.threat || 0) - (a.system?.threat || 0));
+    } else if (this._sortBy === 'health') {
+      actors.sort((a, b) => {
+        const pctA = (a.system?.health?.max || 0) > 0
+          ? (a.system.health.value || 0) / a.system.health.max : 0;
+        const pctB = (b.system?.health?.max || 0) > 0
+          ? (b.system.health.value || 0) / b.system.health.max : 0;
+        return pctA - pctB; // lowest HP first — most urgent
+      });
+    }
+
+    // ── Build card HTML ──────────────────────────────────────────────────────
+    const cards = actors.map(actor => {
+      const hpCur   = actor.system?.health?.value ?? 0;
+      const hpMax   = actor.system?.health?.max   ?? 0;
+      const threat  = actor.system?.threat        ?? 0;
+      const str     = actor.system?.attributes?.strength ?? 0;
+      const agi     = actor.system?.attributes?.agility  ?? 0;
+      const wit     = actor.system?.attributes?.wits     ?? 0;
+      const emp     = actor.system?.attributes?.empathy  ?? 0;
+      const dmg     = actor.system?.damage ?? '—';
+      const armor   = actor.system?.armor  ?? 0;
+      const imgSrc  = actor.img ?? 'icons/svg/mystery-man.svg';
+
+      const { label: tLabel, cls: tCls } = threatLabel(threat);
+      const hpPct    = hpMax > 0 ? Math.max(0, Math.min(1, hpCur / hpMax)) : 0;
+      const hpBarPct = Math.round(hpPct * 100);
+      const barColor = hpColor(hpCur, hpMax);
+
+      const isDead   = (actor.statuses?.has('dead') ?? false) || hpCur <= 0;
+
+      // Status dots (all active statuses other than 'dead')
+      const statuses = actor.statuses ? [...actor.statuses].filter(s => s !== 'dead') : [];
+      const statusDots = statuses.slice(0, 6).map(s =>
+        `<span class="ntb-status-dot" title="${s}"></span>`
+      ).join('');
+
+      // Scene indicator
+      const inScene = sceneIds.has(actor.id)
+        ? `<span class="ntb-scene-badge" title="On active scene">◉</span>`
+        : '';
+
+      return `
+        <div class="ntb-card ${tCls} ${isDead ? 'ntb-dead' : ''}" data-actor-id="${actor.id}" title="${actor.name}">
+          ${isDead ? '<div class="ntb-skull-overlay">💀</div>' : ''}
+
+          <div class="ntb-card-header">
+            <div class="ntb-portrait-wrap ntb-border-${tCls}">
+              <img class="ntb-portrait" src="${imgSrc}" alt="${actor.name}" />
+            </div>
+            <div class="ntb-name-block">
+              <div class="ntb-name">${actor.name}${inScene}</div>
+              <span class="ntb-threat-badge ${tCls}">${tLabel} ${threat || '–'}</span>
+            </div>
+          </div>
+
+          <div class="ntb-hp-row">
+            <div class="ntb-hp-track">
+              <div class="ntb-hp-fill" style="width:${hpBarPct}%;background:${barColor};"></div>
+            </div>
+            <div class="ntb-hp-controls">
+              <button class="ntb-hp-btn ntb-hp-dec" data-actor-id="${actor.id}" title="−1 HP">−</button>
+              <span class="ntb-hp-text">${hpCur} / ${hpMax}</span>
+              <button class="ntb-hp-btn ntb-hp-inc" data-actor-id="${actor.id}" title="+1 HP">+</button>
+            </div>
+          </div>
+
+          <div class="ntb-attrs">
+            <div class="ntb-attr"><span class="ntb-attr-label">STR</span><span class="ntb-attr-val">${str}</span></div>
+            <div class="ntb-attr"><span class="ntb-attr-label">AGI</span><span class="ntb-attr-val">${agi}</span></div>
+            <div class="ntb-attr"><span class="ntb-attr-label">WIT</span><span class="ntb-attr-val">${wit}</span></div>
+            <div class="ntb-attr"><span class="ntb-attr-label">EMP</span><span class="ntb-attr-val">${emp}</span></div>
+          </div>
+
+          <div class="ntb-badges">
+            <span class="ntb-badge ntb-badge-dmg" title="Damage">⚔ ${dmg}</span>
+            <span class="ntb-badge ntb-badge-armor" title="Armor">🛡 ${armor}</span>
+            <div class="ntb-statuses">${statusDots}</div>
+          </div>
+        </div>`;
+    }).join('');
+
+    const emptyMsg = actors.length === 0
+      ? `<div class="ntb-empty">No NPCs match the current filters.</div>`
+      : '';
+
+    // ── Filter / sort bar HTML ────────────────────────────────────────────────
+    const html = `
+      <div class="ntb-wrapper">
+
+        <div class="ntb-filterbar">
+
+          <div class="ntb-filter-group">
+            <button class="ntb-filter-btn ${!this._filterScene ? 'ntb-active' : ''}"
+                    data-filter-scene="false">All</button>
+            <button class="ntb-filter-btn ${this._filterScene ? 'ntb-active' : ''}"
+                    data-filter-scene="true">In Scene</button>
+            <button class="ntb-filter-btn ntb-toggle-dead ${this._showDead ? 'ntb-active' : ''}"
+                    data-show-dead="${this._showDead}">Dead</button>
+          </div>
+
+          <div class="ntb-filter-group">
+            <button class="ntb-threat-filter ${this._filterThreat === 'all'   ? 'ntb-active' : ''}" data-threat="all">All Threats</button>
+            <button class="ntb-threat-filter ${this._filterThreat === 'low'   ? 'ntb-active' : ''}" data-threat="low">Low (1-2)</button>
+            <button class="ntb-threat-filter ${this._filterThreat === 'med'   ? 'ntb-active' : ''}" data-threat="med">Med (3)</button>
+            <button class="ntb-threat-filter ${this._filterThreat === 'high'  ? 'ntb-active' : ''}" data-threat="high">High (4-5)</button>
+            <button class="ntb-threat-filter ${this._filterThreat === 'elite' ? 'ntb-active' : ''}" data-threat="elite">Elite (6+)</button>
+          </div>
+
+          <div class="ntb-filter-group ntb-sort-group">
+            <span class="ntb-sort-label">Sort:</span>
+            <button class="ntb-sort-btn ${this._sortBy === 'name'   ? 'ntb-active' : ''}" data-sort="name">Name</button>
+            <button class="ntb-sort-btn ${this._sortBy === 'threat' ? 'ntb-active' : ''}" data-sort="threat">Threat</button>
+            <button class="ntb-sort-btn ${this._sortBy === 'health' ? 'ntb-active' : ''}" data-sort="health">Health%</button>
+          </div>
+
+        </div>
+
+        <div class="ntb-grid">
+          ${cards}
+          ${emptyMsg}
+        </div>
+
+      </div>`;
+
+    return $(html);
+  }
+
+  // ── Lifecycle ─────────────────────────────────────────────────────────────────
+
+  async _render(force, options) {
+    await super._render(force, options);
+    if (!this._hooks.length) {
+      const refresh = () => { if (this.rendered) this.render(false); };
+      this._hooks.push(
+        Hooks.on('updateActor', refresh),
+        Hooks.on('createActor', refresh),
+        Hooks.on('deleteActor', refresh)
+      );
+    }
+  }
+
+  async close(options) {
+    const evts = ['updateActor', 'createActor', 'deleteActor'];
+    this._hooks.forEach((id, i) => Hooks.off(evts[i], id));
+    this._hooks = [];
+    SLANPCThreatBoard._inst = null;
+    return super.close(options);
+  }
+
+  // ── Listeners ─────────────────────────────────────────────────────────────────
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // ── Scene filter buttons ─────────────────────────────────────────────────
+    html.find('[data-filter-scene]').on('click', (ev) => {
+      this._filterScene = ev.currentTarget.dataset.filterScene === 'true';
+      this.render(false);
+    });
+
+    // ── Dead toggle ──────────────────────────────────────────────────────────
+    html.find('.ntb-toggle-dead').on('click', () => {
+      this._showDead = !this._showDead;
+      this.render(false);
+    });
+
+    // ── Threat filter buttons ────────────────────────────────────────────────
+    html.find('.ntb-threat-filter').on('click', (ev) => {
+      this._filterThreat = ev.currentTarget.dataset.threat || 'all';
+      this.render(false);
+    });
+
+    // ── Sort buttons ─────────────────────────────────────────────────────────
+    html.find('.ntb-sort-btn').on('click', (ev) => {
+      this._sortBy = ev.currentTarget.dataset.sort || 'threat';
+      this.render(false);
+    });
+
+    // ── HP decrement ─────────────────────────────────────────────────────────
+    html.find('.ntb-hp-dec').on('click', async (ev) => {
+      ev.stopPropagation();
+      const actorId = ev.currentTarget.dataset.actorId;
+      const actor   = game.actors?.get(actorId);
+      if (!actor) return;
+      const cur    = actor.system?.health?.value ?? 0;
+      const newVal = cur - 1;
+      try {
+        await actor.update({ 'system.health.value': newVal });
+      } catch (err) {
+        console.error('SLANPCThreatBoard | HP decrement error', err);
+        ui.notifications?.error(`Failed to update HP for ${actor.name}.`);
+      }
+    });
+
+    // ── HP increment ─────────────────────────────────────────────────────────
+    html.find('.ntb-hp-inc').on('click', async (ev) => {
+      ev.stopPropagation();
+      const actorId = ev.currentTarget.dataset.actorId;
+      const actor   = game.actors?.get(actorId);
+      if (!actor) return;
+      const cur    = actor.system?.health?.value ?? 0;
+      const hpMax  = actor.system?.health?.max   ?? 0;
+      const newVal = hpMax > 0 ? Math.min(hpMax, cur + 1) : cur + 1;
+      try {
+        await actor.update({ 'system.health.value': newVal });
+      } catch (err) {
+        console.error('SLANPCThreatBoard | HP increment error', err);
+        ui.notifications?.error(`Failed to update HP for ${actor.name}.`);
+      }
+    });
+
+    // ── Open actor sheet on card click ───────────────────────────────────────
+    html.find('.ntb-card').on('click', (ev) => {
+      // Don't open sheet if a HP button was clicked
+      if (ev.target.closest('.ntb-hp-btn')) return;
+      const actorId = ev.currentTarget.dataset.actorId;
+      const actor   = game.actors?.get(actorId);
+      if (actor) actor.sheet.render(true);
+    });
+  }
+}
+
+SLANPCThreatBoard._inst = null;
+
+// ── 📋 BPN TRACKER ────────────────────────────────────────────────────────────
+class SLABPNTracker extends Application {
+  constructor(...args) {
+    super(...args);
+    this._hooks = [];
+    this._editMode = false;
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: 'sla-bpn-tracker',
+      title: '📋 BPN Tracker',
+      width: 520,
+      height: 'auto',
+      resizable: true,
+      classes: ['zero-engine', 'bpn-tracker-window']
+    });
+  }
+
+  static open() {
+    if (!SLABPNTracker._inst) SLABPNTracker._inst = new SLABPNTracker();
+    SLABPNTracker._inst.render(true);
+    return SLABPNTracker._inst;
+  }
+
+  _pcActors() {
+    return (game.actors ?? []).filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter);
+  }
+
+  _groupByBPN(actors) {
+    const groups = new Map();
+    for (const actor of actors) {
+      const code = actor.system?.bpn?.code?.trim() || '';
+      const key = code === '' ? '__unassigned__' : code;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(actor);
+    }
+    return groups;
+  }
+
+  _bpnTypeColors() {
+    return {
+      'Blue':   { bg: '#1a3a6e', border: '#3399ff', text: '#88ccff' },
+      'White':  { bg: '#3a3a3a', border: '#cccccc', text: '#ffffff' },
+      'Green':  { bg: '#1a3a1a', border: '#44cc66', text: '#88ff88' },
+      'Red':    { bg: '#3a1a1a', border: '#cc2222', text: '#ff6666' },
+      'Black':  { bg: '#0d0d0d', border: '#555555', text: '#aaaaaa' },
+      'Silver': { bg: '#2a2a3a', border: '#aaaacc', text: '#ccccff' }
+    };
+  }
+
+  _buildTypeBadge(bpnType) {
+    const colors = this._bpnTypeColors();
+    const c = colors[bpnType] ?? { bg: '#222', border: '#666', text: '#ccc' };
+    return `<span class="bpn-type-badge" style="background:${c.bg};border-color:${c.border};color:${c.text};">${bpnType || 'Unknown'}</span>`;
+  }
+
+  _buildStatusBadge(status) {
+    const cls = {
+      'Active':   'bpn-status-active',
+      'Pending':  'bpn-status-pending',
+      'Complete': 'bpn-status-complete',
+      'Failed':   'bpn-status-failed'
+    }[status] ?? 'bpn-status-pending';
+    return `<span class="bpn-status-badge ${cls}">${status || 'Pending'}</span>`;
+  }
+
+  _buildMissionCard(code, actors) {
+    const rep = actors[0];
+    const bpn = rep.system?.bpn ?? {};
+    const bpnType = bpn.type || 'Unknown';
+    const status = bpn.status || 'Pending';
+    const reward = bpn.reward ?? 0;
+    const description = bpn.description || '';
+    const objectives = bpn.objectives || '';
+
+    const colors = this._bpnTypeColors();
+    const c = colors[bpnType] ?? { bg: '#1a1a1a', border: '#555', text: '#aaa' };
+
+    const actorIds = actors.map(a => a.id).join(',');
+
+    const pcBadges = actors.map(a =>
+      `<span class="bpn-pc-badge">${a.name}</span>`
+    ).join('');
+
+    const statusOptions = ['Pending', 'Active', 'Complete', 'Failed'].map(s =>
+      `<option value="${s}" ${s === status ? 'selected' : ''}>${s}</option>`
+    ).join('');
+
+    const typeOptions = ['Blue', 'White', 'Green', 'Red', 'Black', 'Silver', 'Unknown'].map(t =>
+      `<option value="${t}" ${t === bpnType ? 'selected' : ''}>${t}</option>`
+    ).join('');
+
+    return `
+<div class="bpn-mission-card" data-bpn-code="${code}" data-actor-ids="${actorIds}"
+     style="border-left-color:${c.border};">
+  <div class="bpn-card-header">
+    <span class="bpn-code">${code}</span>
+    ${this._buildTypeBadge(bpnType)}
+    ${this._buildStatusBadge(status)}
+    <button class="bpn-clear-btn" data-action="clear-bpn" title="Clear BPN from all assigned PCs">✕ Clear</button>
+  </div>
+
+  <div class="bpn-card-row">
+    <label class="bpn-label">Status</label>
+    <select class="bpn-status-select" data-action="status-change">
+      ${statusOptions}
+    </select>
+    <label class="bpn-label bpn-label-type">Type</label>
+    <select class="bpn-type-select" data-action="type-change">
+      ${typeOptions}
+    </select>
+  </div>
+
+  <div class="bpn-card-row bpn-reward-row">
+    <span class="bpn-reward-label">💳 Reward: <strong>${reward}¢</strong></span>
+    <button class="bpn-payout-btn" data-action="payout">Pay Out</button>
+  </div>
+
+  <div class="bpn-card-field">
+    <label class="bpn-label">Description</label>
+    <textarea class="bpn-textarea bpn-description" rows="3" placeholder="BPN description…">${description}</textarea>
+  </div>
+
+  <div class="bpn-card-field">
+    <label class="bpn-label">Objectives</label>
+    <textarea class="bpn-textarea bpn-objectives" rows="3" placeholder="Mission objectives…">${objectives}</textarea>
+  </div>
+
+  <div class="bpn-card-footer">
+    <div class="bpn-pc-row">${pcBadges}</div>
+    <button class="bpn-save-btn" data-action="save-bpn">💾 Save</button>
+  </div>
+</div>`;
+  }
+
+  _buildAssignPanel(actors) {
+    const pcCheckboxes = actors.map(a =>
+      `<label class="bpn-pc-check">
+        <input type="checkbox" class="bpn-assign-pc-check" value="${a.id}"> ${a.name}
+      </label>`
+    ).join('');
+
+    const typeOptions = ['Blue', 'White', 'Green', 'Red', 'Black', 'Silver'].map(t =>
+      `<option value="${t}">${t}</option>`
+    ).join('');
+
+    const statusOptions = ['Pending', 'Active', 'Complete', 'Failed'].map(s =>
+      `<option value="${s}">${s}</option>`
+    ).join('');
+
+    return `
+<div class="bpn-assign-panel">
+  <div class="bpn-assign-header">Assign BPN</div>
+  <div class="bpn-assign-body">
+    <div class="bpn-assign-pcs">
+      <label class="bpn-label">Select PCs</label>
+      <div class="bpn-pc-checklist">${pcCheckboxes}</div>
+    </div>
+    <div class="bpn-assign-fields">
+      <div class="bpn-assign-row">
+        <label class="bpn-label">BPN Code</label>
+        <input type="text" class="bpn-assign-code" placeholder="e.g. BB-5-1823-99">
+      </div>
+      <div class="bpn-assign-row">
+        <label class="bpn-label">Type</label>
+        <select class="bpn-assign-type">${typeOptions}</select>
+        <label class="bpn-label bpn-label-type">Status</label>
+        <select class="bpn-assign-status">${statusOptions}</select>
+      </div>
+      <div class="bpn-assign-row">
+        <label class="bpn-label">Reward (¢)</label>
+        <input type="number" class="bpn-assign-reward" value="0" min="0">
+      </div>
+      <div class="bpn-assign-row">
+        <label class="bpn-label">Description</label>
+        <textarea class="bpn-textarea bpn-assign-desc" rows="2" placeholder="BPN description…"></textarea>
+      </div>
+      <div class="bpn-assign-row">
+        <label class="bpn-label">Objectives</label>
+        <textarea class="bpn-textarea bpn-assign-obj" rows="2" placeholder="Mission objectives…"></textarea>
+      </div>
+      <div class="bpn-assign-row bpn-assign-submit-row">
+        <button class="bpn-assign-btn" data-action="assign-bpn">Assign BPN</button>
+      </div>
+    </div>
+  </div>
+</div>`;
+  }
+
+  async _renderInner() {
+    const actors = this._pcActors();
+    const groups = this._groupByBPN(actors);
+
+    let cardsHtml = '';
+
+    // Render assigned BPNs first (all non-unassigned keys)
+    for (const [key, group] of groups.entries()) {
+      if (key === '__unassigned__') continue;
+      cardsHtml += this._buildMissionCard(key, group);
+    }
+
+    // Render unassigned section
+    const unassigned = groups.get('__unassigned__') ?? [];
+    let unassignedHtml = '';
+    if (unassigned.length > 0) {
+      const badges = unassigned.map(a => `<span class="bpn-pc-badge bpn-pc-badge-unassigned">${a.name}</span>`).join('');
+      unassignedHtml = `
+<div class="bpn-unassigned-section">
+  <div class="bpn-unassigned-label">Unassigned PCs</div>
+  <div class="bpn-pc-row">${badges}</div>
+</div>`;
+    }
+
+    const assignPanel = this._buildAssignPanel(actors);
+
+    const html = `
+<div class="bpn-tracker-inner">
+  <div class="bpn-missions-list">
+    ${cardsHtml || '<div class="bpn-empty-state">No active BPNs. Assign one below.</div>'}
+  </div>
+  ${unassignedHtml}
+  ${assignPanel}
+</div>`;
+
+    return $(html);
+  }
+
+  async _render(force, options) {
+    await super._render(force, options);
+    if (!this._hooks.length) {
+      const refresh = () => { if (this.rendered) this.render(false); };
+      this._hooks.push(Hooks.on('updateActor', refresh));
+      this._hooks.push(Hooks.on('createActor', refresh));
+      this._hooks.push(Hooks.on('deleteActor', refresh));
+    }
+  }
+
+  async close(options) {
+    this._hooks.forEach(id => Hooks.off('updateActor', id));
+    this._hooks = [];
+    SLABPNTracker._inst = null;
+    return super.close(options);
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // Status change — update all PCs on this BPN
+    html.on('change', '.bpn-status-select', async (ev) => {
+      const card = ev.currentTarget.closest('.bpn-mission-card');
+      const actorIds = card.dataset.actorIds.split(',').filter(Boolean);
+      const newStatus = ev.currentTarget.value;
+      for (const id of actorIds) {
+        const actor = game.actors.get(id);
+        if (!actor) continue;
+        try {
+          await actor.update({ 'system.bpn.status': newStatus });
+        } catch (err) {
+          console.error(`BPN Tracker | Failed to update status for ${actor.name}:`, err);
+        }
+      }
+      // Update the badge in-place without full re-render
+      const badge = card.querySelector('.bpn-status-badge');
+      if (badge) {
+        badge.className = 'bpn-status-badge ' + ({
+          'Active': 'bpn-status-active',
+          'Pending': 'bpn-status-pending',
+          'Complete': 'bpn-status-complete',
+          'Failed': 'bpn-status-failed'
+        }[newStatus] ?? 'bpn-status-pending');
+        badge.textContent = newStatus;
+      }
+      ui.notifications.info(`BPN status updated to "${newStatus}".`);
+    });
+
+    // Type change — update all PCs on this BPN
+    html.on('change', '.bpn-type-select', async (ev) => {
+      const card = ev.currentTarget.closest('.bpn-mission-card');
+      const actorIds = card.dataset.actorIds.split(',').filter(Boolean);
+      const newType = ev.currentTarget.value;
+      const colors = this._bpnTypeColors();
+      const c = colors[newType] ?? { bg: '#222', border: '#666', text: '#ccc' };
+      for (const id of actorIds) {
+        const actor = game.actors.get(id);
+        if (!actor) continue;
+        try {
+          await actor.update({ 'system.bpn.type': newType });
+        } catch (err) {
+          console.error(`BPN Tracker | Failed to update type for ${actor.name}:`, err);
+        }
+      }
+      // Update badge and border color in-place
+      const badge = card.querySelector('.bpn-type-badge');
+      if (badge) {
+        badge.style.background = c.bg;
+        badge.style.borderColor = c.border;
+        badge.style.color = c.text;
+        badge.textContent = newType;
+      }
+      card.style.borderLeftColor = c.border;
+      ui.notifications.info(`BPN type updated to "${newType}".`);
+    });
+
+    // Pay Out — add reward to each PC's credits
+    html.on('click', '[data-action="payout"]', async (ev) => {
+      const card = ev.currentTarget.closest('.bpn-mission-card');
+      const actorIds = card.dataset.actorIds.split(',').filter(Boolean);
+      let paid = 0;
+      for (const id of actorIds) {
+        const actor = game.actors.get(id);
+        if (!actor) continue;
+        const reward = actor.system?.bpn?.reward ?? 0;
+        const cur = actor.system?.details?.credits ?? 0;
+        try {
+          await actor.update({ 'system.details.credits': cur + reward });
+          paid++;
+        } catch (err) {
+          console.error(`BPN Tracker | Failed to pay out reward to ${actor.name}:`, err);
+        }
+      }
+      ui.notifications.info(`Reward paid out to ${paid} PC(s).`);
+    });
+
+    // Save description + objectives back to all PCs on this BPN
+    html.on('click', '[data-action="save-bpn"]', async (ev) => {
+      const card = ev.currentTarget.closest('.bpn-mission-card');
+      const actorIds = card.dataset.actorIds.split(',').filter(Boolean);
+      const description = card.querySelector('.bpn-description').value;
+      const objectives = card.querySelector('.bpn-objectives').value;
+      for (const id of actorIds) {
+        const actor = game.actors.get(id);
+        if (!actor) continue;
+        try {
+          await actor.update({
+            'system.bpn.description': description,
+            'system.bpn.objectives': objectives
+          });
+        } catch (err) {
+          console.error(`BPN Tracker | Failed to save BPN fields for ${actor.name}:`, err);
+        }
+      }
+      ui.notifications.info('BPN description and objectives saved.');
+    });
+
+    // Clear BPN — remove code and status from all PCs on this BPN
+    html.on('click', '[data-action="clear-bpn"]', async (ev) => {
+      const card = ev.currentTarget.closest('.bpn-mission-card');
+      const actorIds = card.dataset.actorIds.split(',').filter(Boolean);
+      for (const id of actorIds) {
+        const actor = game.actors.get(id);
+        if (!actor) continue;
+        try {
+          await actor.update({ 'system.bpn.code': '', 'system.bpn.status': '' });
+        } catch (err) {
+          console.error(`BPN Tracker | Failed to clear BPN for ${actor.name}:`, err);
+        }
+      }
+      ui.notifications.info('BPN cleared from assigned PCs.');
+      if (this.rendered) this.render(false);
+    });
+
+    // Assign BPN — write BPN data to selected PCs
+    html.on('click', '[data-action="assign-bpn"]', async (ev) => {
+      const panel = ev.currentTarget.closest('.bpn-assign-panel');
+      const selectedIds = [...panel.querySelectorAll('.bpn-assign-pc-check:checked')].map(el => el.value);
+      if (selectedIds.length === 0) {
+        ui.notifications.warn('No PCs selected for BPN assignment.');
+        return;
+      }
+      const code = panel.querySelector('.bpn-assign-code').value.trim();
+      if (!code) {
+        ui.notifications.warn('Please enter a BPN code.');
+        return;
+      }
+      const bpnType = panel.querySelector('.bpn-assign-type').value;
+      const status = panel.querySelector('.bpn-assign-status').value;
+      const reward = Number(panel.querySelector('.bpn-assign-reward').value) || 0;
+      const description = panel.querySelector('.bpn-assign-desc').value;
+      const objectives = panel.querySelector('.bpn-assign-obj').value;
+
+      for (const id of selectedIds) {
+        const actor = game.actors.get(id);
+        if (!actor) continue;
+        try {
+          await actor.update({
+            'system.bpn.code': code,
+            'system.bpn.type': bpnType,
+            'system.bpn.status': status,
+            'system.bpn.reward': reward,
+            'system.bpn.description': description,
+            'system.bpn.objectives': objectives
+          });
+        } catch (err) {
+          console.error(`BPN Tracker | Failed to assign BPN to ${actor.name}:`, err);
+        }
+      }
+      ui.notifications.info(`BPN "${code}" assigned to ${selectedIds.length} PC(s).`);
+
+      // Clear the form
+      panel.querySelector('.bpn-assign-code').value = '';
+      panel.querySelector('.bpn-assign-reward').value = '0';
+      panel.querySelector('.bpn-assign-desc').value = '';
+      panel.querySelector('.bpn-assign-obj').value = '';
+      panel.querySelectorAll('.bpn-assign-pc-check').forEach(el => el.checked = false);
+
+      if (this.rendered) this.render(false);
+    });
+  }
+}
+
+SLABPNTracker._inst = null;
+
+// ── ⚡ CONDITION APPLICATOR ────────────────────────────────────────────────────────────
+class SLAConditionApplicator extends Application {
+  constructor(...args) {
+    super(...args);
+    this._hooks = [];
+    this._selectedActorId = null;
+    this._allPCsMode = false;
+  }
+
+  static get defaultOptions() {
+    return foundry.utils.mergeObject(super.defaultOptions, {
+      id: 'sla-condition-applicator',
+      title: '⚡ Condition Applicator',
+      width: 600,
+      height: 520,
+      resizable: true,
+      classes: ['zero-engine', 'condition-applicator-window']
+    });
+  }
+
+  static open() {
+    if (!SLAConditionApplicator._inst) SLAConditionApplicator._inst = new SLAConditionApplicator();
+    SLAConditionApplicator._inst.render(true);
+    return SLAConditionApplicator._inst;
+  }
+
+  _pcActors() {
+    return (game.actors ?? []).filter(a => a.type === 'character' && a.system?.details?.isPlayerCharacter);
+  }
+
+  async _renderInner() {
+    const pcs = this._pcActors();
+
+    // Default selected actor to first PC if none set or stale
+    if (!this._selectedActorId || !pcs.find(a => a.id === this._selectedActorId)) {
+      this._selectedActorId = pcs.length ? pcs[0].id : null;
+    }
+
+    const selActor = pcs.find(a => a.id === this._selectedActorId) ?? null;
+
+    // --- Build PC roster rows ---
+    let pcRowsHtml = '';
+    for (const actor of pcs) {
+      const activeConditions = SLA_CONDITIONS.filter(c => actor.statuses?.has(c.id));
+      const dotBadges = activeConditions.map(c =>
+        `<span class="cap-cond-dot" title="${c.label}"><i class="${c.icon}"></i></span>`
+      ).join('');
+      const isSelected = actor.id === this._selectedActorId && !this._allPCsMode;
+      pcRowsHtml += `
+        <div class="cap-pc-row${isSelected ? ' cap-pc-row--selected' : ''}" data-actor-id="${actor.id}">
+          <span class="cap-pc-name">${actor.name}</span>
+          <span class="cap-pc-dots">${dotBadges}</span>
+        </div>`;
+    }
+    if (!pcRowsHtml) {
+      pcRowsHtml = '<div class="cap-no-pcs">No PC actors found.</div>';
+    }
+
+    // --- Build condition grid tiles ---
+    let condTilesHtml = '';
+    for (const cond of SLA_CONDITIONS) {
+      let isActive = false;
+      if (this._allPCsMode) {
+        // Active if ALL PCs have it (useful visual: show partial state too)
+        const pcCount = pcs.length;
+        const hasCount = pcs.filter(a => a.statuses?.has(cond.id)).length;
+        if (hasCount === pcCount && pcCount > 0) isActive = true;
+      } else if (selActor) {
+        isActive = selActor.statuses?.has(cond.id) ?? false;
+      }
+
+      // Build dice modifier badge text
+      let modBadge = '';
+      if (cond.diceModifiers && Object.keys(cond.diceModifiers).length) {
+        const parts = Object.entries(cond.diceModifiers).map(([key, val]) => {
+          const sign = val >= 0 ? '+' : '−';
+          const abs = Math.abs(val);
+          return `${sign}${abs} ${key}`;
+        });
+        modBadge = `<span class="cap-mod-badge">${parts.join(' ')}</span>`;
+      }
+
+      const descAttr = cond.description ? ` title="${cond.description.replace(/"/g, '&quot;')}"` : '';
+
+      condTilesHtml += `
+        <div class="cap-cond-tile${isActive ? ' cap-cond-tile--active' : ''}"
+             data-cond-id="${cond.id}"
+             data-active="${isActive}"${descAttr}>
+          ${modBadge}
+          <i class="${cond.icon} cap-cond-icon"></i>
+          <span class="cap-cond-label">${cond.label}</span>
+        </div>`;
+    }
+    if (!condTilesHtml) {
+      condTilesHtml = '<div class="cap-no-conds">No conditions defined.</div>';
+    }
+
+    // --- Active conditions status bar ---
+    let statusBarHtml = '';
+    if (this._allPCsMode) {
+      statusBarHtml = '<span class="cap-status-mode">All PCs mode active</span>';
+    } else if (selActor) {
+      const activeConds = SLA_CONDITIONS.filter(c => selActor.statuses?.has(c.id));
+      if (activeConds.length) {
+        statusBarHtml = activeConds.map(c =>
+          `<span class="cap-status-tag"><i class="${c.icon}"></i> ${c.label}</span>`
+        ).join('');
+      } else {
+        statusBarHtml = '<span class="cap-status-none">No active conditions</span>';
+      }
+    } else {
+      statusBarHtml = '<span class="cap-status-none">No PC selected</span>';
+    }
+
+    const selectedLabel = this._allPCsMode
+      ? 'All PCs'
+      : (selActor ? selActor.name : '—');
+
+    const html = `
+      <div class="cap-wrapper">
+        <div class="cap-header">
+          <div class="cap-header-info">
+            <span class="cap-header-label">Target:</span>
+            <span class="cap-selected-name">${selectedLabel}</span>
+          </div>
+          <div class="cap-header-actions">
+            <button class="cap-btn cap-btn--toggle${this._allPCsMode ? ' cap-btn--active' : ''}"
+                    data-action="toggle-all-pcs">
+              <i class="fas fa-users"></i>
+              ${this._allPCsMode ? 'All PCs' : 'Selected PC'}
+            </button>
+            <button class="cap-btn cap-btn--danger" data-action="clear-all">
+              <i class="fas fa-times-circle"></i> Clear All
+            </button>
+          </div>
+        </div>
+
+        <div class="cap-body">
+          <div class="cap-pc-list">
+            <div class="cap-pc-list-header">PC Roster</div>
+            <div class="cap-pc-list-scroll">
+              ${pcRowsHtml}
+            </div>
+          </div>
+          <div class="cap-cond-panel">
+            <div class="cap-cond-grid">
+              ${condTilesHtml}
+            </div>
+          </div>
+        </div>
+
+        <div class="cap-statusbar">
+          <span class="cap-statusbar-label">Active:</span>
+          <div class="cap-statusbar-tags">
+            ${statusBarHtml}
+          </div>
+        </div>
+      </div>`;
+
+    return $(html);
+  }
+
+  async _render(force, options) {
+    await super._render(force, options);
+    if (!this._hooks.length) {
+      const refresh = () => { if (this.rendered) this.render(false); };
+      this._hooks.push(
+        Hooks.on('updateActor', refresh),
+        Hooks.on('createActiveEffect', refresh),
+        Hooks.on('deleteActiveEffect', refresh),
+        Hooks.on('updateActiveEffect', refresh)
+      );
+    }
+  }
+
+  async close(options) {
+    const evts = ['updateActor', 'createActiveEffect', 'deleteActiveEffect', 'updateActiveEffect'];
+    this._hooks.forEach((id, i) => Hooks.off(evts[i], id));
+    this._hooks = [];
+    SLAConditionApplicator._inst = null;
+    return super.close(options);
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+
+    // PC row click — select actor
+    html.find('.cap-pc-row').on('click', (ev) => {
+      const actorId = ev.currentTarget.dataset.actorId;
+      if (actorId) {
+        this._selectedActorId = actorId;
+        this._allPCsMode = false;
+        this.render(false);
+      }
+    });
+
+    // Condition tile click — toggle condition
+    html.find('.cap-cond-tile').on('click', async (ev) => {
+      const condId = ev.currentTarget.dataset.condId;
+      const isActive = ev.currentTarget.dataset.active === 'true';
+      const pcs = this._pcActors();
+
+      if (this._allPCsMode) {
+        for (const actor of pcs) {
+          try {
+            await actor.toggleStatusEffect(condId, { active: !isActive });
+          } catch (err) {
+            console.error(`SLAConditionApplicator | Failed to toggle ${condId} on ${actor.name}:`, err);
+            ui.notifications.warn(`Could not toggle condition on ${actor.name}.`);
+          }
+        }
+        const verb = isActive ? 'Removed' : 'Applied';
+        const condLabel = SLA_CONDITIONS.find(c => c.id === condId)?.label ?? condId;
+        ui.notifications.info(`${verb} "${condLabel}" on all PCs.`);
+      } else {
+        const selActor = pcs.find(a => a.id === this._selectedActorId);
+        if (!selActor) {
+          ui.notifications.warn('No PC selected.');
+          return;
+        }
+        try {
+          await selActor.toggleStatusEffect(condId, { active: !isActive });
+          const verb = isActive ? 'Removed' : 'Applied';
+          const condLabel = SLA_CONDITIONS.find(c => c.id === condId)?.label ?? condId;
+          ui.notifications.info(`${verb} "${condLabel}" on ${selActor.name}.`);
+        } catch (err) {
+          console.error(`SLAConditionApplicator | Failed to toggle ${condId} on ${selActor.name}:`, err);
+          ui.notifications.warn(`Could not toggle condition on ${selActor.name}.`);
+        }
+      }
+    });
+
+    // Toggle All PCs mode
+    html.find('[data-action="toggle-all-pcs"]').on('click', () => {
+      this._allPCsMode = !this._allPCsMode;
+      this.render(false);
+    });
+
+    // Clear All conditions
+    html.find('[data-action="clear-all"]').on('click', async () => {
+      const pcs = this._pcActors();
+      const targets = this._allPCsMode
+        ? pcs
+        : pcs.filter(a => a.id === this._selectedActorId);
+
+      if (!targets.length) {
+        ui.notifications.warn('No PC selected.');
+        return;
+      }
+
+      for (const actor of targets) {
+        for (const cond of SLA_CONDITIONS) {
+          if (actor.statuses?.has(cond.id)) {
+            try {
+              await actor.toggleStatusEffect(cond.id, { active: false });
+            } catch (err) {
+              console.error(`SLAConditionApplicator | Failed to clear ${cond.id} on ${actor.name}:`, err);
+            }
+          }
+        }
+      }
+
+      const targetLabel = this._allPCsMode ? 'all PCs' : (targets[0]?.name ?? 'selected PC');
+      ui.notifications.info(`Cleared all conditions from ${targetLabel}.`);
+    });
+  }
+}
+
+SLAConditionApplicator._inst = null;
     return super.close(options);
   }
 
@@ -7124,6 +8721,25 @@ Hooks.on('renderActorDirectory', (app, html) => {
       game.slaGroupNPCTool.render(true);
     });
     actions.append(grpBtn);
+
+    // ── SLA GM Tool buttons ─────────────────────────────────────────────────
+    const gmToolDefs = [
+      { cls: 'sla-dir-status-btn',  icon: 'fas fa-clipboard-list',  label: 'PC Status',    color: '#00d4ff', fn: () => SLAGMStatusWindow.open() },
+      { cls: 'sla-dir-credit-btn',  icon: 'fas fa-credit-card',     label: 'Credits',      color: '#00d4ff', fn: () => SLACreditDistributionTool.open() },
+      { cls: 'sla-dir-ledger-btn',  icon: 'fas fa-book-open',       label: 'Ledger',       color: '#aa88ff', fn: () => SLAShiftLedger.open() },
+      { cls: 'sla-dir-threat-btn',  icon: 'fas fa-skull',           label: 'Threats',      color: '#ff4444', fn: () => SLANPCThreatBoard.open() },
+      { cls: 'sla-dir-bpn-btn',     icon: 'fas fa-clipboard-check', label: 'BPN',          color: '#ffcc00', fn: () => SLABPNTracker.open() },
+      { cls: 'sla-dir-condapp-btn', icon: 'fas fa-bolt',            label: 'Conditions',   color: '#ff6b35', fn: () => SLAConditionApplicator.open() },
+    ];
+    for (const def of gmToolDefs) {
+      if (actions.querySelector(`.${def.cls}`)) continue;
+      const btn = document.createElement('button');
+      btn.className = def.cls;
+      btn.innerHTML = `<i class="${def.icon}"></i> ${def.label}`;
+      btn.style.cssText = `font-size:11px;padding:2px 6px;margin-left:3px;background:rgba(0,0,0,0.3);border:1px solid ${def.color};color:${def.color};border-radius:3px;cursor:pointer;`;
+      btn.addEventListener('click', def.fn);
+      actions.append(btn);
+    }
   }
 
   actions.append(pcBtn, npcBtn);
