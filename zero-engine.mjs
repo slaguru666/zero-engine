@@ -3742,19 +3742,45 @@ Hooks.once("setup", () => {
  * Ready hook
  */
 // ── GM SCENE CONTROLS: PC STATUS BUTTON ──────────────────────────────────────
-// Adds a clipboard-list icon to the Token layer toolbar (GM only).
-// Click it any time to whisper yourself a full PC conditions report.
+// Adds a standalone clipboard icon to the scene controls toolbar (GM only).
+// Foundry v14 uses an object-keyed API; v13 uses an array — handle both.
 Hooks.on("getSceneControlButtons", (controls) => {
   if (!game.user?.isGM) return;
-  const tokenGroup = controls.find(c => c.name === "token");
-  if (!tokenGroup) return;
-  tokenGroup.tools.push({
-    name:    "sla-pc-status",
-    title:   "PC Status Report",
-    icon:    "fas fa-clipboard-list",
-    button:  true,
-    onClick: () => _broadcastPCConditions()
-  });
+
+  const tool = {
+    name:     "sla-pc-status",
+    title:    "PC Status Report",
+    icon:     "fas fa-clipboard-list",
+    visible:  true,
+    button:   true,
+    onChange: () => _broadcastPCConditions(), // v14
+    onClick:  () => _broadcastPCConditions()  // v13 compat
+  };
+
+  // Foundry v14: controls is a plain object keyed by group name
+  if (controls && !Array.isArray(controls)) {
+    // Add as a standalone top-level button (no sub-tools; fires on click)
+    controls["sla-gm-tools"] = {
+      name:     "sla-gm-tools",
+      title:    "SLA GM Tools",
+      icon:     "fas fa-clipboard-list",
+      visible:  true,
+      button:   true,
+      onChange: () => _broadcastPCConditions()
+    };
+    return;
+  }
+
+  // Foundry v13 fallback: controls is an array
+  const tokenGroup = controls.find(c => c.name === "token" || c.name === "tokens");
+  if (tokenGroup) {
+    tokenGroup.tools ??= [];
+    if (Array.isArray(tokenGroup.tools)) {
+      tokenGroup.tools.push(tool);
+    } else {
+      tokenGroup.tools["sla-pc-status"] = tool;
+    }
+  }
 });
 
 Hooks.once('ready', function() {
