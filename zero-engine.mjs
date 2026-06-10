@@ -561,9 +561,6 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     // Natural weapon attack roll (Morphic Strike, Wraith Teeth & Claw, etc.)
     html.find('.natural-weapon-roll-btn').click(this._onNaturalWeaponRoll.bind(this));
 
-    // GM PC condition status report
-    html.find('.pc-status-btn').click(ev => { ev.preventDefault(); _broadcastPCConditions(); });
-
     // Delete injury buttons
     html.find('.delete-injury-btn').click(this._onDeleteInjury.bind(this));
 
@@ -3744,6 +3741,22 @@ Hooks.once("setup", () => {
 /**
  * Ready hook
  */
+// ── GM SCENE CONTROLS: PC STATUS BUTTON ──────────────────────────────────────
+// Adds a clipboard-list icon to the Token layer toolbar (GM only).
+// Click it any time to whisper yourself a full PC conditions report.
+Hooks.on("getSceneControlButtons", (controls) => {
+  if (!game.user?.isGM) return;
+  const tokenGroup = controls.find(c => c.name === "token");
+  if (!tokenGroup) return;
+  tokenGroup.tools.push({
+    name:    "sla-pc-status",
+    title:   "PC Status Report",
+    icon:    "fas fa-clipboard-list",
+    button:  true,
+    onClick: () => _broadcastPCConditions()
+  });
+});
+
 Hooks.once('ready', function() {
   console.log('Zero Engine | Ready');
 
