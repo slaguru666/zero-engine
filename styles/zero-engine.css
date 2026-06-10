@@ -4513,6 +4513,36 @@ body > .ze-pause-root .ze-sat-inner {
   border-radius: 10px; padding: 1px 6px; white-space: nowrap; flex-shrink: 0;
   text-shadow: 0 0 6px rgba(0,200,255,0.6);
 }
+/* Initiative roll row */
+.group-npc-tool .gnpc-init-row {
+  display: flex; align-items: center; gap: 6px; margin: 3px 0 1px;
+}
+.group-npc-tool .gnpc-init-btn {
+  background: rgba(50,200,100,0.12) !important; border: 1px solid #33aa66 !important;
+  color: #44cc88 !important; font-weight: bold; font-size: 10px; padding: 2px 6px;
+  border-radius: 3px; cursor: pointer; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-init-btn:hover { background: rgba(50,200,100,0.28) !important; }
+.group-npc-tool .gnpc-init-pool {
+  font-size: 11px; color: #55bb77; font-family: monospace; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-init-result {
+  display: flex; align-items: center; gap: 2px; flex-wrap: wrap; min-height: 18px;
+}
+.group-npc-tool .gnpc-die {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 15px; height: 15px; border-radius: 3px;
+  font-size: 9px; font-weight: bold; line-height: 1;
+  background: rgba(255,255,255,0.07); border: 1px solid #2a2a2a; color: #777;
+}
+.group-npc-tool .gnpc-die.gnpc-die-success {
+  background: rgba(50,200,100,0.22); border-color: #44cc88; color: #44ff88;
+  box-shadow: 0 0 5px rgba(68,204,136,0.45);
+}
+.group-npc-tool .gnpc-init-successes {
+  font-size: 11px; font-weight: bold; color: #44cc88;
+  font-family: monospace; margin-left: 4px; flex-shrink: 0;
+}
 .group-npc-tool .gnpc-count-sel {
   background: rgba(255,255,255,0.08); border: 1px solid #444;
   color: #eee; border-radius: 3px; padding: 2px 4px; font-size: 12px;

@@ -6420,40 +6420,46 @@ class SLAGroupNPCTool extends Application {
 
   // ── Threat-level scaling ───────────────────────────────────────────────────
   // Scales AGI (initiative) as the primary target; STR, HP, ARM, DMG also
-  // creep up at higher levels. Level 1 = no change; level 10 = elite tier.
+  // creep up at higher levels. Level 1 = baseline (no stat changes).
+  // initPool is ALWAYS set: max(5, agi) + threatLevel gives at least 6d6 at
+  // level 1 so every NPC can match players on initiative.
   _applyThreatBonus(npc) {
     const lvl = Math.max(1, Math.min(10, this._threatLevel ?? 1));
-    if (lvl <= 1) return npc;
+    npc.threatBonus = lvl;
 
-    // Per-level bonus table: [agiBonus, strBonus, witBonus, hpPct, armorBonus, dmgBonus]
-    const TABLE = [
-      [0, 0, 0, 0.00, 0, 0],  // 1 — baseline
-      [1, 0, 0, 0.00, 0, 0],  // 2 — quick
-      [1, 0, 1, 0.00, 0, 0],  // 3 — alert
-      [2, 1, 1, 0.00, 0, 0],  // 4 — dangerous
-      [2, 1, 1, 0.25, 0, 1],  // 5 — veteran
-      [3, 2, 1, 0.25, 1, 1],  // 6 — hardened
-      [3, 2, 2, 0.50, 1, 1],  // 7 — elite
-      [4, 3, 2, 0.50, 1, 2],  // 8 — apex
-      [4, 3, 3, 0.75, 2, 2],  // 9 — legendary
-      [5, 4, 3, 1.00, 2, 3],  // 10 — mythic
-    ];
-    const [agiB, strB, witB, hpPct, armB, dmgB] = TABLE[lvl - 1];
+    if (lvl > 1) {
+      // Per-level bonus table: [agiBonus, strBonus, witBonus, hpPct, armorBonus, dmgBonus]
+      const TABLE = [
+        [0, 0, 0, 0.00, 0, 0],  // 1 — baseline (unused; only entered for lvl > 1)
+        [1, 0, 0, 0.00, 0, 0],  // 2 — quick
+        [1, 0, 1, 0.00, 0, 0],  // 3 — alert
+        [2, 1, 1, 0.00, 0, 0],  // 4 — dangerous
+        [2, 1, 1, 0.25, 0, 1],  // 5 — veteran
+        [3, 2, 1, 0.25, 1, 1],  // 6 — hardened
+        [3, 2, 2, 0.50, 1, 1],  // 7 — elite
+        [4, 3, 2, 0.50, 1, 2],  // 8 — apex
+        [4, 3, 3, 0.75, 2, 2],  // 9 — legendary
+        [5, 4, 3, 1.00, 2, 3],  // 10 — mythic
+      ];
+      const [agiB, strB, witB, hpPct, armB, dmgB] = TABLE[lvl - 1];
 
-    npc.agi    = Math.min(8, npc.agi + agiB);
-    npc.str    = Math.min(8, npc.str + strB);
-    npc.wit    = Math.min(8, npc.wit + witB);
-    npc.armor  = Math.min(8, npc.armor + armB);
-    npc.damage = Math.min(8, npc.damage + dmgB);
+      npc.agi    = Math.min(8, npc.agi + agiB);
+      npc.str    = Math.min(8, npc.str + strB);
+      npc.wit    = Math.min(8, npc.wit + witB);
+      npc.armor  = Math.min(8, npc.armor + armB);
+      npc.damage = Math.min(8, npc.damage + dmgB);
 
-    // HP: add a percentage of the base max (rounded up)
-    if (hpPct > 0) {
-      const extra = Math.ceil(npc.hpMax * hpPct);
-      npc.hpMax += extra;
-      npc.hp    += extra;
+      if (hpPct > 0) {
+        const extra = Math.ceil(npc.hpMax * hpPct);
+        npc.hpMax += extra;
+        npc.hp    += extra;
+      }
     }
 
-    npc.threatBonus = lvl;   // store so the card can show a badge
+    // Initiative dice pool: base AGI (floor 5) + one bonus die per threat level.
+    // A level-1 Carrion (AGI 2) → max(2,5)+1 = 6d6; level-3 Carrion → max(3,5)+3 = 8d6.
+    // This guarantees NPCs can contest player initiative at all threat tiers.
+    npc.initPool = Math.max(5, npc.agi) + lvl;
     return npc;
   }
 
@@ -6662,6 +6668,14 @@ class SLAGroupNPCTool extends Application {
           <label class="gnpc-stat-lbl">ARM<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="armor"  value="${npc.armor}"  min="0"/></label>
           <label class="gnpc-stat-lbl">DMG<input class="gnpc-stat-input" type="number" data-npc-id="${npc.id}" data-field="damage" value="${npc.damage}" min="1"/></label>
         </div>
+        <div class="gnpc-init-row">
+          <button type="button" class="gnpc-btn gnpc-init-btn" data-npc-id="${npc.id}"
+            title="Roll Initiative — ${npc.initPool}d6, count 6s as successes">
+            <i class="fas fa-running"></i> INIT
+          </button>
+          <span class="gnpc-init-pool" title="Initiative dice pool">${npc.initPool}d6</span>
+          <span class="gnpc-init-result" data-npc-id="${npc.id}"></span>
+        </div>
         ${armorLine}
         <div class="gnpc-weapons-block">${natHtml}${wepHtml}</div>
         <div class="gnpc-abilities">${abils}</div>
@@ -6795,6 +6809,38 @@ class SLAGroupNPCTool extends Application {
         this._saveState();
         const n = this._npcs.find(x => x.id === btn.dataset.npcId);
         if (n) { n.defeated = !n.defeated; this.render(false); }
+      })
+    );
+
+    // Initiative roll — pool = max(5, agi) + threatLevel; count 6s as successes
+    root.querySelectorAll('.gnpc-init-btn').forEach(btn =>
+      btn.addEventListener('click', () => {
+        const n = this._npcs.find(x => x.id === btn.dataset.npcId);
+        if (!n) return;
+        const pool = n.initPool ?? Math.max(5, n.agi) + (n.threatBonus ?? 1);
+        const rolls = Array.from({ length: pool }, () => Math.ceil(Math.random() * 6));
+        const successes = rolls.filter(d => d === 6).length;
+
+        // Update inline result display (no full re-render)
+        const resultEl = root.querySelector(`.gnpc-init-result[data-npc-id="${n.id}"]`);
+        if (resultEl) {
+          const diceHtml = rolls.map(d =>
+            `<span class="gnpc-die${d === 6 ? ' gnpc-die-success' : ''}">${d}</span>`
+          ).join('');
+          resultEl.innerHTML = `${diceHtml}<span class="gnpc-init-successes">${successes}✓</span>`;
+        }
+
+        // Post result to chat
+        const diceStr = rolls.map(d => d === 6 ? `<strong>${d}</strong>` : `${d}`).join(' ');
+        ChatMessage.create({
+          speaker: { alias: n.name },
+          content: `<div style="line-height:1.6">
+            <b><i class="fas fa-running"></i> ${n.name}</b> — Initiative (${pool}d6)<br>
+            <span style="font-size:12px">${diceStr}</span><br>
+            <b style="color:#44cc88">${successes} success${successes !== 1 ? 'es' : ''}</b>
+          </div>`,
+          type: CONST.CHAT_MESSAGE_TYPES?.OTHER ?? 0,
+        });
       })
     );
 
