@@ -6312,6 +6312,7 @@ class SLAGroupNPCTool extends Application {
     this._selectedType = 'carrion';
     this._count        = 4;
     this._root         = null;
+    this._threatLevel  = 3;   // 1 = baseline, 10 = elite. Scale: AGI/initiative focus.
   }
 
   static get defaultOptions() {
@@ -6328,6 +6329,10 @@ class SLAGroupNPCTool extends Application {
   // ── Utilities ─────────────────────────────────────────────────────────────
   _rng(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
   _pick(arr)     { return arr[Math.floor(Math.random() * arr.length)]; }
+  _threatLevelLabel(lvl) {
+    const names = ['','Baseline','Quick','Alert','Dangerous','Veteran','Hardened','Elite','Apex','Legendary','Mythic'];
+    return `${lvl} — ${names[lvl] ?? lvl}`;
+  }
   _hexRgb(hex) {
     const r = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return r ? `${parseInt(r[1],16)},${parseInt(r[2],16)},${parseInt(r[3],16)}` : '128,128,128';
@@ -6401,7 +6406,7 @@ class SLAGroupNPCTool extends Application {
       }
     }
 
-    return {
+    const npc = {
       id: foundry.utils.randomID(), typeKey,
       typeLabel: arch.label,
       color: arch.color, icon: arch.icon,
@@ -6410,6 +6415,46 @@ class SLAGroupNPCTool extends Application {
       weapons, naturalWeapons, armorDesc,
       abilities, notes: '', defeated: false
     };
+    return this._applyThreatBonus(npc);
+  }
+
+  // ── Threat-level scaling ───────────────────────────────────────────────────
+  // Scales AGI (initiative) as the primary target; STR, HP, ARM, DMG also
+  // creep up at higher levels. Level 1 = no change; level 10 = elite tier.
+  _applyThreatBonus(npc) {
+    const lvl = Math.max(1, Math.min(10, this._threatLevel ?? 1));
+    if (lvl <= 1) return npc;
+
+    // Per-level bonus table: [agiBonus, strBonus, witBonus, hpPct, armorBonus, dmgBonus]
+    const TABLE = [
+      [0, 0, 0, 0.00, 0, 0],  // 1 — baseline
+      [1, 0, 0, 0.00, 0, 0],  // 2 — quick
+      [1, 0, 1, 0.00, 0, 0],  // 3 — alert
+      [2, 1, 1, 0.00, 0, 0],  // 4 — dangerous
+      [2, 1, 1, 0.25, 0, 1],  // 5 — veteran
+      [3, 2, 1, 0.25, 1, 1],  // 6 — hardened
+      [3, 2, 2, 0.50, 1, 1],  // 7 — elite
+      [4, 3, 2, 0.50, 1, 2],  // 8 — apex
+      [4, 3, 3, 0.75, 2, 2],  // 9 — legendary
+      [5, 4, 3, 1.00, 2, 3],  // 10 — mythic
+    ];
+    const [agiB, strB, witB, hpPct, armB, dmgB] = TABLE[lvl - 1];
+
+    npc.agi    = Math.min(8, npc.agi + agiB);
+    npc.str    = Math.min(8, npc.str + strB);
+    npc.wit    = Math.min(8, npc.wit + witB);
+    npc.armor  = Math.min(8, npc.armor + armB);
+    npc.damage = Math.min(8, npc.damage + dmgB);
+
+    // HP: add a percentage of the base max (rounded up)
+    if (hpPct > 0) {
+      const extra = Math.ceil(npc.hpMax * hpPct);
+      npc.hpMax += extra;
+      npc.hp    += extra;
+    }
+
+    npc.threatBonus = lvl;   // store so the card can show a badge
+    return npc;
   }
 
   // ── Icon helpers — SLA-specific art ─────────────────────────────────────
@@ -6584,6 +6629,7 @@ class SLAGroupNPCTool extends Application {
             <i class="${npc.icon}"></i> ${npc.typeLabel}
           </span>
           <span class="gnpc-threat-tag">T${npc.threat}</span>
+          ${(npc.threatBonus ?? 1) > 1 ? `<span class="gnpc-tlvl-tag" title="Threat Level ${npc.threatBonus}">⚡${npc.threatBonus}</span>` : ''}
           <div class="gnpc-card-btns">
             <button type="button" class="gnpc-btn gnpc-defeat-btn" data-npc-id="${npc.id}"
               title="${npc.defeated ? 'Mark Active' : 'Mark Defeated'}" style="color:${npc.defeated ? '#888' : '#cc3333'}">
@@ -6666,6 +6712,11 @@ class SLAGroupNPCTool extends Application {
           <div class="gnpc-type-row">${typeBtns}</div>
           <div class="gnpc-action-row">
             <label class="gnpc-count-lbl">Count <input type="number" class="gnpc-count-sel" min="1" max="10" value="${countVal}" /></label>
+            <label class="gnpc-threat-lbl" title="Scales initiative (AGI) and supporting stats. 1=baseline · 2-3=quick · 4-5=veteran · 6-7=elite · 8-10=apex">
+              <i class="fas fa-tachometer-alt"></i> Threat
+              <input type="range" class="gnpc-threat-slider" min="1" max="10" value="${this._threatLevel}" />
+              <span class="gnpc-threat-val">${this._threatLevelLabel(this._threatLevel)}</span>
+            </label>
             <button type="button" class="gnpc-gen-btn"><i class="fas fa-random"></i> Generate</button>
             <button type="button" class="gnpc-add-btn"><i class="fas fa-plus"></i> Add More</button>
             <button type="button" class="gnpc-clr-btn"><i class="fas fa-trash-alt"></i> Clear All</button>
@@ -6695,6 +6746,22 @@ class SLAGroupNPCTool extends Application {
     root.querySelector('.gnpc-count-sel')?.addEventListener('input', e => {
       this._count = Math.max(1, Math.min(10, parseInt(e.target.value) || 1));
     });
+
+    // Threat level slider (1–10) — live label + track-fill update, no re-render
+    const threatSlider = root.querySelector('.gnpc-threat-slider');
+    const _updateSliderFill = (el, lvl) => {
+      const pct = ((lvl - 1) / 9 * 100).toFixed(1);
+      el.style.background = `linear-gradient(to right, #00ccff 0%, #00ccff ${pct}%, #333 ${pct}%, #333 100%)`;
+    };
+    if (threatSlider) {
+      _updateSliderFill(threatSlider, this._threatLevel);
+      threatSlider.addEventListener('input', e => {
+        this._threatLevel = Math.max(1, Math.min(10, parseInt(e.target.value) || 1));
+        _updateSliderFill(e.target, this._threatLevel);
+        const valEl = root.querySelector('.gnpc-threat-val');
+        if (valEl) valEl.textContent = this._threatLevelLabel(this._threatLevel);
+      });
+    }
 
     // Generate (replace all)
     root.querySelector('.gnpc-gen-btn')?.addEventListener('click', () => {

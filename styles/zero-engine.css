@@ -4481,6 +4481,38 @@ body > .ze-pause-root .ze-sat-inner {
 .group-npc-tool .gnpc-count-lbl {
   display: flex; align-items: center; gap: 5px; font-size: 12px; color: #aaa;
 }
+/* Threat level slider row */
+.group-npc-tool .gnpc-threat-lbl {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px; color: #aaa; flex-shrink: 0;
+}
+.group-npc-tool .gnpc-threat-slider {
+  -webkit-appearance: none; appearance: none;
+  width: 110px; height: 4px; border-radius: 2px;
+  background: linear-gradient(to right, #00ccff 0%, #00ccff 20%, #333 20%, #333 100%);
+  outline: none; cursor: pointer;
+}
+.group-npc-tool .gnpc-threat-slider::-webkit-slider-thumb {
+  -webkit-appearance: none; appearance: none;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #00ccff; border: 2px solid #0088aa; cursor: pointer;
+  box-shadow: 0 0 4px rgba(0,200,255,0.5);
+}
+.group-npc-tool .gnpc-threat-slider::-moz-range-thumb {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #00ccff; border: 2px solid #0088aa; cursor: pointer;
+}
+.group-npc-tool .gnpc-threat-val {
+  font-size: 11px; color: #00ccff; font-family: monospace;
+  white-space: nowrap; min-width: 90px;
+}
+/* Threat level badge on NPC cards */
+.group-npc-tool .gnpc-tlvl-tag {
+  font-size: 11px; font-weight: bold; color: #00ccff;
+  background: rgba(0,200,255,0.12); border: 1px solid rgba(0,200,255,0.35);
+  border-radius: 10px; padding: 1px 6px; white-space: nowrap; flex-shrink: 0;
+  text-shadow: 0 0 6px rgba(0,200,255,0.6);
+}
 .group-npc-tool .gnpc-count-sel {
   background: rgba(255,255,255,0.08); border: 1px solid #444;
   color: #eee; border-radius: 3px; padding: 2px 4px; font-size: 12px;
