@@ -7058,6 +7058,38 @@ class SLAGMStatusWindow extends Application {
     this._hooks = [];
     SLAGMStatusWindow._inst = null;
 
+    return super.close(options);
+  }
+
+  activateListeners(html) {
+    super.activateListeners(html);
+    // Open sheet on portrait or name click
+    html[0].querySelectorAll('.gsw-portrait, .gsw-actor-name').forEach(el => {
+      el.addEventListener('click', () => {
+        game.actors.get(el.dataset.actorId)?.sheet?.render(true);
+      });
+    });
+    // Remove condition
+    html[0].querySelectorAll('.gsw-remove-cond').forEach(btn => {
+      btn.addEventListener('click', async (ev) => {
+        ev.stopPropagation();
+        const actor = game.actors.get(btn.dataset.actorId);
+        if (!actor) return;
+        const condId = btn.dataset.condId;
+        // Remove matching active effects
+        const toDelete = actor.effects.filter(e =>
+          e.statuses?.has(condId) || e.flags?.core?.statusId === condId
+        ).map(e => e.id);
+        if (toDelete.length) await actor.deleteEmbeddedDocuments('ActiveEffect', toDelete);
+        else await actor.toggleStatusEffect(condId, { active: false });
+      });
+    });
+    // Post to chat
+    html[0].querySelector('.gsw-post-chat')?.addEventListener('click', () => _broadcastPCConditions());
+  }
+}
+SLAGMStatusWindow._inst = null;
+
 // ── 💳 CREDIT DISTRIBUTION ────────────────────────────────────────────────────────────
 class SLACreditDistributionTool extends Application {
   constructor(...args) {
@@ -8647,37 +8679,6 @@ class SLAConditionApplicator extends Application {
 }
 
 SLAConditionApplicator._inst = null;
-    return super.close(options);
-  }
-
-  activateListeners(html) {
-    super.activateListeners(html);
-    // Open sheet on portrait or name click
-    html[0].querySelectorAll('.gsw-portrait, .gsw-actor-name').forEach(el => {
-      el.addEventListener('click', () => {
-        game.actors.get(el.dataset.actorId)?.sheet?.render(true);
-      });
-    });
-    // Remove condition
-    html[0].querySelectorAll('.gsw-remove-cond').forEach(btn => {
-      btn.addEventListener('click', async (ev) => {
-        ev.stopPropagation();
-        const actor = game.actors.get(btn.dataset.actorId);
-        if (!actor) return;
-        const condId = btn.dataset.condId;
-        // Remove matching active effects
-        const toDelete = actor.effects.filter(e =>
-          e.statuses?.has(condId) || e.flags?.core?.statusId === condId
-        ).map(e => e.id);
-        if (toDelete.length) await actor.deleteEmbeddedDocuments('ActiveEffect', toDelete);
-        else await actor.toggleStatusEffect(condId, { active: false });
-      });
-    });
-    // Post to chat
-    html[0].querySelector('.gsw-post-chat')?.addEventListener('click', () => _broadcastPCConditions());
-  }
-}
-SLAGMStatusWindow._inst = null;
 
 // ── ACTOR DIRECTORY BUTTONS ──────────────────────────────────────────────────
 Hooks.on('renderActorDirectory', (app, html) => {
