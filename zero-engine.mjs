@@ -927,6 +927,53 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
    * @returns {Promise<void>}
    * @private
    */
+  /**
+   * Compute the current health/resolve "contribution" for this drug given a state.
+   * Used to derive the delta when state transitions, so we can keep CURRENT HP in
+   * sync with the max-HP swing (per Tim, drug +2 max also gives +2 current; when
+   * the drug ends, both drop by 2).
+   * @private
+   */
+  _drugStatContribution(item, state) {
+    if (state === "active") return {
+      h: Number(item.system?.healthMod  ?? 0) || 0,
+      r: Number(item.system?.resolveMod ?? 0) || 0
+    };
+    if (state === "withdrawal") return {
+      h: Number(item.system?.wdHealthMod  ?? 0) || 0,
+      r: Number(item.system?.wdResolveMod ?? 0) || 0
+    };
+    return { h: 0, r: 0 };
+  }
+
+  /**
+   * Apply a delta to current HP and Resolve, clamped to [0, max]. Called after a
+   * drug state change so the player's "live" pool tracks the max swing.
+   * @private
+   */
+  async _applyCurrentStatDelta(hDelta, rDelta) {
+    if (!this.actor || (!hDelta && !rDelta)) return;
+    const updates = {};
+
+    if (hDelta) {
+      const rawHp = this.actor.system?.derivedStats?.health;
+      const curHp = Number((typeof rawHp === "object" ? rawHp?.value : rawHp) ?? 0);
+      const hpMax = Number(this.actor.system?.derivedStats?.health?.max ?? 0);
+      const newHp = Math.max(0, Math.min(hpMax, curHp + hDelta));
+      if (newHp !== curHp) updates["system.derivedStats.health.value"] = newHp;
+    }
+
+    if (rDelta) {
+      const rawRes = this.actor.system?.derivedStats?.resolve;
+      const curRes = Number((typeof rawRes === "object" ? rawRes?.value : rawRes) ?? 0);
+      const resMax = Number(this.actor.system?.derivedStats?.resolve?.max ?? 0);
+      const newRes = Math.max(0, Math.min(resMax, curRes + rDelta));
+      if (newRes !== curRes) updates["system.derivedStats.resolve.value"] = newRes;
+    }
+
+    if (Object.keys(updates).length > 0) await this.actor.update(updates);
+  }
+
   async _activateDrug(item) {
     if (!item || !(item.type === "equipment" && item.system?.isDrug === true)) return;
     const qty = Math.max(0, Number(item.system?.quantity) || 0);
@@ -935,11 +982,26 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       return;
     }
 
+    // Capture state BEFORE update so we can compute the contribution delta
+    const oldState = item.system?.active ? "active"
+                   : item.system?.withdrawalActive ? "withdrawal" : "off";
+    const oldContrib = this._drugStatContribution(item, oldState);
+
     await item.update({
       "system.quantity": qty - 1,
       "system.active": true,
       "system.withdrawalActive": false
     });
+
+    // ── Ensure max is recalculated before we mirror the swing to current ────
+    if (typeof recalcDerivedStats === "function") {
+      try { await recalcDerivedStats(this.actor); } catch(_) {}
+    }
+
+    // ── Mirror max swing to current HP/Resolve ─────────────────────────────
+    // e.g. drug.healthMod = +2 with old state "off" → +2 current HP (capped at new max).
+    const newContrib = this._drugStatContribution(item, "active");
+    await this._applyCurrentStatDelta(newContrib.h - oldContrib.h, newContrib.r - oldContrib.r);
 
     // ── Deduct drug cost from credits ────────────────────────────────────────
     const drugCost = Math.max(0, Number(item.system?.cost) || 0);
@@ -961,7 +1023,9 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       }
     }
 
-    // ── Instant HP heal (healthHeal): restore current HP, clamped at max ────────
+    // ── Instant HP heal (healthHeal): restore current HP, clamped at max ────
+    // NOTE: healthHeal NEVER raises max — only current. This is the "medkit"
+    // path. Drugs that raise max should set healthMod, not healthHeal.
     const healthHeal = Math.max(0, Number(item.system?.healthHeal) || 0);
     if (healthHeal > 0 && this.actor) {
       const rawHp = this.actor.system?.derivedStats?.health;
@@ -998,10 +1062,26 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
       Number(s.wdPanicReduction || 0) !== 0 ||
       Object.values(s.wdSkillMods || {}).some(v => Number(v || 0) !== 0);
 
+    // Capture state BEFORE update so we can compute the contribution delta
+    const oldState = item.system?.active ? "active"
+                   : item.system?.withdrawalActive ? "withdrawal" : "off";
+    const oldContrib = this._drugStatContribution(item, oldState);
+
     await item.update({
       "system.active": false,
       "system.withdrawalActive": hasWithdrawal
     });
+
+    // ── Ensure max is recalculated before we mirror the swing to current ────
+    if (typeof recalcDerivedStats === "function") {
+      try { await recalcDerivedStats(this.actor); } catch(_) {}
+    }
+
+    // ── Mirror max swing to current HP/Resolve ─────────────────────────────
+    // Drug ending (e.g. +2 active → 0) drops current HP by 2 (floor at 0).
+    const newState = hasWithdrawal ? "withdrawal" : "off";
+    const newContrib = this._drugStatContribution(item, newState);
+    await this._applyCurrentStatDelta(newContrib.h - oldContrib.h, newContrib.r - oldContrib.r);
 
     if (hasWithdrawal) {
       await this._notifyDrugState(item, "entered WITHDRAWAL", String(item.system?.withdrawalDuration || ""));
@@ -1022,7 +1102,21 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
    */
   async _clearDrugWithdrawal(item) {
     if (!item || !(item.type === "equipment" && item.system?.isDrug === true)) return;
+
+    // Capture state BEFORE update
+    const oldState = item.system?.active ? "active"
+                   : item.system?.withdrawalActive ? "withdrawal" : "off";
+    const oldContrib = this._drugStatContribution(item, oldState);
+
     await item.update({ "system.withdrawalActive": false });
+
+    if (typeof recalcDerivedStats === "function") {
+      try { await recalcDerivedStats(this.actor); } catch(_) {}
+    }
+
+    const newContrib = this._drugStatContribution(item, "off");
+    await this._applyCurrentStatDelta(newContrib.h - oldContrib.h, newContrib.r - oldContrib.r);
+
     await this._notifyDrugState(item, "withdrawal cleared", "");
   }
 
@@ -1316,8 +1410,11 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
     const discipline = (ebbInfo.discipline || "").toLowerCase();
 
     if (discipline === "heal") {
-      const hpMax = actor.system.health?.max ?? actor.system.attributes?.health?.max ?? 10;
-      const hpCurrent = actor.system.health?.value ?? actor.system.attributes?.health?.value ?? hpMax;
+      // v1.7.6: fix phantom write path — use derivedStats.health (the real schema).
+      // Healing restores CURRENT HP only, never raises max.
+      const rawHp = actor.system?.derivedStats?.health;
+      const hpCurrent = Number((typeof rawHp === "object" ? rawHp?.value : rawHp) ?? 0);
+      const hpMax = Number(actor.system?.derivedStats?.health?.max ?? 0) || hpCurrent;
       const stress = this._getStressValue(actor);
 
       if (itemName.includes("mend")) {
@@ -1325,16 +1422,16 @@ class ZeroEngineActorSheet extends foundry.appv1.sheets.ActorSheet {
         const healAmt = Math.min(2, successes);
         const newHp = Math.min(hpMax, hpCurrent + healAmt);
         if (newHp > hpCurrent) {
-          await actor.update({ "system.health.value": newHp });
-          ui.notifications.info(`${actor.name} | Mend: +${newHp - hpCurrent} HP restored.`);
+          await actor.update({ "system.derivedStats.health.value": newHp });
+          ui.notifications.info(`${actor.name} | Mend: +${newHp - hpCurrent} HP restored (${newHp}/${hpMax}).`);
         }
       } else if (itemName.includes("restore")) {
         // Restore: heal successes + 1 HP
         const healAmt = successes + 1;
         const newHp = Math.min(hpMax, hpCurrent + healAmt);
         if (newHp > hpCurrent) {
-          await actor.update({ "system.health.value": newHp });
-          ui.notifications.info(`${actor.name} | Restore: +${newHp - hpCurrent} HP restored.`);
+          await actor.update({ "system.derivedStats.health.value": newHp });
+          ui.notifications.info(`${actor.name} | Restore: +${newHp - hpCurrent} HP restored (${newHp}/${hpMax}).`);
         }
       } else if (itemName.includes("calm")) {
         // Calm: reduce stress by 1
@@ -9920,20 +10017,54 @@ function _getConditionModifiers(actor, { skill = "", attribute = "" } = {}) {
   const statuses = actor.statuses ?? new Set();
   let bonus = 0;
   const breakdown = [];
+  const sk = String(skill || "").toLowerCase();
+  const at = String(attribute || "").toLowerCase();
 
+  // ── Built-in SLA conditions ─────────────────────────────────────────────────
+  // Bug fix (v1.7.6): "all" and skill/attribute-specific modifiers now STACK
+  // (e.g. Concussed = -1 all + -1 observation = -2 to Observation rolls).
+  // Attribute keys (e.g. "wits") are now respected too.
   for (const cond of SLA_CONDITIONS) {
     if (!statuses.has(cond.id)) continue;
     const mods = cond.diceModifiers || {};
-    // "all" modifier applies to everything
     if (mods.all) {
       bonus += mods.all;
       breakdown.push(`${cond.label} ${mods.all}`);
-      continue;
     }
-    // skill-specific modifier
-    if (skill && mods[skill] !== undefined) {
-      bonus += mods[skill];
-      breakdown.push(`${cond.label} ${mods[skill]}`);
+    if (sk && mods[sk] !== undefined && mods[sk] !== null) {
+      bonus += mods[sk];
+      breakdown.push(`${cond.label} (${sk}) ${mods[sk]}`);
+    }
+    if (at && mods[at] !== undefined && mods[at] !== null) {
+      bonus += mods[at];
+      breakdown.push(`${cond.label} (${at}) ${mods[at]}`);
+    }
+  }
+
+  // ── Active Effects: read custom dice bonus changes ──────────────────────────
+  // Users can attach an ActiveEffect with a change like:
+  //   key: "flags.zero-engine.diceBonus.all"           value: 2     (any roll)
+  //   key: "flags.zero-engine.diceBonus.skills.melee"  value: -1    (melee only)
+  //   key: "flags.zero-engine.diceBonus.attributes.wits" value: 1   (wits only)
+  // Mode is ignored — value is always added. This lets the GM grant "+2 dice"
+  // buffs from arbitrary effects without editing code.
+  for (const effect of actor.effects ?? []) {
+    if (effect.disabled) continue;
+    const changes = effect.changes ?? [];
+    for (const ch of changes) {
+      const key = String(ch.key || "").toLowerCase();
+      const val = Number(ch.value);
+      if (!Number.isFinite(val) || val === 0) continue;
+      if (!key.startsWith("flags.zero-engine.dicebonus.")) continue;
+      const rest = key.substring("flags.zero-engine.dicebonus.".length);
+      let applies = false;
+      if (rest === "all") applies = true;
+      else if (rest === `skills.${sk}` && sk) applies = true;
+      else if (rest === `attributes.${at}` && at) applies = true;
+      if (applies) {
+        bonus += val;
+        breakdown.push(`${effect.name || "Effect"} ${val > 0 ? "+" : ""}${val}`);
+      }
     }
   }
 
@@ -9955,48 +10086,86 @@ function _getConditionModifiers(actor, { skill = "", attribute = "" } = {}) {
   return { bonus, breakdown };
 }
 
-// ─── AUTO-DAMAGE FROM CONDITIONS EACH COMBAT TURN ────────────────────────────
+// ─── AUTO-DAMAGE FROM CONDITIONS ──────────────────────────────────────────────
+// v1.7.6: Per-round damage from Bleeding / On Fire no longer depends on the
+// combatant being on their turn. Conditions tick every ROUND_TICK_MS for any
+// actor in the world that has them, whether combat is active or not. The
+// previous combatTurnChange hook only fired inside combat, so a bleeding PC
+// who walked out of the encounter would magically stop bleeding.
+//
+// Behaviour:
+//   • Ticks while the game is UNPAUSED (pause the game to halt bleed/fire)
+//   • Runs on the active GM client only (single source of truth, no dupes)
+//   • Default cadence: one YZE round = 10 real seconds
+//   • Both PCs and NPCs are damaged so combat encounters still tick down
 
-Hooks.on("combatTurnChange", async (combat, _prior, current) => {
-  if (!game.user?.isGM) return;
-  const combatant = combat.combatants.get(current.combatantId);
-  if (!combatant?.actor) return;
-  const actor = combatant.actor;
+const ROUND_TICK_MS = 10 * 1000;
+let _zeConditionTickHandle = null;
+
+async function _tickConditionsForActor(actor) {
+  if (!actor || (actor.type !== "character" && actor.type !== "npc")) return;
   const statuses = actor.statuses ?? new Set();
+  const hasBleed = statuses.has("sla-bleeding");
+  const hasFire  = statuses.has("sla-on-fire");
+  if (!hasBleed && !hasFire) return;
 
   const updates = {};
   const messages = [];
+  let hp = Number(actor.system?.derivedStats?.health?.value ?? 0);
 
-  // Bleeding: -1 HP
-  if (statuses.has("sla-bleeding")) {
-    const hp    = Number(actor.system?.derivedStats?.health?.value ?? 0);
+  if (hasBleed) {
     const newHp = Math.max(0, hp - 1);
-    updates["system.derivedStats.health.value"] = newHp;
-    messages.push(`🩸 <strong>${actor.name}</strong> bleeds — ${hp} → ${newHp} HP`);
-    if (newHp <= 0) messages.push(`⚠ ${actor.name} is at 0 HP!`);
+    if (newHp !== hp) {
+      messages.push(`🩸 <strong>${actor.name}</strong> bleeds — ${hp} → ${newHp} HP`);
+      hp = newHp;
+      updates["system.derivedStats.health.value"] = newHp;
+      if (newHp <= 0) messages.push(`⚠ ${actor.name} is at 0 HP!`);
+    }
   }
 
-  // On Fire: -2 HP (escalating tracked via a flag)
-  if (statuses.has("sla-on-fire")) {
+  if (hasFire) {
     const fireLvl = Number(actor.getFlag("zero-engine", "fireLevel") ?? 1);
-    const hp    = Number((updates["system.derivedStats.health.value"] ?? actor.system?.derivedStats?.health?.value) ?? 0);
-    const dmg   = fireLvl + 1;
+    const dmg = fireLvl + 1;
     const newHp = Math.max(0, hp - dmg);
-    updates["system.derivedStats.health.value"] = newHp;
-    await actor.setFlag("zero-engine", "fireLevel", Math.min(fireLvl + 1, 5));
-    messages.push(`🔥 <strong>${actor.name}</strong> burns (level ${fireLvl}) — ${hp} → ${newHp} HP`);
+    if (newHp !== hp) {
+      messages.push(`🔥 <strong>${actor.name}</strong> burns (level ${fireLvl}) — ${hp} → ${newHp} HP`);
+      hp = newHp;
+      updates["system.derivedStats.health.value"] = newHp;
+    }
+    try { await actor.setFlag("zero-engine", "fireLevel", Math.min(fireLvl + 1, 5)); }
+    catch(_) { /* token actor without persistent flags */ }
   }
 
   if (Object.keys(updates).length > 0) {
-    await actor.update(updates);
+    try { await actor.update(updates); }
+    catch(e) { console.warn("Zero Engine | tick condition update failed:", e); }
   }
-
   if (messages.length > 0) {
     ChatMessage.create({
-      speaker: { alias: "Combat Conditions" },
+      speaker: { alias: "SLA Conditions" },
       content: `<div class="yze-initiative-card" style="border-color:rgba(204,17,17,0.5);">${messages.join('<br>')}</div>`
     });
   }
+}
+
+async function _tickAllConditions() {
+  // Only the active GM should run this — prevents N-GM duplicate damage
+  if (!game.user?.isGM) return;
+  const activeGM = game.users?.activeGM ?? game.users?.find(u => u.isGM && u.active);
+  if (activeGM && activeGM.id !== game.user.id) return;
+  if (game.paused) return;
+
+  for (const actor of game.actors ?? []) {
+    await _tickConditionsForActor(actor);
+  }
+}
+
+Hooks.once("ready", () => {
+  if (_zeConditionTickHandle) return;
+  _zeConditionTickHandle = setInterval(() => {
+    _tickAllConditions().catch(e => console.warn("Zero Engine | condition tick error:", e));
+  }, ROUND_TICK_MS);
+  console.log(`Zero Engine | Condition tick started — ${ROUND_TICK_MS / 1000}s/round, runs while game unpaused`);
 });
 
 // Clear fire level when fire is extinguished
